@@ -1,0 +1,228 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+MERGED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+MERGED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-29:12
+MERGED from [:sqflite] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-14:12
+MERGED from [:path_provider] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.webkit:webkit:1.4.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\fa401bc9a08806d4cb5e4a90dea013d9\webkit-1.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.browser:browser:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\cd8e5d315008ea26576a3f44f0e17e06\browser-1.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\6e28ec96d18ec25f014030bacff3997e\appcompat-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\adead08c16a8ca8c0db56d47980159dc\swiperefreshlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\2cccee89e31c10c83bece6d5c017c855\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\f8258479c6ce625bd8b7411a53e6434f\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\aee65c0c656c2a137208fcdd65b39d6b\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\d58c39d0e0dddef2de399f0fa628d074\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\b58f8be3a35abeddddd32908e33ae1e6\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\7ee5ad5084ac7c3d81e3599b2f872029\jetified-activity-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\7fcc079a2f57a608fa42da44eba7bcfc\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\b876b7ab34b533cf516e0a8da5f8d702\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\1fdb7606b97ad41ecc4848fc7f3417e2\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\13beaaf0685a870240714c04e91e5c99\core-1.3.0\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\aacc1ee7c4c407f2baf1854804577b35\lifecycle-runtime-2.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\8c1bd23a0c2ce821a0f94babc4a039f0\jetified-savedstate-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\4ae656bcb7ecdf5bb6a4258a14e10896\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\83496d6d77cb929b6a6c47b8e6b1d76e\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\64ce005a452633b0ef40711460fe5dc5\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\367bfdb909e96eb54ec8467aa61817f1\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\879e766dc335513b319b66d5fe0d7fb5\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\90f256705b0c2dcb5de851cc1facdd4f\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\1d8656b6c6261e53e9260f9518b374e2\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+	package
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:2:5-35
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:3:5-51
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:1:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:4:4-65
+MERGED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:4:4-65
+MERGED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:4:4-65
+	android:name
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:4:21-63
+application
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:6:4-50:19
+MERGED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-27:19
+MERGED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-27:19
+MERGED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
+MERGED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
+MERGED from [androidx.core:core:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\13beaaf0685a870240714c04e91e5c99\core-1.3.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\13beaaf0685a870240714c04e91e5c99\core-1.3.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\64ce005a452633b0ef40711460fe5dc5\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\64ce005a452633b0ef40711460fe5dc5\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+	android:requestLegacyExternalStorage
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:10:9-52
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\13beaaf0685a870240714c04e91e5c99\core-1.3.0\AndroidManifest.xml:24:18-86
+	android:label
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:7:9-29
+	android:icon
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:9:9-43
+	tools:replace
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:8:9-38
+activity#com.flutterflow.apfp.MainActivity
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:12:9-40:20
+	android:launchMode
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:14:13-43
+	android:hardwareAccelerated
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:17:13-47
+	android:windowSoftInputMode
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:18:13-55
+	android:configChanges
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:16:13-163
+	android:theme
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:15:13-47
+	android:name
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:13:13-41
+meta-data#io.flutter.embedding.android.NormalTheme
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:23:13-26:17
+	android:resource
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:25:15-52
+	android:name
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:24:15-70
+meta-data#io.flutter.embedding.android.SplashScreenDrawable
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:32:13-35:17
+	android:resource
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:34:15-61
+	android:name
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:33:15-79
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:36:13-39:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:37:17-68
+	android:name
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:37:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:38:17-76
+	android:name
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:38:27-74
+meta-data#flutterEmbedding
+ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:44:9-46:33
+	android:value
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:46:13-30
+	android:name
+		ADDED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml:45:13-44
+uses-sdk
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml
+MERGED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:sqflite] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:sqflite] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [androidx.webkit:webkit:1.4.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\fa401bc9a08806d4cb5e4a90dea013d9\webkit-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.webkit:webkit:1.4.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\fa401bc9a08806d4cb5e4a90dea013d9\webkit-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.browser:browser:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\cd8e5d315008ea26576a3f44f0e17e06\browser-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.browser:browser:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\cd8e5d315008ea26576a3f44f0e17e06\browser-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\6e28ec96d18ec25f014030bacff3997e\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\6e28ec96d18ec25f014030bacff3997e\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\adead08c16a8ca8c0db56d47980159dc\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\adead08c16a8ca8c0db56d47980159dc\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\2cccee89e31c10c83bece6d5c017c855\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\2cccee89e31c10c83bece6d5c017c855\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\f8258479c6ce625bd8b7411a53e6434f\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\f8258479c6ce625bd8b7411a53e6434f\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\aee65c0c656c2a137208fcdd65b39d6b\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\aee65c0c656c2a137208fcdd65b39d6b\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\d58c39d0e0dddef2de399f0fa628d074\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\d58c39d0e0dddef2de399f0fa628d074\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\b58f8be3a35abeddddd32908e33ae1e6\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\b58f8be3a35abeddddd32908e33ae1e6\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\7ee5ad5084ac7c3d81e3599b2f872029\jetified-activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\7ee5ad5084ac7c3d81e3599b2f872029\jetified-activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\7fcc079a2f57a608fa42da44eba7bcfc\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\7fcc079a2f57a608fa42da44eba7bcfc\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\b876b7ab34b533cf516e0a8da5f8d702\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\b876b7ab34b533cf516e0a8da5f8d702\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\1fdb7606b97ad41ecc4848fc7f3417e2\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\1fdb7606b97ad41ecc4848fc7f3417e2\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\13beaaf0685a870240714c04e91e5c99\core-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\13beaaf0685a870240714c04e91e5c99\core-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\aacc1ee7c4c407f2baf1854804577b35\lifecycle-runtime-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\aacc1ee7c4c407f2baf1854804577b35\lifecycle-runtime-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\8c1bd23a0c2ce821a0f94babc4a039f0\jetified-savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\8c1bd23a0c2ce821a0f94babc4a039f0\jetified-savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\4ae656bcb7ecdf5bb6a4258a14e10896\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\4ae656bcb7ecdf5bb6a4258a14e10896\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\83496d6d77cb929b6a6c47b8e6b1d76e\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\83496d6d77cb929b6a6c47b8e6b1d76e\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\64ce005a452633b0ef40711460fe5dc5\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\64ce005a452633b0ef40711460fe5dc5\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\367bfdb909e96eb54ec8467aa61817f1\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\367bfdb909e96eb54ec8467aa61817f1\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\879e766dc335513b319b66d5fe0d7fb5\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\879e766dc335513b319b66d5fe0d7fb5\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\90f256705b0c2dcb5de851cc1facdd4f\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\90f256705b0c2dcb5de851cc1facdd4f\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\1d8656b6c6261e53e9260f9518b374e2\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\walte\.gradle\caches\transforms-2\files-2.1\1d8656b6c6261e53e9260f9518b374e2\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml
+INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\android\app\src\debug\AndroidManifest.xml
+queries
+ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-11:15
+intent#action:name:android.support.customtabs.action.CustomTabsService
+ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-10:18
+action#android.support.customtabs.action.CustomTabsService
+ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-90
+	android:name
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:9:21-87
+activity#com.pichillilorenzo.flutter_inappwebview.in_app_browser.InAppBrowserActivity
+ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:14:9-17:47
+	android:configChanges
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-137
+	android:theme
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-44
+	android:name
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-104
+activity#com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.ChromeCustomTabsActivity
+ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:18:9-20:55
+	android:theme
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-52
+	android:name
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-112
+receiver#com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.ActionBroadcastReceiver
+ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:22:9-120
+	android:name
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:22:19-117
+meta-data#io.flutter.embedded_views_preview
+ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:24:9-26:36
+	android:value
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:26:13-33
+	android:name
+		ADDED from [:flutter_inappwebview] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\flutter_inappwebview\intermediates\library_manifest\debug\AndroidManifest.xml:25:13-61
+activity#io.flutter.plugins.urllauncher.WebViewActivity
+ADDED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
+	android:exported
+		ADDED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
+	android:theme
+		ADDED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
+	android:name
+		ADDED from [:url_launcher] C:\Users\walte\OneDrive\Desktop\Fall21\CS 495 - Software Engineering\APFP-master\apfp_app\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74

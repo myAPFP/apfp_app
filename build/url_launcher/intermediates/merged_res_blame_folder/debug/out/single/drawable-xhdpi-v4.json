@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\url_launcher\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\url_launcher\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\notification_bg_normal.9.png",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable-xhdpi-v4\\notification_bg_normal.9.png"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\url_launcher\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\notification_bg_low_pressed.9.png",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable-xhdpi-v4\\notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\url_launcher\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\url_launcher\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\notification_bg_low_normal.9.png",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable-xhdpi-v4\\notification_bg_low_normal.9.png"
+    }
+]

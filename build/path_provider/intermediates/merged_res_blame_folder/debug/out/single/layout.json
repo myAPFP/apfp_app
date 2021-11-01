@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\layout\\custom_dialog.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\layout\\custom_dialog.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\layout\\notification_action.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\layout\\notification_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\layout\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\layout\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_time.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\layout\\notification_template_part_time.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\layout\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\layout\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_chronometer.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\layout\\notification_template_part_chronometer.xml"
+    }
+]

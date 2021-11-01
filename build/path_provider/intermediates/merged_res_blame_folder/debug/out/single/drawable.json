@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\drawable\\notification_tile_bg.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable\\notification_tile_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\drawable\\notification_icon_background.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable\\notification_icon_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\drawable\\notification_bg.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable\\notification_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\walte\\OneDrive\\Desktop\\Fall21\\CS 495 - Software Engineering\\APFP-master\\apfp_app\\build\\path_provider\\intermediates\\res\\merged\\debug\\drawable\\notification_bg_low.xml",
+        "source": "C:\\Users\\walte\\.gradle\\caches\\transforms-2\\files-2.1\\9f4f84b45eda369cafbba226eb45fa06\\core-1.1.0\\res\\drawable\\notification_bg_low.xml"
+    }
+]

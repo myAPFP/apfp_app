@@ -1,0 +1,47 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.pichillilorenzo.flutter_inappwebview" >
+4
+5    <uses-sdk android:minSdkVersion="17" />
+5-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml
+6
+7    <queries>
+7-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:18:5-23:15
+8        <intent>
+8-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:19:9-22:18
+9            <action android:name="android.support.customtabs.action.CustomTabsService" />
+9-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:20:13-21:73
+9-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:20:21-104
+10        </intent>
+11    </queries>
+12
+13    <application>
+13-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:4:5-16:19
+14        <activity
+14-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:5:9-8:140
+15            android:name="com.pichillilorenzo.flutter_inappwebview.in_app_browser.InAppBrowserActivity"
+15-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:7:13-104
+16            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+16-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:8:13-137
+17            android:theme="@style/AppTheme" />
+17-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:6:13-44
+18        <activity
+18-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:9:9-11:115
+19            android:name="com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.ChromeCustomTabsActivity"
+19-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:11:13-112
+20            android:theme="@style/ThemeTransparent" />
+20-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:10:13-52
+21
+22        <receiver android:name="com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.ActionBroadcastReceiver" />
+22-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:12:9-120
+22-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:12:19-117
+23
+24        <meta-data
+24-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:13:9-15:36
+25            android:name="io.flutter.embedded_views_preview"
+25-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:14:13-61
+26            android:value="true" />
+26-->C:\Users\walte\flutter_windows_2.5.3-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_inappwebview-5.3.2\android\src\main\AndroidManifest.xml:15:13-33
+27    </application>
+28
+29</manifest>
