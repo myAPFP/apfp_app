@@ -1,0 +1,128 @@
+import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
+import '../welcome/welcome_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class EmailNotConfirmedWidget extends StatefulWidget {
+  EmailNotConfirmedWidget({Key key}) : super(key: key);
+
+  @override
+  _EmailNotConfirmedWidgetState createState() =>
+      _EmailNotConfirmedWidgetState();
+}
+
+class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
+  bool _loadingButton = false;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: FlutterFlowTheme.tertiaryColor,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 70, 0, 0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: 300,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.tertiaryColor,
+                    ),
+                    child: Text(
+                      'Your account cannot be accessed until the email address is confirmed. Please check your email account for a confirmation before logging in.',
+                      textAlign: TextAlign.center,
+                      style: FlutterFlowTheme.bodyText1.override(
+                        fontFamily: 'Open Sans',
+                        color: Colors.black,
+                        fontSize: 24,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.tertiaryColor,
+                  ),
+                  child: Text(
+                    'Resend Confirmation Email',
+                    textAlign: TextAlign.center,
+                    style: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Open Sans',
+                      color: FlutterFlowTheme.secondaryColor,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FFButtonWidget(
+                    onPressed: () async {
+                      setState(() => _loadingButton = true);
+                      try {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.leftToRight,
+                            duration: Duration(milliseconds: 125),
+                            reverseDuration: Duration(milliseconds: 125),
+                            child: WelcomeWidget(),
+                          ),
+                        );
+                      } finally {
+                        setState(() => _loadingButton = false);
+                      }
+                    },
+                    text: 'Back to Home',
+                    options: FFButtonOptions(
+                      width: 180,
+                      height: 50,
+                      color: FlutterFlowTheme.tertiaryColor,
+                      textStyle: FlutterFlowTheme.subtitle2.override(
+                        fontFamily: 'Open Sans',
+                        color: FlutterFlowTheme.primaryColor,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      elevation: 2,
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.secondaryColor,
+                        width: 3,
+                      ),
+                      borderRadius: 12,
+                    ),
+                    loading: _loadingButton,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
