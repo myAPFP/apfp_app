@@ -2,7 +2,7 @@
 
 The flutterflow branch contains the application screens with navigation for the Adult Physical Fitness Program application. For iteration 1, the application screens do not have implemented functionality besides navigation through screens. Functionality will be added in further iterations.
 
-To run the log in system:
+To run the application:
 * Ensure you have flutter and dart SDK installed on your device.
 * Select a phone emulator (Android or iOS) on your code editor.
 * Run the `Welcome.dart` class with your selected emulator.
