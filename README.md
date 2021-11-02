@@ -5,7 +5,7 @@ The flutterflow branch contains the application screens with navigation for the 
 To run the log in system:
 * Ensure you have flutter and dart SDK installed on your device.
 * Select a phone emulator (Android or iOS) on your code editor.
-* Run the `LoginPage.dart` class with your selected emulator.
+* Run the `Welcome.dart` class with your selected emulator.
 
 This project runs the following versions:
 * Dart: 2.5.3
