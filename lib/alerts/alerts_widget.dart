@@ -16,6 +16,57 @@ class AlertsWidget extends StatefulWidget {
 class _AlertsWidgetState extends State<AlertsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  InkWell _makeAlert() {
+    return InkWell(
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AlertWidget(),
+          ),
+        );
+      },
+      child: AnnouncementWidget(),
+    );
+  }
+
+  Padding _paddedAlert(InkWell alert) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [Expanded(child: alert)],
+      ),
+    );
+  }
+
+  AutoSizeText _makeHeader(String text) {
+    return AutoSizeText(
+      text,
+      textAlign: TextAlign.start,
+      style: FlutterFlowTheme.bodyText1.override(
+        fontFamily: 'Open Sans',
+        color: FlutterFlowTheme.primaryColor,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Padding _paddedHeader(AutoSizeText header) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(25, 50, 0, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.85,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: header,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,220 +81,27 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(25, 50, 0, 0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: AutoSizeText(
-                        'Unread Announcements',
-                        textAlign: TextAlign.start,
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Open Sans',
-                          color: FlutterFlowTheme.primaryColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
+                  _paddedHeader(_makeHeader('Unread Announcements'))
                 ],
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            duration: Duration(milliseconds: 125),
-                            reverseDuration: Duration(milliseconds: 125),
-                            child: AlertWidget(),
-                          ),
-                        );
-                      },
-                      child: AnnouncementWidget(),
-                    ),
-                  )
-                ],
+                children: [Expanded(child: _makeAlert())],
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(25, 50, 0, 0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: AutoSizeText(
-                        'Previous Announcements',
-                        textAlign: TextAlign.start,
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Open Sans',
-                          color: FlutterFlowTheme.primaryColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
+                  _paddedHeader(_makeHeader('Previous Announcements')),
                 ],
               ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 125),
-                              reverseDuration: Duration(milliseconds: 125),
-                              child: AlertWidget(),
-                            ),
-                          );
-                        },
-                        child: AnnouncementWidget(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 125),
-                              reverseDuration: Duration(milliseconds: 125),
-                              child: AlertWidget(),
-                            ),
-                          );
-                        },
-                        child: AnnouncementWidget(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 125),
-                              reverseDuration: Duration(milliseconds: 125),
-                              child: AlertWidget(),
-                            ),
-                          );
-                        },
-                        child: AnnouncementWidget(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 125),
-                              reverseDuration: Duration(milliseconds: 125),
-                              child: AlertWidget(),
-                            ),
-                          );
-                        },
-                        child: AnnouncementWidget(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 125),
-                              reverseDuration: Duration(milliseconds: 125),
-                              child: AlertWidget(),
-                            ),
-                          );
-                        },
-                        child: AnnouncementWidget(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 125),
-                              reverseDuration: Duration(milliseconds: 125),
-                              child: AlertWidget(),
-                            ),
-                          );
-                        },
-                        child: AnnouncementWidget(),
-                      ),
-                    )
-                  ],
-                ),
-              )
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert())
             ],
           ),
         ),
