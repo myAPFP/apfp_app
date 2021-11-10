@@ -1,6 +1,6 @@
 # Adult Physical Fitness Program App
 
-The flutterflow branch contains the application screens with navigation for the Adult Physical Fitness Program application. For iteration 1, the application screens do not have implemented functionality besides navigation through screens. Functionality will be added in further iterations.
+The refactored branch contains the application screens with navigation (with all code being refactored of course) for the Adult Physical Fitness Program application. The application screens do not have implemented functionality besides navigation through screens.
 
 To run the application:
 * Ensure you have flutter and dart SDK installed on your device.
