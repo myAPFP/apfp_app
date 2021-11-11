@@ -149,7 +149,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   List<Widget> _getVideoList() => videoList;
-    
+
   @override
   void initState() {
     super.initState();
@@ -162,15 +162,17 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
-            child: Column(mainAxisSize: MainAxisSize.max, children: [
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [_paddedHeaderText()[0], _paddedHeaderText()[1]],
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            children: _getVideoList(),
-          ),
-        ])));
+            child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [_paddedHeaderText()[0], _paddedHeaderText()[1]],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: _getVideoList(),
+            ),
+          ]),
+        )));
   }
 }
