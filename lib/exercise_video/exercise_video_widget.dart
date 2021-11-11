@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ExerciseVideoWidget extends StatefulWidget {
-  ExerciseVideoWidget({Key key}) : super(key: key);
+  final String url;
+  ExerciseVideoWidget({Key key, @required this.url}) : super(key: key);
 
   @override
   _ExerciseVideoWidgetState createState() => _ExerciseVideoWidgetState();
@@ -14,6 +15,26 @@ class ExerciseVideoWidget extends StatefulWidget {
 
 class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  InkWell _goBackToAllVideos() {
+    return InkWell(
+        onTap: () async {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    NavBarPage(initialPage: 'AtHomeExercises'),
+              ));
+        },
+        child: Text('< Back to All Videos',
+            textAlign: TextAlign.start,
+            style: FlutterFlowTheme.bodyText1.override(
+              fontFamily: 'Open Sans',
+              color: FlutterFlowTheme.secondaryColor,
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+            )));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,34 +48,12 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: InkWell(
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.leftToRight,
-                      duration: Duration(milliseconds: 125),
-                      reverseDuration: Duration(milliseconds: 125),
-                      child: NavBarPage(initialPage: 'AtHomeExercises'),
-                    ),
-                  );
-                },
-                child: Text(
-                  '< Back to All Videos',
-                  textAlign: TextAlign.start,
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Open Sans',
-                    color: FlutterFlowTheme.secondaryColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+              child: _goBackToAllVideos(),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
               child: FlutterFlowYoutubePlayer(
-                url: 'https://www.youtube.com/watch?v=O4zR9E5R0uQ&t=1s',
+                url: widget.url,
                 autoPlay: false,
                 looping: true,
                 mute: false,
