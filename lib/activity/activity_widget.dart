@@ -123,7 +123,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                     alignment: AlignmentDirectional(103.56, -0.17),
                     padding: EdgeInsetsDirectional.fromSTEB(100, 20, 0, 0),
                     child: Text(
-                      '${duration}                       ${totalCal} cals',
+                      '$duration                       $totalCal cals',
                       style: FlutterFlowTheme.bodyText2.override(
                         fontFamily: 'Open Sans',
                         color: FlutterFlowTheme.primaryColor,
@@ -135,7 +135,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                     alignment: AlignmentDirectional(-0.21, 0.31),
                     padding: EdgeInsetsDirectional.fromSTEB(100, 30, 0, 0),
                     child: Text(
-                      '${type}',
+                      '$type',
                       style: FlutterFlowTheme.bodyText2.override(
                         fontFamily: 'Open Sans',
                         color: FlutterFlowTheme.primaryColor,
@@ -147,7 +147,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                     alignment: AlignmentDirectional(0, -0.58),
                     padding: EdgeInsetsDirectional.fromSTEB(100, 0, 0, 0),
                     child: Text(
-                      '${name}',
+                      '$name',
                       style: FlutterFlowTheme.subtitle2.override(
                         fontFamily: 'Open Sans',
                         color: FlutterFlowTheme.primaryColor,
