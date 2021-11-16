@@ -1,9 +1,6 @@
 import '../exercise_video/exercise_video_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AtHomeExercisesWidget extends StatefulWidget {
   AtHomeExercisesWidget({Key key}) : super(key: key);
@@ -82,6 +79,15 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(10, 8, 10, 0),
         child: InkWell(
+            // ! ========== Delete before production
+            onLongPress: () {
+              _addVideoToList(_videoTrainingCard(
+                  label: 'High Intensity Interval Training',
+                  exercises: "Squats/Shoulder Press, Face-pulls",
+                  difficultyLevel: "5",
+                  url: "https://youtu.be/mV30rcc30o4"));
+            },
+            // ! =========== Delete before production
             onTap: () async {
               await Navigator.push(
                 context,

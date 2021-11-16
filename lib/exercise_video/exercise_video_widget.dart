@@ -1,9 +1,8 @@
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_youtube_player.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class ExerciseVideoWidget extends StatefulWidget {
   final String url;
@@ -15,68 +14,83 @@ class ExerciseVideoWidget extends StatefulWidget {
 
 class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  Text videoTitle, videoSource, exerciseType;
-  Text difficulty, descriptionHeader, descriptionBody;
+  Video _video;
+  Text _videoTitle, _videoSource, _exerciseType;
+  Text _difficulty, _descriptionHeader, _descriptionBody;
 
   @override
   void initState() {
     super.initState();
-    _setVideoTitle('Example Video Title');
-    _setVideoSource("Video Source");
-    _setExerciseType("Type of Exercise");
-    _setDifficulty("Difficulty: example");
-    _setDiscriptionHeader("Description");
-    _setDiscriptionBody('Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
-        'Nullam cursus eu arcu vitae mattis' +
-        'Nullam sed gravida odio, nec ullamcorper justo. Ut ut finibus mauris.');
+    _loadVideoData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: _goBackToAllVideos(),
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                  child: _goBackToAllVideos(),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
+                  child: _youtubePlayer(),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                  child: _videoTitle,
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                  child: _videoSource,
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+                  child: _exerciseType,
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+                  child: _difficulty,
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                  child: _descriptionHeader,
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+                  child: _descriptionBody,
+                )
+              ],
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
-              child: _youtubePlayer(),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: videoTitle,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-              child: videoSource,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-              child: exerciseType,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-              child: difficulty,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-              child: descriptionHeader,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-              child: descriptionBody,
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
+  }
+
+  void _loadVideoData() async {
+    YoutubeExplode yt = YoutubeExplode();
+    _video = await yt.videos.get(widget.url);
+    setVideoData();
+    yt.close();
+  }
+
+  void setVideoData() {
+    setState(() {
+      _setVideoTitle(_video.title);
+      _setVideoSource(_video.author);
+      _setDiscriptionHeader("Description");
+      _setDiscriptionBody(_video.description.isEmpty
+          ? "No Description Provided."
+          : _video.description);
+      _setExerciseType("Type of Exercise");
+      _setDifficulty("Difficulty: example");
+    });
   }
 
   InkWell _goBackToAllVideos() {
@@ -100,45 +114,33 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   }
 
   void _setVideoTitle(String vTitle) {
-    setState(() {
-      videoTitle = Text(vTitle,
-          style: _bodyText1Style(fontSize: 30, fontWeight: FontWeight.bold));
-    });
+    _videoTitle = Text(vTitle,
+        style: _bodyText1Style(fontSize: 30, fontWeight: FontWeight.bold));
   }
 
   void _setVideoSource(String vSource) {
-    setState(() {
-      videoSource = Text(vSource,
-          style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
-    });
+    _videoSource = Text(vSource,
+        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
   }
 
   void _setExerciseType(String eType) {
-    setState(() {
-      exerciseType = Text(eType,
-          style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
-    });
+    _exerciseType = Text(eType,
+        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
   }
 
   void _setDifficulty(String diff) {
-    setState(() {
-      difficulty = Text(diff,
-          style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
-    });
+    _difficulty = Text(diff,
+        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
   }
 
   void _setDiscriptionHeader(String dHeader) {
-    setState(() {
-      descriptionHeader = Text(dHeader,
-          style: _bodyText1Style(fontSize: 20, fontWeight: FontWeight.bold));
-    });
+    _descriptionHeader = Text(dHeader,
+        style: _bodyText1Style(fontSize: 20, fontWeight: FontWeight.bold));
   }
 
   void _setDiscriptionBody(String dBody) {
-    setState(() {
-      descriptionBody = Text(dBody,
-          style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
-    });
+    _descriptionBody = Text(dBody,
+        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
   }
 
   TextStyle _bodyText1Style({double fontSize, FontWeight fontWeight}) {

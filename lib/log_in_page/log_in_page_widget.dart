@@ -1,12 +1,9 @@
-import 'package:apfp/home/home_widget.dart';
-
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LogInPageWidget extends StatefulWidget {
   LogInPageWidget({Key key}) : super(key: key);
@@ -16,8 +13,8 @@ class LogInPageWidget extends StatefulWidget {
 }
 
 class _LogInPageWidgetState extends State<LogInPageWidget> {
-  TextEditingController emailController;
-  TextEditingController passwordController;
+  TextEditingController _emailController;
+  TextEditingController _passwordController;
   bool passwordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -25,8 +22,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
     passwordVisibility = false;
   }
 
@@ -39,22 +36,22 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            returnHome(),
-            textBoxLabel("Email Address",
+            _returnHome(),
+            _textBoxLabel("Email Address",
                 alignment: MainAxisAlignment.start, lPadding: 20),
-            emailRow(),
-            textBoxLabel("Password",
+            _emailRow(),
+            _textBoxLabel("Password",
                 alignment: MainAxisAlignment.start, lPadding: 20),
-            passwordRow(),
-            logIn(),
-            forgotPasswordLabel()
+            _passwordRow(),
+            _logIn(),
+            _forgotPasswordLabel()
           ],
         ),
       ),
     );
   }
 
-  PageTransition transitionTo(Widget child) {
+  PageTransition _transitionTo(Widget child) {
     return PageTransition(
       type: PageTransitionType.leftToRight,
       duration: Duration(milliseconds: 125),
@@ -63,7 +60,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Text backToHomeText() {
+  Text _backToHomeText() {
     return Text(
       '< Back to Home',
       style: FlutterFlowTheme.title2.override(
@@ -74,38 +71,38 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  InkWell backButton() {
+  InkWell _backButton() {
     return InkWell(
       onTap: () async {
         await Navigator.push(
           context,
-          transitionTo(WelcomeWidget()),
+          _transitionTo(WelcomeWidget()),
         );
       },
-      child: backToHomeText(),
+      child: _backToHomeText(),
     );
   }
 
-  Padding paddedBackButton() {
+  Padding _paddedBackButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-      child: backButton(),
+      child: _backButton(),
     );
   }
 
-  Padding returnHome() {
+  Padding _returnHome() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 80),
       child: Row(
         mainAxisSize: MainAxisSize.max,
-        children: [paddedBackButton()],
+        children: [_paddedBackButton()],
       ),
     );
   }
 
-  TextFormField emailTextBox() {
+  TextFormField _emailTextBox() {
     return TextFormField(
-      controller: emailController,
+      controller: _emailController,
       obscureText: false,
       decoration: InputDecoration(
         hintText: 'example@bsu.edu',
@@ -142,21 +139,21 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Row emailRow() {
+  Row _emailRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
-            child: emailTextBox(),
+            child: _emailTextBox(),
           ),
         )
       ],
     );
   }
 
-  Row passwordRow() {
+  Row _passwordRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -164,7 +161,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-              controller: passwordController,
+              controller: _passwordController,
               obscureText: !passwordVisibility,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
@@ -209,7 +206,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding textBoxLabel(String text,
+  Padding _textBoxLabel(String text,
       {MainAxisAlignment alignment = MainAxisAlignment.center,
       double lPadding = 0}) {
     return Padding(
@@ -240,7 +237,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: textBoxLabel(text),
+              child: _textBoxLabel(text),
             ),
           )
         ],
@@ -248,14 +245,14 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  FFButtonWidget logInButton() {
+  FFButtonWidget _logInButton() {
     return FFButtonWidget(
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
           await Navigator.push(
             context,
-            transitionTo(NavBarPage(initialPage: "Home")),
+            _transitionTo(NavBarPage(initialPage: "Home")),
           );
         } finally {
           setState(() => _loadingButton = false);
@@ -283,18 +280,18 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding logIn() {
+  Padding _logIn() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [logInButton()],
+        children: [_logInButton()],
       ),
     );
   }
 
-  Padding forgotPasswordLabel() {
+  Padding _forgotPasswordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
       child: Row(
@@ -307,7 +304,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             decoration: BoxDecoration(
               color: Colors.white,
             ),
-            child: textBoxLabel("Forgot Your Password?"),
+            child: _textBoxLabel("Forgot Your Password?"),
           )
         ],
       ),

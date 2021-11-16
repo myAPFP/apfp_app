@@ -1,7 +1,5 @@
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeWidget extends StatefulWidget {
   HomeWidget({Key key}) : super(key: key);
@@ -22,17 +20,17 @@ class _HomeWidgetState extends State<HomeWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            recentAnnouncementsLabel(),
-            announcements("Alert 1", "Alert 2", "Alert 3"),
-            activityLabel(),
-            activityGUI()
+            _recentAnnouncementsLabel(),
+            _announcements("Alert 1", "Alert 2", "Alert 3"),
+            _activityLabel(),
+            _activityGUI()
           ],
         ),
       ),
     );
   }
 
-  Row recentAnnouncementsLabel() {
+  Row _recentAnnouncementsLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -52,7 +50,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Text announcementText(String text) {
+  Text _announcementText(String text) {
     return Text(
       text,
       style: FlutterFlowTheme.bodyText1.override(
@@ -63,17 +61,17 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Column announcementTextColumn(String text) {
+  Column _announcementTextColumn(String text) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        announcementText(text),
+        _announcementText(text),
       ],
     );
   }
 
-  Icon errorIcon() {
+  Icon _errorIcon() {
     return Icon(
       Icons.error_outline,
       color: Colors.black,
@@ -81,7 +79,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Row announcementRow(String text) {
+  Row _announcementRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -90,15 +88,15 @@ class _HomeWidgetState extends State<HomeWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [errorIcon()],
+            children: [_errorIcon()],
           ),
         ),
-        announcementTextColumn(text)
+        _announcementTextColumn(text)
       ],
     );
   }
 
-  GridView announcementGrid(
+  GridView _announcementGrid(
       String alertOneText, String alertTwoText, String alertThreeText) {
     return GridView(
       padding: EdgeInsets.zero,
@@ -111,14 +109,14 @@ class _HomeWidgetState extends State<HomeWidget> {
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       children: [
-        announcementRow(alertOneText),
-        announcementRow(alertTwoText),
-        announcementRow(alertThreeText)
+        _announcementRow(alertOneText),
+        _announcementRow(alertTwoText),
+        _announcementRow(alertThreeText)
       ],
     );
   }
 
-  Container announcements(
+  Container _announcements(
       String alertOneText, String alertTwoText, String alertThreeText) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
@@ -129,11 +127,11 @@ class _HomeWidgetState extends State<HomeWidget> {
           width: 2,
         ),
       ),
-      child: announcementGrid(alertOneText, alertTwoText, alertThreeText),
+      child: _announcementGrid(alertOneText, alertTwoText, alertThreeText),
     );
   }
 
-  Padding activityLabel() {
+  Padding _activityLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 75, 0, 0),
       child: Row(
@@ -156,7 +154,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Padding activityGUI() {
+  Padding _activityGUI() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Container(

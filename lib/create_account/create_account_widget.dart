@@ -4,7 +4,6 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../successful_registration/successful_registration_widget.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   CreateAccountWidget({Key key}) : super(key: key);
@@ -14,26 +13,26 @@ class CreateAccountWidget extends StatefulWidget {
 }
 
 class _CreateAccountWidgetState extends State<CreateAccountWidget> {
-  TextEditingController firstNameController;
-  TextEditingController lastNameController;
-  TextEditingController emailController;
-  TextEditingController passwordController;
-  bool passwordVisibility;
-  TextEditingController confirmPasswordController;
-  bool confirmPasswordVisibility;
+  TextEditingController _firstNameController;
+  TextEditingController _lastNameController;
+  TextEditingController _emailController;
+  TextEditingController _passwordController;
+  bool _passwordVisibility;
+  TextEditingController _confirmPasswordController;
+  bool _confirmPasswordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
-    passwordVisibility = false;
-    confirmPasswordController = TextEditingController();
-    confirmPasswordVisibility = false;
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _passwordVisibility = false;
+    _confirmPasswordController = TextEditingController();
+    _confirmPasswordVisibility = false;
   }
 
   @override
@@ -45,23 +44,23 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            backButtonRow(),
-            informationDialog(),
-            nameRow(),
-            emailLabel(),
-            emailTextBox(),
-            passwordLabel(),
-            passwordTextBox(),
-            confirmPasswordLabel(),
-            confirmPasswordTextBox(),
-            createAccountButton()
+            _backButtonRow(),
+            _informationDialog(),
+            _nameRow(),
+            _emailLabel(),
+            _emailTextBox(),
+            _passwordLabel(),
+            _passwordTextBox(),
+            _confirmPasswordLabel(),
+            _confirmPasswordTextBox(),
+            _createAccountButton()
           ],
         ),
       ),
     );
   }
 
-  Row backButtonRow() {
+  Row _backButtonRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -101,7 +100,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding informationDialog() {
+  Padding _informationDialog() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Row(
@@ -130,7 +129,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row firstNameLabel() {
+  Row _firstNameLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -154,7 +153,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding firstNameTextBox() {
+  Padding _firstNameTextBox() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
       child: Container(
@@ -162,7 +161,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
-          controller: firstNameController,
+          controller: _firstNameController,
           obscureText: false,
           decoration: InputDecoration(
             hintText: 'John',
@@ -194,18 +193,18 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding firstName() {
+  Padding _firstName() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [firstNameLabel(), firstNameTextBox()],
+        children: [_firstNameLabel(), _firstNameTextBox()],
       ),
     );
   }
 
-  Row lastNameLabel() {
+  Row _lastNameLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -229,12 +228,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Container lastNameTextBox() {
+  Container _lastNameTextBox() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
-        controller: lastNameController,
+        controller: _lastNameController,
         obscureText: false,
         decoration: InputDecoration(
           hintText: 'Doe',
@@ -265,23 +264,23 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Column lastName() {
+  Column _lastName() {
     return Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [lastNameLabel(), lastNameTextBox()]);
+        children: [_lastNameLabel(), _lastNameTextBox()]);
   }
 
-  Row nameRow() {
+  Row _nameRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [firstName(), lastName()],
+      children: [_firstName(), _lastName()],
     );
   }
 
-  Padding emailLabel() {
+  Padding _emailLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Row(
@@ -311,7 +310,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row emailTextBox() {
+  Row _emailTextBox() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -319,7 +318,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-              controller: emailController,
+              controller: _emailController,
               obscureText: false,
               decoration: InputDecoration(
                 hintText: 'example@bsu.edu',
@@ -360,7 +359,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding passwordLabel() {
+  Padding _passwordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Row(
@@ -390,7 +389,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row passwordTextBox() {
+  Row _passwordTextBox() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -398,8 +397,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-              controller: passwordController,
-              obscureText: !passwordVisibility,
+              controller: _passwordController,
+              obscureText: !_passwordVisibility,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
@@ -423,10 +422,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 ),
                 suffixIcon: InkWell(
                   onTap: () => setState(
-                    () => passwordVisibility = !passwordVisibility,
+                    () => _passwordVisibility = !_passwordVisibility,
                   ),
                   child: Icon(
-                    passwordVisibility
+                    _passwordVisibility
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
                     color: Color(0xFF757575),
@@ -443,7 +442,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding confirmPasswordLabel() {
+  Padding _confirmPasswordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Row(
@@ -473,7 +472,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row confirmPasswordTextBox() {
+  Row _confirmPasswordTextBox() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -481,8 +480,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-              controller: confirmPasswordController,
-              obscureText: !confirmPasswordVisibility,
+              controller: _confirmPasswordController,
+              obscureText: !_confirmPasswordVisibility,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
@@ -507,10 +506,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 suffixIcon: InkWell(
                   onTap: () => setState(
                     () =>
-                        confirmPasswordVisibility = !confirmPasswordVisibility,
+                        _confirmPasswordVisibility = !_confirmPasswordVisibility,
                   ),
                   child: Icon(
-                    confirmPasswordVisibility
+                    _confirmPasswordVisibility
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
                     color: Color(0xFF757575),
@@ -527,7 +526,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding createAccountButton() {
+  Padding _createAccountButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
       child: Row(
