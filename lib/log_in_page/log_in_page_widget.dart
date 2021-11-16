@@ -38,11 +38,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             returnHome(),
-            textBoxLabel("Email Address",
-                alignment: MainAxisAlignment.start, lPadding: 20),
+            label("Email Address"),
             emailRow(),
-            textBoxLabel("Password",
-                alignment: MainAxisAlignment.start, lPadding: 20),
+            label("Password"),
             passwordRow(),
             logIn(),
             Padding(
@@ -213,7 +211,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       {MainAxisAlignment alignment = MainAxisAlignment.center,
       double lPadding = 0}) {
     return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
         child: Row(mainAxisAlignment: alignment, children: [
           Text(text,
               textAlign: TextAlign.center,
@@ -228,21 +226,17 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   Padding label(String text) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: textBoxLabel(text),
+          Container(
+            height: 30,
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
-          )
+            child: textBoxLabel(text),
+          ),
         ],
       ),
     );
