@@ -1,12 +1,12 @@
 # This is a generated file; do not edit or check into version control.
-flutter_inappwebview=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.3.2/
-path_provider=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.6/
-path_provider_linux=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.0/
-path_provider_macos=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.2/
-path_provider_windows=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.3/
-sqflite=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.0+4/
-url_launcher=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.0.12/
-url_launcher_linux=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_linux-2.0.2/
-url_launcher_macos=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_macos-2.0.2/
-url_launcher_web=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_web-2.0.4/
-url_launcher_windows=/Users/calebvanlue/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_windows-2.0.2/
+flutter_inappwebview=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_inappwebview-5.3.2\\
+path_provider=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-2.0.6\\
+path_provider_linux=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_linux-2.1.0\\
+path_provider_macos=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-2.0.2\\
+path_provider_windows=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_windows-2.0.3\\
+sqflite=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\sqflite-2.0.0+4\\
+url_launcher=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\url_launcher-6.0.12\\
+url_launcher_linux=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\url_launcher_linux-2.0.2\\
+url_launcher_macos=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\url_launcher_macos-2.0.2\\
+url_launcher_web=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\url_launcher_web-2.0.4\\
+url_launcher_windows=C:\\Users\\vanlu\\Documents\\flutter_windows_2.5.3-stable\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\url_launcher_windows-2.0.2\\
