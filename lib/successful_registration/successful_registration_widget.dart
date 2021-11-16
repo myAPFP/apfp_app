@@ -30,58 +30,66 @@ class _SuccessfulRegistrationWidgetState
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
-                child: Text(
-                  'Thank you for registering! Please check your email and confirm your email address before logging in.',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Open Sans',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                child: informationDialog(),
               ),
             ),
-            FFButtonWidget(
-              onPressed: () async {
-                setState(() => _loadingButton = true);
-                try {
-                  await Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.leftToRight,
-                      duration: Duration(milliseconds: 125),
-                      reverseDuration: Duration(milliseconds: 125),
-                      child: WelcomeWidget(),
-                    ),
-                  );
-                } finally {
-                  setState(() => _loadingButton = false);
-                }
-              },
-              text: 'Back to Home',
-              options: FFButtonOptions(
-                width: 180,
-                height: 50,
-                color: Colors.white,
-                textStyle: FlutterFlowTheme.subtitle2.override(
-                  fontFamily: 'Open Sans',
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
-                ),
-                elevation: 2,
-                borderSide: BorderSide(
-                  color: Color(0xFFBA0C2F),
-                  width: 4,
-                ),
-                borderRadius: 12,
-              ),
-              loading: _loadingButton,
-            )
+            backToHomeButton()
           ],
         ),
       ),
+    );
+  }
+
+  Text informationDialog() {
+    return Text(
+      'Thank you for registering! Please check your email and confirm your email address before logging in.',
+      textAlign: TextAlign.center,
+      style: FlutterFlowTheme.bodyText1.override(
+        fontFamily: 'Open Sans',
+        fontSize: 24,
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+
+  FFButtonWidget backToHomeButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        setState(() => _loadingButton = true);
+        try {
+          await Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.leftToRight,
+              duration: Duration(milliseconds: 125),
+              reverseDuration: Duration(milliseconds: 125),
+              child: WelcomeWidget(),
+            ),
+          );
+        } finally {
+          setState(() => _loadingButton = false);
+        }
+      },
+      text: 'Back to Home',
+      options: FFButtonOptions(
+        width: 180,
+        height: 50,
+        color: Colors.white,
+        textStyle: FlutterFlowTheme.subtitle2.override(
+          fontFamily: 'Open Sans',
+          color: Colors.black,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+          decoration: TextDecoration.underline,
+        ),
+        elevation: 2,
+        borderSide: BorderSide(
+          color: Color(0xFFBA0C2F),
+          width: 4,
+        ),
+        borderRadius: 12,
+      ),
+      loading: _loadingButton,
     );
   }
 }
