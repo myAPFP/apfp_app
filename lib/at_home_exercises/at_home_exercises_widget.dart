@@ -143,31 +143,29 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   void _preloadExistingVideos() {
-    setState(() {
-      videoList.add(_videoTrainingCard(
-          label: 'High Intensity Interval Training',
-          exercises: "Squats, Push-ups",
-          difficultyLevel: "2",
-          url: "https://youtu.be/pGMGIslVihU"));
+    _addVideoToList(_videoTrainingCard(
+        label: 'High Intensity Interval Training',
+        exercises: "Squats, Push-ups",
+        difficultyLevel: "2",
+        url: "https://youtu.be/pGMGIslVihU"));
 
-      videoList.add(_videoTrainingCard(
-          label: 'High Intensity Interval Training',
-          exercises: "Calf Raises, Knee to chest",
-          difficultyLevel: "1",
-          url: "https://youtu.be/4bIS0Kz7lKE"));
+    _addVideoToList(_videoTrainingCard(
+        label: 'High Intensity Interval Training',
+        exercises: "Calf Raises, Knee to chest",
+        difficultyLevel: "1",
+        url: "https://youtu.be/4bIS0Kz7lKE"));
 
-      videoList.add(_videoTrainingCard(
-          label: 'High Intensity Interval Training',
-          exercises: "Step-ups, Lateral Lunges",
-          difficultyLevel: "3",
-          url: "https://youtu.be/js-MHdWF-so"));
+    _addVideoToList(_videoTrainingCard(
+        label: 'High Intensity Interval Training',
+        exercises: "Step-ups, Lateral Lunges",
+        difficultyLevel: "3",
+        url: "https://youtu.be/js-MHdWF-so"));
 
-      videoList.add(_videoTrainingCard(
-          label: 'High Intensity Interval Training',
-          exercises: "Squats/Shoulder Press, Face-pulls",
-          difficultyLevel: "5",
-          url: "https://youtu.be/yxf6knAo4Sk"));
-    });
+    _addVideoToList(_videoTrainingCard(
+        label: 'High Intensity Interval Training',
+        exercises: "Squats/Shoulder Press, Face-pulls",
+        difficultyLevel: "5",
+        url: "https://youtu.be/yxf6knAo4Sk"));
   }
 
   void _addVideoToList(Padding videoTrainingCard) {
