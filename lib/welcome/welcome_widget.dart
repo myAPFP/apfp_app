@@ -51,12 +51,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       delay: 50,
       fadeIn: true,
     ),
-    'textOnPageLoadAnimation': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      delay: 50,
-      fadeIn: true,
-    ),
   };
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
