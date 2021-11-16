@@ -45,7 +45,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                 alignment: MainAxisAlignment.start, lPadding: 20),
             passwordRow(),
             logIn(),
-            forgotPasswordLabel()
+            Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
+                child: textBoxLabel("Forgot Your Password?"))
           ],
         ),
       ),
@@ -288,26 +290,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [logInButton()],
-      ),
-    );
-  }
-
-  Padding forgotPasswordLabel() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: textBoxLabel("Forgot Your Password?"),
-          )
-        ],
       ),
     );
   }
