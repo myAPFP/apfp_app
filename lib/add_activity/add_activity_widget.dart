@@ -14,16 +14,20 @@ class AddActivityWidget extends StatefulWidget {
 }
 
 class _AddActivityWidgetState extends State<AddActivityWidget> {
-  String dropDownValue1;
-  TextEditingController textController;
-  String dropDownValue2;
+  String exercisetype;
+  TextEditingController activityNameTextController;
+  String duration;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List<String> durationOptions, exerciseTypeOptions = [];
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    activityNameTextController = TextEditingController();
+    _populateDurationOptions();
+    _populateExcerciseOptions();
   }
 
   @override
@@ -38,196 +42,183 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
-              child: InkWell(
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.leftToRight,
-                      duration: Duration(milliseconds: 125),
-                      reverseDuration: Duration(milliseconds: 125),
-                      child: NavBarPage(initialPage: 'Activity'),
-                    ),
-                  );
-                },
-                child: Text(
-                  '< Go Back',
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Open Sans',
-                    color: FlutterFlowTheme.secondaryColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+              child: _goBackButton(),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
-              child: Text(
-                'Add New Activity',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
+                child: _header(
+                    text: 'Add New Activity',
+                    style: _bodyText1Style(
+                        fontSize: 30, fontWeight: FontWeight.bold))),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-              child: Text(
-                'Name of Activity',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: _header(
+                  text: 'Name of Activity',
+                  style: _bodyText1Style(
+                      fontSize: 18, fontWeight: FontWeight.w600)),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-              child: TextFormField(
-                controller: textController,
-                obscureText: false,
-                decoration: InputDecoration(
-                  isDense: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: FlutterFlowTheme.primaryColor,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: FlutterFlowTheme.primaryColor,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            _activityNameTextField(),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-              child: Text(
-                'Type of Exercise',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: _header(
+                  text: 'Type of Exercise',
+                  style: _bodyText1Style(
+                      fontSize: 18, fontWeight: FontWeight.w600)),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-              child: FlutterFlowDropDown(
-                initialOption: dropDownValue1 ??= 'Select a type',
-                options: ['Type 1', 'Type 2'].toList(),
-                onChanged: (val) => setState(() => dropDownValue1 = val),
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                textStyle: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-                fillColor: Colors.white,
-                elevation: 2,
-                borderColor: FlutterFlowTheme.primaryColor,
-                borderWidth: 0,
-                borderRadius: 10,
-                margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                hidesUnderline: true,
-              ),
-            ),
+            _dropDown(exerciseTypeOptions, exercisetype),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-              child: Text(
-                'Duration',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: _header(
+                  text: 'Duration',
+                  style: _bodyText1Style(
+                      fontSize: 18, fontWeight: FontWeight.w600)),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-              child: FlutterFlowDropDown(
-                initialOption: dropDownValue2 ??= 'Select a duration',
-                options: ['Type 1', 'Type 2'].toList(),
-                onChanged: (val) => setState(() => dropDownValue2 = val),
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                textStyle: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-                fillColor: Colors.white,
-                elevation: 2,
-                borderColor: FlutterFlowTheme.primaryColor,
-                borderWidth: 0,
-                borderRadius: 10,
-                margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                hidesUnderline: true,
-              ),
-            ),
+            _dropDown(durationOptions, duration),
             Align(
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
-                child: FFButtonWidget(
-                  onPressed: () async {
-                    setState(() => _loadingButton = true);
-                    try {
-                      await Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          duration: Duration(milliseconds: 125),
-                          reverseDuration: Duration(milliseconds: 125),
-                          child: NavBarPage(initialPage: 'Activity'),
-                        ),
-                      );
-                    } finally {
-                      setState(() => _loadingButton = false);
-                    }
-                  },
-                  text: 'Submit',
-                  options: FFButtonOptions(
-                    width: 120,
-                    height: 50,
-                    color: FlutterFlowTheme.secondaryColor,
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Open Sans',
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    elevation: 2,
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1,
-                    ),
-                    borderRadius: 12,
-                  ),
-                  loading: _loadingButton,
-                ),
+                child: _submitButton(),
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Text _header({String text, TextStyle style}) {
+    return Text(text, style: style);
+  }
+
+  void _populateExcerciseOptions() {
+    setState(() {
+      exerciseTypeOptions.add("Option 1");
+      exerciseTypeOptions.add("Option 2");
+    });
+  }
+
+  void _populateDurationOptions() {
+    setState(() {
+      durationOptions.add("Option 1");
+      durationOptions.add("Option 2");
+    });
+  }
+
+  TextStyle _bodyText1Style({double fontSize, FontWeight fontWeight}) {
+    return FlutterFlowTheme.bodyText1.override(
+      fontFamily: 'Open Sans',
+      color: FlutterFlowTheme.primaryColor,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+    );
+  }
+
+  Padding _dropDown(List<String> options, String valueToChange) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+      child: FlutterFlowDropDown(
+        initialOption: valueToChange ??= 'Select a option',
+        options: options,
+        onChanged: (val) => setState(() => valueToChange = val),
+        width: MediaQuery.of(context).size.width,
+        height: 50,
+        textStyle: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal),
+        fillColor: Colors.white,
+        elevation: 2,
+        borderColor: FlutterFlowTheme.primaryColor,
+        borderWidth: 0,
+        borderRadius: 10,
+        margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
+        hidesUnderline: true,
+      ),
+    );
+  }
+
+  FFButtonWidget _submitButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        setState(() => _loadingButton = true);
+        try {
+          await Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.leftToRight,
+                duration: Duration(milliseconds: 125),
+                reverseDuration: Duration(milliseconds: 125),
+                child: NavBarPage(initialPage: 'Activity'),
+              ));
+        } finally {
+          setState(() => _loadingButton = false);
+        }
+      },
+      text: 'Submit',
+      options: FFButtonOptions(
+        width: 120,
+        height: 50,
+        color: FlutterFlowTheme.secondaryColor,
+        textStyle: FlutterFlowTheme.subtitle2.override(
+          fontFamily: 'Open Sans',
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+        ),
+        elevation: 2,
+        borderSide: BorderSide(
+          color: Colors.transparent,
+          width: 1,
+        ),
+        borderRadius: 12,
+      ),
+      loading: _loadingButton,
+    );
+  }
+
+  InkWell _goBackButton() {
+    return InkWell(
+        onTap: () async {
+          await Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.leftToRight,
+                duration: Duration(milliseconds: 125),
+                reverseDuration: Duration(milliseconds: 125),
+                child: NavBarPage(initialPage: 'Activity'),
+              ));
+        },
+        child: Text('< Go Back',
+            style: FlutterFlowTheme.bodyText1.override(
+              fontFamily: 'Open Sans',
+              color: FlutterFlowTheme.secondaryColor,
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+            )));
+  }
+
+  Padding _activityNameTextField() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+      child: TextFormField(
+        controller: activityNameTextController,
+        obscureText: false,
+        decoration: InputDecoration(
+          isDense: true,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: FlutterFlowTheme.primaryColor,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: FlutterFlowTheme.primaryColor,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        style: _bodyText1Style(fontSize: 20, fontWeight: FontWeight.w600),
       ),
     );
   }

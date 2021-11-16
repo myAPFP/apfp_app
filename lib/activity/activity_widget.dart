@@ -17,6 +17,57 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _headerTextRow('Today\'s Activity'),
+            _addPadding(
+                height: 120,
+                color: Colors.transparent,
+                border: Border.all(color: Color(0xFF54585A)),
+                borderRadius: BorderRadius.circular(10),
+                child: _createActivityCard(
+                    icon: Icons.sports_basketball_sharp,
+                    duration: "30 min",
+                    totalCal: "300",
+                    name: "Basketball",
+                    type: "Cardio")),
+            _addPadding(
+                height: 120,
+                color: Colors.transparent,
+                border: Border.all(color: Color(0xFF54585A)),
+                borderRadius: BorderRadius.circular(10),
+                child: _createActivityCard(
+                    icon: Icons.directions_walk_sharp,
+                    duration: "30 min",
+                    totalCal: "150",
+                    name: "Walking",
+                    type: "Cardio")),
+            _addPadding(
+                height: 80,
+                child: null,
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                border: null),
+            _addActivityButton(),
+            _addPadding(
+                height: 80,
+                child: null,
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                border: null)
+          ],
+        ),
+      ),
+    );
+  }
+
   Row _headerTextRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -178,57 +229,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           border: border,
           color: color,
           borderRadius: borderRadius,
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _headerTextRow('Today\'s Activity'),
-            _addPadding(
-                height: 120,
-                color: Colors.transparent,
-                border: Border.all(color: Color(0xFF54585A)),
-                borderRadius: BorderRadius.circular(10),
-                child: _createActivityCard(
-                    icon: Icons.sports_basketball_sharp,
-                    duration: "30 min",
-                    totalCal: "300",
-                    name: "Basketball",
-                    type: "Cardio")),
-            _addPadding(
-                height: 120,
-                color: Colors.transparent,
-                border: Border.all(color: Color(0xFF54585A)),
-                borderRadius: BorderRadius.circular(10),
-                child: _createActivityCard(
-                    icon: Icons.directions_walk_sharp,
-                    duration: "30 min",
-                    totalCal: "150",
-                    name: "Walking",
-                    type: "Cardio")),
-            _addPadding(
-                height: 80,
-                child: null,
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                border: null),
-            _addActivityButton(),
-            _addPadding(
-                height: 80,
-                child: null,
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                border: null)
-          ],
         ),
       ),
     );
