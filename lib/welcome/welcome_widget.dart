@@ -87,97 +87,113 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                 height: 200,
                 fit: BoxFit.fitWidth,
               ).animated([animationsMap['imageOnPageLoadAnimation']]),
-              Text(
-                'Welcome!',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-              ).animated([animationsMap['textOnPageLoadAnimation']]),
+              welcomeText(),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
-                child: FFButtonWidget(
-                  onPressed: () async {
-                    await Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LogInPageWidget(),
-                      ),
-                      (r) => false,
-                    );
-                  },
-                  text: 'Log In',
-                  options: FFButtonOptions(
-                    width: 170,
-                    height: 50,
-                    color: Color(0xFFBA0C2F),
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Open Sans',
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    elevation: 2,
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1,
-                    ),
-                    borderRadius: 12,
-                  ),
-                ),
+                child: logInButton(),
               ),
               Align(
                 alignment: AlignmentDirectional(0, 0),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                  child: Text(
-                    'This app is intended for members of the Adult Physical Fitness Program at Ball State University. If you do not have an account, please contact an administrator at <EMAIL>.',
-                    textAlign: TextAlign.center,
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Open Sans',
-                      color: FlutterFlowTheme.primaryColor,
-                      fontSize: 20,
-                    ),
-                  ),
+                  child: contactText(),
                 ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                child: FFButtonWidget(
-                  onPressed: () async {
-                    await Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateAccountWidget(),
-                      ),
-                      (r) => false,
-                    );
-                  },
-                  text: 'Create Account',
-                  options: FFButtonOptions(
-                    width: 250,
-                    height: 50,
-                    color: Colors.white,
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Open Sans',
-                      color: FlutterFlowTheme.primaryColor,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    elevation: 2,
-                    borderSide: BorderSide(
-                      color: FlutterFlowTheme.secondaryColor,
-                      width: 3,
-                    ),
-                    borderRadius: 12,
-                  ),
-                ),
+                child: createAccountButton(),
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Text welcomeText() {
+    return Text(
+      'Welcome!',
+      style: FlutterFlowTheme.bodyText1.override(
+        fontFamily: 'Open Sans',
+        color: FlutterFlowTheme.primaryColor,
+        fontSize: 48,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Text contactText() {
+    return Text(
+      'This app is intended for members of the Adult Physical Fitness Program at Ball State University. If you do not have an account, please contact an administrator at <EMAIL>.',
+      textAlign: TextAlign.center,
+      style: FlutterFlowTheme.bodyText1.override(
+        fontFamily: 'Open Sans',
+        color: FlutterFlowTheme.primaryColor,
+        fontSize: 20,
+      ),
+    );
+  }
+
+  FFButtonWidget logInButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LogInPageWidget(),
+          ),
+          (r) => false,
+        );
+      },
+      text: 'Log In',
+      options: FFButtonOptions(
+        width: 170,
+        height: 50,
+        color: Color(0xFFBA0C2F),
+        textStyle: FlutterFlowTheme.subtitle2.override(
+          fontFamily: 'Open Sans',
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+        ),
+        elevation: 2,
+        borderSide: BorderSide(
+          color: Colors.transparent,
+          width: 1,
+        ),
+        borderRadius: 12,
+      ),
+    );
+  }
+
+  FFButtonWidget createAccountButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateAccountWidget(),
+          ),
+          (r) => false,
+        );
+      },
+      text: 'Create Account',
+      options: FFButtonOptions(
+        width: 250,
+        height: 50,
+        color: Colors.white,
+        textStyle: FlutterFlowTheme.subtitle2.override(
+          fontFamily: 'Open Sans',
+          color: FlutterFlowTheme.primaryColor,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+        ),
+        elevation: 2,
+        borderSide: BorderSide(
+          color: FlutterFlowTheme.secondaryColor,
+          width: 3,
+        ),
+        borderRadius: 12,
       ),
     );
   }
