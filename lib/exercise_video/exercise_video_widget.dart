@@ -18,6 +18,67 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   Text videoTitle, videoSource, exerciseType;
   Text difficulty, descriptionHeader, descriptionBody;
 
+  @override
+  void initState() {
+    super.initState();
+    _setVideoTitle('Example Video Title');
+    _setVideoSource("Video Source");
+    _setExerciseType("Type of Exercise");
+    _setDifficulty("Difficulty: example");
+    _setDiscriptionHeader("Description");
+    _setDiscriptionBody('Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
+        'Nullam cursus eu arcu vitae mattis' +
+        'Nullam sed gravida odio, nec ullamcorper justo. Ut ut finibus mauris.');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+              child: _goBackToAllVideos(),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
+              child: _youtubePlayer(),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+              child: videoTitle,
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+              child: videoSource,
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+              child: exerciseType,
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+              child: difficulty,
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+              child: descriptionHeader,
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+              child: descriptionBody,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   InkWell _goBackToAllVideos() {
     return InkWell(
         onTap: () async {
@@ -97,67 +158,6 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
       mute: false,
       showControls: true,
       showFullScreen: true,
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _setVideoTitle('Example Video Title');
-    _setVideoSource("Video Source");
-    _setExerciseType("Type of Exercise");
-    _setDifficulty("Difficulty: example");
-    _setDiscriptionHeader("Description");
-    _setDiscriptionBody('Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
-        'Nullam cursus eu arcu vitae mattis' +
-        'Nullam sed gravida odio, nec ullamcorper justo. Ut ut finibus mauris.');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: _goBackToAllVideos(),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
-              child: _youtubePlayer(),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: videoTitle,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-              child: videoSource,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-              child: exerciseType,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-              child: difficulty,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-              child: descriptionHeader,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-              child: descriptionBody,
-            )
-          ],
-        ),
-      ),
     );
   }
 }
