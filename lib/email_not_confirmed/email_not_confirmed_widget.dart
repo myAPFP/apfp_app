@@ -91,46 +91,48 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FFButtonWidget(
-            onPressed: () async {
-              setState(() => _loadingButton = true);
-              try {
-                await Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    duration: Duration(milliseconds: 125),
-                    reverseDuration: Duration(milliseconds: 125),
-                    child: WelcomeWidget(),
-                  ),
-                );
-              } finally {
-                setState(() => _loadingButton = false);
-              }
-            },
-            text: 'Back to Home',
-            options: FFButtonOptions(
-              width: 180,
-              height: 50,
-              color: FlutterFlowTheme.tertiaryColor,
-              textStyle: FlutterFlowTheme.subtitle2.override(
-                fontFamily: 'Open Sans',
-                color: FlutterFlowTheme.primaryColor,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-              elevation: 2,
-              borderSide: BorderSide(
-                color: FlutterFlowTheme.secondaryColor,
-                width: 3,
-              ),
-              borderRadius: 12,
-            ),
-            loading: _loadingButton,
-          )
-        ],
+        children: [returnHomeButton()],
       ),
+    );
+  }
+
+  FFButtonWidget returnHomeButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        setState(() => _loadingButton = true);
+        try {
+          await Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.leftToRight,
+              duration: Duration(milliseconds: 125),
+              reverseDuration: Duration(milliseconds: 125),
+              child: WelcomeWidget(),
+            ),
+          );
+        } finally {
+          setState(() => _loadingButton = false);
+        }
+      },
+      text: 'Back to Home',
+      options: FFButtonOptions(
+        width: 180,
+        height: 50,
+        color: FlutterFlowTheme.tertiaryColor,
+        textStyle: FlutterFlowTheme.subtitle2.override(
+          fontFamily: 'Open Sans',
+          color: FlutterFlowTheme.primaryColor,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+        ),
+        elevation: 2,
+        borderSide: BorderSide(
+          color: FlutterFlowTheme.secondaryColor,
+          width: 3,
+        ),
+        borderRadius: 12,
+      ),
+      loading: _loadingButton,
     );
   }
 }
