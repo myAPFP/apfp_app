@@ -110,7 +110,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                   },
                   text: 'Log In',
                   options: FFButtonOptions(
-                    width: 150,
+                    width: 170,
                     height: 50,
                     color: Color(0xFFBA0C2F),
                     textStyle: FlutterFlowTheme.subtitle2.override(
@@ -157,7 +157,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                   },
                   text: 'Create Account',
                   options: FFButtonOptions(
-                    width: 200,
+                    width: 250,
                     height: 50,
                     color: Colors.white,
                     textStyle: FlutterFlowTheme.subtitle2.override(
