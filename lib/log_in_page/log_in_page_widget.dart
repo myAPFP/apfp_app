@@ -40,26 +40,26 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             returnHome(),
-            label("Email Address"),
+            textBoxLabel("Email Address",
+                alignment: MainAxisAlignment.start, lPadding: 20),
             emailRow(),
-            label("Password"),
+            textBoxLabel("Password",
+                alignment: MainAxisAlignment.start, lPadding: 20),
             passwordRow(),
             logIn(),
-            Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
-                child: textBoxLabel("Forgot Your Password?"))
+            forgotPasswordLabel()
           ],
         ),
       ),
     );
   }
 
-  PageTransition transition(Widget widget) {
+  PageTransition transitionTo(Widget child) {
     return PageTransition(
       type: PageTransitionType.leftToRight,
       duration: Duration(milliseconds: 125),
       reverseDuration: Duration(milliseconds: 125),
-      child: widget,
+      child: child,
     );
   }
 
@@ -79,7 +79,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       onTap: () async {
         await Navigator.push(
           context,
-          transition(WelcomeWidget()),
+          transitionTo(WelcomeWidget()),
         );
       },
       child: backToHomeText(),
@@ -213,7 +213,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       {MainAxisAlignment alignment = MainAxisAlignment.center,
       double lPadding = 0}) {
     return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 0),
         child: Row(mainAxisAlignment: alignment, children: [
           Text(text,
               textAlign: TextAlign.center,
@@ -228,17 +228,21 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   Padding label(String text) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Container(
-            height: 30,
-            decoration: BoxDecoration(
-              color: Colors.white,
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: textBoxLabel(text),
             ),
-            child: textBoxLabel(text),
-          ),
+          )
         ],
       ),
     );
@@ -251,7 +255,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         try {
           await Navigator.push(
             context,
-            transition(NavBarPage()),
+            transitionTo(NavBarPage(initialPage: "Home")),
           );
         } finally {
           setState(() => _loadingButton = false);
@@ -286,6 +290,26 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [logInButton()],
+      ),
+    );
+  }
+
+  Padding forgotPasswordLabel() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: textBoxLabel("Forgot Your Password?"),
+          )
+        ],
       ),
     );
   }
