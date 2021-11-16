@@ -4,7 +4,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AddActivityWidget extends StatefulWidget {
   AddActivityWidget({Key key}) : super(key: key);
@@ -20,7 +19,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<String> durationOptions, exerciseTypeOptions = [];
+  List<String> durationOptions = [];
+  List<String> exerciseTypeOptions = [];
 
   @override
   void initState() {

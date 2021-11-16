@@ -12,7 +12,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
   runApp(MyApp());
 }
 
@@ -81,21 +80,21 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                 height: 200,
                 fit: BoxFit.fitWidth,
               ).animated([animationsMap['imageOnPageLoadAnimation']]),
-              welcomeText(),
+              _welcomeText(),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
-                child: logInButton(),
+                child: _logInButton(),
               ),
               Align(
                 alignment: AlignmentDirectional(0, 0),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                  child: contactText(),
+                  child: _contactText(),
                 ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                child: createAccountButton(),
+                child: _createAccountButton(),
               )
             ],
           ),
@@ -104,7 +103,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
-  Text welcomeText() {
+  Text _welcomeText() {
     return Text(
       'Welcome!',
       style: FlutterFlowTheme.bodyText1.override(
@@ -116,7 +115,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
-  Text contactText() {
+  Text _contactText() {
     return Text(
       'This app is intended for members of the Adult Physical Fitness Program at Ball State University. If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
@@ -128,7 +127,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
-  FFButtonWidget logInButton() {
+  FFButtonWidget _logInButton() {
     return FFButtonWidget(
       onPressed: () async {
         await Navigator.pushAndRemoveUntil(
@@ -160,7 +159,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
-  FFButtonWidget createAccountButton() {
+  FFButtonWidget _createAccountButton() {
     return FFButtonWidget(
       onPressed: () async {
         await Navigator.pushAndRemoveUntil(

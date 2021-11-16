@@ -3,7 +3,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class EmailNotConfirmedWidget extends StatefulWidget {
   EmailNotConfirmedWidget({Key key}) : super(key: key);
@@ -25,13 +24,13 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
       body: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.max,
-          children: [contextMessage(), resendEmailRow(), returnToHome()],
+          children: [_contextMessage(), _resendEmailRow(), _returnToHome()],
         ),
       ),
     );
   }
 
-  Padding contextMessage() {
+  Padding _contextMessage() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 70, 0, 0),
       child: Row(
@@ -59,7 +58,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
     );
   }
 
-  Row resendEmailRow() {
+  Row _resendEmailRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -85,18 +84,18 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
     );
   }
 
-  Padding returnToHome() {
+  Padding _returnToHome() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [returnHomeButton()],
+        children: [_returnHomeButton()],
       ),
     );
   }
 
-  FFButtonWidget returnHomeButton() {
+  FFButtonWidget _returnHomeButton() {
     return FFButtonWidget(
       onPressed: () async {
         setState(() => _loadingButton = true);

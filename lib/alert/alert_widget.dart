@@ -25,15 +25,15 @@ class _AlertWidgetState extends State<AlertWidget> {
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: backToList(),
+              child: _backToList(),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
-              child: announcementTitle("Example Announcement Title"),
+              child: _announcementTitle("Example Announcement Title"),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
-              child: announcementParagraph(
+              child: _announcementParagraph(
                   "This is an example paragraph for an announcement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia libero ut sapien maximus, vitae viverra nulla iaculis. \n\nUt lacinia ultrices augue, hendrerit faucibus odio venenatis ac. Vivamus aliquet dignissim nunc. Quisque non orci a diam faucibus mollis eget ac magna. Fusce ex urna, interdum nec enim nec, vehicula tempus lacus."),
             )
           ],
@@ -42,7 +42,7 @@ class _AlertWidgetState extends State<AlertWidget> {
     );
   }
 
-  InkWell backToList() {
+  InkWell _backToList() {
     return InkWell(
       onTap: () async {
         await Navigator.pushAndRemoveUntil(
@@ -65,7 +65,7 @@ class _AlertWidgetState extends State<AlertWidget> {
     );
   }
 
-  Text announcementTitle(String text) {
+  Text _announcementTitle(String text) {
     return Text(
       text,
       style: FlutterFlowTheme.bodyText1.override(
@@ -77,7 +77,7 @@ class _AlertWidgetState extends State<AlertWidget> {
     );
   }
 
-  Text announcementParagraph(String text) {
+  Text _announcementParagraph(String text) {
     return Text(
       text,
       style: FlutterFlowTheme.bodyText1.override(

@@ -30,17 +30,17 @@ class _SuccessfulRegistrationWidgetState
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
-                child: informationDialog(),
+                child: _informationDialog(),
               ),
             ),
-            backToHomeButton()
+            _backToHomeButton()
           ],
         ),
       ),
     );
   }
 
-  Text informationDialog() {
+  Text _informationDialog() {
     return Text(
       'Thank you for registering! Please check your email and confirm your email address before logging in.',
       textAlign: TextAlign.center,
@@ -52,7 +52,7 @@ class _SuccessfulRegistrationWidgetState
     );
   }
 
-  FFButtonWidget backToHomeButton() {
+  FFButtonWidget _backToHomeButton() {
     return FFButtonWidget(
       onPressed: () async {
         setState(() => _loadingButton = true);
