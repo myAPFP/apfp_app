@@ -79,7 +79,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       onTap: () async {
         await Navigator.push(
           context,
-          transition(LogInPageWidget()),
+          transition(WelcomeWidget()),
         );
       },
       child: backToHomeText(),
