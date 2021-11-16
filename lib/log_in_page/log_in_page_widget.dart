@@ -1,3 +1,5 @@
+import 'package:apfp/home/home_widget.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -52,12 +54,12 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  PageTransition transition() {
+  PageTransition transition(Widget widget) {
     return PageTransition(
       type: PageTransitionType.leftToRight,
       duration: Duration(milliseconds: 125),
       reverseDuration: Duration(milliseconds: 125),
-      child: WelcomeWidget(),
+      child: widget,
     );
   }
 
@@ -77,7 +79,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       onTap: () async {
         await Navigator.push(
           context,
-          transition(),
+          transition(LogInPageWidget()),
         );
       },
       child: backToHomeText(),
@@ -249,7 +251,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         try {
           await Navigator.push(
             context,
-            transition(),
+            transition(HomeWidget()),
           );
         } finally {
           setState(() => _loadingButton = false);
