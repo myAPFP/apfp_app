@@ -1,8 +1,6 @@
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AlertWidget extends StatefulWidget {
   AlertWidget({Key key}) : super(key: key);
@@ -29,14 +27,12 @@ class _AlertWidgetState extends State<AlertWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
               child: InkWell(
                 onTap: () async {
-                  await Navigator.push(
+                  await Navigator.pushAndRemoveUntil(
                     context,
-                    PageTransition(
-                      type: PageTransitionType.leftToRight,
-                      duration: Duration(milliseconds: 125),
-                      reverseDuration: Duration(milliseconds: 125),
-                      child: NavBarPage(initialPage: 'Alerts'),
+                    MaterialPageRoute(
+                      builder: (context) => NavBarPage(initialPage: 'Alerts'),
                     ),
+                    (r) => false,
                   );
                 },
                 child: Text(
@@ -68,6 +64,7 @@ class _AlertWidgetState extends State<AlertWidget> {
                 'This is an example paragraph for an announcement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia libero ut sapien maximus, vitae viverra nulla iaculis. \n\nUt lacinia ultrices augue, hendrerit faucibus odio venenatis ac. Vivamus aliquet dignissim nunc. Quisque non orci a diam faucibus mollis eget ac magna. Fusce ex urna, interdum nec enim nec, vehicula tempus lacus.',
                 style: FlutterFlowTheme.bodyText1.override(
                   fontFamily: 'Open Sans',
+                  color: FlutterFlowTheme.primaryColor,
                   fontSize: 16,
                 ),
               ),
