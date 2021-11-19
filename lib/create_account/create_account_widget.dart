@@ -38,26 +38,27 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _backButtonRow(),
-            _informationDialog(),
-            _nameRow(),
-            _emailLabel(),
-            _emailTextBox(),
-            _passwordLabel(),
-            _passwordTextBox(),
-            _confirmPasswordLabel(),
-            _confirmPasswordTextBox(),
-            _createAccountButton()
-          ],
-        ),
-      ),
-    );
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _backButtonRow(),
+                _informationDialog(),
+                _nameRow(),
+                _emailLabel(),
+                _emailTextBox(),
+                _passwordLabel(),
+                _passwordTextBox(),
+                _confirmPasswordLabel(),
+                _confirmPasswordTextBox(),
+                _createAccountButton()
+              ],
+            ),
+          ),
+        ));
   }
 
   Row _backButtonRow() {
@@ -505,8 +506,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 ),
                 suffixIcon: InkWell(
                   onTap: () => setState(
-                    () =>
-                        _confirmPasswordVisibility = !_confirmPasswordVisibility,
+                    () => _confirmPasswordVisibility =
+                        !_confirmPasswordVisibility,
                   ),
                   child: Icon(
                     _confirmPasswordVisibility

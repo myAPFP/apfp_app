@@ -33,21 +33,21 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _returnHome(),
-            _textBoxLabel("Email Address",
-                alignment: MainAxisAlignment.start, lPadding: 20),
-            _emailRow(),
-            _textBoxLabel("Password",
-                alignment: MainAxisAlignment.start, lPadding: 20),
-            _passwordRow(),
-            _logIn(),
-            _forgotPasswordLabel()
-          ],
-        ),
-      ),
+          child: SingleChildScrollView(
+              child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          _returnHome(),
+          _textBoxLabel("Email Address",
+              alignment: MainAxisAlignment.start, lPadding: 20),
+          _emailRow(),
+          _textBoxLabel("Password",
+              alignment: MainAxisAlignment.start, lPadding: 20),
+          _passwordRow(),
+          _logIn(),
+          _forgotPasswordLabel()
+        ],
+      ))),
     );
   }
 
