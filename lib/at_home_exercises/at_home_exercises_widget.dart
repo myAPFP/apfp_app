@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import '../exercise_video/exercise_video_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,10 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     _preloadExistingVideos();
   }
 

@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_youtube_player.dart';
 import '../main.dart';
@@ -21,6 +23,11 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp
+    ]);
     _loadVideoData();
   }
 
