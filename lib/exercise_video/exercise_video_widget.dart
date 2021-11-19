@@ -33,51 +33,53 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                  child: _goBackToAllVideos(),
+    return WillPopScope(
+        onWillPop: () async => !Navigator.of(context).userGestureInProgress,
+        child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                      child: _goBackToAllVideos(),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
+                      child: _youtubePlayer(),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                      child: _videoTitle,
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                      child: _videoSource,
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+                      child: _exerciseType,
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+                      child: _difficulty,
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                      child: _descriptionHeader,
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+                      child: _descriptionBody,
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
-                  child: _youtubePlayer(),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                  child: _videoTitle,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-                  child: _videoSource,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-                  child: _exerciseType,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-                  child: _difficulty,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-                  child: _descriptionHeader,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-                  child: _descriptionBody,
-                )
-              ],
-            ),
-          ),
-        ));
+              ),
+            )));
   }
 
   void _loadVideoData() async {
