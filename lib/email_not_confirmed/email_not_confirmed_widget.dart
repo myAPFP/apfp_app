@@ -5,7 +5,7 @@ import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
 
 class EmailNotConfirmedWidget extends StatefulWidget {
-  EmailNotConfirmedWidget({Key key}) : super(key: key);
+  EmailNotConfirmedWidget({Key? key}) : super(key: key);
 
   @override
   _EmailNotConfirmedWidgetState createState() =>

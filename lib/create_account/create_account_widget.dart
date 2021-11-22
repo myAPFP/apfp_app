@@ -6,20 +6,20 @@ import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccountWidget extends StatefulWidget {
-  CreateAccountWidget({Key key}) : super(key: key);
+  CreateAccountWidget({Key? key}) : super(key: key);
 
   @override
   _CreateAccountWidgetState createState() => _CreateAccountWidgetState();
 }
 
 class _CreateAccountWidgetState extends State<CreateAccountWidget> {
-  TextEditingController _firstNameController;
-  TextEditingController _lastNameController;
-  TextEditingController _emailController;
-  TextEditingController _passwordController;
-  bool _passwordVisibility;
-  TextEditingController _confirmPasswordController;
-  bool _confirmPasswordVisibility;
+  TextEditingController? _firstNameController;
+  TextEditingController? _lastNameController;
+  TextEditingController? _emailController;
+  TextEditingController? _passwordController;
+  late bool _passwordVisibility;
+  TextEditingController? _confirmPasswordController;
+  late bool _confirmPasswordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

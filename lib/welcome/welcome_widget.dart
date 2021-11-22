@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 }
 
 class WelcomeWidget extends StatefulWidget {
-  WelcomeWidget({Key key}) : super(key: key);
+  WelcomeWidget({Key? key}) : super(key: key);
 
   @override
   _WelcomeWidgetState createState() => _WelcomeWidgetState();

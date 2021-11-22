@@ -5,7 +5,7 @@ import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
 
 class SuccessfulRegistrationWidget extends StatefulWidget {
-  SuccessfulRegistrationWidget({Key key}) : super(key: key);
+  SuccessfulRegistrationWidget({Key? key}) : super(key: key);
 
   @override
   _SuccessfulRegistrationWidgetState createState() =>

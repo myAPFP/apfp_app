@@ -5,7 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AlertsWidget extends StatefulWidget {
-  AlertsWidget({Key key}) : super(key: key);
+  AlertsWidget({Key? key}) : super(key: key);
 
   @override
   _AlertsWidgetState createState() => _AlertsWidgetState();

@@ -7,9 +7,9 @@ import 'at_home_exercises/at_home_exercises_widget.dart';
 import 'activity/activity_widget.dart';
 
 class NavBarPage extends StatefulWidget {
-  NavBarPage({Key key, this.initialPage}) : super(key: key);
+  NavBarPage({Key? key, this.initialPage}) : super(key: key);
 
-  final String initialPage;
+  final String? initialPage;
 
   @override
   _NavBarPageState createState() => _NavBarPageState();

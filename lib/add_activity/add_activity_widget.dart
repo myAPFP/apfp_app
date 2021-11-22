@@ -6,16 +6,16 @@ import '../main.dart';
 import 'package:flutter/material.dart';
 
 class AddActivityWidget extends StatefulWidget {
-  AddActivityWidget({Key key}) : super(key: key);
+  AddActivityWidget({Key? key}) : super(key: key);
 
   @override
   _AddActivityWidgetState createState() => _AddActivityWidgetState();
 }
 
 class _AddActivityWidgetState extends State<AddActivityWidget> {
-  String exercisetype;
-  TextEditingController activityNameTextController;
-  String duration;
+  String? exercisetype;
+  TextEditingController? activityNameTextController;
+  String? duration;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -87,7 +87,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
-  Text _header({String text, TextStyle style}) {
+  Text _header({required String text, TextStyle? style}) {
     return Text(text, style: style);
   }
 
@@ -105,7 +105,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     });
   }
 
-  TextStyle _bodyText1Style({double fontSize, FontWeight fontWeight}) {
+  TextStyle _bodyText1Style({double? fontSize, FontWeight? fontWeight}) {
     return FlutterFlowTheme.bodyText1.override(
       fontFamily: 'Open Sans',
       color: FlutterFlowTheme.primaryColor,
@@ -114,7 +114,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
-  Padding _dropDown(List<String> options, String valueToChange) {
+  Padding _dropDown(List<String> options, String? valueToChange) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: FlutterFlowDropDown(

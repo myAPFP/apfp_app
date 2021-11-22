@@ -4,7 +4,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ActivityWidget extends StatefulWidget {
-  ActivityWidget({Key key}) : super(key: key);
+  ActivityWidget({Key? key}) : super(key: key);
 
   @override
   _ActivityWidgetState createState() => _ActivityWidgetState();
@@ -86,9 +86,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   Align _align(
-      {AlignmentDirectional alignment,
-      EdgeInsetsDirectional padding,
-      Widget child}) {
+      {required AlignmentDirectional alignment,
+      required EdgeInsetsDirectional padding,
+      Widget? child}) {
     return Align(
       alignment: alignment,
       child: Padding(
@@ -140,11 +140,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   Card _createActivityCard(
-      {String duration,
-      String totalCal,
-      String type,
-      String name,
-      IconData icon}) {
+      {String? duration,
+      String? totalCal,
+      String? type,
+      String? name,
+      IconData? icon}) {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       color: Colors.white,
@@ -212,11 +212,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   Padding _addPadding(
-      {double height,
-      BorderRadius borderRadius,
-      Color color,
-      Border border,
-      Widget child}) {
+      {double? height,
+      BorderRadius? borderRadius,
+      Color? color,
+      Border? border,
+      Widget? child}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(

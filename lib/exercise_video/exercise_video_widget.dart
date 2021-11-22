@@ -6,7 +6,7 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class ExerciseVideoWidget extends StatefulWidget {
   final String url;
-  ExerciseVideoWidget({Key key, @required this.url}) : super(key: key);
+  ExerciseVideoWidget({Key? key, required this.url}) : super(key: key);
 
   @override
   _ExerciseVideoWidgetState createState() => _ExerciseVideoWidgetState();
@@ -14,9 +14,9 @@ class ExerciseVideoWidget extends StatefulWidget {
 
 class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  Video _video;
-  Text _videoTitle, _videoSource, _exerciseType;
-  Text _difficulty, _descriptionHeader, _descriptionBody;
+  late Video _video;
+  Text? _videoTitle, _videoSource, _exerciseType;
+  Text? _difficulty, _descriptionHeader, _descriptionBody;
 
   @override
   void initState() {
@@ -143,7 +143,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
         style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
   }
 
-  TextStyle _bodyText1Style({double fontSize, FontWeight fontWeight}) {
+  TextStyle _bodyText1Style({double? fontSize, FontWeight? fontWeight}) {
     return FlutterFlowTheme.bodyText1.override(
       fontFamily: 'Open Sans',
       color: FlutterFlowTheme.primaryColor,

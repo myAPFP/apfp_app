@@ -3,7 +3,7 @@ import '../main.dart';
 import 'package:flutter/material.dart';
 
 class AlertWidget extends StatefulWidget {
-  AlertWidget({Key key}) : super(key: key);
+  AlertWidget({Key? key}) : super(key: key);
 
   @override
   _AlertWidgetState createState() => _AlertWidgetState();

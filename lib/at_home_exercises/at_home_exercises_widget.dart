@@ -3,7 +3,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AtHomeExercisesWidget extends StatefulWidget {
-  AtHomeExercisesWidget({Key key}) : super(key: key);
+  AtHomeExercisesWidget({Key? key}) : super(key: key);
 
   @override
   _AtHomeExercisesWidgetState createState() => _AtHomeExercisesWidgetState();
@@ -72,10 +72,10 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   Padding _videoTrainingCard(
-      {@required String exercises,
-      @required String difficultyLevel,
-      @required String url,
-      @required String label}) {
+      {required String exercises,
+      required String difficultyLevel,
+      required String url,
+      required String label}) {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(10, 8, 10, 0),
         child: InkWell(
