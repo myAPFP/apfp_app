@@ -571,13 +571,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     user?.updateDisplayName(_getFullName());
     user?.sendEmailVerification();
     if (user != null) {
-      fire_auth.refreshUser(user);
-      if (user.emailVerified) {
-        _onSuccess();
-      } else {
-        FireAuth.showToast("Please verify your email address.");
-      }
+      _onSuccess();
     }
+    else FireAuth.showToast("There was a problem creating your account.");
   }
 
   void _onSuccess() async {
