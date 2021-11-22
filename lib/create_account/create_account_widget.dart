@@ -185,6 +185,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
+          keyboardType: TextInputType.name,
           controller: _firstNameController,
           obscureText: false,
           decoration: InputDecoration(
@@ -257,6 +258,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
+        keyboardType: TextInputType.name,
         controller: _lastNameController,
         obscureText: false,
         decoration: InputDecoration(
@@ -342,6 +344,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               obscureText: false,
               decoration: InputDecoration(
