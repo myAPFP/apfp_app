@@ -42,7 +42,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            _returnHome(),
+            _returnToWelcome(),
             _textBoxLabel("Email Address",
                 alignment: MainAxisAlignment.start, lPadding: 20),
             _emailRow(),
@@ -108,7 +108,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding _returnHome() {
+  Padding _returnToWelcome() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 80),
       child: Row(
