@@ -1,9 +1,13 @@
+import 'package:apfp/fire_auth/fire_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:apfp/validator/validator.dart';
 
 class LogInPageWidget extends StatefulWidget {
   LogInPageWidget({Key? key}) : super(key: key);
@@ -18,6 +22,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   late bool passwordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final verify = Validator();
+  final fire_auth = FireAuth();
 
   @override
   void initState() {
@@ -49,6 +55,18 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         ),
       ),
     );
+  }
+
+  String _getEmail() {
+    return _emailController!.text.trim().toLowerCase();
+  }
+
+  String _getPassword() {
+    return _passwordController!.text.trim();
+  }
+
+  bool _allInputsIsValid() {
+    return verify.isValidEmail(_getEmail());
   }
 
   PageTransition _transitionTo(Widget child) {
@@ -245,18 +263,38 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  void _signIn() async {
+    if (_allInputsIsValid()) {
+      await FireAuth.signInUsingEmailPassword(
+          email: _getEmail(), password: _getPassword(), context: context);
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        FireAuth.refreshUser(currentUser);
+        if (currentUser.emailVerified) {
+          _goHome();
+        } else {
+          FireAuth.showToast("Please verify your email address.");
+        }
+      }
+    }
+  }
+
+  void _goHome() async {
+    setState(() => _loadingButton = true);
+    try {
+      await Navigator.push(
+        context,
+        _transitionTo(NavBarPage(initialPage: "Home")),
+      );
+    } finally {
+      setState(() => _loadingButton = false);
+    }
+  }
+
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
       onPressed: () async {
-        setState(() => _loadingButton = true);
-        try {
-          await Navigator.push(
-            context,
-            _transitionTo(NavBarPage(initialPage: "Home")),
-          );
-        } finally {
-          setState(() => _loadingButton = false);
-        }
+        _signIn();
       },
       text: 'Log In',
       options: FFButtonOptions(
