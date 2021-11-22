@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import '../create_account/create_account_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
@@ -6,6 +8,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../log_in_page/log_in_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../main.dart';
 
 void main() {
   //Locking it to portrait orientation.
@@ -63,44 +66,78 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
+  Future<FirebaseApp> _initFirebaseApp() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null && user.emailVerified) {
+      await Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NavBarPage(initialPage: "Home"),
+        ),
+        (r) => false,
+      );
+    }
+    return firebaseApp;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Image.asset(
-                'assets/images/BSU_APFP_logo.png',
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 200,
-                fit: BoxFit.fitWidth,
-              ).animated([animationsMap['imageOnPageLoadAnimation']]),
-              _welcomeText(),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
-                child: _logInButton(),
+      body: FutureBuilder(
+          future: _initFirebaseApp(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _routeUI();
+            }
+            return Center(child: _showInitializingAppDialog());
+          }),
+    );
+  }
+
+  SafeArea _routeUI() {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Image.asset(
+              'assets/images/BSU_APFP_logo.png',
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 200,
+              fit: BoxFit.fitWidth,
+            ).animated([animationsMap['imageOnPageLoadAnimation']]),
+            _welcomeText(),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+              child: _logInButton(),
+            ),
+            Align(
+              alignment: AlignmentDirectional(0, 0),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                child: _contactText(),
               ),
-              Align(
-                alignment: AlignmentDirectional(0, 0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                  child: _contactText(),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                child: _createAccountButton(),
-              )
-            ],
-          ),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+              child: _createAccountButton(),
+            )
+          ],
         ),
       ),
     );
+  }
+
+  Row _showInitializingAppDialog() {
+    return new Row(children: [
+      CircularProgressIndicator(),
+      Container(
+          margin: EdgeInsets.only(left: 7), child: Text("Initializing App..."))
+    ]);
   }
 
   Text _welcomeText() {
