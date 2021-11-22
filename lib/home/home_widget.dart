@@ -1,3 +1,6 @@
+import 'package:apfp/fire_auth/fire_auth.dart';
+import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
+import 'package:apfp/welcome/welcome_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +13,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final fire_auth = FireAuth();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +27,45 @@ class _HomeWidgetState extends State<HomeWidget> {
             _recentAnnouncementsLabel(),
             _announcements("Alert 1", "Alert 2", "Alert 3"),
             _activityLabel(),
-            _activityGUI()
+            _activityGUI(),
+            // TODO: Find a place for this sign out button
+            // TODO: Maybe make a settings screen?
+            _signOutButton()
           ],
         ),
+      ),
+    );
+  }
+
+  FFButtonWidget _signOutButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        fire_auth.signOut();
+        await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WelcomeWidget(),
+          ),
+          (r) => false,
+        );
+      },
+      text: 'Sign Out',
+      options: FFButtonOptions(
+        width: 170,
+        height: 50,
+        color: Color(0xFFBA0C2F),
+        textStyle: FlutterFlowTheme.subtitle2.override(
+          fontFamily: 'Open Sans',
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+        ),
+        elevation: 2,
+        borderSide: BorderSide(
+          color: Colors.transparent,
+          width: 1,
+        ),
+        borderRadius: 12,
       ),
     );
   }

@@ -566,12 +566,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   void _createAccount() async {
-    User? user = await FireAuth.registerUsingEmailPassword(
+    User? user = await fire_auth.registerUsingEmailPassword(
         name: _getFullName(), email: _getEmail(), password: _getPassword());
     user?.updateDisplayName(_getFullName());
     user?.sendEmailVerification();
     if (user != null) {
-      FireAuth.refreshUser(user);
+      fire_auth.refreshUser(user);
       if (user.emailVerified) {
         _onSuccess();
       } else {

@@ -265,11 +265,11 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   void _signIn() async {
     if (_allInputsIsValid()) {
-      await FireAuth.signInUsingEmailPassword(
+      await fire_auth.signInUsingEmailPassword(
           email: _getEmail(), password: _getPassword(), context: context);
       User? currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
-        FireAuth.refreshUser(currentUser);
+        fire_auth.refreshUser(currentUser);
         if (currentUser.emailVerified) {
           _goHome();
         } else {
