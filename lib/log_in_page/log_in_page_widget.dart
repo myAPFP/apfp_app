@@ -120,6 +120,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   TextFormField _emailTextBox() {
     return TextFormField(
+      keyboardType: TextInputType.emailAddress,
       controller: _emailController,
       obscureText: false,
       decoration: InputDecoration(
