@@ -42,7 +42,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       padding: const EdgeInsets.only(top:50.0),
       child: FFButtonWidget(
         onPressed: () async {
-          fire_auth.signOut();
+          await fire_auth.signOut();
           await Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
