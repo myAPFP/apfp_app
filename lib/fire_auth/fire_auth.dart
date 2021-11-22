@@ -87,7 +87,6 @@ class FireAuth {
   }
 
   signOut() async {
-    showToast("Signing out..");
     await FirebaseAuth.instance.signOut();
     showToast("Signed out.");
   }
