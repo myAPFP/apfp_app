@@ -49,7 +49,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             _textBoxLabel("Password",
                 alignment: MainAxisAlignment.start, lPadding: 20),
             _passwordRow(),
-            _logIn(),
+            _paddedLogInButton(),
             _forgotPasswordLabel()
           ],
         ),
@@ -263,7 +263,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  void _signIn() async {
+  void _login() async {
     if (_allInputsIsValid()) {
       await fire_auth.signInUsingEmailPassword(
           email: _getEmail(), password: _getPassword(), context: context);
@@ -294,7 +294,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
       onPressed: () async {
-        _signIn();
+        _login();
       },
       text: 'Log In',
       options: FFButtonOptions(
@@ -318,7 +318,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding _logIn() {
+  Padding _paddedLogInButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
       child: Row(
