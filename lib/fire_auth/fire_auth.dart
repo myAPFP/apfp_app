@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FireAuth {
   static const COLLECTION_NAME = 'registered users';
 
-  static Future<User?> registerUsingEmailPassword(
+  Future<User?> registerUsingEmailPassword(
       {required String name,
       required String email,
       required String password}) async {
@@ -32,7 +32,7 @@ class FireAuth {
     return user;
   }
 
-  static Future<User?> signInUsingEmailPassword(
+  Future<User?> signInUsingEmailPassword(
       {required String email,
       required String password,
       required BuildContext context}) async {
@@ -63,20 +63,20 @@ class FireAuth {
         .get();
   }
 
-  static Future<User?> refreshUser(User user) async {
+  Future<User?> refreshUser(User user) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     await user.reload();
     User? refreshedUser = auth.currentUser;
     return refreshedUser;
   }
 
-  static sendEMmailNotification(User? user) async {
+  sendEMmailNotification(User? user) async {
     if (user != null) {
       await user.sendEmailVerification();
     }
   }
 
-  static reSendEmailVerification() async {
+  reSendEmailVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       refreshUser(user);
@@ -86,11 +86,11 @@ class FireAuth {
     }
   }
 
-  static signOut() async {
+  signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  static deleteCurrentUser() async {
+  deleteCurrentUser() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       FirebaseFirestore.instance
@@ -106,8 +106,7 @@ class FireAuth {
     }
   }
 
-  static void resetPassword(
-      {required String email, required Function onError}) async {
+  resetPassword({required String email, required Function onError}) async {
     final auth = FirebaseAuth.instance;
     await auth
         .sendPasswordResetEmail(email: email)
