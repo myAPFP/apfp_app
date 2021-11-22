@@ -4,8 +4,8 @@ import 'package:flutter/scheduler.dart';
 class FlutterFlowDropDown extends StatefulWidget {
   const FlutterFlowDropDown({
     this.initialOption,
-    @required this.options,
-    @required this.onChanged,
+    required this.options,
+    required this.onChanged,
     this.icon,
     this.width,
     this.height,
@@ -19,19 +19,19 @@ class FlutterFlowDropDown extends StatefulWidget {
     this.hidesUnderline = false,
   });
 
-  final String initialOption;
+  final String? initialOption;
   final List<String> options;
-  final Function(String) onChanged;
-  final Widget icon;
-  final double width;
-  final double height;
-  final Color fillColor;
-  final TextStyle textStyle;
-  final double elevation;
-  final double borderWidth;
-  final double borderRadius;
-  final Color borderColor;
-  final EdgeInsetsGeometry margin;
+  final Function(String?) onChanged;
+  final Widget? icon;
+  final double? width;
+  final double? height;
+  final Color? fillColor;
+  final TextStyle? textStyle;
+  final double? elevation;
+  final double? borderWidth;
+  final double? borderRadius;
+  final Color? borderColor;
+  final EdgeInsetsGeometry? margin;
   final bool hidesUnderline;
 
   @override
@@ -39,7 +39,7 @@ class FlutterFlowDropDown extends StatefulWidget {
 }
 
 class _FlutterFlowDropDownState extends State<FlutterFlowDropDown> {
-  String dropDownValue;
+  String? dropDownValue;
   List<String> get effectiveOptions =>
       widget.options.isEmpty ? ['[Option]'] : widget.options;
 
@@ -62,7 +62,7 @@ class _FlutterFlowDropDownState extends State<FlutterFlowDropDown> {
                 ),
               ))
           .toList(),
-      elevation: widget.elevation.toInt(),
+      elevation: widget.elevation!.toInt(),
       onChanged: (value) {
         dropDownValue = value;
         widget.onChanged(value);
@@ -75,13 +75,13 @@ class _FlutterFlowDropDownState extends State<FlutterFlowDropDown> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.borderRadius ?? 28),
         border: Border.all(
-          color: widget.borderColor,
-          width: widget.borderWidth,
+          color: widget.borderColor!,
+          width: widget.borderWidth!,
         ),
         color: widget.fillColor,
       ),
       child: Padding(
-        padding: widget.margin,
+        padding: widget.margin!,
         child: widget.hidesUnderline
             ? DropdownButtonHideUnderline(child: dropdownWidget)
             : dropdownWidget,

@@ -12,8 +12,8 @@ enum AnimationTrigger {
 class AnimationInfo {
   AnimationInfo({
     this.curve = Curves.easeInOut,
-    @required this.trigger,
-    @required this.duration,
+    required this.trigger,
+    required this.duration,
     this.delay = 0,
     this.fadeIn = false,
     this.slideOffset,
@@ -25,9 +25,9 @@ class AnimationInfo {
   final int duration;
   final int delay;
   final bool fadeIn;
-  final Offset slideOffset;
+  final Offset? slideOffset;
   final double scale;
-  CurvedAnimation curvedAnimation;
+  late CurvedAnimation curvedAnimation;
 }
 
 void createAnimation(AnimationInfo animation, TickerProvider vsync) {
@@ -62,8 +62,8 @@ void setupTriggerAnimations(
 }
 
 extension AnimatedWidgetExtension on Widget {
-  Widget animated(Iterable<AnimationInfo> animationInfos) {
-    final animationInfo = animationInfos.first;
+  Widget animated(Iterable<AnimationInfo?> animationInfos) {
+    final animationInfo = animationInfos.first!;
     return AnimatedBuilder(
       animation: animationInfo.curvedAnimation,
       builder: (context, child) {
@@ -72,7 +72,7 @@ extension AnimatedWidgetExtension on Widget {
           final animationValue = 1 - animationInfo.curvedAnimation.value;
           returnedWidget = Transform.translate(
             child: child,
-            offset: animationInfo.slideOffset * -animationValue,
+            offset: animationInfo.slideOffset! * -animationValue,
           );
         }
         if (animationInfo.scale > 0 && animationInfo.scale != 1.0) {
@@ -93,7 +93,7 @@ extension AnimatedWidgetExtension on Widget {
             child: returnedWidget,
           );
         }
-        return returnedWidget;
+        return returnedWidget!;
       },
       child:
           animationInfos.length > 1 ? animated(animationInfos.skip(1)) : this,

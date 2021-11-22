@@ -31,7 +31,7 @@ const kYoutubeAspectRatio = 16 / 9;
 
 class FlutterFlowYoutubePlayer extends StatefulWidget {
   const FlutterFlowYoutubePlayer({
-    @required this.url,
+    required this.url,
     this.width,
     this.height,
     this.autoPlay = false,
@@ -42,8 +42,8 @@ class FlutterFlowYoutubePlayer extends StatefulWidget {
   });
 
   final String url;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final bool autoPlay;
   final bool mute;
   final bool looping;
@@ -56,7 +56,7 @@ class FlutterFlowYoutubePlayer extends StatefulWidget {
 }
 
 class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
-  YoutubePlayerController _controller;
+  YoutubePlayerController? _controller;
 
   @override
   void initState() {
@@ -70,12 +70,12 @@ class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
     super.dispose();
   }
 
-  double get width => widget.width == null || widget.width >= double.infinity
+  double? get width => widget.width == null || widget.width! >= double.infinity
       ? MediaQuery.of(context).size.width
       : widget.width;
 
-  double get height => widget.height == null || widget.height >= double.infinity
-      ? (width != null ? width / kYoutubeAspectRatio : null)
+  double? get height => widget.height == null || widget.height! >= double.infinity
+      ? (width != null ? width! / kYoutubeAspectRatio : null)
       : widget.height;
 
   void initializePlayer() {
@@ -102,7 +102,7 @@ class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
   @override
   Widget build(BuildContext context) => _controller != null
       ? YoutubePlayerControllerProvider(
-          controller: _controller,
+          controller: _controller!,
           child: youtubeBox(const YoutubePlayerIFrame()),
         )
       : youtubeBox(Container(color: Colors.transparent));
@@ -117,8 +117,8 @@ class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
       );
 }
 
-String convertUrlToId(String url, {bool trimWhitespaces = true}) {
-  assert(url?.isNotEmpty ?? false, 'Url cannot be empty');
+String? convertUrlToId(String url, {bool trimWhitespaces = true}) {
+  assert(url.isNotEmpty, 'Url cannot be empty');
   if (!url.contains("http") && (url.length == 11)) return url;
   if (trimWhitespaces) url = url.trim();
   for (final regex in [
@@ -130,7 +130,7 @@ String convertUrlToId(String url, {bool trimWhitespaces = true}) {
     ),
     RegExp(r"^https:\/\/youtu\.be\/([_\-a-zA-Z0-9]{11}).*$")
   ]) {
-    Match match = regex.firstMatch(url);
+    Match? match = regex.firstMatch(url);
     if (match != null && match.groupCount >= 1) return match.group(1);
   }
   return null;

@@ -6,16 +6,16 @@ import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
 
 class LogInPageWidget extends StatefulWidget {
-  LogInPageWidget({Key key}) : super(key: key);
+  LogInPageWidget({Key? key}) : super(key: key);
 
   @override
   _LogInPageWidgetState createState() => _LogInPageWidgetState();
 }
 
 class _LogInPageWidgetState extends State<LogInPageWidget> {
-  TextEditingController _emailController;
-  TextEditingController _passwordController;
-  bool passwordVisibility;
+  TextEditingController? _emailController;
+  TextEditingController? _passwordController;
+  late bool passwordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
