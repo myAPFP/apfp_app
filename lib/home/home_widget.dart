@@ -37,35 +37,38 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  FFButtonWidget _signOutButton() {
-    return FFButtonWidget(
-      onPressed: () async {
-        fire_auth.signOut();
-        await Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WelcomeWidget(),
+  Padding _signOutButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top:50.0),
+      child: FFButtonWidget(
+        onPressed: () async {
+          fire_auth.signOut();
+          await Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WelcomeWidget(),
+            ),
+            (r) => false,
+          );
+        },
+        text: 'Sign Out',
+        options: FFButtonOptions(
+          width: 170,
+          height: 50,
+          color: Color(0xFFBA0C2F),
+          textStyle: FlutterFlowTheme.subtitle2.override(
+            fontFamily: 'Open Sans',
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
           ),
-          (r) => false,
-        );
-      },
-      text: 'Sign Out',
-      options: FFButtonOptions(
-        width: 170,
-        height: 50,
-        color: Color(0xFFBA0C2F),
-        textStyle: FlutterFlowTheme.subtitle2.override(
-          fontFamily: 'Open Sans',
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
+          elevation: 2,
+          borderSide: BorderSide(
+            color: Colors.transparent,
+            width: 1,
+          ),
+          borderRadius: 12,
         ),
-        elevation: 2,
-        borderSide: BorderSide(
-          color: Colors.transparent,
-          width: 1,
-        ),
-        borderRadius: 12,
       ),
     );
   }
