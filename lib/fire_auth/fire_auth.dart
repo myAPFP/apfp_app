@@ -56,7 +56,7 @@ class FireAuth {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getRegisteredUser(String email) {
-    FireAuth.showToast("Verifying User...");
+    FireAuth.showToast("Verifying Membership...");
     return FirebaseFirestore.instance
         .collection(FireAuth.COLLECTION_NAME)
         .where('email', isEqualTo: email)
