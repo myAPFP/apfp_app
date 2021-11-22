@@ -55,6 +55,14 @@ class FireAuth {
     return user;
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getRegisteredUser(String email) {
+    FireAuth.showToast("Verifying User...");
+    return FirebaseFirestore.instance
+        .collection(FireAuth.COLLECTION_NAME)
+        .where('email', isEqualTo: email)
+        .get();
+  }
+
   static Future<User?> refreshUser(User user) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     await user.reload();
