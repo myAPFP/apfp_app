@@ -79,15 +79,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(10, 8, 10, 0),
         child: InkWell(
-            // ! ========== Delete before production
-            onLongPress: () {
-              _addVideoToList(_videoTrainingCard(
-                  label: 'High Intensity Interval Training',
-                  exercises: "Squats/Shoulder Press, Face-pulls",
-                  difficultyLevel: "5",
-                  url: "https://youtu.be/mV30rcc30o4"));
-            },
-            // ! =========== Delete before production
             onTap: () async {
               await Navigator.push(
                 context,
