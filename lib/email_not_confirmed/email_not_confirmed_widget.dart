@@ -16,20 +16,6 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.tertiaryColor,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [_contextMessage(), _resendEmailRow(), _returnToHome()],
-        ),
-      ),
-    );
-  }
-
   Padding _contextMessage() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 70, 0, 0),
@@ -132,6 +118,20 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
         borderRadius: 12,
       ),
       loading: _loadingButton,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: FlutterFlowTheme.tertiaryColor,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [_contextMessage(), _resendEmailRow(), _returnToHome()],
+        ),
+      ),
     );
   }
 }

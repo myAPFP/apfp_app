@@ -81,22 +81,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     return firebaseApp;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: FutureBuilder(
-          future: _initFirebaseApp(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return _routeUI();
-            }
-            return Center(child: _showInitializingAppDialog());
-          }),
-    );
-  }
-
   SafeArea _routeUI() {
     return SafeArea(
       child: Padding(
@@ -225,6 +209,22 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         ),
         borderRadius: 12,
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: FutureBuilder(
+          future: _initFirebaseApp(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _routeUI();
+            }
+            return Center(child: _showInitializingAppDialog());
+          }),
     );
   }
 }
