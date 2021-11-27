@@ -33,30 +33,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     passwordVisibility = false;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _returnToWelcome(),
-            _textBoxLabel("Email Address",
-                alignment: MainAxisAlignment.start, lPadding: 20),
-            _emailRow(),
-            _textBoxLabel("Password",
-                alignment: MainAxisAlignment.start, lPadding: 20),
-            _passwordRow(),
-            _paddedLogInButton(),
-            _forgotPasswordLabel()
-          ],
-        ),
-      ),
-    );
-  }
-
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
@@ -346,6 +322,30 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             child: _textBoxLabel("Forgot Your Password?"),
           )
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _returnToWelcome(),
+            _textBoxLabel("Email Address",
+                alignment: MainAxisAlignment.start, lPadding: 20),
+            _emailRow(),
+            _textBoxLabel("Password",
+                alignment: MainAxisAlignment.start, lPadding: 20),
+            _passwordRow(),
+            _paddedLogInButton(),
+            _forgotPasswordLabel()
+          ],
+        ),
       ),
     );
   }

@@ -14,48 +14,6 @@ class AlertsWidget extends StatefulWidget {
 class _AlertsWidgetState extends State<AlertsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.tertiaryColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _paddedHeader(_makeHeader('Unread Announcements'))
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Expanded(child: _makeAlert())],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _paddedHeader(_makeHeader('Previous Announcements')),
-                ],
-              ),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert())
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   InkWell _makeAlert() {
     return InkWell(
       onTap: () async {
@@ -103,6 +61,48 @@ class _AlertsWidgetState extends State<AlertsWidget> {
           color: Colors.white,
         ),
         child: header,
+      ),
+    );
+  }
+
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: FlutterFlowTheme.tertiaryColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _paddedHeader(_makeHeader('Unread Announcements'))
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Expanded(child: _makeAlert())],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _paddedHeader(_makeHeader('Previous Announcements')),
+                ],
+              ),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert()),
+              _paddedAlert(_makeAlert())
+            ],
+          ),
+        ),
       ),
     );
   }

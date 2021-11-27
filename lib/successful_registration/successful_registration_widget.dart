@@ -17,29 +17,6 @@ class _SuccessfulRegistrationWidgetState
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
-                child: _informationDialog(),
-              ),
-            ),
-            _backToHomeButton()
-          ],
-        ),
-      ),
-    );
-  }
-
   Text _informationDialog() {
     return Text(
       'Thank you for registering! Please check your email and confirm your email address before logging in.',
@@ -90,6 +67,29 @@ class _SuccessfulRegistrationWidgetState
         borderRadius: 12,
       ),
       loading: _loadingButton,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Align(
+              alignment: AlignmentDirectional(0, 0),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
+                child: _informationDialog(),
+              ),
+            ),
+            _backToHomeButton()
+          ],
+        ),
+      ),
     );
   }
 }
