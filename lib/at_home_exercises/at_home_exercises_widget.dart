@@ -21,26 +21,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     _preloadExistingVideos();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [_paddedHeaderText()[0], _paddedHeaderText()[1]],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: _getVideoList(),
-            ),
-          ]),
-        )));
-  }
-
   List<Padding> _paddedHeaderText() {
     return [
       Padding(
@@ -169,5 +149,25 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     setState(() {
       videoList.add(videoTrainingCard);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [_paddedHeaderText()[0], _paddedHeaderText()[1]],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: _getVideoList(),
+            ),
+          ]),
+        )));
   }
 }

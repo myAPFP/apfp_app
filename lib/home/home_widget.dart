@@ -15,28 +15,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final fire_auth = FireAuth();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _recentAnnouncementsLabel(),
-            _announcements("Alert 1", "Alert 2", "Alert 3"),
-            _activityLabel(),
-            _activityGUI(),
-            // TODO: Find a place for this sign out button
-            // TODO: Maybe make a settings screen?
-            _signOutButton()
-          ],
-        ),
-      ),
-    );
-  }
-
   Padding _signOutButton() {
     return Padding(
       padding: const EdgeInsets.only(top:50.0),
@@ -221,6 +199,28 @@ class _HomeWidgetState extends State<HomeWidget> {
               fontSize: 16,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _recentAnnouncementsLabel(),
+            _announcements("Alert 1", "Alert 2", "Alert 3"),
+            _activityLabel(),
+            _activityGUI(),
+            // TODO: Find a place for this sign out button
+            // TODO: Maybe make a settings screen?
+            _signOutButton()
+          ],
         ),
       ),
     );

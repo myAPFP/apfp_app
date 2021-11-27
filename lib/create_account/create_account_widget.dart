@@ -42,31 +42,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     _confirmPasswordVisibility = false;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _backButtonRow(),
-            _informationDialog(),
-            _nameRow(),
-            _emailLabel(),
-            _emailTextBox(),
-            _passwordLabel(),
-            _passwordTextBox(),
-            _confirmPasswordLabel(),
-            _confirmPasswordTextBox(),
-            _createAccountButton()
-          ],
-        ),
-      ),
-    );
-  }
-
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
@@ -625,6 +600,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             loading: _loadingButton,
           )
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _backButtonRow(),
+            _informationDialog(),
+            _nameRow(),
+            _emailLabel(),
+            _emailTextBox(),
+            _passwordLabel(),
+            _passwordTextBox(),
+            _confirmPasswordLabel(),
+            _confirmPasswordTextBox(),
+            _createAccountButton()
+          ],
+        ),
       ),
     );
   }
