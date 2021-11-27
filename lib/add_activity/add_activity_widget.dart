@@ -140,14 +140,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          await Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.leftToRight,
-                duration: Duration(milliseconds: 125),
-                reverseDuration: Duration(milliseconds: 125),
-                child: NavBarPage(initialPage: 'Activity'),
-              ));
+          Navigator.pop(context);
         } finally {
           setState(() => _loadingButton = false);
         }
