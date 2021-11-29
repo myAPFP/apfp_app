@@ -1,9 +1,13 @@
+import 'package:apfp/fire_auth/fire_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:apfp/validator/validator.dart';
 
 class LogInPageWidget extends StatefulWidget {
   LogInPageWidget({Key? key}) : super(key: key);
@@ -18,6 +22,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   late bool passwordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final verify = Validator();
+  final fire_auth = FireAuth();
 
   @override
   void initState() {
@@ -27,28 +33,16 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     passwordVisibility = false;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _returnHome(),
-            _textBoxLabel("Email Address",
-                alignment: MainAxisAlignment.start, lPadding: 20),
-            _emailRow(),
-            _textBoxLabel("Password",
-                alignment: MainAxisAlignment.start, lPadding: 20),
-            _passwordRow(),
-            _logIn(),
-            _forgotPasswordLabel()
-          ],
-        ),
-      ),
-    );
+  String _getEmail() {
+    return _emailController!.text.trim().toLowerCase();
+  }
+
+  String _getPassword() {
+    return _passwordController!.text.trim();
+  }
+
+  bool _allInputsIsValid() {
+    return verify.isValidEmail(_getEmail());
   }
 
   PageTransition _transitionTo(Widget child) {
@@ -90,7 +84,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding _returnHome() {
+  Padding _returnToWelcome() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 80),
       child: Row(
@@ -102,6 +96,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   TextFormField _emailTextBox() {
     return TextFormField(
+      keyboardType: TextInputType.emailAddress,
       controller: _emailController,
       obscureText: false,
       decoration: InputDecoration(
@@ -245,18 +240,38 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  void _login() async {
+    if (_allInputsIsValid()) {
+      await fire_auth.signInUsingEmailPassword(
+          email: _getEmail(), password: _getPassword(), context: context);
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        fire_auth.refreshUser(currentUser);
+        if (currentUser.emailVerified) {
+          _goHome();
+        } else {
+          FireAuth.showToast("Please verify your email address.");
+        }
+      }
+    }
+  }
+
+  void _goHome() async {
+    setState(() => _loadingButton = true);
+    try {
+      await Navigator.push(
+        context,
+        _transitionTo(NavBarPage(initialPage: "Home")),
+      );
+    } finally {
+      setState(() => _loadingButton = false);
+    }
+  }
+
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
       onPressed: () async {
-        setState(() => _loadingButton = true);
-        try {
-          await Navigator.push(
-            context,
-            _transitionTo(NavBarPage(initialPage: "Home")),
-          );
-        } finally {
-          setState(() => _loadingButton = false);
-        }
+        _login();
       },
       text: 'Log In',
       options: FFButtonOptions(
@@ -280,7 +295,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding _logIn() {
+  Padding _paddedLogInButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
       child: Row(
@@ -307,6 +322,30 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             child: _textBoxLabel("Forgot Your Password?"),
           )
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _returnToWelcome(),
+            _textBoxLabel("Email Address",
+                alignment: MainAxisAlignment.start, lPadding: 20),
+            _emailRow(),
+            _textBoxLabel("Password",
+                alignment: MainAxisAlignment.start, lPadding: 20),
+            _passwordRow(),
+            _paddedLogInButton(),
+            _forgotPasswordLabel()
+          ],
+        ),
       ),
     );
   }

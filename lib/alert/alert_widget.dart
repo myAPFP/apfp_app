@@ -12,36 +12,6 @@ class AlertWidget extends StatefulWidget {
 class _AlertWidgetState extends State<AlertWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: _backToList(),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
-              child: _announcementTitle("Example Announcement Title"),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
-              child: _announcementParagraph(
-                  "This is an example paragraph for an announcement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia libero ut sapien maximus, vitae viverra nulla iaculis. \n\nUt lacinia ultrices augue, hendrerit faucibus odio venenatis ac. Vivamus aliquet dignissim nunc. Quisque non orci a diam faucibus mollis eget ac magna. Fusce ex urna, interdum nec enim nec, vehicula tempus lacus."),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   InkWell _backToList() {
     return InkWell(
       onTap: () async {
@@ -84,6 +54,36 @@ class _AlertWidgetState extends State<AlertWidget> {
         fontFamily: 'Open Sans',
         color: FlutterFlowTheme.primaryColor,
         fontSize: 16,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+              child: _backToList(),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
+              child: _announcementTitle("Example Announcement Title"),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
+              child: _announcementParagraph(
+                  "This is an example paragraph for an announcement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia libero ut sapien maximus, vitae viverra nulla iaculis. \n\nUt lacinia ultrices augue, hendrerit faucibus odio venenatis ac. Vivamus aliquet dignissim nunc. Quisque non orci a diam faucibus mollis eget ac magna. Fusce ex urna, interdum nec enim nec, vehicula tempus lacus."),
+            )
+          ],
+        ),
       ),
     );
   }

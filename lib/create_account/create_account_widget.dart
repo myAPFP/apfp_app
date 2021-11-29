@@ -1,9 +1,14 @@
+import 'package:apfp/validator/validator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../successful_registration/successful_registration_widget.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:apfp/fire_auth/fire_auth.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   CreateAccountWidget({Key? key}) : super(key: key);
@@ -22,6 +27,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   late bool _confirmPasswordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final verify = Validator();
+  final fire_auth = FireAuth();
 
   @override
   void initState() {
@@ -35,29 +42,22 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     _confirmPasswordVisibility = false;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _backButtonRow(),
-            _informationDialog(),
-            _nameRow(),
-            _emailLabel(),
-            _emailTextBox(),
-            _passwordLabel(),
-            _passwordTextBox(),
-            _confirmPasswordLabel(),
-            _confirmPasswordTextBox(),
-            _createAccountButton()
-          ],
-        ),
-      ),
-    );
+  String _getEmail() {
+    return _emailController!.text.trim().toLowerCase();
+  }
+
+  String _getFullName() {
+    return "${_firstNameController!.text.trim()}" +
+        " ${_lastNameController!.text.trim()}";
+  }
+
+  String _getPassword() {
+    return _passwordController!.text.trim();
+  }
+
+  bool _allInputsIsValid() {
+    // TODO: Add more input validation 
+    return verify.isValidEmail(_getEmail());
   }
 
   Row _backButtonRow() {
@@ -161,6 +161,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
+          keyboardType: TextInputType.name,
           controller: _firstNameController,
           obscureText: false,
           decoration: InputDecoration(
@@ -233,6 +234,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
+        keyboardType: TextInputType.name,
         controller: _lastNameController,
         obscureText: false,
         decoration: InputDecoration(
@@ -318,6 +320,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               obscureText: false,
               decoration: InputDecoration(
@@ -505,8 +508,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 ),
                 suffixIcon: InkWell(
                   onTap: () => setState(
-                    () =>
-                        _confirmPasswordVisibility = !_confirmPasswordVisibility,
+                    () => _confirmPasswordVisibility =
+                        !_confirmPasswordVisibility,
                   ),
                   child: Icon(
                     _confirmPasswordVisibility
@@ -526,6 +529,50 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  void _verifyAPFPCredentials() {
+    if (_allInputsIsValid()) {
+      fire_auth
+          .getRegisteredUser(_getEmail())
+          .then((QuerySnapshot querySnapshot) {
+        if (querySnapshot.size != 0) {
+          _createAccount();
+        } else {
+          FireAuth.showToast(
+              "You must be a member of the APFP to use this app.");
+        }
+      });
+    }
+  }
+
+  void _createAccount() async {
+    User? user = await fire_auth.registerUsingEmailPassword(
+        name: _getFullName(), email: _getEmail(), password: _getPassword());
+    user?.updateDisplayName(_getFullName());
+    user?.sendEmailVerification();
+    if (user != null) {
+      fire_auth.refreshUser(user);
+      if (user.emailVerified) {
+        _onSuccess();
+      } else {
+        FireAuth.showToast("Please verify your email address.");
+      }
+    }
+  }
+
+  void _onSuccess() async {
+    setState(() => _loadingButton = true);
+    try {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SuccessfulRegistrationWidget(),
+        ),
+      );
+    } finally {
+      setState(() => _loadingButton = false);
+    }
+  }
+
   Padding _createAccountButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
@@ -535,17 +582,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         children: [
           FFButtonWidget(
             onPressed: () async {
-              setState(() => _loadingButton = true);
-              try {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SuccessfulRegistrationWidget(),
-                  ),
-                );
-              } finally {
-                setState(() => _loadingButton = false);
-              }
+              _verifyAPFPCredentials();
             },
             text: 'Create Account',
             options: FFButtonOptions(
@@ -568,6 +605,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             loading: _loadingButton,
           )
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _backButtonRow(),
+            _informationDialog(),
+            _nameRow(),
+            _emailLabel(),
+            _emailTextBox(),
+            _passwordLabel(),
+            _passwordTextBox(),
+            _confirmPasswordLabel(),
+            _confirmPasswordTextBox(),
+            _createAccountButton()
+          ],
+        ),
       ),
     );
   }
