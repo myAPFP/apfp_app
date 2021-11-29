@@ -56,6 +56,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   bool _allInputsIsValid() {
+    // TODO: Add more input validation 
     return verify.isValidEmail(_getEmail());
   }
 
@@ -549,9 +550,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     user?.updateDisplayName(_getFullName());
     user?.sendEmailVerification();
     if (user != null) {
-      _onSuccess();
+      fire_auth.refreshUser(user);
+      if (user.emailVerified) {
+        _onSuccess();
+      } else {
+        FireAuth.showToast("Please verify your email address.");
+      }
     }
-    else FireAuth.showToast("There was a problem creating your account.");
   }
 
   void _onSuccess() async {
