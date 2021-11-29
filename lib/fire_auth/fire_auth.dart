@@ -25,7 +25,7 @@ class FireAuth {
           showToast('The password provided is too weak.');
           break;
         case 'email-already-in-use':
-          showToast('The account already exists for that email.');
+          showToast('An account already exists with this email.');
           break;
       }
     }
@@ -50,6 +50,8 @@ class FireAuth {
         case 'wrong-password':
           showToast('Wrong password provided.');
           break;
+        case 'user-disabled':
+          showToast('Account is disabled. Please contact the admin.');
       }
     }
     return user;
@@ -118,8 +120,6 @@ class FireAuth {
 
   static void showToast(String msg) {
     Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM);
+        msg: msg, toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM);
   }
 }
