@@ -52,6 +52,7 @@ class FireAuth {
           break;
         case 'user-disabled':
           showToast('Account is disabled. Please contact the admin.');
+          break;
       }
     }
     return user;
