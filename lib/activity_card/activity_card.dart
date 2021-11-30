@@ -8,16 +8,20 @@ class ActivityCard {
   String? duration;
   String? totalCal;
 
-  ActivityCard({String? duration,
+  Card? _card;
+
+  ActivityCard(
+      {String? duration,
       String? totalCal,
       String? type,
       String? name,
       IconData? icon}) {
-    this.name;
-    this.type;
-    this.icon;
-    this.duration;
-    this.totalCal;
+    this.name = name;
+    this.type = type;
+    this.icon = icon;
+    this.duration = duration;
+    this.totalCal = totalCal;
+    _createActivityCard();
   }
 
   Align _align(
@@ -33,8 +37,8 @@ class ActivityCard {
     );
   }
 
-  Card createActivityCard() {
-    return Card(
+  void _createActivityCard() {
+    _card = Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       color: Colors.white,
       elevation: 0,
@@ -96,6 +100,21 @@ class ActivityCard {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Padding paddedActivityCard() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
+      child: Container(
+        child: _card,
+        height: 120,
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xFF54585A)),
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
       ),
     );
   }
