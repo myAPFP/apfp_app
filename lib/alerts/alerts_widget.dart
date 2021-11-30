@@ -13,6 +13,8 @@ class AlertsWidget extends StatefulWidget {
 
 class _AlertsWidgetState extends State<AlertsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Expanded> unReadAnnouncements = [];
+  List<Padding> previousAnnouncements = [];
 
   InkWell _makeAlert() {
     return InkWell(
@@ -65,7 +67,28 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     );
   }
 
-   @override
+  void addToUnRead(Expanded unRead) {
+    setState(() {
+      unReadAnnouncements.add(unRead);
+    });
+  }
+
+  void addToPrevious(Padding previous) {
+    setState(() {
+      previousAnnouncements.add(previous);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    addToUnRead(Expanded(child: _makeAlert()));
+    for (int i = 0; i < 5; i++) {
+      addToPrevious(_paddedAlert(_makeAlert()));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -78,14 +101,12 @@ class _AlertsWidgetState extends State<AlertsWidget> {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _paddedHeader(_makeHeader('Unread Announcements'))
-                ],
+                children: [_paddedHeader(_makeHeader('Unread Announcements'))],
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Expanded(child: _makeAlert())],
+                children: unReadAnnouncements,
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -94,12 +115,10 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                   _paddedHeader(_makeHeader('Previous Announcements')),
                 ],
               ),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert()),
-              _paddedAlert(_makeAlert())
+
+              Column(
+                children: previousAnnouncements,
+              )
             ],
           ),
         ),
