@@ -99,7 +99,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                   duration: duration,
                   totalCal: _getTotalCal(),
                   name: _getName(),
-                  type: exercisetype).paddedActivityCard();
+                  type: exercisetype)
+              .paddedActivityCard();
           Navigator.pop(context, ac);
         } finally {
           setState(() => _loadingButton = false);
