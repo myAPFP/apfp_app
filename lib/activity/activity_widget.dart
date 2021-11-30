@@ -1,7 +1,10 @@
+import 'package:focused_menu/modals.dart';
+
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
 
 class ActivityWidget extends StatefulWidget {
@@ -56,29 +59,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     );
   }
 
-  FFButtonWidget _addActivityButton() {
-    return FFButtonWidget(
-      onPressed: () async {
-        setState(() => _loadingButton = true);
-        try {
-          Card result = await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddActivityWidget()));
-          addCard(_addPadding(
-              height: 120,
-              color: Colors.transparent,
-              border: Border.all(color: Color(0xFF54585A)),
-              borderRadius: BorderRadius.circular(10),
-              child: result));
-        } finally {
-          setState(() => _loadingButton = false);
-        }
-      },
-      text: '+ Add New Activity',
-      options: _ffButtonOptions(),
-      loading: _loadingButton,
-    );
-  }
-
   Padding _addPadding(
       {double? height,
       BorderRadius? borderRadius,
@@ -99,6 +79,24 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     );
   }
 
+  FFButtonWidget _addActivityButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        setState(() => _loadingButton = true);
+        try {
+          Padding result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddActivityWidget()));
+          addCard(result);
+        } finally {
+          setState(() => _loadingButton = false);
+        }
+      },
+      text: '+ Add New Activity',
+      options: _ffButtonOptions(),
+      loading: _loadingButton,
+    );
+  }
+
   void addCard(Padding card) {
     setState(() {
       cards.add(card);
@@ -109,31 +107,21 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   void initState() {
     super.initState();
 
-    addCard(_addPadding(
-        height: 120,
-        color: Colors.transparent,
-        border: Border.all(color: Color(0xFF54585A)),
-        borderRadius: BorderRadius.circular(10),
-        child: ActivityCard(
-                icon: Icons.sports_basketball_sharp,
-                duration: "30 min",
-                totalCal: "300",
-                name: "Basketball",
-                type: "Cardio")
-            .createActivityCard()));
+    addCard(ActivityCard(
+            icon: Icons.sports_basketball_sharp,
+            duration: "30 min",
+            totalCal: "300",
+            name: "Basketball",
+            type: "Cardio")
+        .paddedActivityCard());
 
-    addCard(_addPadding(
-        height: 120,
-        color: Colors.transparent,
-        border: Border.all(color: Color(0xFF54585A)),
-        borderRadius: BorderRadius.circular(10),
-        child: ActivityCard(
-                icon: Icons.directions_walk_sharp,
-                duration: "30 min",
-                totalCal: "150",
-                name: "Walking",
-                type: "Cardio")
-            .createActivityCard()));
+    addCard(ActivityCard(
+            icon: Icons.directions_walk_sharp,
+            duration: "30 min",
+            totalCal: "150",
+            name: "Walking",
+            type: "Cardio")
+        .paddedActivityCard());
   }
 
   @override
@@ -147,7 +135,47 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _headerTextRow('Today\'s Activity'),
-              Column(children: cards),
+              Column(
+                  children: cards
+                      .map((e) => FocusedMenuHolder(
+                          menuWidth: MediaQuery.of(context).size.width * 0.50,
+                          blurSize: 5.0,
+                          menuItemExtent: 45,
+                          menuBoxDecoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0))),
+                          duration: Duration(milliseconds: 100),
+                          animateMenuItems: true,
+                          blurBackgroundColor: Colors.black54,
+                          bottomOffsetHeight: 100,
+                          openWithTap: true,
+                          menuItems: <FocusedMenuItem>[
+                            // FocusedMenuItem(title: Text("Open"),trailingIcon: Icon(Icons.open_in_new) ,onPressed: (){
+                            //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ScreenTwo()));
+                            // }),
+                            FocusedMenuItem(
+                                title: Text("Share"),
+                                trailingIcon: Icon(Icons.share),
+                                onPressed: () {}),
+                            FocusedMenuItem(
+                                title: Text("Favorite"),
+                                trailingIcon: Icon(Icons.favorite_border),
+                                onPressed: () {}),
+                            FocusedMenuItem(
+                                title: Text("Delete",
+                                    style: TextStyle(color: Colors.redAccent)),
+                                trailingIcon:
+                                    Icon(Icons.delete, color: Colors.redAccent),
+                                onPressed: () {
+                                  setState(() {
+                                    cards.remove(e);
+                                  });
+                                })
+                          ],
+                          onPressed: () {},
+                          child: e))
+                      .toList()),
               _addPadding(
                   height: 80,
                   child: null,
