@@ -94,12 +94,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          final ac = ActivityCard(
+          Padding ac = ActivityCard(
                   icon: Icons.block_rounded,
                   duration: duration,
                   totalCal: _getTotalCal(),
                   name: _getName(),
-                  type: exercisetype).createActivityCard();
+                  type: exercisetype).paddedActivityCard();
           Navigator.pop(context, ac);
         } finally {
           setState(() => _loadingButton = false);
