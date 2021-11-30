@@ -13,11 +13,11 @@ class ActivityCard {
       String? type,
       String? name,
       IconData? icon}) {
-    this.name;
-    this.type;
-    this.icon;
-    this.duration;
-    this.totalCal;
+    this.name = name;
+    this.type = type;
+    this.icon = icon;
+    this.duration = duration;
+    this.totalCal = totalCal;
   }
 
   Align _align(
