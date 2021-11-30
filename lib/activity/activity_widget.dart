@@ -1,4 +1,5 @@
 import '../add_activity/add_activity_widget.dart';
+import '../activity_card/activity_card.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class ActivityWidget extends StatefulWidget {
 }
 
 class _ActivityWidgetState extends State<ActivityWidget> {
+  List<Padding> cards = [];
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -31,19 +33,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           ),
         ),
       ],
-    );
-  }
-
-  Align _align(
-      {required AlignmentDirectional alignment,
-      required EdgeInsetsDirectional padding,
-      Widget? child}) {
-    return Align(
-      alignment: alignment,
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
     );
   }
 
@@ -72,12 +61,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddActivityWidget(),
-            ),
-          );
+          Card result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddActivityWidget()));
+          addCard(_addPadding(
+              height: 120,
+              color: Colors.transparent,
+              border: Border.all(color: Color(0xFF54585A)),
+              borderRadius: BorderRadius.circular(10),
+              child: result));
         } finally {
           setState(() => _loadingButton = false);
         }
@@ -85,78 +76,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       text: '+ Add New Activity',
       options: _ffButtonOptions(),
       loading: _loadingButton,
-    );
-  }
-
-  Card _createActivityCard(
-      {String? duration,
-      String? totalCal,
-      String? type,
-      String? name,
-      IconData? icon}) {
-    return Card(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      color: Colors.white,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-            child: Stack(
-              children: [
-                _align(
-                    alignment: AlignmentDirectional(-1.13, 0.04),
-                    padding: EdgeInsetsDirectional.all(0),
-                    child: Icon(
-                      icon,
-                      color: Color(0xFF54585A),
-                      size: 80,
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(103.56, -0.17),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 20, 0, 0),
-                    child: Text(
-                      '$duration                       $totalCal cals',
-                      style: FlutterFlowTheme.bodyText2.override(
-                        fontFamily: 'Open Sans',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(-0.21, 0.31),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 30, 0, 0),
-                    child: Text(
-                      '$type',
-                      style: FlutterFlowTheme.bodyText2.override(
-                        fontFamily: 'Open Sans',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(0, -0.58),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 0, 0, 0),
-                    child: Text(
-                      '$name',
-                      style: FlutterFlowTheme.subtitle2.override(
-                        fontFamily: 'Open Sans',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ))
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 
@@ -180,52 +99,70 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     );
   }
 
+  void addCard(Padding card) {
+    setState(() {
+      cards.add(card);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    addCard(_addPadding(
+        height: 120,
+        color: Colors.transparent,
+        border: Border.all(color: Color(0xFF54585A)),
+        borderRadius: BorderRadius.circular(10),
+        child: ActivityCard(
+                icon: Icons.sports_basketball_sharp,
+                duration: "30 min",
+                totalCal: "300",
+                name: "Basketball",
+                type: "Cardio")
+            .createActivityCard()));
+
+    addCard(_addPadding(
+        height: 120,
+        color: Colors.transparent,
+        border: Border.all(color: Color(0xFF54585A)),
+        borderRadius: BorderRadius.circular(10),
+        child: ActivityCard(
+                icon: Icons.directions_walk_sharp,
+                duration: "30 min",
+                totalCal: "150",
+                name: "Walking",
+                type: "Cardio")
+            .createActivityCard()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _headerTextRow('Today\'s Activity'),
-            _addPadding(
-                height: 120,
-                color: Colors.transparent,
-                border: Border.all(color: Color(0xFF54585A)),
-                borderRadius: BorderRadius.circular(10),
-                child: _createActivityCard(
-                    icon: Icons.sports_basketball_sharp,
-                    duration: "30 min",
-                    totalCal: "300",
-                    name: "Basketball",
-                    type: "Cardio")),
-            _addPadding(
-                height: 120,
-                color: Colors.transparent,
-                border: Border.all(color: Color(0xFF54585A)),
-                borderRadius: BorderRadius.circular(10),
-                child: _createActivityCard(
-                    icon: Icons.directions_walk_sharp,
-                    duration: "30 min",
-                    totalCal: "150",
-                    name: "Walking",
-                    type: "Cardio")),
-            _addPadding(
-                height: 80,
-                child: null,
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                border: null),
-            _addActivityButton(),
-            _addPadding(
-                height: 80,
-                child: null,
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                border: null)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _headerTextRow('Today\'s Activity'),
+              Column(children: cards),
+              _addPadding(
+                  height: 80,
+                  child: null,
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(16),
+                  border: null),
+              _addActivityButton(),
+              _addPadding(
+                  height: 80,
+                  child: null,
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(16),
+                  border: null)
+            ],
+          ),
         ),
       ),
     );
