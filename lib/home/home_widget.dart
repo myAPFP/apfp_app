@@ -13,14 +13,14 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final fire_auth = FireAuth();
+  final fireAuth = FireAuth();
 
   Padding _signOutButton() {
     return Padding(
       padding: const EdgeInsets.only(top:50.0),
       child: FFButtonWidget(
         onPressed: () async {
-          await fire_auth.signOut();
+          await fireAuth.signOut();
           await Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
