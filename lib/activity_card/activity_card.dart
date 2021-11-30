@@ -104,21 +104,16 @@ class ActivityCard {
     );
   }
 
-  Padding paddedActivityCard(
-      {double? height,
-      BorderRadius? borderRadius,
-      Color? color,
-      Border? border,
-      Widget? card}) {
+  Padding paddedActivityCard() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,
-        height: height,
+        height: 120,
         decoration: BoxDecoration(
-          border: border,
-          color: color,
-          borderRadius: borderRadius,
+          border: Border.all(color: Color(0xFF54585A)),
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
     );
