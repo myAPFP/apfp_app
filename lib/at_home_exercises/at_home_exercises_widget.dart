@@ -174,6 +174,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
               mainAxisSize: MainAxisSize.max,
               children: _getVideoList(),
             ),
+            SizedBox(height: 10)
           ]),
         )));
   }
