@@ -157,8 +157,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
