@@ -7,9 +7,9 @@ import 'at_home_exercises/at_home_exercises_widget.dart';
 import 'activity/activity_widget.dart';
 
 class NavBarPage extends StatefulWidget {
-  NavBarPage({Key? key, this.initialPage}) : super(key: key);
+  NavBarPage({Key? key, required this.initialPage}) : super(key: key);
 
-  final String? initialPage;
+  final String initialPage;
 
   @override
   _NavBarPageState createState() => _NavBarPageState();
@@ -21,7 +21,7 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   void initState() {
     super.initState();
-    _currentPage = widget.initialPage ?? _currentPage;
+    _currentPage = widget.initialPage;
   }
 
   @override
@@ -73,7 +73,9 @@ class _NavBarPageState extends State<NavBarPage> {
         currentIndex: tabs.keys.toList().indexOf(_currentPage),
         selectedItemColor: Color(0xFFBA0C2F),
         unselectedItemColor: FlutterFlowTheme.tertiaryColor,
-        onTap: (i) => setState(() => _currentPage = tabs.keys.toList()[i]),
+        onTap: (i) {
+          setState(() => _currentPage = tabs.keys.toList()[i]);
+        },
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
