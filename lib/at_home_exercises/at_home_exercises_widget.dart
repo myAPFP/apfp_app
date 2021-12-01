@@ -44,7 +44,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
           child: Row(mainAxisSize: MainAxisSize.max, children: [
             Expanded(
                 child: Text(
-                    'The following videos are some author you could try at home. They range in exersise type, difficulty and duration.',
+                    'The following videos are some exercises that can be done at home.' +
+                    ' Please remember to be safe when exercising.',
                     style: FlutterFlowTheme.bodyText2.override(
                       fontFamily: 'Open Sans',
                       color: FlutterFlowTheme.primaryColor,
