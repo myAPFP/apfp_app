@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import '../main.dart';
 
 void main() {
-  //Locking it to portrait orientation.
+  //Locking app to portrait orientation.
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
