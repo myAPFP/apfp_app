@@ -615,20 +615,22 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _backButtonRow(),
-            _informationDialog(),
-            _nameRow(),
-            _emailLabel(),
-            _emailTextBox(),
-            _passwordLabel(),
-            _passwordTextBox(),
-            _confirmPasswordLabel(),
-            _confirmPasswordTextBox(),
-            _createAccountButton()
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              _backButtonRow(),
+              _informationDialog(),
+              _nameRow(),
+              _emailLabel(),
+              _emailTextBox(),
+              _passwordLabel(),
+              _passwordTextBox(),
+              _confirmPasswordLabel(),
+              _confirmPasswordTextBox(),
+              _createAccountButton()
+            ],
+          ),
         ),
       ),
     );
