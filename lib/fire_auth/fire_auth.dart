@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireAuth {
   static const REGISTERED_USERS = 'registered users';
+  static const YT_PLAYLIST_IDS = 'youtube playlist ids';
 
   Future<User?> registerUsingEmailPassword(
       {required String name,
@@ -117,6 +118,10 @@ class FireAuth {
         .whenComplete(
             () => showToast("Please check your email to reset your password."))
         .catchError(onError);
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getPlaylistID() {
+    return FirebaseFirestore.instance.collection(YT_PLAYLIST_IDS).get();
   }
 
   static void showToast(String msg) {
