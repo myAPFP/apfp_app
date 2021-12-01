@@ -61,7 +61,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
       required String title,
       required Video video}) {
     if (title.length > 35) {
-      title = "${title.substring(0, 32)}...";
+      title = "${title.substring(0, 30)}...";
     }
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(10, 8, 10, 0),
