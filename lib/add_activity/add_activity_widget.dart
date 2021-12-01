@@ -189,66 +189,63 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
-                child: _goBackButton(),
-              ),
-              Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
-                  child: _header(
-                      text: 'Add New Activity',
-                      style: _bodyText1Style(
-                          fontSize: 30, fontWeight: FontWeight.bold))),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                child: _header(
-                    text: 'Name of Activity',
-                    style: _bodyText1Style(
-                        fontSize: 18, fontWeight: FontWeight.w600)),
-              ),
-              _activityNameTextField(),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                child: _header(
-                    text: 'Calories Burned',
-                    style: _bodyText1Style(
-                        fontSize: 18, fontWeight: FontWeight.w600)),
-              ),
-              _totalCalTextField(),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                child: _header(
-                    text: 'Type of Exercise',
-                    style: _bodyText1Style(
-                        fontSize: 18, fontWeight: FontWeight.w600)),
-              ),
-              _dropDown(exerciseTypeOptions, exercisetype),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                child: _header(
-                    text: 'Duration',
-                    style: _bodyText1Style(
-                        fontSize: 18, fontWeight: FontWeight.w600)),
-              ),
-              _dropDown(durationOptions, duration),
-              Align(
-                alignment: AlignmentDirectional(0, 0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
-                  child: _submitButton(),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
+                  child: _goBackButton(),
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
+                    child: _header(
+                        text: 'Add New Activity',
+                        style: _bodyText1Style(
+                            fontSize: 30, fontWeight: FontWeight.bold))),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                  child: _header(
+                      text: 'Name of Activity',
+                      style: _bodyText1Style(
+                          fontSize: 18, fontWeight: FontWeight.w600)),
+                ),
+                _activityNameTextField(),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                  child: _header(
+                      text: 'Duration',
+                      style: _bodyText1Style(
+                          fontSize: 18, fontWeight: FontWeight.w600)),
+                ),
+                _totalCalTextField(),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                  child: _header(
+                      text: 'Type of Exercise',
+                      style: _bodyText1Style(
+                          fontSize: 18, fontWeight: FontWeight.w600)),
+                ),
+                _dropDown(exerciseTypeOptions, exercisetype),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                  child: _header(
+                      text: 'Duration',
+                      style: _bodyText1Style(
+                          fontSize: 18, fontWeight: FontWeight.w600)),
+                ),
+                _dropDown(durationOptions, duration),
+                Align(
+                  alignment: AlignmentDirectional(0, 0),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
+                    child: _submitButton(),
+                  ),
+                )
+              ]),
+    )));
   }
 }
