@@ -138,7 +138,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   Text _contactText() {
     return Text(
-      'This app is intended for members of the Adult Physical Fitness Program at Ball State University. If you do not have an account, please contact an administrator at <EMAIL>.',
+      'This app is intended for members of the Adult Physical Fitness Program at Ball State University.' +
+      'If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
       style: FlutterFlowTheme.bodyText1.override(
         fontFamily: 'Open Sans',
