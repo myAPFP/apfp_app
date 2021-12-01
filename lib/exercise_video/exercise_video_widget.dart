@@ -48,6 +48,10 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
 
+  /* 
+    If the user uses the system back button or gesture, _onWillPop()
+    is called, which calls _lockPortait() before going back
+  */
   Future<bool> _onWillPop() async {
     _lockPortait();
     Navigator.pop(context, true);
