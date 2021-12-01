@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class ExerciseVideoWidget extends StatefulWidget {
-  final String url;
-  ExerciseVideoWidget({Key? key, required this.url}) : super(key: key);
+  final Video video;
+  ExerciseVideoWidget({Key? key, required this.video}) : super(key: key);
 
   @override
   _ExerciseVideoWidgetState createState() => _ExerciseVideoWidgetState();
@@ -14,9 +14,8 @@ class ExerciseVideoWidget extends StatefulWidget {
 
 class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  late Video _video;
-  Text? _videoTitle, _videoSource, _exerciseType;
-  Text? _difficulty, _descriptionHeader, _descriptionBody;
+  Text? _videoTitle, _videoSource;
+  Text? _descriptionHeader, _descriptionBody;
 
   @override
   void initState() {
@@ -25,22 +24,17 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   }
 
   void _loadVideoData() async {
-    YoutubeExplode yt = YoutubeExplode();
-    _video = await yt.videos.get(widget.url);
     setVideoData();
-    yt.close();
   }
 
   void setVideoData() {
     setState(() {
-      _setVideoTitle(_video.title);
-      _setVideoSource(_video.author);
+      _setVideoTitle(widget.video.title);
+      _setVideoSource(widget.video.author);
       _setDiscriptionHeader("Description");
-      _setDiscriptionBody(_video.description.isEmpty
+      _setDiscriptionBody(widget.video.description.isEmpty
           ? "No Description Provided."
-          : _video.description);
-      _setExerciseType("Type of Exercise");
-      _setDifficulty("Difficulty: example");
+          : widget.video.description);
     });
   }
 
@@ -74,16 +68,6 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
         style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
   }
 
-  void _setExerciseType(String eType) {
-    _exerciseType = Text(eType,
-        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
-  }
-
-  void _setDifficulty(String diff) {
-    _difficulty = Text(diff,
-        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
-  }
-
   void _setDiscriptionHeader(String dHeader) {
     _descriptionHeader = Text(dHeader,
         style: _bodyText1Style(fontSize: 20, fontWeight: FontWeight.bold));
@@ -105,7 +89,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
 
   FlutterFlowYoutubePlayer _youtubePlayer() {
     return FlutterFlowYoutubePlayer(
-      url: widget.url,
+      url: widget.video.url,
       autoPlay: false,
       looping: true,
       mute: false,
@@ -113,6 +97,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
       showFullScreen: true,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,14 +124,6 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
                   child: _videoSource,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-                  child: _exerciseType,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-                  child: _difficulty,
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
