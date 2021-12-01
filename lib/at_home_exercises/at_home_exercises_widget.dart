@@ -1,4 +1,4 @@
-import 'package:apfp/fire_auth/fire_auth.dart';
+import 'package:apfp/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -129,12 +129,12 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   void _preloadExistingVideos() async {
-    final fireAuth = FireAuth();
+    final firestore = FireStore();
     YoutubeExplode yt = YoutubeExplode();
 
     String id = "";
 
-    await fireAuth.getPlaylistID().then((QuerySnapshot querySnapshot) {
+    await firestore.getPlaylistID().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         id = doc["id"];
       });
