@@ -1,6 +1,6 @@
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_youtube_player.dart';
-import '../main.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -20,14 +20,11 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   @override
   void initState() {
     super.initState();
+    _allowLandscape();
     _loadVideoData();
   }
 
-  void _loadVideoData() async {
-    setVideoData();
-  }
-
-  void setVideoData() {
+  void _loadVideoData() {
     setState(() {
       _setVideoTitle(widget.video.title);
       _setVideoSource(widget.video.author);
@@ -38,15 +35,30 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
     });
   }
 
+  void _allowLandscape() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp
+    ]);
+  }
+
+  void _lockPortait() {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  }
+
+  Future<bool> _onWillPop() async {
+    _lockPortait();
+    Navigator.pop(context, true);
+    return false;
+  }
+
   InkWell _goBackToAllVideos() {
     return InkWell(
         onTap: () async {
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    NavBarPage(initialPage: 'AtHomeExercises'),
-              ));
+          _lockPortait();
+          Navigator.pop(context);
         },
         child: Text('< Back to All Videos',
             textAlign: TextAlign.start,
@@ -100,42 +112,45 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                  child: _goBackToAllVideos(),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
-                  child: _youtubePlayer(),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                  child: _videoTitle,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-                  child: _videoSource,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-                  child: _descriptionHeader,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
-                  child: _descriptionBody,
-                )
-              ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                    child: _goBackToAllVideos(),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(10, 25, 10, 0),
+                    child: _youtubePlayer(),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                    child: _videoTitle,
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                    child: _videoSource,
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+                    child: _descriptionHeader,
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
+                    child: _descriptionBody,
+                  )
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }
