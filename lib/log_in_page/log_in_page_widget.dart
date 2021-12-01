@@ -1,4 +1,4 @@
-import 'package:apfp/fire_auth/fire_auth.dart';
+import 'package:apfp/firebase/fire_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';

@@ -8,7 +8,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../successful_registration/successful_registration_widget.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:apfp/fire_auth/fire_auth.dart';
+import 'package:apfp/firebase/fire_auth.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   CreateAccountWidget({Key? key}) : super(key: key);
