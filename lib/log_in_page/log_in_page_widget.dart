@@ -86,7 +86,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   Padding _returnToWelcome() {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 80),
+      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 80),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [_paddedBackButton()],
