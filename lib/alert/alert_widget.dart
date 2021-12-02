@@ -25,12 +25,7 @@ class _AlertWidgetState extends State<AlertWidget> {
       },
       child: Text(
         '< Back to Announcements',
-        style: FlutterFlowTheme.bodyText1.override(
-          fontFamily: 'Open Sans',
-          color: FlutterFlowTheme.secondaryColor,
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-        ),
+        style: FlutterFlowTheme.subtitle2
       ),
     );
   }
@@ -38,23 +33,14 @@ class _AlertWidgetState extends State<AlertWidget> {
   Text _announcementTitle(String text) {
     return Text(
       text,
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        color: FlutterFlowTheme.primaryColor,
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-      ),
+      style: FlutterFlowTheme.title1,
     );
   }
 
   Text _announcementParagraph(String text) {
     return Text(
       text,
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        color: FlutterFlowTheme.primaryColor,
-        fontSize: 16,
-      ),
+      style: FlutterFlowTheme.bodyText1,
     );
   }
 

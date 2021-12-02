@@ -27,12 +27,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 15),
           child: Text(
             text,
-            style: FlutterFlowTheme.title1.override(
-              fontFamily: 'Open Sans',
-              color: FlutterFlowTheme.primaryColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
+            style: FlutterFlowTheme.title1,
           ),
         ),
       ],
@@ -44,12 +39,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       width: 250,
       height: 50,
       color: FlutterFlowTheme.secondaryColor,
-      textStyle: FlutterFlowTheme.subtitle2.override(
-        fontFamily: 'Open Sans',
-        color: Colors.white,
-        fontSize: 24,
-        fontWeight: FontWeight.w600,
-      ),
+      textStyle: FlutterFlowTheme.title2,
       elevation: 2,
       borderSide: BorderSide(
         color: Colors.transparent,
