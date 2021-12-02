@@ -619,6 +619,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              SizedBox(height: 25),
               _backButtonRow(),
               _informationDialog(),
               _nameRow(),
