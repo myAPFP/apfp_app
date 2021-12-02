@@ -86,6 +86,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       child: Padding(
         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           children: [
             Image.asset(
@@ -95,10 +96,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
               fit: BoxFit.fitWidth,
             ).animated([animationsMap['imageOnPageLoadAnimation']]),
             _welcomeText(),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
-              child: _logInButton(),
-            ),
             Align(
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
@@ -107,7 +104,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+              child: _logInButton(),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
               child: _createAccountButton(),
             )
           ],
@@ -139,7 +140,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   Text _contactText() {
     return Text(
       'This app is intended for members of the Adult Physical Fitness Program at Ball State University.' +
-      'If you do not have an account, please contact an administrator at <EMAIL>.',
+          ' If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
       style: FlutterFlowTheme.bodyText1.override(
         fontFamily: 'Open Sans',
