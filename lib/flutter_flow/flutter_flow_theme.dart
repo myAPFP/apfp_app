@@ -7,43 +7,43 @@ class FlutterFlowTheme {
   static const Color secondaryColor = Color(0xFFBA0C2F);
   static const Color tertiaryColor = Color(0xFFFFFFFF);
 
-  String primaryFontFamily = 'Poppins';
-  String secondaryFontFamily = 'Roboto';
+  String primaryFontFamily = 'Open Sans';
+  String secondaryFontFamily = 'Open Sans';
   static TextStyle get title1 => GoogleFonts.getFont(
         'Open Sans',
         color: primaryColor,
-        fontWeight: FontWeight.w600,
-        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        fontSize: 30,
       );
   static TextStyle get title2 => GoogleFonts.getFont(
         'Open Sans',
-        color: primaryColor,
-        fontWeight: FontWeight.w500,
-        fontSize: 22,
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+        fontSize: 24,
       );
   static TextStyle get title3 => GoogleFonts.getFont(
         'Open Sans',
         color: primaryColor,
-        fontWeight: FontWeight.w500,
-        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
       );
   static TextStyle get subtitle1 => GoogleFonts.getFont(
         'Open Sans',
         color: primaryColor,
-        fontWeight: FontWeight.w500,
-        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
       );
   static TextStyle get subtitle2 => GoogleFonts.getFont(
         'Open Sans',
         color: primaryColor,
-        fontWeight: FontWeight.normal,
-        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        fontSize: 22,
       );
   static TextStyle get bodyText1 => GoogleFonts.getFont(
         'Open Sans',
         color: primaryColor,
         fontWeight: FontWeight.normal,
-        fontSize: 14,
+        fontSize: 16,
       );
   static TextStyle get bodyText2 => GoogleFonts.getFont(
         'Open Sans',

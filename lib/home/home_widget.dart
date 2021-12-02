@@ -34,12 +34,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           width: 170,
           height: 50,
           color: Color(0xFFBA0C2F),
-          textStyle: FlutterFlowTheme.subtitle2.override(
-            fontFamily: 'Open Sans',
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: FlutterFlowTheme.title2,
           elevation: 2,
           borderSide: BorderSide(
             color: Colors.transparent,
@@ -59,12 +54,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 20),
           child: Text(
             'Recent\nAnnouncements',
-            style: FlutterFlowTheme.title1.override(
-              fontFamily: 'Open Sans',
-              color: FlutterFlowTheme.primaryColor,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
+            style: FlutterFlowTheme.title1,
           ),
         )
       ],
@@ -74,11 +64,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Text _announcementText(String text) {
     return Text(
       text,
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        color: FlutterFlowTheme.primaryColor,
-        fontSize: 16,
-      ),
+      style: FlutterFlowTheme.bodyText1,
     );
   }
 
@@ -162,12 +148,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
             child: Text(
               'Today\'s Activity',
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Open Sans',
-                color: FlutterFlowTheme.primaryColor,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
+              style: FlutterFlowTheme.title1
             ),
           )
         ],
@@ -193,11 +174,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
           child: Text(
             'This is placeholder text for the graphical activity interface that has yet to be created. ',
-            style: FlutterFlowTheme.bodyText1.override(
-              fontFamily: 'Open Sans',
-              color: FlutterFlowTheme.primaryColor,
-              fontSize: 16,
-            ),
+            style: FlutterFlowTheme.bodyText1,
           ),
         ),
       ),

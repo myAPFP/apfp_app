@@ -59,15 +59,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     });
   }
 
-  TextStyle _bodyText1Style({double? fontSize, FontWeight? fontWeight}) {
-    return FlutterFlowTheme.bodyText1.override(
-      fontFamily: 'Open Sans',
-      color: FlutterFlowTheme.primaryColor,
-      fontSize: fontSize,
-      fontWeight: fontWeight,
-    );
-  }
-
   Padding _dropDown(List<String> options, String? valueToChange) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
@@ -77,7 +68,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         onChanged: (val) => setState(() => valueToChange = val),
         width: MediaQuery.of(context).size.width,
         height: 50,
-        textStyle: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal),
+        textStyle: FlutterFlowTheme.bodyText1,
         fillColor: Colors.white,
         elevation: 2,
         borderColor: FlutterFlowTheme.primaryColor,
@@ -111,12 +102,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         width: 120,
         height: 50,
         color: FlutterFlowTheme.secondaryColor,
-        textStyle: FlutterFlowTheme.subtitle2.override(
-          fontFamily: 'Open Sans',
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: FlutterFlowTheme.title2,
         elevation: 2,
         borderSide: BorderSide(
           color: Colors.transparent,
@@ -141,12 +127,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
               ));
         },
         child: Text('< Go Back',
-            style: FlutterFlowTheme.bodyText1.override(
-              fontFamily: 'Open Sans',
-              color: FlutterFlowTheme.secondaryColor,
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            )));
+            style: FlutterFlowTheme.subtitle2
+            ));
   }
 
   Padding textField(TextEditingController? controller) {
@@ -172,7 +154,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        style: _bodyText1Style(fontSize: 20, fontWeight: FontWeight.w600),
+        style: FlutterFlowTheme.bodyText1,
       ),
     );
   }
@@ -204,38 +186,33 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
                     child: _header(
                         text: 'Add New Activity',
-                        style: _bodyText1Style(
-                            fontSize: 30, fontWeight: FontWeight.bold))),
+                        style: FlutterFlowTheme.title1)),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                   child: _header(
                       text: 'Name of Activity',
-                      style: _bodyText1Style(
-                          fontSize: 18, fontWeight: FontWeight.w600)),
+                      style: FlutterFlowTheme.title3),
                 ),
                 _activityNameTextField(),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                   child: _header(
                       text: 'Duration',
-                      style: _bodyText1Style(
-                          fontSize: 18, fontWeight: FontWeight.w600)),
+                      style: FlutterFlowTheme.title3),
                 ),
                 _totalCalTextField(),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                   child: _header(
                       text: 'Type of Exercise',
-                      style: _bodyText1Style(
-                          fontSize: 18, fontWeight: FontWeight.w600)),
+                      style: FlutterFlowTheme.title3),
                 ),
                 _dropDown(exerciseTypeOptions, exercisetype),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                   child: _header(
                       text: 'Duration',
-                      style: _bodyText1Style(
-                          fontSize: 18, fontWeight: FontWeight.w600)),
+                      style: FlutterFlowTheme.title3),
                 ),
                 _dropDown(durationOptions, duration),
                 Align(
