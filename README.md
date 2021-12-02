@@ -1,6 +1,6 @@
 # Adult Physical Fitness Program App
 
-The refactored branch contains the application screens with navigation (with all code being refactored of course) for the Adult Physical Fitness Program application. The application screens do not have implemented functionality besides navigation through screens.
+The refactored branch contains the application screens with navigation (with all code being refactored of course) for the Adult Physical Fitness Program application. 
 
 To run the application:
 * Ensure you have flutter and dart SDK installed on your device.
