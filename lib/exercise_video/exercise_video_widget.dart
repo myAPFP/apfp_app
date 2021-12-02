@@ -66,41 +66,28 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
         },
         child: Text('< Back to All Videos',
             textAlign: TextAlign.start,
-            style: FlutterFlowTheme.bodyText1.override(
-              fontFamily: 'Open Sans',
-              color: FlutterFlowTheme.secondaryColor,
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            )));
+            style: FlutterFlowTheme.subtitle2
+      ));
   }
 
   void _setVideoTitle(String vTitle) {
     _videoTitle = Text(vTitle,
-        style: _bodyText1Style(fontSize: 30, fontWeight: FontWeight.bold));
+        style: FlutterFlowTheme.title1);
   }
 
   void _setVideoSource(String vSource) {
     _videoSource = Text(vSource,
-        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
+        style: FlutterFlowTheme.bodyText1);
   }
 
   void _setDiscriptionHeader(String dHeader) {
     _descriptionHeader = Text(dHeader,
-        style: _bodyText1Style(fontSize: 20, fontWeight: FontWeight.bold));
+        style: FlutterFlowTheme.subtitle1);
   }
 
   void _setDiscriptionBody(String dBody) {
     _descriptionBody = Text(dBody,
-        style: _bodyText1Style(fontSize: 16, fontWeight: FontWeight.normal));
-  }
-
-  TextStyle _bodyText1Style({double? fontSize, FontWeight? fontWeight}) {
-    return FlutterFlowTheme.bodyText1.override(
-      fontFamily: 'Open Sans',
-      color: FlutterFlowTheme.primaryColor,
-      fontSize: fontSize,
-      fontWeight: fontWeight,
-    );
+        style: FlutterFlowTheme.bodyText1);
   }
 
   FlutterFlowYoutubePlayer _youtubePlayer() {

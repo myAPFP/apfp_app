@@ -65,36 +65,21 @@ class ActivityCard {
                     padding: EdgeInsetsDirectional.fromSTEB(100, 20, 0, 0),
                     child: Text(
                       '$duration                       $totalCal cals',
-                      style: FlutterFlowTheme.bodyText2.override(
-                        fontFamily: 'Open Sans',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: FlutterFlowTheme.bodyText1,
                     )),
                 _align(
                     alignment: AlignmentDirectional(-0.21, 0.31),
                     padding: EdgeInsetsDirectional.fromSTEB(100, 30, 0, 0),
                     child: Text(
                       '$type',
-                      style: FlutterFlowTheme.bodyText2.override(
-                        fontFamily: 'Open Sans',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: FlutterFlowTheme.bodyText1,
                     )),
                 _align(
                     alignment: AlignmentDirectional(0, -0.58),
                     padding: EdgeInsetsDirectional.fromSTEB(100, 0, 0, 0),
                     child: Text(
                       '$name',
-                      style: FlutterFlowTheme.subtitle2.override(
-                        fontFamily: 'Open Sans',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: FlutterFlowTheme.subtitle1,
                     ))
               ],
             ),

@@ -128,11 +128,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   Text _welcomeText() {
     return Text(
       'Welcome!',
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        color: FlutterFlowTheme.primaryColor,
+      style: FlutterFlowTheme.title1.override(
         fontSize: 48,
-        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -142,10 +139,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       'This app is intended for members of the Adult Physical Fitness Program at Ball State University.' +
           ' If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        color: FlutterFlowTheme.primaryColor,
-        fontSize: 20,
+      style: FlutterFlowTheme.subtitle1.override(
+        fontWeight: FontWeight.normal
       ),
     );
   }
@@ -166,12 +161,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         width: 170,
         height: 50,
         color: Color(0xFFBA0C2F),
-        textStyle: FlutterFlowTheme.subtitle2.override(
-          fontFamily: 'Open Sans',
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: FlutterFlowTheme.title2,
         elevation: 2,
         borderSide: BorderSide(
           color: Colors.transparent,
@@ -198,12 +188,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         width: 250,
         height: 50,
         color: Colors.white,
-        textStyle: FlutterFlowTheme.subtitle2.override(
-          fontFamily: 'Open Sans',
-          color: FlutterFlowTheme.primaryColor,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: FlutterFlowTheme.title2.override(
+          color: FlutterFlowTheme.primaryColor),
         elevation: 2,
         borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
