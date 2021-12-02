@@ -44,12 +44,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     return AutoSizeText(
       text,
       textAlign: TextAlign.start,
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        color: FlutterFlowTheme.primaryColor,
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-      ),
+      style: FlutterFlowTheme.title1,
     );
   }
 

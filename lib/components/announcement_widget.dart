@@ -70,11 +70,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                             child: AutoSizeText(
                               'Example announcement subject',
                               textAlign: TextAlign.start,
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Open Sans',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: FlutterFlowTheme.subtitle1
                             ),
                           )
                         ],
@@ -97,9 +93,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                           child: AutoSizeText(
                             'Example announcement information',
                             textAlign: TextAlign.start,
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Open Sans',
-                              fontSize: 18,
+                            style: FlutterFlowTheme.title3.override(
                               fontWeight: FontWeight.w300,
                             ),
                           ),
