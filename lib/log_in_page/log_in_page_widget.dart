@@ -1,6 +1,5 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -57,11 +56,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   Text _backToHomeText() {
     return Text(
       '< Back to Home',
-      style: FlutterFlowTheme.title2.override(
-        fontFamily: 'Open Sans',
-        color: Color(0xFFBA0C2F),
-        fontWeight: FontWeight.w600,
-      ),
+      style: FlutterFlowTheme.subtitle2
     );
   }
 
@@ -101,10 +96,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       obscureText: false,
       decoration: InputDecoration(
         hintText: 'example@bsu.edu',
-        hintStyle: FlutterFlowTheme.bodyText1.override(
-          fontFamily: 'Open Sans',
-          fontSize: 16,
-        ),
+        hintStyle: FlutterFlowTheme.bodyText1,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Colors.black,
@@ -126,10 +118,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           ),
         ),
       ),
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        fontSize: 16,
-      ),
+      style: FlutterFlowTheme.bodyText1,
       textAlign: TextAlign.start,
     );
   }
@@ -209,12 +198,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         child: Row(mainAxisAlignment: alignment, children: [
           Text(text,
               textAlign: TextAlign.center,
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Open Sans',
-                color: FlutterFlowTheme.primaryColor,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ))
+              style: FlutterFlowTheme.title3)
         ]));
   }
 
@@ -278,12 +262,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         width: 150,
         height: 50,
         color: Color(0xFFBA0C2F),
-        textStyle: FlutterFlowTheme.bodyText1.override(
-          fontFamily: 'Open Sans',
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: FlutterFlowTheme.title2,
         elevation: 2,
         borderSide: BorderSide(
           color: Colors.transparent,

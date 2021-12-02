@@ -21,10 +21,8 @@ class _SuccessfulRegistrationWidgetState
     return Text(
       'Thank you for registering! Please check your email and confirm your email address before logging in.',
       textAlign: TextAlign.center,
-      style: FlutterFlowTheme.bodyText1.override(
-        fontFamily: 'Open Sans',
-        fontSize: 24,
-        fontWeight: FontWeight.w500,
+      style: FlutterFlowTheme.title2.override(
+        color: FlutterFlowTheme.primaryColor
       ),
     );
   }
@@ -52,13 +50,7 @@ class _SuccessfulRegistrationWidgetState
         width: 180,
         height: 50,
         color: Colors.white,
-        textStyle: FlutterFlowTheme.subtitle2.override(
-          fontFamily: 'Open Sans',
-          color: Colors.black,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          decoration: TextDecoration.underline,
-        ),
+        textStyle: FlutterFlowTheme.title2,
         elevation: 2,
         borderSide: BorderSide(
           color: Color(0xFFBA0C2F),

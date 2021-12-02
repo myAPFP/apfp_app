@@ -86,12 +86,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               },
               child: Text(
                 '< Back',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.secondaryColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: FlutterFlowTheme.subtitle2,
               ),
             ),
           ),
@@ -116,12 +111,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             child: Text(
               'Welcome to the Adult Physical Fitness Program at Ball State University! Please enter the details below to create your account.',
               textAlign: TextAlign.center,
-              style: FlutterFlowTheme.title2.override(
-                fontFamily: 'Open Sans',
-                color: FlutterFlowTheme.primaryColor,
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-              ),
+              style: FlutterFlowTheme.subtitle1,
             ),
           )
         ],
@@ -141,12 +131,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           ),
           child: Text(
             'First Name',
-            style: FlutterFlowTheme.bodyText1.override(
-              fontFamily: 'Open Sans',
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+            style: FlutterFlowTheme.title3,
           ),
         )
       ],
@@ -217,12 +202,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           ),
           child: Text(
             'Last Name',
-            style: FlutterFlowTheme.bodyText1.override(
-              fontFamily: 'Open Sans',
-              color: FlutterFlowTheme.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+            style: FlutterFlowTheme.title3,
           ),
         )
       ],
@@ -298,12 +278,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               ),
               child: Text(
                 'Email Address',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: FlutterFlowTheme.title3,
               ),
             ),
           )
@@ -325,10 +300,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               obscureText: false,
               decoration: InputDecoration(
                 hintText: 'example@bsu.edu',
-                hintStyle: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  fontSize: 16,
-                ),
+                hintStyle: FlutterFlowTheme.bodyText1,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.black,
@@ -350,10 +322,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   ),
                 ),
               ),
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Open Sans',
-                fontSize: 16,
-              ),
+              style: FlutterFlowTheme.bodyText1,
               textAlign: TextAlign.start,
             ),
           ),
@@ -378,12 +347,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               ),
               child: Text(
                 'Password',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: FlutterFlowTheme.title3,
               ),
             ),
           )
@@ -461,12 +425,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               ),
               child: Text(
                 'Confirm Password',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: FlutterFlowTheme.primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: FlutterFlowTheme.title3
               ),
             ),
           )
@@ -589,12 +548,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               width: 200,
               height: 50,
               color: Color(0xFFBA0C2F),
-              textStyle: FlutterFlowTheme.subtitle2.override(
-                fontFamily: 'Open Sans',
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
+              textStyle: FlutterFlowTheme.title2,
               elevation: 2,
               borderSide: BorderSide(
                 color: Colors.transparent,
