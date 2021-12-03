@@ -93,7 +93,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                           child: AutoSizeText(
                             'Example announcement information',
                             textAlign: TextAlign.start,
-                            style: FlutterFlowTheme.title3.override(
+                            style: TextStyle().copyWith(
                               fontWeight: FontWeight.w300,
                             ),
                           ),

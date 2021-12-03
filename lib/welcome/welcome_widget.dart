@@ -128,7 +128,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   Text _welcomeText() {
     return Text(
       'Welcome!',
-      style: FlutterFlowTheme.title1.override(
+      style: TextStyle().copyWith(
         fontSize: 48,
       ),
     );
@@ -139,7 +139,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       'This app is intended for members of the Adult Physical Fitness Program at Ball State University.' +
           ' If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
-      style: FlutterFlowTheme.subtitle1.override(
+      style: TextStyle().copyWith(
         fontWeight: FontWeight.normal
       ),
     );
@@ -188,7 +188,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         width: 250,
         height: 50,
         color: Colors.white,
-        textStyle: FlutterFlowTheme.title2.override(
+        textStyle: TextStyle().copyWith(
           color: FlutterFlowTheme.primaryColor),
         elevation: 2,
         borderSide: BorderSide(

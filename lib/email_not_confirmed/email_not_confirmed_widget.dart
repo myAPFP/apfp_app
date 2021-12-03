@@ -32,7 +32,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
             child: Text(
               'Your account cannot be accessed until the email address is confirmed. Please check your email account for a confirmation before logging in.',
               textAlign: TextAlign.center,
-              style: FlutterFlowTheme.title2.override(
+              style: TextStyle().copyWith(
                 fontWeight: FontWeight.normal,
                 color: FlutterFlowTheme.primaryColor,
               ),
@@ -57,7 +57,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
           child: Text(
             'Resend Confirmation Email',
             textAlign: TextAlign.center,
-            style: FlutterFlowTheme.subtitle2.override(
+            style: TextStyle().copyWith(
               color: FlutterFlowTheme.secondaryColor,
             ),
           ),
@@ -100,7 +100,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
         width: 180,
         height: 50,
         color: FlutterFlowTheme.tertiaryColor,
-        textStyle: FlutterFlowTheme.title2.override(
+        textStyle: TextStyle().copyWith(
           color: FlutterFlowTheme.primaryColor,
         ),
         elevation: 2,
