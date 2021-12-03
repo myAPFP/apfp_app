@@ -16,8 +16,7 @@ class AtHomeExercisesWidget extends StatefulWidget {
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<Widget> videoList = [];
-
-  List<Widget> _getVideoList() => videoList;
+  bool _isVideosLoaded = false;
 
   @override
   void initState() {
@@ -31,19 +30,27 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
         padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
         child: Row(mainAxisSize: MainAxisSize.max, children: [
           Text('At-Home Exercises',
-              style: FlutterFlowTheme.title1
-            )
+              style: TextStyle().copyWith(
+                fontFamily: 'Open Sans',
+                color: FlutterFlowTheme.primaryColor,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ))
         ]),
       ),
       Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16, 4, 24, 24),
+          padding: EdgeInsetsDirectional.fromSTEB(16, 4, 24, 10),
           child: Row(mainAxisSize: MainAxisSize.max, children: [
             Expanded(
                 child: Text(
                     'The following videos are some exercises that can be done at home.' +
-                    ' Please remember to be safe when exercising.',
-                    style: FlutterFlowTheme.bodyText1
-                ))
+                        ' Please remember to be safe when exercising.',
+                    style: TextStyle().copyWith(
+                      fontFamily: 'Open Sans',
+                      color: FlutterFlowTheme.primaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    )))
           ]))
     ];
   }
@@ -53,7 +60,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
       required String url,
       required String title,
       required Video video}) {
-    if (title.length > 35) {
+    if (title.length > 30) {
       title = "${title.substring(0, 30)}...";
     }
     return Padding(
@@ -90,7 +97,11 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                           Align(
                               alignment: AlignmentDirectional(-0.1, -0.5),
                               child: Text(title,
-                                  style: FlutterFlowTheme.subtitle1)),
+                                  style: TextStyle().copyWith(
+                                      fontFamily: 'Open Sans',
+                                      color: FlutterFlowTheme.primaryColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
                           Align(
                               alignment: AlignmentDirectional(2.64, 0.55),
                               child: Padding(
@@ -99,8 +110,12 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                                   child: Text(
                                       'Source: $author\nVideo Length: ${video.duration!.inMinutes} minutes',
                                       style:
-                                          FlutterFlowTheme.bodyText1
-                                        )))
+                                          TextStyle().copyWith(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ))))
                         ])),
                     Expanded(
                         flex: 1,
@@ -133,6 +148,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
           title: video.title,
           video: video));
     }
+
+    _isVideosLoaded = true;
     yt.close();
   }
 
@@ -152,11 +169,18 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
           child: Column(mainAxisSize: MainAxisSize.max, children: [
             Column(
               mainAxisSize: MainAxisSize.max,
-              children: [_paddedHeaderText()[0], _paddedHeaderText()[1]],
+              children: [
+                _paddedHeaderText()[0],
+                _paddedHeaderText()[1],
+                !_isVideosLoaded
+                    ? Text("Loading Videos...",
+                        style: FlutterFlowTheme.subtitle1)
+                    : Text("")
+              ],
             ),
             Column(
               mainAxisSize: MainAxisSize.max,
-              children: _getVideoList(),
+              children: videoList,
             ),
             SizedBox(height: 10)
           ]),
