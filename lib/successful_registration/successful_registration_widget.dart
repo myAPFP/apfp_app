@@ -21,7 +21,7 @@ class _SuccessfulRegistrationWidgetState
     return Text(
       'Thank you for registering! Please check your email and confirm your email address before logging in.',
       textAlign: TextAlign.center,
-      style: FlutterFlowTheme.title2.override(
+      style: TextStyle().copyWith(
         color: FlutterFlowTheme.primaryColor
       ),
     );
