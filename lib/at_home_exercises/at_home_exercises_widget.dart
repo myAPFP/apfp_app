@@ -29,13 +29,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
       Padding(
         padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
         child: Row(mainAxisSize: MainAxisSize.max, children: [
-          Text('At-Home Exercises',
-              style: TextStyle().copyWith(
-                fontFamily: 'Open Sans',
-                color: FlutterFlowTheme.primaryColor,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ))
+          Text('At-Home Exercises', style: FlutterFlowTheme.title1)
         ]),
       ),
       Padding(
@@ -45,12 +39,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                 child: Text(
                     'The following videos are some exercises that can be done at home.' +
                         ' Please remember to be safe when exercising.',
-                    style: TextStyle().copyWith(
-                      fontFamily: 'Open Sans',
-                      color: FlutterFlowTheme.primaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    )))
+                    style: FlutterFlowTheme.title3))
           ]))
     ];
   }
@@ -96,12 +85,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         child: Stack(children: [
                           Align(
                               alignment: AlignmentDirectional(-0.1, -0.5),
-                              child: Text(title,
-                                  style: TextStyle().copyWith(
-                                      fontFamily: 'Open Sans',
-                                      color: FlutterFlowTheme.primaryColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
+                              child:
+                                  Text(title, style: FlutterFlowTheme.title3)),
                           Align(
                               alignment: AlignmentDirectional(2.64, 0.55),
                               child: Padding(
@@ -109,13 +94,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                                       0, 20, 0, 0),
                                   child: Text(
                                       'Source: $author\nVideo Length: ${video.duration!.inMinutes} minutes',
-                                      style:
-                                          TextStyle().copyWith(
-                                        fontFamily: 'Open Sans',
-                                        color: FlutterFlowTheme.primaryColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ))))
+                                      style: FlutterFlowTheme.subtitle3)))
                         ])),
                     Expanded(
                         flex: 1,
@@ -174,8 +153,9 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                 _paddedHeaderText()[1],
                 !_isVideosLoaded
                     ? Text("Loading Videos...",
-                        style: FlutterFlowTheme.subtitle1)
-                    : Text("")
+                        style: FlutterFlowTheme.subtitle3)
+                    : Text("Video Count: ${videoList.length}",
+                        style: FlutterFlowTheme.subtitle3)
               ],
             ),
             Column(
