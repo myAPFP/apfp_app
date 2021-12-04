@@ -140,6 +140,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           ' If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
       style: TextStyle().copyWith(
+        fontSize: 22,
         fontWeight: FontWeight.normal
       ),
     );
@@ -189,6 +190,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         height: 50,
         color: Colors.white,
         textStyle: TextStyle().copyWith(
+          fontSize: 24,
           color: FlutterFlowTheme.primaryColor),
         elevation: 2,
         borderSide: BorderSide(
