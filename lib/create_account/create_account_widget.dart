@@ -116,7 +116,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             ),
             child: Text(
               'Welcome to the Adult Physical Fitness Program at Ball State University!' +
-                  'Please enter the details below to create your account.',
+                  ' Please enter the details below to create your account.',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.subtitle1,
             ),
