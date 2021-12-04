@@ -156,10 +156,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         child: TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please provide a value for this field.";
+              return "Please provide a value";
             }
             if (!verify.isValidName(value)) {
-              return "Please use a valid first name.";
+              return "Please use a valid first name";
             }
             return null;
           },
@@ -233,10 +233,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       child: TextFormField(
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Please provide a value for this field.";
+            return "Please provide a value";
           }
           if (!verify.isValidName(value)) {
-            return "Please provide a valid last name.";
+            return "Please provide a valid last name";
           }
           return null;
         },
@@ -321,6 +321,15 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide a value";
+                }
+                if (!verify.isValidEmail(value)) {
+                  return "Please provide a valid email address";
+                }
+                return null;
+              },
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               obscureText: false,
@@ -382,6 +391,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  void showPwSpecs() {}
+
   Row _passwordTextBox() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -390,6 +401,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide a value";
+                }
+                if (!verify.isValidPassword(value)) {
+                  showPwSpecs();
+                  return "Please provide a valid password";
+                }
+                return null;
+              },
               controller: _passwordController,
               obscureText: !_passwordVisibility,
               decoration: InputDecoration(
@@ -467,10 +488,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             child: TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please provide a value for this field.";
+                  return "Please provide a value";
                 }
                 if (value != _getPassword()) {
-                  return "Passwords must match.";
+                  return "Passwords must match";
                 }
                 return null;
               },
