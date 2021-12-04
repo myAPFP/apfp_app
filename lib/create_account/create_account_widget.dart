@@ -391,7 +391,30 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  void showPwSpecs() {}
+  void showPwRequirements() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Password Requirements'),
+        content: Text('Password must contain at least\n\n' +
+            '- Eight characters\n' +
+            '- One letter\n' +
+            '- One number\n' +
+            '- One special character\n\n' +
+            'Example: !Password12'),
+        actions: <Widget>[
+          // TextButton(
+          //   onPressed: () => Navigator.pop(context, 'Cancel'),
+          //   child: const Text('Cancel'),
+          // ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   Row _passwordTextBox() {
     return Row(
@@ -406,7 +429,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   return "Please provide a value";
                 }
                 if (!verify.isValidPassword(value)) {
-                  showPwSpecs();
+                  showPwRequirements();
                   return "Please provide a valid password";
                 }
                 return null;
