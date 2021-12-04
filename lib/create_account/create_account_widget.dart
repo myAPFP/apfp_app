@@ -26,6 +26,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   TextEditingController? _confirmPasswordController;
   late bool _confirmPasswordVisibility;
   bool _loadingButton = false;
+  bool _showPasswordSpecs = false;
+  final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final verify = Validator();
   final fire_auth = FireAuth();
@@ -42,6 +44,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     _confirmPasswordVisibility = false;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _firstNameController!.dispose();
+    _lastNameController!.dispose();
+    _emailController!.dispose();
+    _passwordController!.dispose();
+    _confirmPasswordController!.dispose();
+  }
+
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
@@ -55,8 +67,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     return _passwordController!.text.trim();
   }
 
+  bool passwordsMatch() {
+    return _getPassword() == _confirmPasswordController!.text.trim();
+  }
+
   bool _allInputsIsValid() {
-    // TODO: Add more input validation 
+    // TODO: Add more input validation
     return verify.isValidEmail(_getEmail());
   }
 
@@ -109,7 +125,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               color: Colors.white,
             ),
             child: Text(
-              'Welcome to the Adult Physical Fitness Program at Ball State University! Please enter the details below to create your account.',
+              'Welcome to the Adult Physical Fitness Program at Ball State University!' +
+                  'Please enter the details below to create your account.',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.subtitle1,
             ),
@@ -423,10 +440,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Text(
-                'Confirm Password',
-                style: FlutterFlowTheme.title3
-              ),
+              child: Text('Confirm Password', style: FlutterFlowTheme.title3),
             ),
           )
         ],
@@ -442,6 +456,15 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "You must provide a value for this field.";
+                }
+                if (value != _getPassword()) {
+                  return "Passwords must match.";
+                }
+                return null;
+              },
               controller: _confirmPasswordController,
               obscureText: !_confirmPasswordVisibility,
               decoration: InputDecoration(
@@ -489,7 +512,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   void _verifyAPFPCredentials() {
-    if (_allInputsIsValid()) {
+    if (_formKey.currentState!.validate()) {
       fire_auth
           .getRegisteredUser(_getEmail())
           .then((QuerySnapshot querySnapshot) {
@@ -570,21 +593,24 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              SizedBox(height: 25),
-              _backButtonRow(),
-              _informationDialog(),
-              _nameRow(),
-              _emailLabel(),
-              _emailTextBox(),
-              _passwordLabel(),
-              _passwordTextBox(),
-              _confirmPasswordLabel(),
-              _confirmPasswordTextBox(),
-              _createAccountButton()
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(height: 25),
+                _backButtonRow(),
+                _informationDialog(),
+                _nameRow(),
+                _emailLabel(),
+                _emailTextBox(),
+                _passwordLabel(),
+                _passwordTextBox(),
+                _confirmPasswordLabel(),
+                _confirmPasswordTextBox(),
+                _createAccountButton()
+              ],
+            ),
           ),
         ),
       ),
