@@ -112,6 +112,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             name: "Walking",
             type: "Cardio")
         .paddedActivityCard());
+
+    addCard(ActivityCard(
+            icon: Icons.sports_basketball_sharp,
+            duration: "30 min",
+            totalCal: "300",
+            name: "Basketball",
+            type: "Cardio")
+        .paddedActivityCard());    
   }
 
   @override

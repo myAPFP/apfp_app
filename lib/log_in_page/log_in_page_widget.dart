@@ -21,6 +21,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   late bool passwordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
   final verify = Validator();
   final fire_auth = FireAuth();
 
@@ -32,16 +33,19 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     passwordVisibility = false;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController!.dispose();
+    _passwordController!.dispose();
+  }
+
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
 
   String _getPassword() {
     return _passwordController!.text.trim();
-  }
-
-  bool _allInputsIsValid() {
-    return verify.isValidEmail(_getEmail());
   }
 
   PageTransition _transitionTo(Widget child) {
@@ -54,10 +58,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   Text _backToHomeText() {
-    return Text(
-      '< Back to Home',
-      style: FlutterFlowTheme.subtitle2
-    );
+    return Text('< Back to Home', style: FlutterFlowTheme.subtitle2);
   }
 
   InkWell _backButton() {
@@ -91,6 +92,15 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   TextFormField _emailTextBox() {
     return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please provide a value";
+        }
+        if (!verify.isValidEmail(value)) {
+          return "Please provide a valid email address";
+        }
+        return null;
+      },
       keyboardType: TextInputType.emailAddress,
       controller: _emailController,
       obscureText: false,
@@ -137,7 +147,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Row _passwordRow() {
+  Row _passwordTextBox() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -145,6 +155,12 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide a value";
+                }
+                return null;
+              },
               controller: _passwordController,
               obscureText: !passwordVisibility,
               decoration: InputDecoration(
@@ -197,8 +213,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 0),
         child: Row(mainAxisAlignment: alignment, children: [
           Text(text,
-              textAlign: TextAlign.center,
-              style: FlutterFlowTheme.title3)
+              textAlign: TextAlign.center, style: FlutterFlowTheme.title3)
         ]));
   }
 
@@ -225,7 +240,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   void _login() async {
-    if (_allInputsIsValid()) {
+    if (_formKey.currentState!.validate()) {
       await fire_auth.signInUsingEmailPassword(
           email: _getEmail(), password: _getPassword(), context: context);
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -307,24 +322,30 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _returnToWelcome(),
-              _textBoxLabel("Email Address",
-                  alignment: MainAxisAlignment.start, lPadding: 20),
-              _emailRow(),
-              _textBoxLabel("Password",
-                  alignment: MainAxisAlignment.start, lPadding: 20),
-              _passwordRow(),
-              _paddedLogInButton(),
-              _forgotPasswordLabel()
-            ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _returnToWelcome(),
+                  _textBoxLabel("Email Address",
+                      alignment: MainAxisAlignment.start, lPadding: 20),
+                  _emailRow(),
+                  _textBoxLabel("Password",
+                      alignment: MainAxisAlignment.start, lPadding: 20),
+                  _passwordTextBox(),
+                  _paddedLogInButton(),
+                  _forgotPasswordLabel()
+                ],
+              ),
+            ),
           ),
         ),
       ),

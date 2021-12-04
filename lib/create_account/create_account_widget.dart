@@ -26,7 +26,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   TextEditingController? _confirmPasswordController;
   late bool _confirmPasswordVisibility;
   bool _loadingButton = false;
-  bool _showPasswordSpecs = false;
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final verify = Validator();
@@ -637,28 +636,31 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(height: 25),
-                _backButtonRow(),
-                _informationDialog(),
-                _nameRow(),
-                _emailLabel(),
-                _emailTextBox(),
-                _passwordLabel(),
-                _passwordTextBox(),
-                _confirmPasswordLabel(),
-                _confirmPasswordTextBox(),
-                _createAccountButton()
-              ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(height: 25),
+                  _backButtonRow(),
+                  _informationDialog(),
+                  _nameRow(),
+                  _emailLabel(),
+                  _emailTextBox(),
+                  _passwordLabel(),
+                  _passwordTextBox(),
+                  _confirmPasswordLabel(),
+                  _confirmPasswordTextBox(),
+                  _createAccountButton()
+                ],
+              ),
             ),
           ),
         ),
