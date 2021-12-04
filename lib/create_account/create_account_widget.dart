@@ -67,15 +67,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     return _passwordController!.text.trim();
   }
 
-  bool passwordsMatch() {
-    return _getPassword() == _confirmPasswordController!.text.trim();
-  }
-
-  bool _allInputsIsValid() {
-    // TODO: Add more input validation
-    return verify.isValidEmail(_getEmail());
-  }
-
   Row _backButtonRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -163,6 +154,15 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please provide a value for this field";
+            }
+            if (!verify.isValidName(value)) {
+              return "Please use a valid name";
+            }
+            return null;
+          },
           keyboardType: TextInputType.name,
           controller: _firstNameController,
           obscureText: false,
@@ -458,7 +458,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             child: TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "You must provide a value for this field.";
+                  return "Please provide a value for this field.";
                 }
                 if (value != _getPassword()) {
                   return "Passwords must match.";
