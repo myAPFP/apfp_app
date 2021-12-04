@@ -33,6 +33,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     _populateExcerciseOptions();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    activityNameTextController!.dispose();
+    totalCalTextController!.dispose();
+  }
+
   Text _header({required String text, TextStyle? style}) {
     return Text(text, style: style);
   }
@@ -126,9 +133,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                 child: NavBarPage(initialPage: 'Activity'),
               ));
         },
-        child: Text('< Go Back',
-            style: FlutterFlowTheme.subtitle2
-            ));
+        child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
   Padding textField(TextEditingController? controller) {
@@ -169,60 +174,61 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+              child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
-                  child: _goBackButton(),
-                ),
-                Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
-                    child: _header(
-                        text: 'Add New Activity',
-                        style: FlutterFlowTheme.title1)),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                  child: _header(
-                      text: 'Name of Activity',
-                      style: FlutterFlowTheme.title3),
-                ),
-                _activityNameTextField(),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                  child: _header(
-                      text: 'Duration',
-                      style: FlutterFlowTheme.title3),
-                ),
-                _totalCalTextField(),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                  child: _header(
-                      text: 'Type of Exercise',
-                      style: FlutterFlowTheme.title3),
-                ),
-                _dropDown(exerciseTypeOptions, exercisetype),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                  child: _header(
-                      text: 'Duration',
-                      style: FlutterFlowTheme.title3),
-                ),
-                _dropDown(durationOptions, duration),
-                Align(
-                  alignment: AlignmentDirectional(0, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
-                    child: _submitButton(),
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
+                    child: _goBackButton(),
                   ),
-                )
-              ]),
-    )));
+                  Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
+                      child: _header(
+                          text: 'Add New Activity',
+                          style: FlutterFlowTheme.title1)),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                    child: _header(
+                        text: 'Name of Activity',
+                        style: FlutterFlowTheme.title3),
+                  ),
+                  _activityNameTextField(),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                    child: _header(
+                        text: 'Duration', style: FlutterFlowTheme.title3),
+                  ),
+                  _totalCalTextField(),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                    child: _header(
+                        text: 'Type of Exercise',
+                        style: FlutterFlowTheme.title3),
+                  ),
+                  _dropDown(exerciseTypeOptions, exercisetype),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                    child: _header(
+                        text: 'Duration', style: FlutterFlowTheme.title3),
+                  ),
+                  _dropDown(durationOptions, duration),
+                  Align(
+                    alignment: AlignmentDirectional(0, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
+                      child: _submitButton(),
+                    ),
+                  )
+                ]),
+          ))),
+    );
   }
 }
