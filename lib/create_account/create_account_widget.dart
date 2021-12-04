@@ -156,10 +156,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         child: TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please provide a value for this field";
+              return "Please provide a value for this field.";
             }
             if (!verify.isValidName(value)) {
-              return "Please use a valid name";
+              return "Please use a valid first name.";
             }
             return null;
           },
@@ -231,6 +231,15 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Please provide a value for this field.";
+          }
+          if (!verify.isValidName(value)) {
+            return "Please provide a valid last name.";
+          }
+          return null;
+        },
         keyboardType: TextInputType.name,
         controller: _lastNameController,
         obscureText: false,
