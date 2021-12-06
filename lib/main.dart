@@ -25,16 +25,7 @@ class _NavBarPageState extends State<NavBarPage> {
     super.initState();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
-    messaging.getToken().then((value) {
-      print(value);
-    });
-    FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-      print("message recieved");
-      print(event.notification!.body);
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('Message clicked!');
-    });
+    messaging.subscribeToTopic("alerts");
   }
 
   @override
