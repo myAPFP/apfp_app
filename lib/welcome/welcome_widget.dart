@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import '../create_account/create_account_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
@@ -15,7 +16,12 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  FirebaseMessaging.onBackgroundMessage(_messageHandler);
   runApp(MyApp());
+}
+
+Future<void> _messageHandler(RemoteMessage message) async {
+  print('background message ${message.notification!.body}');
 }
 
 class MyApp extends StatelessWidget {
@@ -139,9 +145,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       'This app is intended for members of the Adult Physical Fitness Program at Ball State University.' +
           ' If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
-      style: TextStyle().copyWith(
-        fontWeight: FontWeight.normal
-      ),
+      style: TextStyle().copyWith(fontWeight: FontWeight.normal),
     );
   }
 
@@ -188,8 +192,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         width: 250,
         height: 50,
         color: Colors.white,
-        textStyle: TextStyle().copyWith(
-          color: FlutterFlowTheme.primaryColor),
+        textStyle: TextStyle().copyWith(color: FlutterFlowTheme.primaryColor),
         elevation: 2,
         borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
