@@ -16,12 +16,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  FirebaseMessaging.onBackgroundMessage(_messageHandler);
   runApp(MyApp());
-}
-
-Future<void> _messageHandler(RemoteMessage message) async {
-  print('background message ${message.notification!.body}');
 }
 
 class MyApp extends StatelessWidget {
