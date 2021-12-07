@@ -7,14 +7,15 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
-    testWidgets('Tap on the Create Account button with no input, verify each textfield displays an warning',
+    testWidgets('Tap on the Create Account button with no input,' +
+    'verify each textfield displays an warning',
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_welcome = find.byKey(Key('Welcome.CreateAcctButton'));
-      await tester.tap(createAcctButton_welcome);
+      var createAcctButton_wel = find.byKey(Key('Welcome.CreateAcctButton'));
+      await tester.tap(createAcctButton_wel);
       await tester.pumpAndSettle();
 
       // Taps Create Account Button without any input
