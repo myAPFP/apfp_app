@@ -7,8 +7,9 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
-    testWidgets('Tap on the Create Account button with no input,' +
-    'verify each textfield displays an warning',
+    testWidgets(
+        'Tap on the Create Account button with no input,' +
+            'verify each textfield displays an warning',
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
