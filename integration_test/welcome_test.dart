@@ -7,7 +7,8 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
-    testWidgets('tap on the login button, verify navigation', (WidgetTester tester) async {
+    testWidgets('Tap on the Login button,' + 
+    'verify navigation', (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -26,7 +27,8 @@ void main() {
       expect(find.text('Forgot Your Password?'), findsOneWidget);
     });
 
-  testWidgets('Tap on the Create Account button, verify navigation', (WidgetTester tester) async {
+  testWidgets('Tap on the Create Account button,' + 
+  'verify navigation', (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -42,8 +44,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify naviagtion to create account route after button press.
-      expect(find.text('Welcome to the Adult Physical Fitness Program at Ball State University!' +
-                  ' Please enter the details below to create your account.'), findsOneWidget);
+      expect(find.text('Welcome to the Adult Physical Fitness Program at' +
+      'Ball State University! Please enter the details' +
+      'below to create your account.'), findsOneWidget);
     });
   });
 }
