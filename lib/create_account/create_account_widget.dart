@@ -153,6 +153,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
+          cursorColor: FlutterFlowTheme.secondaryColor,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
@@ -230,6 +231,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
+        cursorColor: FlutterFlowTheme.secondaryColor,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Please provide a value";
@@ -320,6 +322,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
@@ -399,15 +402,41 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             '- Eight characters\n' +
             '- One letter\n' +
             '- One number\n' +
-            '- One special character\n\n' +
-            'Example: !Password12'),
+            '- One special character'),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK'),
+            child: const Text('OK',
+                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
           ),
         ],
       ),
+    );
+  }
+
+  Row passwordIconRow(Function visibilityOnTap) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        InkWell(
+          onTap: () => setState(
+            () => showPwRequirements(),
+          ),
+          child: Icon(Icons.info),
+        ),
+        SizedBox(width: 10),
+        InkWell(
+          onTap: () => visibilityOnTap,
+          child: Icon(
+            _passwordVisibility
+                ? Icons.visibility_outlined
+                : Icons.visibility_off_outlined,
+            color: Color(0xFF757575),
+            size: 22,
+          ),
+        ),
+      ],
     );
   }
 
@@ -419,12 +448,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
                 }
                 if (!verify.isValidPassword(value)) {
-                  showPwRequirements();
                   return "Please provide a valid password";
                 }
                 return null;
@@ -432,39 +461,53 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               controller: _passwordController,
               obscureText: !_passwordVisibility,
               decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
+                  hintText: "!Password12",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(4.0),
+                      topRight: Radius.circular(4.0),
+                    ),
                   ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(4.0),
+                      topRight: Radius.circular(4.0),
+                    ),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
-                  ),
-                ),
-                suffixIcon: InkWell(
-                  onTap: () => setState(
-                    () => _passwordVisibility = !_passwordVisibility,
-                  ),
-                  child: Icon(
-                    _passwordVisibility
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                    color: Color(0xFF757575),
-                    size: 22,
-                  ),
-                ),
-              ),
+                  suffixIcon: Padding(
+                      padding: EdgeInsetsDirectional.only(end: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () => showPwRequirements(),
+                            child: Icon(Icons.info,
+                                color: FlutterFlowTheme.secondaryColor),
+                          ),
+                          SizedBox(width: 10),
+                          InkWell(
+                            onTap: () => setState(() {
+                              _passwordVisibility = !_passwordVisibility;
+                            }),
+                            child: Icon(
+                              _passwordVisibility
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                              color: Color(0xFF757575),
+                              size: 22,
+                            ),
+                          ),
+                        ],
+                      ))),
               style: FlutterFlowTheme.bodyText1,
               textAlign: TextAlign.start,
             ),
@@ -504,6 +547,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
@@ -516,6 +560,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               controller: _confirmPasswordController,
               obscureText: !_confirmPasswordVisibility,
               decoration: InputDecoration(
+                hintText: "!Password12",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.black,
@@ -536,19 +581,33 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     topRight: Radius.circular(4.0),
                   ),
                 ),
-                suffixIcon: InkWell(
-                  onTap: () => setState(
-                    () => _confirmPasswordVisibility =
-                        !_confirmPasswordVisibility,
-                  ),
-                  child: Icon(
-                    _confirmPasswordVisibility
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                    color: Color(0xFF757575),
-                    size: 22,
-                  ),
-                ),
+                suffixIcon: Padding(
+                    padding: EdgeInsetsDirectional.only(end: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () => showPwRequirements(),
+                          child: Icon(Icons.info,
+                              color: FlutterFlowTheme.secondaryColor),
+                        ),
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () => setState(() {
+                            _confirmPasswordVisibility =
+                                !_confirmPasswordVisibility;
+                          }),
+                          child: Icon(
+                            _passwordVisibility
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            color: Color(0xFF757575),
+                            size: 22,
+                          ),
+                        ),
+                      ],
+                    )),
               ),
               style: FlutterFlowTheme.bodyText1,
               textAlign: TextAlign.start,

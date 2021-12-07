@@ -92,6 +92,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   TextFormField _emailTextBox() {
     return TextFormField(
+      cursorColor: FlutterFlowTheme.secondaryColor,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Please provide a value";
@@ -155,6 +156,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
