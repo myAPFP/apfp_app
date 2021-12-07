@@ -139,15 +139,13 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       'This app is intended for members of the Adult Physical Fitness Program at Ball State University.' +
           ' If you do not have an account, please contact an administrator at <EMAIL>.',
       textAlign: TextAlign.center,
-      style: TextStyle().copyWith(
-        fontSize: 22,
-        fontWeight: FontWeight.normal
-      ),
+      style: TextStyle().copyWith(fontSize: 22, fontWeight: FontWeight.normal),
     );
   }
 
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
+      key: Key("Welcome.LoginButton"),
       onPressed: () async {
         await Navigator.pushAndRemoveUntil(
           context,
@@ -175,6 +173,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   FFButtonWidget _createAccountButton() {
     return FFButtonWidget(
+      key: Key("Welcome.CreateAcctButton"),
       onPressed: () async {
         await Navigator.pushAndRemoveUntil(
           context,
@@ -189,9 +188,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         width: 250,
         height: 50,
         color: Colors.white,
-        textStyle: TextStyle().copyWith(
-          fontSize: 24,
-          color: FlutterFlowTheme.primaryColor),
+        textStyle: TextStyle()
+            .copyWith(fontSize: 24, color: FlutterFlowTheme.primaryColor),
         elevation: 2,
         borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
