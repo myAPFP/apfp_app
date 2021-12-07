@@ -26,7 +26,7 @@ void main() {
       expect(find.text('Forgot Your Password?'), findsOneWidget);
     });
 
-  testWidgets('tap on the create account button, verify navigation', (WidgetTester tester) async {
+  testWidgets('Tap on the Create Account button, verify navigation', (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 

@@ -618,7 +618,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FFButtonWidget(
-            key: Key("Create.CreateAccountButton"),
+            key: Key("Create.CreateAcctButton"),
             onPressed: () async {
               _verifyAPFPCredentials();
             },
