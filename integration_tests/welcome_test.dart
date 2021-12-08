@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('end-to-end test', () {
+  group('Welcome Screen Integration Tests', () {
     testWidgets('Tap on the Login button,' + 
     'verify navigation', (WidgetTester tester) async {
       app.main();
