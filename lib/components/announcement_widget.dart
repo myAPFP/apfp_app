@@ -3,7 +3,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementWidget extends StatefulWidget {
-  AnnouncementWidget({Key? key}) : super(key: key);
+  String title = "";
+  String description = "";
+  AnnouncementWidget({required this.title, required this.description});
 
   @override
   _AnnouncementWidgetState createState() => _AnnouncementWidgetState();
@@ -67,11 +69,9 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.tertiaryColor,
                             ),
-                            child: AutoSizeText(
-                              'Example announcement subject',
-                              textAlign: TextAlign.start,
-                              style: FlutterFlowTheme.subtitle1
-                            ),
+                            child: AutoSizeText('Example announcement subject',
+                                textAlign: TextAlign.start,
+                                style: FlutterFlowTheme.subtitle1),
                           )
                         ],
                       ),
