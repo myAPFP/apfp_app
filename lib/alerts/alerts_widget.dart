@@ -16,7 +16,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
   List<Expanded> unReadAnnouncements = [];
   List<Padding> previousAnnouncements = [];
 
-  InkWell _makeAlert() {
+  InkWell _makeAlert(String title, String description) {
     return InkWell(
       onTap: () async {
         await Navigator.push(
@@ -26,7 +26,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
           ),
         );
       },
-      child: AnnouncementWidget(),
+      child: AnnouncementWidget(title: title, description: description),
     );
   }
 
@@ -77,10 +77,10 @@ class _AlertsWidgetState extends State<AlertsWidget> {
   @override
   void initState() {
     super.initState();
-    addToUnRead(Expanded(child: _makeAlert()));
-    for (int i = 0; i < 5; i++) {
-      addToPrevious(_paddedAlert(_makeAlert()));
-    }
+    // addToUnRead(Expanded(child: _makeAlert()));
+    // for (int i = 0; i < 5; i++) {
+    //   addToPrevious(_paddedAlert(_makeAlert()));
+    // }
   }
 
   @override
@@ -110,7 +110,6 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                   _paddedHeader(_makeHeader('Previous Announcements')),
                 ],
               ),
-
               Column(
                 children: previousAnnouncements,
               )
