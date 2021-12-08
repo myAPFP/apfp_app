@@ -3,7 +3,10 @@ import '../main.dart';
 import 'package:flutter/material.dart';
 
 class AlertWidget extends StatefulWidget {
-  AlertWidget({Key? key}) : super(key: key);
+  final String title;
+  final String description;
+
+  AlertWidget({required this.title, required this.description});
 
   @override
   _AlertWidgetState createState() => _AlertWidgetState();
@@ -23,10 +26,7 @@ class _AlertWidgetState extends State<AlertWidget> {
           (r) => false,
         );
       },
-      child: Text(
-        '< Back to Announcements',
-        style: FlutterFlowTheme.subtitle2
-      ),
+      child: Text('< Back to Announcements', style: FlutterFlowTheme.subtitle2),
     );
   }
 
@@ -61,12 +61,11 @@ class _AlertWidgetState extends State<AlertWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
-              child: _announcementTitle("Example Announcement Title"),
+              child: _announcementTitle(widget.title),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
-              child: _announcementParagraph(
-                  "This is an example paragraph for an announcement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia libero ut sapien maximus, vitae viverra nulla iaculis. \n\nUt lacinia ultrices augue, hendrerit faucibus odio venenatis ac. Vivamus aliquet dignissim nunc. Quisque non orci a diam faucibus mollis eget ac magna. Fusce ex urna, interdum nec enim nec, vehicula tempus lacus."),
+              child: _announcementParagraph(widget.description),
             )
           ],
         ),
