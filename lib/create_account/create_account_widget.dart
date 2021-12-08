@@ -501,6 +501,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           ),
                           SizedBox(width: 10),
                           InkWell(
+                            key: Key("Create.PWVisibilty"),
                             onTap: () => setState(() {
                               _passwordVisibility = !_passwordVisibility;
                             }),
@@ -601,6 +602,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         ),
                         SizedBox(width: 10),
                         InkWell(
+                          key: Key("Create.ConfirmPWVisibilty"),
                           onTap: () => setState(() {
                             _confirmPasswordVisibility =
                                 !_confirmPasswordVisibility;
