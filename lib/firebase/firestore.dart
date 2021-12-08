@@ -8,6 +8,9 @@ class FireStore {
   }
 
   Future<QuerySnapshot> getAnnouncements() {
-    return FirebaseFirestore.instance.collection('announcements').get();
+    return FirebaseFirestore.instance
+        .collection('announcements')
+        .orderBy("id", descending: true)
+        .get();
   }
 }
