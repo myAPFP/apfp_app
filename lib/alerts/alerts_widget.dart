@@ -82,11 +82,12 @@ class _AlertsWidgetState extends State<AlertsWidget> {
   void _collectAnnouncements() async {
     final fireStore = FireStore();
     await fireStore.getAnnouncements().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((element) {
-        String title = element['title'];
-        String description = element['description'];
-        addToPrevious(_paddedAlert(_makeAlert(title, description)));
-      });
+      querySnapshot.docs
+        ..forEach((element) {
+          String title = element['title'];
+          String description = element['description'];
+          addToPrevious(_paddedAlert(_makeAlert(title, description)));
+        });
     });
   }
 
