@@ -6,7 +6,8 @@ class AlertWidget extends StatefulWidget {
   final String title;
   final String description;
 
-  AlertWidget({required this.title, required this.description});
+  AlertWidget({Key? key, required this.title, required this.description})
+      : super(key: key);
 
   @override
   _AlertWidgetState createState() => _AlertWidgetState();
@@ -47,29 +48,30 @@ class _AlertWidgetState extends State<AlertWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: _backToList(),
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                  child: _backToList(),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
+                  child: _announcementTitle(widget.title),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
+                  child: _announcementParagraph(widget.description),
+                )
+              ],
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
-              child: _announcementTitle(widget.title),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
-              child: _announcementParagraph(widget.description),
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
