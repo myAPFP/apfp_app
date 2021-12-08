@@ -79,6 +79,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
             child: InkWell(
+              key: Key("Create.BackButton"),
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -153,6 +154,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
+          key: (Key("Create.FirstNameTextField")),
           cursorColor: FlutterFlowTheme.secondaryColor,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -231,6 +233,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
+        key: Key("Create.LastNameTextField"),
         cursorColor: FlutterFlowTheme.secondaryColor,
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -322,6 +325,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              key: Key("Create.EmailTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -397,6 +401,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
+        key: Key("Create.PWRequirements"),
         title: const Text('Password Requirements'),
         content: Text('Password must contain at least\n\n' +
             '- Eight characters\n' +
@@ -448,6 +453,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              key: Key("Create.PasswordTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -547,6 +553,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              key: Key("Create.ConfirmPasswordTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -670,6 +677,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FFButtonWidget(
+            key: Key("Create.CreateAcctButton"),
             onPressed: () async {
               _verifyAPFPCredentials();
             },
