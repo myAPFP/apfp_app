@@ -16,7 +16,7 @@ class AlertsWidget extends StatefulWidget {
 
 class _AlertsWidgetState extends State<AlertsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Expanded> unReadAnnouncements = [];
+  List<Padding> unReadAnnouncements = [];
   List<Padding> previousAnnouncements = [];
 
   InkWell _makeAlert(String title, String description) {
@@ -37,6 +37,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [Expanded(child: alert)],
       ),
@@ -65,7 +66,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     );
   }
 
-  void addToUnRead(Expanded unRead) {
+  void addToUnRead(Padding unRead) {
     setState(() {
       unReadAnnouncements.add(unRead);
     });
@@ -83,7 +84,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
       querySnapshot.docs.forEach((element) {
         String title = element['title'];
         String description = element['description'];
-        addToUnRead(Expanded(child: _makeAlert(title, description)));
+        addToPrevious(_paddedAlert(_makeAlert(title, description)));
       });
     });
   }
