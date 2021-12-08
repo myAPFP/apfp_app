@@ -537,7 +537,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Text('Confirm Password', style: FlutterFlowTheme.title3),
+              child: Text('Confirm Password', key: Key('Create.ConfirmPasswordLabel'), style: FlutterFlowTheme.title3),
             ),
           )
         ],
