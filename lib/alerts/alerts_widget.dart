@@ -1,3 +1,6 @@
+import 'package:apfp/firebase/firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../alert/alert_widget.dart';
 import '../components/announcement_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -74,9 +77,21 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     });
   }
 
+  void _collectAnnouncements() async {
+    final fireStore = FireStore();
+    await fireStore.getAnnouncements().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((element) {
+        String title = element['title'];
+        String description = element['description'];
+        addToUnRead(Expanded(child: _makeAlert(title, description)));
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _collectAnnouncements();
     // addToUnRead(Expanded(child: _makeAlert()));
     // for (int i = 0; i < 5; i++) {
     //   addToPrevious(_paddedAlert(_makeAlert()));
