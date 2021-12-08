@@ -25,7 +25,8 @@ class _AlertsWidgetState extends State<AlertsWidget> {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AlertWidget(),
+            builder: (context) =>
+                AlertWidget(title: title, description: description),
           ),
         );
       },
