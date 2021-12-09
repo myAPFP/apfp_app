@@ -79,7 +79,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
             child: InkWell(
-              key: Key("Create.BackButton"),
+              key: Key("Create.backButton"),
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -154,7 +154,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
-          key: (Key("Create.FirstNameTextField")),
+          key: (Key("Create.firstNameTextField")),
           cursorColor: FlutterFlowTheme.secondaryColor,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -233,7 +233,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
-        key: Key("Create.LastNameTextField"),
+        key: Key("Create.lastNameTextField"),
         cursorColor: FlutterFlowTheme.secondaryColor,
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -325,7 +325,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-              key: Key("Create.EmailTextField"),
+              key: Key("Create.emailTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -401,7 +401,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        key: Key("Create.PWRequirements"),
+        key: Key("Create.pWRequirements"),
         title: const Text('Password Requirements'),
         content: Text('Password must contain at least\n\n' +
             '- Eight characters\n' +
@@ -453,7 +453,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-              key: Key("Create.PasswordTextField"),
+              key: Key("Create.passwordTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -501,7 +501,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           ),
                           SizedBox(width: 10),
                           InkWell(
-                            key: Key("Create.PWVisibilty"),
+                            key: Key("Create.pWVisibilty"),
                             onTap: () => setState(() {
                               _passwordVisibility = !_passwordVisibility;
                             }),
@@ -538,7 +538,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Text('Confirm Password', key: Key('Create.ConfirmPasswordLabel'), style: FlutterFlowTheme.title3),
+              child: Text('Confirm Password', key: Key('Create.confirmPasswordLabel'), style: FlutterFlowTheme.title3),
             ),
           )
         ],
@@ -554,7 +554,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-              key: Key("Create.ConfirmPasswordTextField"),
+              key: Key("Create.confirmPasswordTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -602,7 +602,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         ),
                         SizedBox(width: 10),
                         InkWell(
-                          key: Key("Create.ConfirmPWVisibilty"),
+                          key: Key("Create.confirmPWVisibilty"),
                           onTap: () => setState(() {
                             _confirmPasswordVisibility =
                                 !_confirmPasswordVisibility;
@@ -679,7 +679,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FFButtonWidget(
-            key: Key("Create.CreateAcctButton"),
+            key: Key("Create.createAcctButton"),
             onPressed: () async {
               _verifyAPFPCredentials();
             },
