@@ -538,7 +538,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Text('Confirm Password', key: Key('Create.confirmPasswordLabel'), style: FlutterFlowTheme.title3),
+              child: Text('Confirm Password',
+                  key: Key('Create.confirmPasswordLabel'),
+                  style: FlutterFlowTheme.title3),
             ),
           )
         ],
@@ -650,9 +652,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     if (user != null) {
       fire_auth.refreshUser(user);
       if (user.emailVerified) {
-        _onSuccess();
+        FireAuth.showToast("Account has been verified. Please sign in.");
       } else {
-        FireAuth.showToast("Please verify your email address.");
+        _onSuccess();
       }
     }
   }
