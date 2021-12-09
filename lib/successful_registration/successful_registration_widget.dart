@@ -27,6 +27,7 @@ class _SuccessfulRegistrationWidgetState
 
   FFButtonWidget _backToHomeButton() {
     return FFButtonWidget(
+      key: Key("Successful.backToHomeButton"),
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
