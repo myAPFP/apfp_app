@@ -15,12 +15,12 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.CreateAcctButton'));
+      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
       await tester.tap(createAcctButton_wel);
       await tester.pumpAndSettle();
 
       // Taps Create Account Button without any input
-      var createAcctButton = find.byKey(Key('Create.CreateAcctButton'));
+      var createAcctButton = find.byKey(Key('Create.createAcctButton'));
       await tester.tap(createAcctButton);
       await tester.pumpAndSettle();
 
@@ -35,25 +35,25 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.CreateAcctButton'));
+      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
       await tester.tap(createAcctButton_wel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info
       await tester.enterText(
-          find.byKey(Key("Create.FirstNameTextField")), 'John');
+          find.byKey(Key("Create.firstNameTextField")), 'John');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key("Create.LastNameTextField")), 'Doe');
+          find.byKey(Key("Create.lastNameTextField")), 'Doe');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key('Create.EmailTextField')), 'example@email.com');
+          find.byKey(Key('Create.emailTextField')), 'example@email.com');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key('Create.PasswordTextField')), 'password12!');
+          find.byKey(Key('Create.passwordTextField')), 'password12!');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key('Create.ConfirmPasswordTextField')), 'password12!');
+          find.byKey(Key('Create.confirmPasswordTextField')), 'password12!');
       await tester.pumpAndSettle();
 
       // Verify each TextFormField validated and accepted each credential
@@ -67,33 +67,33 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.CreateAcctButton'));
+      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
       await tester.tap(createAcctButton_wel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info
       await tester.enterText(
-          find.byKey(Key("Create.FirstNameTextField")), 'John');
+          find.byKey(Key("Create.firstNameTextField")), 'John');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key("Create.LastNameTextField")), 'Doe');
+          find.byKey(Key("Create.lastNameTextField")), 'Doe');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key('Create.EmailTextField')), 'example@email.com');
+          find.byKey(Key('Create.emailTextField')), 'example@email.com');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key('Create.PasswordTextField')), 'password12!');
+          find.byKey(Key('Create.passwordTextField')), 'password12!');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key('Create.ConfirmPasswordTextField')), 'password12!');
+          find.byKey(Key('Create.confirmPasswordTextField')), 'password12!');
       await tester.pumpAndSettle();
 
       // Hides keybaord by tapping screen
-      await tester.tap(find.byKey(Key('Create.ConfirmPasswordLabel')));
+      await tester.tap(find.byKey(Key('Create.confirmPasswordLabel')));
       await tester.pumpAndSettle();
 
       // Taps Create Account button, submitting the info entered
-      var createAcctButton = find.byKey(Key('Create.CreateAcctButton'));
+      var createAcctButton = find.byKey(Key('Create.createAcctButton'));
       await tester.tap(createAcctButton);
       await tester.pumpAndSettle();
     });
@@ -105,31 +105,31 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.CreateAcctButton'));
+      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
       await tester.tap(createAcctButton_wel);
       await tester.pumpAndSettle();
 
       // Populates PW textformfields with example password
       await tester.enterText(
-          find.byKey(Key('Create.PasswordTextField')), 'password12!');
+          find.byKey(Key('Create.passwordTextField')), 'password12!');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key('Create.ConfirmPasswordTextField')), 'password12!');
+          find.byKey(Key('Create.confirmPasswordTextField')), 'password12!');
       await tester.pumpAndSettle();
 
       // Toggles each password textfieldform visibility
-      await tester.tap(find.byKey(Key("Create.PWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.pWVisibilty")));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key("Create.ConfirmPWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.confirmPWVisibilty")));
       await tester.pumpAndSettle();
 
       // Verify the entered password is shown
       expect(find.text('password12!'), findsNWidgets(2));
 
       // Toggles each password textfieldform visibility again
-      await tester.tap(find.byKey(Key("Create.PWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.pWVisibilty")));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key("Create.ConfirmPWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.confirmPWVisibilty")));
       await tester.pumpAndSettle();
     });
   });
