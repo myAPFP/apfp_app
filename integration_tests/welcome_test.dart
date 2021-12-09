@@ -7,12 +7,12 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Welcome Screen Integration Tests', () {
-    testWidgets('Tap on the Login button,' + 
-    'verify navigation', (WidgetTester tester) async {
+    testWidgets('US: As a user, I can access the log in page to use my personal'
+    +'information' + 'to log into the app.', (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
-      var loginButton = find.byKey(Key('Welcome.LoginButton'));
+      var loginButton = find.byKey(Key('Welcome.loginButton'));
 
       // Expect to find the item on screen.
       expect(loginButton, findsOneWidget);
@@ -32,7 +32,7 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      var createAcctButton = find.byKey(Key('Welcome.CreateAcctButton'));
+      var createAcctButton = find.byKey(Key('Welcome.createAcctButton'));
 
       // Expect to find the item on screen.
       expect(createAcctButton, findsOneWidget);
@@ -44,9 +44,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify naviagtion to create account route after button press.
-      expect(find.text('Welcome to the Adult Physical Fitness Program at' +
-      'Ball State University! Please enter the details' +
-      'below to create your account.'), findsOneWidget);
+      expect(find.text('First Name'), findsOneWidget);
     });
   });
 }
