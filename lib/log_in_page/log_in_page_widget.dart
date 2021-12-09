@@ -92,6 +92,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   TextFormField _emailTextBox() {
     return TextFormField(
+      key: Key("Login.emailTextField"),
       cursorColor: FlutterFlowTheme.secondaryColor,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -156,6 +157,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              key: Key("Login.passwordTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -187,6 +189,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                   ),
                 ),
                 suffixIcon: InkWell(
+                  key: Key("Login.passwordVisibiltyIcon"),
                   onTap: () => setState(
                     () => passwordVisibility = !passwordVisibility,
                   ),
@@ -271,6 +274,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
+      key: Key("Login.loginInButton"),
       onPressed: () async {
         _login();
       },
