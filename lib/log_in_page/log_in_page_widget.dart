@@ -92,6 +92,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   TextFormField _emailTextBox() {
     return TextFormField(
+      key: Key('LogIn.emailTextBox'),
       cursorColor: FlutterFlowTheme.secondaryColor,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -150,6 +151,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   Row _passwordTextBox() {
     return Row(
+      key: Key('LogIn.passwordTextBox'),
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
@@ -271,6 +273,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
+      key: Key('LogIn.logInButton'),
       onPressed: () async {
         _login();
       },
