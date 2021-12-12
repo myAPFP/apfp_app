@@ -18,6 +18,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
 
   InkWell _makeAlert() {
     return InkWell(
+      key: Key('Alert'),
       onTap: () async {
         await Navigator.push(
           context,
@@ -110,7 +111,6 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                   _paddedHeader(_makeHeader('Previous Announcements')),
                 ],
               ),
-
               Column(
                 children: previousAnnouncements,
               )
