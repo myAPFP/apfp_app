@@ -161,7 +161,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               return "Please provide a value";
             }
             if (!verify.isValidName(value)) {
-              return "Please use a valid first name";
+              return "Please provide a valid first name";
             }
             return null;
           },
@@ -309,6 +309,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               child: Text(
                 'Email Address',
                 style: FlutterFlowTheme.title3,
+                key: Key("Create.emailAddressLabel"),
               ),
             ),
           )
@@ -610,7 +611,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 !_confirmPasswordVisibility;
                           }),
                           child: Icon(
-                            _passwordVisibility
+                            _confirmPasswordVisibility
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
                             color: Color(0xFF757575),
