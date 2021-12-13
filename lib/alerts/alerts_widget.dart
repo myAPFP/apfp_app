@@ -111,11 +111,11 @@ class _AlertsWidgetState extends State<AlertsWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [_paddedHeader(_makeHeader('Unread Announcements'))],
-              ),
+              // Row(
+              //   mainAxisSize: MainAxisSize.max,
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [_paddedHeader(_makeHeader('Unread Announcements'))],
+              // ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
