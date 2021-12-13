@@ -10,7 +10,7 @@ import 'package:apfp/welcome/welcome_widget.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Announcements List Screen Tests', () {
+  group('Individual Announcement Screen Tests', () {
     testWidgets(
         'US: I can view the title of the announcement sent by the APFP, as well as all of the information that has been sent out. ' +
             'Ensure title and description are visible on individual announcement page.',
