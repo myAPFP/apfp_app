@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:apfp/welcome/welcome_widget.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +15,15 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final fireAuth = FireAuth();
+  late FirebaseMessaging messaging;
 
   Padding _signOutButton() {
     return Padding(
-      padding: const EdgeInsets.only(top:50.0),
+      padding: const EdgeInsets.only(top: 50.0),
       child: FFButtonWidget(
         onPressed: () async {
+          messaging = FirebaseMessaging.instance;
+          messaging.deleteToken();
           await fireAuth.signOut();
           await Navigator.pushAndRemoveUntil(
             context,
@@ -146,10 +150,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         children: [
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-            child: Text(
-              'Today\'s Activity',
-              style: FlutterFlowTheme.title1
-            ),
+            child: Text('Today\'s Activity', style: FlutterFlowTheme.title1),
           )
         ],
       ),
