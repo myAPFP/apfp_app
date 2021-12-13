@@ -16,7 +16,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
   List<Expanded> unReadAnnouncements = [];
   List<Padding> previousAnnouncements = [];
 
-  InkWell _makeAlert() {
+  InkWell _makeAlert(String alertTitle, String alertDescription) {
     return InkWell(
       key: Key('Alert'),
       onTap: () async {
@@ -27,7 +27,8 @@ class _AlertsWidgetState extends State<AlertsWidget> {
           ),
         );
       },
-      child: AnnouncementWidget(),
+      child:
+          AnnouncementWidget(title: alertTitle, description: alertDescription),
     );
   }
 
@@ -78,9 +79,12 @@ class _AlertsWidgetState extends State<AlertsWidget> {
   @override
   void initState() {
     super.initState();
-    addToUnRead(Expanded(child: _makeAlert()));
+    addToUnRead(Expanded(
+        child: _makeAlert('Example announcement subject',
+            'Example announcement information')));
     for (int i = 0; i < 5; i++) {
-      addToPrevious(_paddedAlert(_makeAlert()));
+      addToPrevious(_paddedAlert(_makeAlert(
+          'Example announcement subject', 'Example announcement information')));
     }
   }
 
