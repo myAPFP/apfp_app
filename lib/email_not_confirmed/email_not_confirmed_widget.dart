@@ -18,6 +18,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
 
   Padding _contextMessage() {
     return Padding(
+      key: Key('Email.contextMessage'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 70, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -68,6 +69,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
 
   Padding _returnToHome() {
     return Padding(
+      key: Key('Email.returnHomeButton'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
