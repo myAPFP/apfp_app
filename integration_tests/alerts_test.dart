@@ -21,7 +21,6 @@ import 'package:apfp/welcome/welcome_widget.dart' as app;
   ! them to all fail.
 */
 
-
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
