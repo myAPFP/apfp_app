@@ -1,16 +1,16 @@
 # Adult Physical Fitness Program App
 This is a developing application created for members of the Adult Physical Fitness Program at Ball State University. Members will be able to view announcements sent by administrators of the APFP, access at-home exercise videos, and log activity that can be shared with administrators, all in one easy-to-use application. 
 
-At this time, functionality is limited to application navigation, log-in for approved APFP members, exercise videos dynamically pulled from YouTube, and pulling previous announcements from a database. Users that are signed into the app may also receive push notifications from administrators regarding important information sent out by the APFP.
+At this time, functionality is limited to application navigation, account creation and log-in for approved APFP members, exercise videos dynamically pulled from YouTube, and pulling previous announcements from a database. Users that are signed into the app may also receive push notifications from administrators regarding important information sent out by the APFP.
 
 
 ## How to Run
 This application is in development and may be prone to bugs/issues/crashes. Run application at own risk.
-1. Install Flutter SDK and an emulator of your choice (or offload to a physical device. Some features are not yet available on iOS emulators or devices.)
+1. Install Flutter SDK and an emulator of your choice (or offload to a physical device. Some features are not yet available on iOS emulators or devices).
 2. In your code editor, attach a running emulator to the project.
 3. Find the root of the project in `lib/welcome/welcome_widget.dart`. Run the main() method, which will run the application on your emulator.
 
-Instructions for how to install Flutter SDK can be found [here](https://docs.flutter.dev/get-started/install). Implemented testing thus far can be found in `integration_tests` and `unit_tests` directories. If you have trouble running the Flutter application, try running the following command in your terminal to check the status of your Flutter installation: `flutter pub get`
+Instructions for how to install Flutter SDK can be found [here](https://docs.flutter.dev/get-started/install). Implemented testing thus far can be found in `integration_tests` and `unit_tests` directories. If you have trouble running the Flutter application, try running the following command in your terminal to download packages: `flutter pub get`. If you run into trouble with your Flutter installation, try running `flutter doctor` to verify that your Flutter SDK is properly installed.
 
 ## API and SDK Documentation
 As a hybrid application, this project uses multiple SDKs and external APIs. Versions and attributions are listed below.
