@@ -24,7 +24,7 @@ import 'package:apfp/welcome/welcome_widget.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Add Activity Integration Tests', () {
+  group('My Activity Integration Tests', () {
     testWidgets(
         'US: I can view information about past entries from that day,' +
             'such as the name of the exercise, the type of the exercise, and the duration.',
