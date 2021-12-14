@@ -89,6 +89,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
 
   FFButtonWidget _submitButton() {
     return FFButtonWidget(
+      key: Key("AddActivity.submitButton"),
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
