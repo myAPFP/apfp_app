@@ -10,6 +10,13 @@ void main() {
   // US: If I have forgotten my password, there is a button
   // I can press to take me through the password reset process.
 
+  /*
+  !  These tests assume you're starting at the Welcome page.
+  !  Please log out of the app in Debugging mode before running.
+  !  They will only pass if the entered credentials are valid
+  !  and the associated account doesn't exist already.
+  */
+
   group('Login Screen Integration Tests', () {
     testWidgets(
         "US: I can enter my email address and password through text fields." +
