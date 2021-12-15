@@ -130,6 +130,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Container _announcements(
       String alertOneText, String alertTwoText, String alertThreeText) {
     return Container(
+      key: Key('Home.announcements'),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -159,6 +160,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Padding _activityGUI() {
     return Padding(
+      key: Key('Home.activityGUI'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,

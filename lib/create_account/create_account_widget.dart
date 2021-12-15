@@ -26,6 +26,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   TextEditingController? _confirmPasswordController;
   late bool _confirmPasswordVisibility;
   bool _loadingButton = false;
+  final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final verify = Validator();
   final fire_auth = FireAuth();
@@ -42,6 +43,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     _confirmPasswordVisibility = false;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _firstNameController!.dispose();
+    _lastNameController!.dispose();
+    _emailController!.dispose();
+    _passwordController!.dispose();
+    _confirmPasswordController!.dispose();
+  }
+
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
@@ -53,11 +64,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   String _getPassword() {
     return _passwordController!.text.trim();
-  }
-
-  bool _allInputsIsValid() {
-    // TODO: Add more input validation 
-    return verify.isValidEmail(_getEmail());
   }
 
   Row _backButtonRow() {
@@ -73,6 +79,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
             child: InkWell(
+              key: Key("Create.backButton"),
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -109,7 +116,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               color: Colors.white,
             ),
             child: Text(
-              'Welcome to the Adult Physical Fitness Program at Ball State University! Please enter the details below to create your account.',
+              'Welcome to the Adult Physical Fitness Program at Ball State University!' +
+                  ' Please enter the details below to create your account.',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.subtitle1,
             ),
@@ -146,6 +154,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         decoration: BoxDecoration(),
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
+          key: (Key("Create.firstNameTextField")),
+          cursorColor: FlutterFlowTheme.secondaryColor,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please provide a value";
+            }
+            if (!verify.isValidName(value)) {
+              return "Please provide a valid first name";
+            }
+            return null;
+          },
           keyboardType: TextInputType.name,
           controller: _firstNameController,
           obscureText: false,
@@ -214,6 +233,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
       child: TextFormField(
+        key: Key("Create.lastNameTextField"),
+        cursorColor: FlutterFlowTheme.secondaryColor,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Please provide a value";
+          }
+          if (!verify.isValidName(value)) {
+            return "Please provide a valid last name";
+          }
+          return null;
+        },
         keyboardType: TextInputType.name,
         controller: _lastNameController,
         obscureText: false,
@@ -279,6 +309,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               child: Text(
                 'Email Address',
                 style: FlutterFlowTheme.title3,
+                key: Key("Create.emailAddressLabel"),
               ),
             ),
           )
@@ -295,6 +326,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              key: Key("Create.emailTextField"),
+              cursorColor: FlutterFlowTheme.secondaryColor,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide a value";
+                }
+                if (!verify.isValidEmail(value)) {
+                  return "Please provide a valid email address";
+                }
+                return null;
+              },
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               obscureText: false,
@@ -356,6 +398,54 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  void showPwRequirements() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        key: Key("Create.pWRequirements"),
+        title: const Text('Password Requirements'),
+        content: Text('Password must contain at least\n\n' +
+            '- Eight characters\n' +
+            '- One letter\n' +
+            '- One number\n' +
+            '- One special character'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK',
+                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Row passwordIconRow(Function visibilityOnTap) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        InkWell(
+          onTap: () => setState(
+            () => showPwRequirements(),
+          ),
+          child: Icon(Icons.info),
+        ),
+        SizedBox(width: 10),
+        InkWell(
+          onTap: () => visibilityOnTap,
+          child: Icon(
+            _passwordVisibility
+                ? Icons.visibility_outlined
+                : Icons.visibility_off_outlined,
+            color: Color(0xFF757575),
+            size: 22,
+          ),
+        ),
+      ],
+    );
+  }
+
   Row _passwordTextBox() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -364,42 +454,68 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              key: Key("Create.passwordTextField"),
+              cursorColor: FlutterFlowTheme.secondaryColor,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide a value";
+                }
+                if (!verify.isValidPassword(value)) {
+                  return "Please provide a valid password";
+                }
+                return null;
+              },
               controller: _passwordController,
               obscureText: !_passwordVisibility,
               decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
+                  hintText: "!Password12",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(4.0),
+                      topRight: Radius.circular(4.0),
+                    ),
                   ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(4.0),
+                      topRight: Radius.circular(4.0),
+                    ),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
-                  ),
-                ),
-                suffixIcon: InkWell(
-                  onTap: () => setState(
-                    () => _passwordVisibility = !_passwordVisibility,
-                  ),
-                  child: Icon(
-                    _passwordVisibility
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                    color: Color(0xFF757575),
-                    size: 22,
-                  ),
-                ),
-              ),
+                  suffixIcon: Padding(
+                      padding: EdgeInsetsDirectional.only(end: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () => showPwRequirements(),
+                            child: Icon(Icons.info,
+                                color: FlutterFlowTheme.secondaryColor),
+                          ),
+                          SizedBox(width: 10),
+                          InkWell(
+                            key: Key("Create.pWVisibilty"),
+                            onTap: () => setState(() {
+                              _passwordVisibility = !_passwordVisibility;
+                            }),
+                            child: Icon(
+                              _passwordVisibility
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                              color: Color(0xFF757575),
+                              size: 22,
+                            ),
+                          ),
+                        ],
+                      ))),
               style: FlutterFlowTheme.bodyText1,
               textAlign: TextAlign.start,
             ),
@@ -423,10 +539,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Text(
-                'Confirm Password',
-                style: FlutterFlowTheme.title3
-              ),
+              child: Text('Confirm Password',
+                  key: Key('Create.confirmPasswordLabel'),
+                  style: FlutterFlowTheme.title3),
             ),
           )
         ],
@@ -442,9 +557,21 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
+              key: Key("Create.confirmPasswordTextField"),
+              cursorColor: FlutterFlowTheme.secondaryColor,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide a value";
+                }
+                if (value != _getPassword()) {
+                  return "Passwords must match";
+                }
+                return null;
+              },
               controller: _confirmPasswordController,
               obscureText: !_confirmPasswordVisibility,
               decoration: InputDecoration(
+                hintText: "!Password12",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.black,
@@ -465,19 +592,34 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     topRight: Radius.circular(4.0),
                   ),
                 ),
-                suffixIcon: InkWell(
-                  onTap: () => setState(
-                    () => _confirmPasswordVisibility =
-                        !_confirmPasswordVisibility,
-                  ),
-                  child: Icon(
-                    _confirmPasswordVisibility
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                    color: Color(0xFF757575),
-                    size: 22,
-                  ),
-                ),
+                suffixIcon: Padding(
+                    padding: EdgeInsetsDirectional.only(end: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () => showPwRequirements(),
+                          child: Icon(Icons.info,
+                              color: FlutterFlowTheme.secondaryColor),
+                        ),
+                        SizedBox(width: 10),
+                        InkWell(
+                          key: Key("Create.confirmPWVisibilty"),
+                          onTap: () => setState(() {
+                            _confirmPasswordVisibility =
+                                !_confirmPasswordVisibility;
+                          }),
+                          child: Icon(
+                            _confirmPasswordVisibility
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            color: Color(0xFF757575),
+                            size: 22,
+                          ),
+                        ),
+                      ],
+                    )),
               ),
               style: FlutterFlowTheme.bodyText1,
               textAlign: TextAlign.start,
@@ -489,7 +631,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   void _verifyAPFPCredentials() {
-    if (_allInputsIsValid()) {
+    if (_formKey.currentState!.validate()) {
       fire_auth
           .getRegisteredUser(_getEmail())
           .then((QuerySnapshot querySnapshot) {
@@ -511,9 +653,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     if (user != null) {
       fire_auth.refreshUser(user);
       if (user.emailVerified) {
-        _onSuccess();
+        FireAuth.showToast("Account has been verified. Please sign in.");
       } else {
-        FireAuth.showToast("Please verify your email address.");
+        _onSuccess();
       }
     }
   }
@@ -540,6 +682,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FFButtonWidget(
+            key: Key("Create.createAcctButton"),
             onPressed: () async {
               _verifyAPFPCredentials();
             },
@@ -565,26 +708,32 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              SizedBox(height: 25),
-              _backButtonRow(),
-              _informationDialog(),
-              _nameRow(),
-              _emailLabel(),
-              _emailTextBox(),
-              _passwordLabel(),
-              _passwordTextBox(),
-              _confirmPasswordLabel(),
-              _confirmPasswordTextBox(),
-              _createAccountButton()
-            ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(height: 25),
+                  _backButtonRow(),
+                  _informationDialog(),
+                  _nameRow(),
+                  _emailLabel(),
+                  _emailTextBox(),
+                  _passwordLabel(),
+                  _passwordTextBox(),
+                  _confirmPasswordLabel(),
+                  _confirmPasswordTextBox(),
+                  _createAccountButton()
+                ],
+              ),
+            ),
           ),
         ),
       ),
