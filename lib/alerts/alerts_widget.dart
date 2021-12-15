@@ -1,3 +1,6 @@
+import 'package:apfp/firebase/firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../alert/alert_widget.dart';
 import '../components/announcement_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -13,7 +16,7 @@ class AlertsWidget extends StatefulWidget {
 
 class _AlertsWidgetState extends State<AlertsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Expanded> unReadAnnouncements = [];
+  List<Padding> unReadAnnouncements = [];
   List<Padding> previousAnnouncements = [];
 
   InkWell _makeAlert(String alertTitle, String alertDescription) {
@@ -23,7 +26,8 @@ class _AlertsWidgetState extends State<AlertsWidget> {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AlertWidget(),
+            builder: (context) =>
+                AlertWidget(title: title, description: description),
           ),
         );
       },
@@ -36,6 +40,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [Expanded(child: alert)],
       ),
@@ -64,7 +69,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     );
   }
 
-  void addToUnRead(Expanded unRead) {
+  void addToUnRead(Padding unRead) {
     setState(() {
       unReadAnnouncements.add(unRead);
     });
@@ -76,16 +81,22 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     });
   }
 
+  void _collectAnnouncements() async {
+    final fireStore = FireStore();
+    await fireStore.getAnnouncements().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs
+        ..forEach((element) {
+          String title = element['title'];
+          String description = element['description'];
+          addToPrevious(_paddedAlert(_makeAlert(title, description)));
+        });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    addToUnRead(Expanded(
-        child: _makeAlert('Example announcement subject',
-            'Example announcement information')));
-    for (int i = 0; i < 5; i++) {
-      addToPrevious(_paddedAlert(_makeAlert(
-          'Example announcement subject', 'Example announcement information')));
-    }
+    _collectAnnouncements();
   }
 
   @override
@@ -98,11 +109,11 @@ class _AlertsWidgetState extends State<AlertsWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [_paddedHeader(_makeHeader('Unread Announcements'))],
-              ),
+              // Row(
+              //   mainAxisSize: MainAxisSize.max,
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [_paddedHeader(_makeHeader('Unread Announcements'))],
+              // ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
