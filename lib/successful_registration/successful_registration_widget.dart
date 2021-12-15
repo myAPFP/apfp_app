@@ -21,14 +21,13 @@ class _SuccessfulRegistrationWidgetState
     return Text(
       'Thank you for registering! Please check your email and confirm your email address before logging in.',
       textAlign: TextAlign.center,
-      style: TextStyle().copyWith(
-        color: FlutterFlowTheme.primaryColor
-      ),
+      style: TextStyle().copyWith(fontSize: 22, fontWeight: FontWeight.normal),
     );
   }
 
   FFButtonWidget _backToHomeButton() {
     return FFButtonWidget(
+      key: Key("Successful.backToHomeButton"),
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
@@ -47,14 +46,15 @@ class _SuccessfulRegistrationWidgetState
       },
       text: 'Back to Home',
       options: FFButtonOptions(
-        width: 180,
+        width: 250,
         height: 50,
         color: Colors.white,
-        textStyle: FlutterFlowTheme.title2,
+        textStyle: TextStyle()
+            .copyWith(fontSize: 24, color: FlutterFlowTheme.primaryColor),
         elevation: 2,
         borderSide: BorderSide(
-          color: Color(0xFFBA0C2F),
-          width: 4,
+          color: FlutterFlowTheme.secondaryColor,
+          width: 3,
         ),
         borderRadius: 12,
       ),
@@ -69,6 +69,7 @@ class _SuccessfulRegistrationWidgetState
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           children: [
             Align(

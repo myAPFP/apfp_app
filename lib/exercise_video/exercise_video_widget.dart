@@ -123,18 +123,22 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
                     child: _youtubePlayer(),
                   ),
                   Padding(
+                    key: Key('Video.videoTitle'),
                     padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
                     child: _videoTitle,
                   ),
                   Padding(
+                    key: Key('Video.videoSource'),
                     padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
                     child: _videoSource,
                   ),
                   Padding(
+                    key: Key('Video.videoDescriptionHeader'),
                     padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
                     child: _descriptionHeader,
                   ),
                   Padding(
+                    key: Key('Video.videoDescriptionBody'),
                     padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
                     child: _descriptionBody,
                   )

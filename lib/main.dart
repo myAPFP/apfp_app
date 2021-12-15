@@ -39,6 +39,7 @@ class _NavBarPageState extends State<NavBarPage> {
     return Scaffold(
       body: tabs[_currentPage],
       bottomNavigationBar: BottomNavigationBar(
+        key: Key('BottomNavBar'),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
@@ -46,7 +47,7 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 48,
             ),
             label: 'Home',
-            tooltip: '',
+            tooltip: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -54,7 +55,7 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 40,
             ),
             label: 'Alerts',
-            tooltip: '',
+            tooltip: 'Alerts',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(
@@ -62,7 +63,7 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 35,
             ),
             label: 'Exercises',
-            tooltip: '',
+            tooltip: 'Exercises',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(
@@ -70,7 +71,7 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 40,
             ),
             label: 'My Activity',
-            tooltip: '',
+            tooltip: 'My Activity',
           )
         ],
         backgroundColor: Color(0xFF54585A),

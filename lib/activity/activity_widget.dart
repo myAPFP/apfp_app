@@ -71,6 +71,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   FFButtonWidget _addActivityButton() {
     return FFButtonWidget(
+      key: Key("Activity.addActivityButtton"),
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
@@ -112,6 +113,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             name: "Walking",
             type: "Cardio")
         .paddedActivityCard());
+
+    addCard(ActivityCard(
+            icon: Icons.sports_basketball_sharp,
+            duration: "30 min",
+            totalCal: "300",
+            name: "Basketball",
+            type: "Cardio")
+        .paddedActivityCard());    
   }
 
   @override
@@ -121,6 +130,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
+          key: Key("Activity.singleChildScrollView"),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
