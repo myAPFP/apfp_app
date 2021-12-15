@@ -8,19 +8,19 @@ import 'package:apfp/welcome/welcome_widget.dart' as app;
   !  Please log out of the app in Debugging mode before running.
   !  They will only pass if the entered credentials are valid
   !  and the associated account doesn't exist already.
-  */
+*/
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Welcome Screen Integration Tests', () {
     testWidgets('US: As a user, I can access the log in page to use my personal'
-    +'information' + 'to log into the app.', (WidgetTester tester) async {
+    + 'information to log into the app.', (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
       var loginButton = find.byKey(Key('Welcome.loginButton'));
-
+      
       // Expect to find the item on screen.
       expect(loginButton, findsOneWidget);
 
@@ -40,7 +40,7 @@ void main() {
       await tester.pumpAndSettle();
 
       var createAcctButton = find.byKey(Key('Welcome.createAcctButton'));
-
+    
       // Expect to find the item on screen.
       expect(createAcctButton, findsOneWidget);
 

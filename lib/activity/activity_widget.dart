@@ -71,6 +71,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   FFButtonWidget _addActivityButton() {
     return FFButtonWidget(
+      key: Key("Activity.addActivityButtton"),
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
@@ -129,6 +130,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
+          key: Key("Activity.singleChildScrollView"),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

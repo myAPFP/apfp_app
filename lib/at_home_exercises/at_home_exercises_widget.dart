@@ -27,12 +27,14 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   List<Padding> _paddedHeaderText() {
     return [
       Padding(
+        key: Key('Exercises.header'),
         padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
         child: Row(mainAxisSize: MainAxisSize.max, children: [
           Text('At-Home Exercises', style: FlutterFlowTheme.title1)
         ]),
       ),
       Padding(
+          key: Key('Exercises.description'),
           padding: EdgeInsetsDirectional.fromSTEB(16, 4, 24, 10),
           child: Row(mainAxisSize: MainAxisSize.max, children: [
             Expanded(
@@ -84,12 +86,14 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Stack(children: [
                           Align(
+                              key: Key('ExerciseTitle'),
                               alignment: AlignmentDirectional(-0.1, -0.5),
                               child:
                                   Text(title, style: FlutterFlowTheme.title3)),
                           Align(
                               alignment: AlignmentDirectional(2.64, 0.55),
                               child: Padding(
+                                  key: Key('ExerciseDescription'),
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 20, 0, 0),
                                   child: Text(
