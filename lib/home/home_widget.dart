@@ -17,7 +17,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Padding _signOutButton() {
     return Padding(
-      padding: const EdgeInsets.only(top:50.0),
+      padding: const EdgeInsets.only(top: 50.0),
       child: FFButtonWidget(
         onPressed: () async {
           await fireAuth.signOut();
@@ -126,6 +126,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Container _announcements(
       String alertOneText, String alertTwoText, String alertThreeText) {
     return Container(
+      key: Key('Home.announcements'),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -146,10 +147,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         children: [
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-            child: Text(
-              'Today\'s Activity',
-              style: FlutterFlowTheme.title1
-            ),
+            child: Text('Today\'s Activity', style: FlutterFlowTheme.title1),
           )
         ],
       ),
@@ -158,6 +156,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Padding _activityGUI() {
     return Padding(
+      key: Key('Home.activityGUI'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
