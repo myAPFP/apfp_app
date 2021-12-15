@@ -10,7 +10,7 @@ This application is in development and may be prone to bugs/issues/crashes. Run 
 2. In your code editor, attach a running emulator to the project.
 3. Find the root of the project in `lib/welcome/welcome_widget.dart`. Run the main() method, which will run the application on your emulator.
 
-Instructions for how to install Flutter SDK can be found [here](https://docs.flutter.dev/get-started/install). Implemented testing thus far can be found in `integration_tests` and `unit_tests` directories. If you have trouble running the Flutter application, try running the following command in your terminal to download packages: `flutter pub get`. If you run into trouble with your Flutter installation, try running `flutter doctor` to verify that your Flutter SDK is properly installed.
+Instructions for how to install Flutter SDK can be found [here](https://docs.flutter.dev/get-started/install). Implemented testing thus far can be found in `test` and `test_driver` directories. If you have trouble running the Flutter application, try running the following command in your terminal to download packages: `flutter pub get`. If you run into trouble with your Flutter installation, try running `flutter doctor` to verify that your Flutter SDK is properly installed.
 
 ## API and SDK Documentation
 As a hybrid application, this project uses multiple SDKs and external APIs. Versions and attributions are listed below.
