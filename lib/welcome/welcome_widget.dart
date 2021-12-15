@@ -60,11 +60,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   @override
   void initState() {
     super.initState();
-    // startPageLoadAnimations(
-    //   animationsMap.values
-    //       .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-    //   this,
-    // );
+    startPageLoadAnimations(
+      animationsMap.values
+          .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
+      this,
+    );
   }
 
   Future<FirebaseApp> _initFirebaseApp() async {
