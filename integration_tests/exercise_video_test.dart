@@ -19,7 +19,8 @@ import 'package:apfp/welcome/welcome_widget.dart' as app;
   ?  );
 
   ! This is done to prevent animation tickers from stalling our tests, causing 
-  ! them to all fail.
+  ! them to all fail. Before launching the app in Debugging mode again, 
+  ! you MUST un-comment out the above animation code.
 */
 
 void main() {
