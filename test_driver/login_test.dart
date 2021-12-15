@@ -3,9 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/welcome/welcome_widget.dart' as app;
 
-void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
   // TODO: Complete user story once screen is implemented:
   // US: If I have forgotten my password, there is a button
   // I can press to take me through the password reset process.
@@ -16,6 +13,9 @@ void main() {
   !  They will only pass if the entered credentials are valid
   !  and the associated account doesn't exist already.
   */
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Login Screen Integration Tests', () {
     testWidgets(
