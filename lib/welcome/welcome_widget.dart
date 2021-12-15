@@ -145,7 +145,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
-      key: Key("Welcome.LoginButton"),
+      key: Key("Welcome.loginButton"),
       onPressed: () async {
         await Navigator.pushAndRemoveUntil(
           context,
@@ -173,7 +173,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   FFButtonWidget _createAccountButton() {
     return FFButtonWidget(
-      key: Key("Welcome.CreateAcctButton"),
+      key: Key("Welcome.createAcctButton"),
       onPressed: () async {
         await Navigator.pushAndRemoveUntil(
           context,
