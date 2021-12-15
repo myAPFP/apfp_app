@@ -3,15 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/welcome/welcome_widget.dart' as app;
 
-void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
   /*
   !  These tests assume you're starting at the Welcome page.
   !  Please log out of the app in Debugging mode before running.
   !  They will only pass if the entered credentials are valid
   !  and the associated account doesn't exist already.
   */
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   const String emailEx1 = 'bkwalker@bsu.edu';
   const String emailEx2 = 'apfpapp@gmail.com';
