@@ -151,6 +151,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   Row _passwordTextBox() {
     return Row(
+      key: Key('LogIn.passwordTextBox'),
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
@@ -274,7 +275,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
-      key: Key("Login.loginInButton"),
+      key: Key('LogIn.logInButton'),
       onPressed: () async {
         _login();
       },
