@@ -17,6 +17,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? exercisetype;
   TextEditingController? activityNameTextController;
   TextEditingController? totalCalTextController;
+  TextEditingController? exerciseTextController;
+  TextEditingController? durationTextController;
   String? duration;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,8 +31,10 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     super.initState();
     activityNameTextController = TextEditingController();
     totalCalTextController = TextEditingController();
-    _populateDurationOptions();
-    _populateExcerciseOptions();
+    exerciseTextController = TextEditingController();
+    durationTextController = TextEditingController();
+    // _populateDurationOptions();
+    // _populateExcerciseOptions();
   }
 
   @override
@@ -52,19 +56,27 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     return totalCalTextController!.text.toString().trim();
   }
 
-  void _populateExcerciseOptions() {
-    setState(() {
-      exerciseTypeOptions.add("Option 1");
-      exerciseTypeOptions.add("Option 2");
-    });
+  String _getExercise() {
+    return exerciseTextController!.text.toString().trim();
   }
 
-  void _populateDurationOptions() {
-    setState(() {
-      durationOptions.add("Option 1");
-      durationOptions.add("Option 2");
-    });
+  String _getDuration() {
+    return durationTextController!.text.toString().trim();
   }
+
+  // void _populateExcerciseOptions() {
+  //   setState(() {
+  //     exerciseTypeOptions.add("Option 1");
+  //     exerciseTypeOptions.add("Option 2");
+  //   });
+  // }
+
+  // void _populateDurationOptions() {
+  //   setState(() {
+  //     durationOptions.add("Option 1");
+  //     durationOptions.add("Option 2");
+  //   });
+  // }
 
   Padding _dropDown(List<String> options, String? valueToChange) {
     return Padding(
@@ -94,11 +106,11 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         setState(() => _loadingButton = true);
         try {
           Padding ac = ActivityCard(
-                  icon: Icons.block_rounded,
-                  duration: duration,
+                  icon: Icons.info,
+                  duration: _getDuration(),
                   totalCal: _getTotalCal(),
                   name: _getName(),
-                  type: exercisetype)
+                  type: _getExercise())
               .paddedActivityCard();
           Navigator.pop(context, ac);
         } finally {
@@ -173,6 +185,14 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     return textField(totalCalTextController);
   }
 
+  Padding _exerciseTextField() {
+    return textField(exerciseTextController);
+  }
+
+  Padding _durationTextField() {
+    return textField(durationTextController);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -214,13 +234,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         text: 'Type of Exercise',
                         style: FlutterFlowTheme.title3),
                   ),
-                  _dropDown(exerciseTypeOptions, exercisetype),
+                 _exerciseTextField(),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                     child: _header(
                         text: 'Duration', style: FlutterFlowTheme.title3),
                   ),
-                  _dropDown(durationOptions, duration),
+                  _durationTextField(),
                   Align(
                     alignment: AlignmentDirectional(0, 0),
                     child: Padding(
