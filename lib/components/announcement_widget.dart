@@ -3,9 +3,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementWidget extends StatefulWidget {
-  final String title;
+
   final String description;
-  AnnouncementWidget({required this.title, required this.description});
+  final String title;
+
+  AnnouncementWidget({Key? key, required this.title, required this.description})
+      : super(key: key);
 
   @override
   _AnnouncementWidgetState createState() => _AnnouncementWidgetState();
