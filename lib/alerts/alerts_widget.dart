@@ -27,7 +27,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                AlertWidget(title: title, description: description),
+                AlertWidget(title: alertTitle, description: alertDescription),
           ),
         );
       },
