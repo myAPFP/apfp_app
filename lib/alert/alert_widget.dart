@@ -3,7 +3,11 @@ import '../main.dart';
 import 'package:flutter/material.dart';
 
 class AlertWidget extends StatefulWidget {
-  AlertWidget({Key? key}) : super(key: key);
+  final String title;
+  final String description;
+
+  AlertWidget({Key? key, required this.title, required this.description})
+      : super(key: key);
 
   @override
   _AlertWidgetState createState() => _AlertWidgetState();
@@ -44,32 +48,34 @@ class _AlertWidgetState extends State<AlertWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-              child: _backToList(),
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                  child: _backToList(),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
+                  child: _announcementTitle(widget.title),
+                ),
+                Container(
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.8),
+                    child: SingleChildScrollView(
+                        child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
+                      child: _announcementParagraph(widget.description),
+                    )))
+              ],
             ),
-            Padding(
-              key: Key('Alert.title'),
-              padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
-              child: _announcementTitle("Example Announcement Title"),
-            ),
-            Padding(
-              key: Key('Alert.description'),
-              padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
-              child: _announcementParagraph(
-                  "This is an example paragraph for an announcement. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lacinia libero ut sapien maximus, vitae viverra nulla iaculis. \n\nUt lacinia ultrices augue, hendrerit faucibus odio venenatis ac. Vivamus aliquet dignissim nunc. Quisque non orci a diam faucibus mollis eget ac magna. Fusce ex urna, interdum nec enim nec, vehicula tempus lacus."),
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
