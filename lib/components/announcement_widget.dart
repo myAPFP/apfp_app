@@ -3,7 +3,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementWidget extends StatefulWidget {
-
   final String description;
   final String title;
 
@@ -86,7 +85,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width * 0.74,
-                          height: 25,
+                          height: 40,
                           constraints: BoxConstraints(
                             maxWidth: MediaQuery.of(context).size.width * 0.7,
                           ),
@@ -95,6 +94,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                           ),
                           child: AutoSizeText(
                             widget.description,
+                            minFontSize: 16,
                             textAlign: TextAlign.start,
                             style: TextStyle().copyWith(
                               fontWeight: FontWeight.w300,
