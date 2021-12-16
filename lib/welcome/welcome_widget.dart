@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import '../create_account/create_account_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
@@ -59,11 +60,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   @override
   void initState() {
     super.initState();
-    // startPageLoadAnimations(
-    //   animationsMap.values
-    //       .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-    //   this,
-    // );
+    startPageLoadAnimations(
+      animationsMap.values
+          .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
+      this,
+    );
   }
 
   Future<FirebaseApp> _initFirebaseApp() async {

@@ -6,8 +6,6 @@ import 'package:apfp/welcome/welcome_widget.dart' as app;
 /*
   !  These tests assume you're starting at the Welcome page.
   !  Please log out of the app in Debugging mode before running.
-  !  They will only pass if the entered credentials are valid
-  !  and the associated account doesn't exist already.
 */
 
 void main() {
@@ -16,7 +14,7 @@ void main() {
   group('Email Not Confirmed Screen Integration Tests', (){
     testWidgets("US: If I reach this page, I am shown a message explaining that" +
       "my email has not yet been validated", (WidgetTester tester) async {
-
+        
       app.main();
       await tester.pumpAndSettle();
 
@@ -37,7 +35,7 @@ void main() {
       var loginButton = find.byKey(Key('Login.loginInButton'));
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
-
+        
       // Ensure email not confirmed message is present
       expect(find.byKey(Key('Email.contextMessage')), findsOneWidget);
     });
@@ -78,7 +76,7 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      // Launches Login Screen from Welcome
+        // Launches Login Screen from Welcome
       var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
       await tester.tap(loginButton_wel);
       await tester.pumpAndSettle();

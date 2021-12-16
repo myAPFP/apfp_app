@@ -6,4 +6,11 @@ class FireStore {
   Future<QuerySnapshot<Map<String, dynamic>>> getPlaylistID() {
     return FirebaseFirestore.instance.collection(YT_PLAYLIST_IDS).get();
   }
+
+  Future<QuerySnapshot> getAnnouncements() {
+    return FirebaseFirestore.instance
+        .collection('announcements')
+        .orderBy("id", descending: true)
+        .get();
+  }
 }
