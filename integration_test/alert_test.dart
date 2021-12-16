@@ -35,7 +35,7 @@ void main() {
 
       // Reach Announcements Page
       await tester.tap(find.byTooltip('Alerts'));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 2));
 
       // Tap on first Alert widget on page
       await tester.tap(find.byKey(Key('Alert')).first);
@@ -56,7 +56,7 @@ void main() {
 
       // Reach Announcements Page
       await tester.tap(find.byTooltip('Alerts'));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 2));
 
       // Tap on first Alert widget on page
       await tester.tap(find.byKey(Key('Alert')).first);
