@@ -3,18 +3,39 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/welcome/welcome_widget.dart' as app;
 
+/*
+  !  These tests assume you're starting at the Welcome page.
+  !  Please log out of the app in Debugging mode before running.
+*/
 
-// These tests run from the Email Not Confirmed screen,
-// Please reach this page first to run these tests successfully
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Email Not Confirmed Screen Integration Tests', (){
     testWidgets("US: If I reach this page, I am shown a message explaining that" +
       "my email has not yet been validated", (WidgetTester tester) async {
+        
       app.main();
       await tester.pumpAndSettle();
 
+      // Launches Login Screen from Welcome
+      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButton_wel);
+      await tester.pumpAndSettle();
+
+      // Populates each textformfield with valid info
+      await tester.enterText(
+          find.byKey(Key("Login.emailTextField")), 'example@email.com');
+      await tester.pumpAndSettle();
+      await tester.enterText(
+          find.byKey(Key("Login.passwordTextField")), 'password12!');
+      await tester.pumpAndSettle();
+
+      // Taps Login button
+      var loginButton = find.byKey(Key('Login.loginInButton'));
+      await tester.tap(loginButton);
+      await tester.pumpAndSettle();
+        
       // Ensure email not confirmed message is present
       expect(find.byKey(Key('Email.contextMessage')), findsOneWidget);
     });
@@ -22,6 +43,24 @@ void main() {
     testWidgets("US: I am able to resent the confirmation email if I have not received" +
       "it or if I have deleted it", (WidgetTester tester) async {
       app.main();
+      await tester.pumpAndSettle();
+
+      // Launches Login Screen from Welcome
+      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButton_wel);
+      await tester.pumpAndSettle();
+
+      // Populates each textformfield with valid info
+      await tester.enterText(
+          find.byKey(Key("Login.emailTextField")), 'example@email.com');
+      await tester.pumpAndSettle();
+      await tester.enterText(
+          find.byKey(Key("Login.passwordTextField")), 'password12!');
+      await tester.pumpAndSettle();
+
+      // Taps Login button
+      var loginButton = find.byKey(Key('Login.loginInButton'));
+      await tester.tap(loginButton);
       await tester.pumpAndSettle();
 
       // Ensure button exists to resend email confirmation
@@ -37,6 +76,24 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
+        // Launches Login Screen from Welcome
+      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButton_wel);
+      await tester.pumpAndSettle();
+
+      // Populates each textformfield with valid info
+      await tester.enterText(
+          find.byKey(Key("Login.emailTextField")), 'example@email.com');
+      await tester.pumpAndSettle();
+      await tester.enterText(
+          find.byKey(Key("Login.passwordTextField")), 'password12!');
+      await tester.pumpAndSettle();
+
+      // Taps Login button
+      var loginButton = find.byKey(Key('Login.loginInButton'));
+      await tester.tap(loginButton);
+      await tester.pumpAndSettle();
+
       // Ensure back to home button exists
       expect(find.byKey(Key('Email.returnHomeButton')), findsOneWidget);
 
@@ -44,9 +101,6 @@ void main() {
       var returnHomeButton = find.byKey(Key('Email.returnHomeButton'));
       await tester.tap(returnHomeButton);
       await tester.pumpAndSettle();
-      });
-
-
-
+    });
   });
 }
