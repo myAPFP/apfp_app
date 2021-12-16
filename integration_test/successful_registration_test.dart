@@ -5,10 +5,22 @@ import 'package:apfp/welcome/welcome_widget.dart' as app;
 
   /*
   !  These tests assume you're starting at the Welcome page.
-  !  Please log out of the app in Debugging mode before running.
   !  They will only pass if the entered credentials are valid
   !  and the associated account doesn't exist already.
-  */
+  !  Please log out of the app in Debugging mode before running.
+  !  Within 
+  ?  welcome_widget.dart,
+  !  you MUST in-comment out the following animation code found within it's
+  ?  initState():
+    
+  ?  startPageLoadAnimations(
+  ?    animationsMap.values
+  ?        .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
+  ?    this,
+  ?  );
+
+  ! This allows the app to run properly.
+*/
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
