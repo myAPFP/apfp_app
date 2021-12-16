@@ -35,11 +35,12 @@ void main() {
 
       // Reach Announcements Page to verify its existence
       await tester.tap(find.byTooltip('Alerts'));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 2));
 
-      // Ensure existence of "Unread Announcements" header and "Previous Announcements" header
+      // Ensure existence of "Previous Announcements" header
       // expect(find.text("Unread Announcements"), findsOneWidget); Not implemented
       expect(find.text("Previous Announcements"), findsOneWidget);
+      await tester.pumpAndSettle();
     });
 
     testWidgets(
@@ -56,6 +57,7 @@ void main() {
       // Ensure announcement subject and information exist for first announcement
       expect(find.text('Test'), findsOneWidget);
       expect(find.textContaining('This is a test'), findsOneWidget);
+      await tester.pumpAndSettle();
     });
 
     testWidgets(
