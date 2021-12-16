@@ -62,6 +62,7 @@ class _AlertWidgetState extends State<AlertWidget> {
                   child: _backToList(),
                 ),
                 Padding(
+                  key: Key('Alert.title'),
                   padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
                   child: _announcementTitle(widget.title),
                 ),
@@ -70,6 +71,7 @@ class _AlertWidgetState extends State<AlertWidget> {
                         maxHeight: MediaQuery.of(context).size.height * 0.8),
                     child: SingleChildScrollView(
                         child: Padding(
+                      key: Key('Alert.description'),
                       padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
                       child: _announcementParagraph(widget.description),
                     )))
