@@ -3,6 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/welcome/welcome_widget.dart' as app;
 
+/*
+  !  These tests assume you're starting at the Welcome page.
+  !  Please log out of the app in Debugging mode before running.
+  !  They will only pass if the entered credentials are valid
+  !  and the associated account doesn't exist already.
+*/
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -10,6 +16,7 @@ void main() {
   group('Email Not Confirmed Screen Integration Tests', (){
     testWidgets("US: If I reach this page, I am shown a message explaining that" +
       "my email has not yet been validated", (WidgetTester tester) async {
+
       app.main();
       await tester.pumpAndSettle();
 
