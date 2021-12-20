@@ -15,13 +15,19 @@ class AtHomeExercisesWidget extends StatefulWidget {
 
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    _preloadExistingVideos();
+    _getPlaylistIDs().then((ids) {
+      ids.forEach((id) {
+        _preloadYTVideos(id);
+      });
+      _isVideosLoaded = true;
+    });
   }
 
   List<Padding> _paddedHeaderText() {
@@ -110,20 +116,20 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                 ))));
   }
 
-  void _preloadExistingVideos() async {
+  Future<List<String>> _getPlaylistIDs() async {
+    List<String> ids = [];
     final firestore = FireStore();
-    YoutubeExplode yt = YoutubeExplode();
-
-    String id = "";
-
     await firestore.getPlaylistID().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        id = doc["id"];
+        ids.add(doc["id"]);
       });
     });
+    return ids;
+  }
 
+  void _preloadYTVideos(String id) async {
+    YoutubeExplode yt = YoutubeExplode();
     Playlist playlist = await yt.playlists.get(id);
-
     await for (Video video in yt.playlists.getVideos(playlist.id)) {
       _addVideoToList(_videoTrainingCard(
           author: video.author,
@@ -131,8 +137,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
           title: video.title,
           video: video));
     }
-
-    _isVideosLoaded = true;
     yt.close();
   }
 
