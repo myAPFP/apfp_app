@@ -232,7 +232,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                     child: _header(
-                        text: 'Duration', style: FlutterFlowTheme.title3),
+                        text: 'Calories Burned', style: FlutterFlowTheme.title3),
                   ),
                   _totalCalTextField(),
                   Padding(
