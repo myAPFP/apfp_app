@@ -1,7 +1,5 @@
 import 'package:apfp/firebase/firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-
 import '../exercise_video/exercise_video_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +14,10 @@ class AtHomeExercisesWidget extends StatefulWidget {
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  int _newVidCount = 0;
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
+  bool _isNewVidMsgDisplayed = false;
 
   @override
   void initState() {
@@ -118,8 +118,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   Future<List<String>> _getPlaylistIDs() async {
     List<String> ids = [];
-    final firestore = FireStore();
-    await firestore.getPlaylistID().then((QuerySnapshot querySnapshot) {
+    await FireStore.getPlaylistID().then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         ids.add(doc["id"]);
       });
@@ -138,6 +137,23 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
           video: video));
     }
     yt.close();
+    _updateVidCountDB();
+  }
+
+  void _updateVidCountDB() async {
+    num? _storedCount;
+    await FireStore.getVideoCount().then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        _storedCount = doc['vidCount'];
+      });
+    });
+    if (videoList.length > _storedCount!) {
+      _newVidCount = videoList.length - int.parse(_storedCount.toString());
+      FireStore.setVideoCount(videoList.length);
+      setState(() => _isNewVidMsgDisplayed = true);
+    } else if (_storedCount! > videoList.length) {
+      FireStore.setVideoCount(videoList.length);
+    }
   }
 
   void _addVideoToList(Padding videoTrainingCard) {
@@ -163,7 +179,17 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                     ? Text("Loading Videos...",
                         style: FlutterFlowTheme.subtitle3)
                     : Text("Video Count: ${videoList.length}",
-                        style: FlutterFlowTheme.subtitle3)
+                        style: FlutterFlowTheme.subtitle3),
+                !_isNewVidMsgDisplayed
+                    ? Text("")
+                    : Text(
+                        "${_newVidCount} new video(s)!",
+                        style: TextStyle(
+                            fontFamily: 'Open Sans',
+                            color: Colors.green,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20),
+                      )
               ],
             ),
             Column(
