@@ -29,7 +29,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final verify = Validator();
-  final fire_auth = FireAuth();
 
   @override
   void initState() {
@@ -160,8 +159,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
+            var firstUpperCase = value.substring(0, 1).toUpperCase();
             if (!verify.isValidName(value)) {
               return "Please provide a valid first name";
+            } else if (value.substring(0, 1) != firstUpperCase) {
+              return "Please capitalize your name";
             }
             return null;
           },
@@ -239,8 +241,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           if (value == null || value.isEmpty) {
             return "Please provide a value";
           }
+          var firstUpperCase = value.substring(0, 1).toUpperCase();
           if (!verify.isValidName(value)) {
-            return "Please provide a valid last name";
+            return "Please provide a valid first name";
+          } else if (value.substring(0, 1) != firstUpperCase) {
+            return "Please capitalize your name";
           }
           return null;
         },
@@ -632,7 +637,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   void _verifyAPFPCredentials() {
     if (_formKey.currentState!.validate()) {
-      fire_auth
+      FireAuth
           .getRegisteredUser(_getEmail())
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.size != 0) {
@@ -646,12 +651,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   void _createAccount() async {
-    User? user = await fire_auth.registerUsingEmailPassword(
+    User? user = await FireAuth.registerUsingEmailPassword(
         name: _getFullName(), email: _getEmail(), password: _getPassword());
     user?.updateDisplayName(_getFullName());
     user?.sendEmailVerification();
     if (user != null) {
-      fire_auth.refreshUser(user);
+      FireAuth.refreshUser(user);
       if (user.emailVerified) {
         FireAuth.showToast("Account has been verified. Please sign in.");
       } else {
