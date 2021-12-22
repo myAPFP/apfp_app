@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FireAuth {
   static const REGISTERED_USERS = 'registered users';
 
-  Future<User?> registerUsingEmailPassword(
+  static Future<User?> registerUsingEmailPassword(
       {required String name,
       required String email,
       required String password}) async {
@@ -32,7 +32,7 @@ class FireAuth {
     return user;
   }
 
-  Future<User?> signInUsingEmailPassword(
+  static Future<User?> signInUsingEmailPassword(
       {required String email,
       required String password,
       required BuildContext context}) async {
@@ -58,7 +58,7 @@ class FireAuth {
     return user;
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getRegisteredUser(String email) {
+  static Future<QuerySnapshot> getRegisteredUser(String email) {
     showToast("Verifying Membership...");
     return FirebaseFirestore.instance
         .collection(REGISTERED_USERS)
@@ -66,20 +66,20 @@ class FireAuth {
         .get();
   }
 
-  Future<User?> refreshUser(User user) async {
+  static Future<User?> refreshUser(User user) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     await user.reload();
     User? refreshedUser = auth.currentUser;
     return refreshedUser;
   }
 
-  sendEMmailNotification(User? user) async {
+  static sendEMmailNotification(User? user) async {
     if (user != null) {
       await user.sendEmailVerification();
     }
   }
 
-  reSendEmailVerification() async {
+  static reSendEmailVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       refreshUser(user);
@@ -89,12 +89,12 @@ class FireAuth {
     }
   }
 
-  signOut() async {
+  static signOut() async {
     await FirebaseAuth.instance.signOut();
     showToast("Signed out.");
   }
 
-  deleteCurrentUser() async {
+  static deleteCurrentUser() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       FirebaseFirestore.instance
@@ -110,13 +110,13 @@ class FireAuth {
     }
   }
 
-  resetPassword({required String email, required Function onError}) async {
+  static resetPassword({required String email}) async {
     final auth = FirebaseAuth.instance;
     await auth
         .sendPasswordResetEmail(email: email)
         .whenComplete(
             () => showToast("Please check your email to reset your password."))
-        .catchError(onError);
+        .catchError((e) => showToast(e.toString()));
   }
 
   static void showToast(String msg) {
