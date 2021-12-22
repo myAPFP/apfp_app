@@ -23,7 +23,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   final verify = Validator();
-  final fire_auth = FireAuth();
 
   @override
   void initState() {
@@ -247,11 +246,11 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      await fire_auth.signInUsingEmailPassword(
+      await FireAuth.signInUsingEmailPassword(
           email: _getEmail(), password: _getPassword(), context: context);
       User? currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
-        fire_auth.refreshUser(currentUser);
+        FireAuth.refreshUser(currentUser);
         if (currentUser.emailVerified) {
           _goHome();
         } else {
