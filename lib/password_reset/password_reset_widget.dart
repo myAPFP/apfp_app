@@ -51,12 +51,10 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
     );
   }
 
-  Text _backText() {
-    return Text('< Back', style: FlutterFlowTheme.subtitle2);
-  }
-
-  InkWell _backButton(){
-    return InkWell(
+  Padding _backButton() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(15, 25, 0, 0),
+      child: InkWell(
       onTap: () async {
         await Navigator.push(
           context,
@@ -64,18 +62,12 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
             builder: (context) => LogInPageWidget()),
         );
       },
-      child: _backText(),
+      child: Text('< Back', style: FlutterFlowTheme.subtitle2)
+    ),
     );
   }
 
-  Padding _paddedBackButton(){
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(15, 25, 0, 0),
-      child: _backButton(),
-    );
-  }
-
-  TextFormField _passwordTextBox() {
+  TextFormField _passwordTextField() {
     return TextFormField(
       controller: _passwordController1,
       obscureText: !passwordVisibility1,
@@ -117,13 +109,13 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
       children: [
         Expanded(
           child: Padding(padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-          child: _passwordTextBox())
+          child: _passwordTextField())
         )
       ]
     );
   }
 
-  TextFormField _confirmPasswordTextBox() {
+  TextFormField _confirmPasswordTextField() {
     return TextFormField(
       controller: _passwordController2,
       obscureText: !passwordVisibility2,
@@ -165,14 +157,18 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
       children: [
         Expanded(
           child: Padding(padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-          child: _confirmPasswordTextBox())
+          child: _confirmPasswordTextField())
         )
       ]
     );
   }
 
-  FFButtonWidget _resetPasswordButton(){
-    return FFButtonWidget(
+  Align _resetPasswordButton() {
+    return Align(
+      alignment: AlignmentDirectional(-0.05, 0),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
+        child: FFButtonWidget(
       onPressed: () async {
         await Navigator.push(
           context,
@@ -193,15 +189,7 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
           width: 1,
         ),
         borderRadius: 12)
-      );
-  }
-
-  Align _paddedResetPasswordButton() {
-    return Align(
-      alignment: AlignmentDirectional(-0.05, 0),
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
-        child: _resetPasswordButton()),
+      )),
       );
   }
 
@@ -217,14 +205,14 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _paddedBackButton(),
+              _backButton(),
               Padding( padding: EdgeInsetsDirectional.fromSTEB(15, 50, 0, 0),
                 child: Text('Please enter a new password', style: FlutterFlowTheme.title3)),
               _passwordRow(),
               Padding( padding: EdgeInsetsDirectional.fromSTEB(15, 50, 0, 0),
                 child: Text('Confirm new password', style: FlutterFlowTheme.title3)),
               _confirmPasswordRow(),
-              _paddedResetPasswordButton()
+              _resetPasswordButton()
             ],
           ),
         ),
