@@ -16,7 +16,7 @@ class AlertWidget extends StatefulWidget {
 class _AlertWidgetState extends State<AlertWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  InkWell _backToList() {
+  InkWell _backButton() {
     return InkWell(
       onTap: () async {
         await Navigator.pushAndRemoveUntil(
@@ -59,7 +59,7 @@ class _AlertWidgetState extends State<AlertWidget> {
               children: [
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                  child: _backToList(),
+                  child: _backButton(),
                 ),
                 Padding(
                   key: Key('Alert.title'),
