@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:open_mail_app/open_mail_app.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import '../create_account/create_account_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
@@ -56,6 +58,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     ),
   };
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final String ADMIN_EMAIL = 'apfpapp@gmail.com';
 
   @override
   void initState() {
@@ -144,12 +147,40 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           style: FlutterFlowTheme.subtitle1,
           children: <InlineSpan>[
             TextSpan(
-              text: '\n<EMAIL>',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: FlutterFlowTheme.secondaryColor),
-            )
+                text: '\n<EMAIL>',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: FlutterFlowTheme.secondaryColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    EmailContent email = EmailContent(
+                      to: [ADMIN_EMAIL],
+                      subject: 'APFP Membership',
+                    );
+                    OpenMailAppResult result =
+                        await OpenMailApp.composeNewEmailInMailApp(
+                            nativePickerTitle: 'Select an email app to compose',
+                            emailContent: email);
+
+                    // If no mail apps found, show error
+                    if (!result.didOpen && !result.canOpen) {
+                      showNoMailAppsDialog(context);
+
+                      // iOS: if multiple mail apps found, show dialog to select.
+                      // There is no native intent/default app system in iOS so
+                      // you have to do it yourself.
+                    } else if (!result.didOpen && result.canOpen) {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return MailAppPickerDialog(
+                            mailApps: result.options,
+                          );
+                        },
+                      );
+                    }
+                  })
           ]),
       textAlign: TextAlign.center,
     );
@@ -209,6 +240,26 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         ),
         borderRadius: 12,
       ),
+    );
+  }
+
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Open Mail App"),
+          content: Text("No mail apps installed"),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
