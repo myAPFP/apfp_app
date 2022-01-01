@@ -103,24 +103,28 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   Padding _informationDialog() {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 150,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Text(
-              'Welcome to the Adult Physical Fitness Program at Ball State University!' +
-                  ' Please enter the details below to create your account.',
-              textAlign: TextAlign.center,
-              style: FlutterFlowTheme.subtitle1,
-            ),
-          )
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Text.rich(TextSpan(
+                  text: 'Welcome to the Adult Physical Fitness App.' +
+                      ' Please enter the details below to create your account.',
+                  style: FlutterFlowTheme.subtitle1,
+                  children: <InlineSpan>[
+                    TextSpan(
+                      text: 'You must be a member of the APFP to sign up.',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FlutterFlowTheme.secondaryColor),
+                    )
+                  ]),textAlign: TextAlign.center,))
         ],
       ),
     );
@@ -145,7 +149,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding _firstNameTextBox() {
+  Padding _firstNameTextField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
       child: Container(
@@ -206,7 +210,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_firstNameLabel(), _firstNameTextBox()],
+        children: [_firstNameLabel(), _firstNameTextField()],
       ),
     );
   }
@@ -637,8 +641,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   void _verifyAPFPCredentials() {
     if (_formKey.currentState!.validate()) {
-      FireAuth
-          .getRegisteredUser(_getEmail())
+      FireAuth.getRegisteredUser(_getEmail())
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.size != 0) {
           _createAccount();
