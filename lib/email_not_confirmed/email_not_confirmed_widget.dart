@@ -31,7 +31,8 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
               color: FlutterFlowTheme.tertiaryColor,
             ),
             child: Text(
-              'Your account cannot be accessed until the email address is confirmed. Please check your email account for a confirmation before logging in.',
+              'Your account cannot be accessed until the email address is confirmed.' +
+                  'Please check your email account for a confirmation before logging in.',
               textAlign: TextAlign.center,
               style: TextStyle().copyWith(
                 fontWeight: FontWeight.normal,
