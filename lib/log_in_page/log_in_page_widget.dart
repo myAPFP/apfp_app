@@ -60,8 +60,10 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     return Text('< Back to Home', style: FlutterFlowTheme.subtitle2);
   }
 
-  InkWell _backButton() {
-    return InkWell(
+  Padding _backButton() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
+      child:InkWell(
       onTap: () async {
         await Navigator.push(
           context,
@@ -69,13 +71,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         );
       },
       child: _backToHomeText(),
-    );
-  }
-
-  Padding _paddedBackButton() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-      child: _backButton(),
+    ),
     );
   }
 
@@ -84,13 +80,19 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 80),
       child: Row(
         mainAxisSize: MainAxisSize.max,
-        children: [_paddedBackButton()],
+        children: [_backButton()],
       ),
     );
   }
 
-  TextFormField _emailTextBox() {
-    return TextFormField(
+  Row _emailTextField() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
+            child: TextFormField(
       key: Key("Login.emailTextField"),
       cursorColor: FlutterFlowTheme.secondaryColor,
       validator: (value) {
@@ -131,24 +133,14 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       ),
       style: FlutterFlowTheme.bodyText1,
       textAlign: TextAlign.start,
-    );
-  }
-
-  Row _emailRow() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
-            child: _emailTextBox(),
+    ),
           ),
         )
       ],
     );
   }
 
-  Row _passwordTextBox() {
+  Row _passwordTextField() {
     return Row(
       key: Key('LogIn.passwordTextBox'),
       mainAxisSize: MainAxisSize.max,
@@ -211,7 +203,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding _textBoxLabel(String text,
+  Padding _textFieldLabel(String text,
       {MainAxisAlignment alignment = MainAxisAlignment.center,
       double lPadding = 0}) {
     return Padding(
@@ -236,7 +228,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: _textBoxLabel(text),
+              child: _textFieldLabel(text),
             ),
           )
         ],
@@ -272,36 +264,34 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     }
   }
 
-  FFButtonWidget _logInButton() {
-    return FFButtonWidget(
-      key: Key('LogIn.logInButton'),
-      onPressed: () async {
-        _login();
-      },
-      text: 'Log In',
-      options: FFButtonOptions(
-        width: 150,
-        height: 50,
-        color: Color(0xFFBA0C2F),
-        textStyle: FlutterFlowTheme.title2,
-        elevation: 2,
-        borderSide: BorderSide(
-          color: Colors.transparent,
-          width: 1,
-        ),
-        borderRadius: 12,
-      ),
-      loading: _loadingButton,
-    );
-  }
-
-  Padding _paddedLogInButton() {
+  Padding _logInButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [_logInButton()],
+        children: [
+          FFButtonWidget(
+            key: Key('LogIn.logInButton'),
+            onPressed: () async {
+              _login();
+            },
+            text: 'Log In',
+            options: FFButtonOptions(
+              width: 150,
+              height: 50,
+              color: Color(0xFFBA0C2F),
+              textStyle: FlutterFlowTheme.title2,
+              elevation: 2,
+              borderSide: BorderSide(
+                color: Colors.transparent,
+                width: 1,
+              ),
+              borderRadius: 12,
+            ),
+            loading: _loadingButton,
+          )
+        ],
       ),
     );
   }
@@ -319,7 +309,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             decoration: BoxDecoration(
               color: Colors.white,
             ),
-            child: _textBoxLabel("Forgot Your Password?"),
+            child: _textFieldLabel("Forgot Your Password?"),
           )
         ],
       ),
@@ -341,13 +331,13 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   _returnToWelcome(),
-                  _textBoxLabel("Email Address",
+                  _textFieldLabel("Email Address",
                       alignment: MainAxisAlignment.start, lPadding: 20),
-                  _emailRow(),
-                  _textBoxLabel("Password",
+                  _emailTextField(),
+                  _textFieldLabel("Password",
                       alignment: MainAxisAlignment.start, lPadding: 20),
-                  _passwordTextBox(),
-                  _paddedLogInButton(),
+                  _passwordTextField(),
+                  _logInButton(),
                   _forgotPasswordLabel()
                 ],
               ),
