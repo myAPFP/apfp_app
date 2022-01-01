@@ -101,7 +101,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding _informationDialog() {
+  Padding _headerText() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
       child: Row(
@@ -114,17 +114,22 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Text.rich(TextSpan(
-                  text: 'Welcome to the Adult Physical Fitness App.' +
-                      ' Please enter the details below to create your account.',
-                  style: FlutterFlowTheme.subtitle1,
-                  children: <InlineSpan>[
-                    TextSpan(
-                      text: 'You must be a member of the APFP to sign up.',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: FlutterFlowTheme.secondaryColor),
-                    )
-                  ]),textAlign: TextAlign.center,))
+              child: Text.rich(
+                TextSpan(
+                    text: 'Welcome to the Adult Physical Fitness App.' +
+                        ' Please enter the details below to create your account.',
+                    style: FlutterFlowTheme.subtitle1,
+                    children: <InlineSpan>[
+                      TextSpan(
+                        text: 'You must be a member of the APFP to sign up.',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: FlutterFlowTheme.secondaryColor),
+                      )
+                    ]),
+                textAlign: TextAlign.center,
+              ))
         ],
       ),
     );
@@ -204,17 +209,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding _firstName() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_firstNameLabel(), _firstNameTextField()],
-      ),
-    );
-  }
-
   Row _lastNameLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -234,7 +228,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Container _lastNameTextBox() {
+  Container _lastNameTextField() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
@@ -285,19 +279,25 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Column _lastName() {
-    return Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_lastNameLabel(), _lastNameTextBox()]);
-  }
-
   Row _nameRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_firstName(), _lastName()],
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_firstNameLabel(), _firstNameTextField()],
+          ),
+        ),
+        Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_lastNameLabel(), _lastNameTextField()])
+      ],
     );
   }
 
@@ -407,55 +407,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  void showPwRequirements() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        key: Key("Create.pWRequirements"),
-        title: const Text('Password Requirements'),
-        content: Text('Password must contain at least\n\n' +
-            '- Eight characters\n' +
-            '- One letter\n' +
-            '- One number\n' +
-            '- One special character'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK',
-                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Row passwordIconRow(Function visibilityOnTap) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        InkWell(
-          onTap: () => setState(
-            () => showPwRequirements(),
-          ),
-          child: Icon(Icons.info),
-        ),
-        SizedBox(width: 10),
-        InkWell(
-          onTap: () => visibilityOnTap,
-          child: Icon(
-            _passwordVisibility
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
-            color: Color(0xFF757575),
-            size: 22,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row _passwordTextBox() {
+  Row _passwordTextField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -558,7 +510,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _confirmPasswordTextBox() {
+  Row _confirmPasswordTextField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -636,6 +588,54 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           ),
         )
       ],
+    );
+  }
+
+  Row passwordIconRow(Function visibilityOnTap) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        InkWell(
+          onTap: () => setState(
+            () => showPwRequirements(),
+          ),
+          child: Icon(Icons.info),
+        ),
+        SizedBox(width: 10),
+        InkWell(
+          onTap: () => visibilityOnTap,
+          child: Icon(
+            _passwordVisibility
+                ? Icons.visibility_outlined
+                : Icons.visibility_off_outlined,
+            color: Color(0xFF757575),
+            size: 22,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void showPwRequirements() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        key: Key("Create.pWRequirements"),
+        title: const Text('Password Requirements'),
+        content: Text('Password must contain at least\n\n' +
+            '- Eight characters\n' +
+            '- One letter\n' +
+            '- One number\n' +
+            '- One special character'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK',
+                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
+          ),
+        ],
+      ),
     );
   }
 
@@ -730,14 +730,14 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 children: [
                   SizedBox(height: 25),
                   _backButtonRow(),
-                  _informationDialog(),
+                  _headerText(),
                   _nameRow(),
                   _emailLabel(),
                   _emailTextBox(),
                   _passwordLabel(),
-                  _passwordTextBox(),
+                  _passwordTextField(),
                   _confirmPasswordLabel(),
-                  _confirmPasswordTextBox(),
+                  _confirmPasswordTextField(),
                   _createAccountButton()
                 ],
               ),
