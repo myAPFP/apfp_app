@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireAuth {
-  static const REGISTERED_USERS = 'registered users';
-
   static Future<User?> registerUsingEmailPassword(
       {required String name,
       required String email,
@@ -61,7 +59,7 @@ class FireAuth {
   static Future<QuerySnapshot> getRegisteredUser(String email) {
     showToast("Verifying Membership...");
     return FirebaseFirestore.instance
-        .collection(REGISTERED_USERS)
+        .collection('registered users')
         .where('email', isEqualTo: email)
         .get();
   }
@@ -98,7 +96,7 @@ class FireAuth {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       FirebaseFirestore.instance
-          .collection(REGISTERED_USERS)
+          .collection('registered users')
           .doc(user.uid)
           .delete()
           .whenComplete(() {
