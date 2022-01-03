@@ -56,6 +56,16 @@ class FireAuth {
     return user;
   }
 
+  static void storeUID(String doc_id, String uid) {
+    FirebaseFirestore.instance
+        .collection('registered users')
+        .doc(doc_id)
+        .update({"UID": uid})
+        .then((value) => print("UID Updated"))
+        .catchError((error) => print("Failed to update UID: $error"));
+    ;
+  }
+
   static Future<QuerySnapshot> getRegisteredUser(String email) {
     showToast("Verifying Membership...");
     return FirebaseFirestore.instance

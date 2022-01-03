@@ -29,6 +29,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final verify = Validator();
+  late var _docID;
 
   @override
   void initState() {
@@ -644,6 +645,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       FireAuth.getRegisteredUser(_getEmail())
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.size != 0) {
+          // Only works if there is unqiueness amongst 
+          // all email fields in firestore db
+           _docID = querySnapshot.docs.first.id;
           _createAccount();
         } else {
           FireAuth.showToast(
@@ -660,6 +664,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     user?.sendEmailVerification();
     if (user != null) {
       FireAuth.refreshUser(user);
+      FireAuth.storeUID(_docID, user.uid);
       if (user.emailVerified) {
         FireAuth.showToast("Account has been verified. Please sign in.");
       } else {
