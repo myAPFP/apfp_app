@@ -147,7 +147,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           style: FlutterFlowTheme.subtitle1,
           children: <InlineSpan>[
             TextSpan(
-                text: '\n<EMAIL>',
+                text: '\n<${ADMIN_EMAIL}>',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -157,6 +157,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                     EmailContent email = EmailContent(
                       to: [ADMIN_EMAIL],
                       subject: 'APFP Membership',
+                      body: 'Hello, how can I become a member?'
                     );
                     OpenMailAppResult result =
                         await OpenMailApp.composeNewEmailInMailApp(
@@ -167,9 +168,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                     if (!result.didOpen && !result.canOpen) {
                       showNoMailAppsDialog(context);
 
-                      // iOS: if multiple mail apps found, show dialog to select.
-                      // There is no native intent/default app system in iOS so
-                      // you have to do it yourself.
+                    // iOS: if multiple mail apps found, show dialog to select.
+                    // There is no native intent/default app system in iOS so
+                    // you have to do it yourself.
                     } else if (!result.didOpen && result.canOpen) {
                       showDialog(
                         context: context,
