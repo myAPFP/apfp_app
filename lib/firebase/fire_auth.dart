@@ -60,10 +60,7 @@ class FireAuth {
     FirebaseFirestore.instance
         .collection('registered users')
         .doc(doc_id)
-        .update({"UID": uid})
-        .then((value) => print("UID Updated"))
-        .catchError((error) => print("Failed to update UID: $error"));
-    ;
+        .update({"UID": uid});
   }
 
   static Future<QuerySnapshot> getRegisteredUser(String email) {
@@ -118,7 +115,14 @@ class FireAuth {
     }
   }
 
-  static resetPassword({required String email}) async {
+  static updateEmail({required String newEmail}) {
+    User? user = FirebaseAuth.instance.currentUser;
+    user!
+        .updateEmail(newEmail)
+        .then((value) => showToast("Email has been updated."));
+  }
+
+  static sendResetPasswordLink({required String email}) async {
     final auth = FirebaseAuth.instance;
     await auth
         .sendPasswordResetEmail(email: email)
