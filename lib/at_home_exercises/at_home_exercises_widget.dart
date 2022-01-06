@@ -14,6 +14,7 @@ class AtHomeExercisesWidget extends StatefulWidget {
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  int _index = 0;
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
 
@@ -51,7 +52,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   Padding _videoTrainingCard(
-      {required String author,
+      {required int index,
+      required String author,
       required String url,
       required String title,
       required Video video}) {
@@ -85,32 +87,53 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Row(mainAxisSize: MainAxisSize.max, children: [
-                    Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                        child: Stack(children: [
-                          Align(
-                              key: Key('ExerciseTitle'),
-                              alignment: AlignmentDirectional(-0.1, -0.5),
-                              child:
-                                  Text(title, style: FlutterFlowTheme.title3)),
-                          Align(
-                              alignment: AlignmentDirectional(2.64, 0.55),
-                              child: Padding(
-                                  key: Key('ExerciseDescription'),
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 20, 0, 0),
-                                  child: Text(
-                                      'Source: $author\nVideo Length: ${video.duration!.inMinutes} minutes',
-                                      style: FlutterFlowTheme.subtitle3)))
-                        ])),
-                    Expanded(
-                        flex: 1,
-                        child: Align(
-                            alignment: AlignmentDirectional(0.05, 0),
-                            child: Icon(Icons.chevron_right,
-                                color: Color(0xFF95A1AC), size: 28)))
-                  ]),
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 40),
+                          Text("${_index}", style: FlutterFlowTheme.title3),
+                        ],
+                      ),
+                      Row(mainAxisSize: MainAxisSize.max, children: [
+                        Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                            child: Stack(children: [
+                              Align(
+                                  key: Key('ExerciseTitle'),
+                                  alignment: AlignmentDirectional(-0.1, -0.5),
+                                  child: Text(title,
+                                      style: FlutterFlowTheme.title3)),
+                              Align(
+                                  alignment: AlignmentDirectional(2.64, 0.55),
+                                  child: Padding(
+                                      key: Key('ExerciseDescription'),
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 20, 0, 0),
+                                      child: video.duration!.inMinutes > 1
+                                          ? Text(
+                                              'Source: $author\nVideo Length: ${video.duration!.inMinutes} minutes',
+                                              style: FlutterFlowTheme.subtitle3)
+                                          : Text(
+                                              'Source: $author\nVideo Length: ${video.duration!.inSeconds} seconds',
+                                              style:
+                                                  FlutterFlowTheme.subtitle3)))
+                            ])),
+                      ]),
+                      // Column(
+                      //   children: [
+                      //     Expanded(
+                      //         flex: 1,
+                      //         child: Align(
+                      //             alignment: AlignmentDirectional(0.05, 0),
+                      //             child: Icon(Icons.chevron_right,
+                      //                 color: Color(0xFF95A1AC), size: 28)))
+                      //   ],
+                      // )
+                    ],
+                  ),
                 ))));
   }
 
@@ -128,7 +151,9 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     YoutubeExplode yt = YoutubeExplode();
     Playlist playlist = await yt.playlists.get(id);
     await for (Video video in yt.playlists.getVideos(playlist.id)) {
+      _index++;
       _addVideoToList(_videoTrainingCard(
+          index: _index,
           author: video.author,
           url: video.url,
           title: video.title,
