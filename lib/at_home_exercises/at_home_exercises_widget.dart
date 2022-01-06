@@ -14,10 +14,8 @@ class AtHomeExercisesWidget extends StatefulWidget {
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  int _newVidCount = 0;
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
-  bool _isNewVidMsgDisplayed = false;
 
   @override
   void initState() {
@@ -137,23 +135,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
           video: video));
     }
     yt.close();
-    _updateVidCountDB();
-  }
-
-  void _updateVidCountDB() async {
-    num? _storedCount;
-    await FireStore.getVideoCount().then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        _storedCount = doc['vidCount'];
-      });
-    });
-    if (videoList.length > _storedCount!) {
-      _newVidCount = videoList.length - int.parse(_storedCount.toString());
-      FireStore.setVideoCount(videoList.length);
-      setState(() => _isNewVidMsgDisplayed = true);
-    } else if (_storedCount! > videoList.length) {
-      FireStore.setVideoCount(videoList.length);
-    }
   }
 
   void _addVideoToList(Padding videoTrainingCard) {
@@ -180,16 +161,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         style: FlutterFlowTheme.subtitle3)
                     : Text("Video Count: ${videoList.length}",
                         style: FlutterFlowTheme.subtitle3),
-                !_isNewVidMsgDisplayed
-                    ? Text("")
-                    : Text(
-                        "${_newVidCount} new video(s)!",
-                        style: TextStyle(
-                            fontFamily: 'Open Sans',
-                            color: Colors.green,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20),
-                      )
               ],
             ),
             Column(
