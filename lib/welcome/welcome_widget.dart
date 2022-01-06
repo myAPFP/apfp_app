@@ -61,7 +61,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final String ADMIN_EMAIL = 'apfpapp@gmail.com';
 
   @override
   void initState() {
