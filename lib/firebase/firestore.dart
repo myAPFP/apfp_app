@@ -21,6 +21,12 @@ class FireStore {
         .get();
   }
 
+  static Future<QuerySnapshot> getAdminEmails() async {
+    return FirebaseFirestore.instance
+        .collection('admins')
+        .get();
+  }
+
   static Future<QuerySnapshot> getAnnouncements() {
     return FirebaseFirestore.instance
         .collection('announcements')
