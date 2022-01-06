@@ -1,3 +1,4 @@
+import 'package:apfp/firebase/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -57,6 +58,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       fadeIn: true,
     ),
   };
+
+  List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final String ADMIN_EMAIL = 'apfpapp@gmail.com';
 
@@ -138,16 +141,25 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
+  void getAdminEmails() {
+    FireStore.getAdminEmails().then((value) {
+      value.docs
+        ..forEach((element) {
+          adminEmails!.add(element["email"]);
+        });
+    });
+  }
+
   Text _contactText() {
     return Text.rich(
       TextSpan(
           text: 'This app is intended for members of the Adult Physical' +
               ' Fitness Program at Ball State University.' +
-              ' If you do not have an account, please contact an administrator at ',
+              ' If you do not have an account, you can contact an administrator by ',
           style: FlutterFlowTheme.subtitle1,
           children: <InlineSpan>[
             TextSpan(
-                text: '\n${ADMIN_EMAIL}',
+                text: '\nclicking here.',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -155,10 +167,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
                     EmailContent email = EmailContent(
-                      to: [ADMIN_EMAIL],
-                      subject: 'APFP Membership',
-                      body: 'Hello, how can I become a member?'
-                    );
+                        to: adminEmails,
+                        subject: 'APFP Membership',
+                        body: 'Hello, how can I become a member?');
                     OpenMailAppResult result =
                         await OpenMailApp.composeNewEmailInMailApp(
                             nativePickerTitle: 'Select an email app to compose',
@@ -168,9 +179,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                     if (!result.didOpen && !result.canOpen) {
                       showNoMailAppsDialog(context);
 
-                    // iOS: if multiple mail apps found, show dialog to select.
-                    // There is no native intent/default app system in iOS so
-                    // you have to do it yourself.
+                      // iOS: if multiple mail apps found, show dialog to select.
+                      // There is no native intent/default app system in iOS so
+                      // you have to do it yourself.
                     } else if (!result.didOpen && result.canOpen) {
                       showDialog(
                         context: context,
@@ -273,6 +284,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           future: _initFirebaseApp(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
+              getAdminEmails();
               return _routeUI();
             }
             return Center(child: _showInitializingAppDialog());
