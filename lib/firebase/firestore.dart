@@ -6,16 +6,19 @@ class FireStore {
     return FirebaseFirestore.instance.collection('youtube playlist ids').get();
   }
 
-  static Future<QuerySnapshot> getVideoCount() {
-    return FirebaseFirestore.instance.collection('total video count').get();
+  static void storeUID(String doc_id, String uid) {
+    FirebaseFirestore.instance
+        .collection('registered users')
+        .doc(doc_id)
+        .update({"UID": uid});
   }
 
-  static void setVideoCount(int vidCount) {
-    var collection = FirebaseFirestore.instance.collection('total video count');
-    collection
-        .doc('vidCount')
-        .update({'vidCount': vidCount})
-        .catchError((error) => FireAuth.showToast('Failed: $error'));
+  static Future<QuerySnapshot> getRegisteredUser(String email) {
+    FireAuth.showToast("Verifying Membership...");
+    return FirebaseFirestore.instance
+        .collection('registered users')
+        .where('email', isEqualTo: email)
+        .get();
   }
 
   static Future<QuerySnapshot> getAnnouncements() {

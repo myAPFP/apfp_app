@@ -63,15 +63,15 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   Padding _backButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-      child:InkWell(
-      onTap: () async {
-        await Navigator.push(
-          context,
-          _transitionTo(WelcomeWidget()),
-        );
-      },
-      child: _backToHomeText(),
-    ),
+      child: InkWell(
+        onTap: () async {
+          await Navigator.push(
+            context,
+            _transitionTo(WelcomeWidget()),
+          );
+        },
+        child: _backToHomeText(),
+      ),
     );
   }
 
@@ -93,47 +93,47 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
-      key: Key("Login.emailTextField"),
-      cursorColor: FlutterFlowTheme.secondaryColor,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Please provide a value";
-        }
-        if (!verify.isValidEmail(value)) {
-          return "Please provide a valid email address";
-        }
-        return null;
-      },
-      keyboardType: TextInputType.emailAddress,
-      controller: _emailController,
-      obscureText: false,
-      decoration: InputDecoration(
-        hintText: 'example@bsu.edu',
-        hintStyle: FlutterFlowTheme.bodyText1,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.black,
-            width: 2,
-          ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(4.0),
-            topRight: Radius.circular(4.0),
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.black,
-            width: 2,
-          ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(4.0),
-            topRight: Radius.circular(4.0),
-          ),
-        ),
-      ),
-      style: FlutterFlowTheme.bodyText1,
-      textAlign: TextAlign.start,
-    ),
+              key: Key("Login.emailTextField"),
+              cursorColor: FlutterFlowTheme.secondaryColor,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide a value";
+                }
+                if (!verify.isValidEmail(value)) {
+                  return "Please provide a valid email address";
+                }
+                return null;
+              },
+              keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
+              obscureText: false,
+              decoration: InputDecoration(
+                hintText: 'example@bsu.edu',
+                hintStyle: FlutterFlowTheme.bodyText1,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
+              ),
+              style: FlutterFlowTheme.bodyText1,
+              textAlign: TextAlign.start,
+            ),
           ),
         )
       ],
@@ -296,6 +296,38 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  Padding _resendEmailButton() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FFButtonWidget(
+            key: Key('LogIn.resendEmailButton'),
+            onPressed: () async {
+              FireAuth.reSendEmailVerification();
+            },
+            text: 'Resend email verification',
+            options: FFButtonOptions(
+              width: 250,
+              height: 50,
+              color: Color(0xFFBA0C2F),
+              textStyle: FlutterFlowTheme.title2,
+              elevation: 2,
+              borderSide: BorderSide(
+                color: Colors.transparent,
+                width: 1,
+              ),
+              borderRadius: 12,
+            ),
+            loading: _loadingButton,
+          )
+        ],
+      ),
+    );
+  }
+
   Padding _forgotPasswordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
@@ -338,6 +370,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                       alignment: MainAxisAlignment.start, lPadding: 20),
                   _passwordTextField(),
                   _logInButton(),
+                  _resendEmailButton(),
                   _forgotPasswordLabel()
                 ],
               ),
