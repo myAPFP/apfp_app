@@ -1,3 +1,4 @@
+import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/validator/validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -642,7 +643,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   void _verifyAPFPCredentials() {
     if (_formKey.currentState!.validate()) {
-      FireAuth.getRegisteredUser(_getEmail())
+      FireStore.getRegisteredUser(_getEmail())
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.size != 0) {
           // Only works if there is unqiueness amongst 
@@ -664,7 +665,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     user?.sendEmailVerification();
     if (user != null) {
       FireAuth.refreshUser(user);
-      FireAuth.storeUID(_docID, user.uid);
+      FireStore.storeUID(_docID, user.uid);
       if (user.emailVerified) {
         FireAuth.showToast("Account has been verified. Please sign in.");
       } else {

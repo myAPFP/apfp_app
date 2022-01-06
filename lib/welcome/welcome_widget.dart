@@ -142,12 +142,12 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     return Text.rich(
       TextSpan(
           text: 'This app is intended for members of the Adult Physical' +
-              'Fitness Program at Ball State University.' +
+              ' Fitness Program at Ball State University.' +
               ' If you do not have an account, please contact an administrator at ',
           style: FlutterFlowTheme.subtitle1,
           children: <InlineSpan>[
             TextSpan(
-                text: '\n<${ADMIN_EMAIL}>',
+                text: '\n${ADMIN_EMAIL}',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

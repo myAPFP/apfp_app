@@ -56,21 +56,6 @@ class FireAuth {
     return user;
   }
 
-  static void storeUID(String doc_id, String uid) {
-    FirebaseFirestore.instance
-        .collection('registered users')
-        .doc(doc_id)
-        .update({"UID": uid});
-  }
-
-  static Future<QuerySnapshot> getRegisteredUser(String email) {
-    showToast("Verifying Membership...");
-    return FirebaseFirestore.instance
-        .collection('registered users')
-        .where('email', isEqualTo: email)
-        .get();
-  }
-
   static Future<User?> refreshUser(User user) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     await user.reload();
@@ -90,8 +75,10 @@ class FireAuth {
       refreshUser(user);
       if (!user.emailVerified) {
         sendEMmailNotification(user);
+        showToast("A new verification email has been sent.");
       }
-    }
+    } else
+      showToast("You must attempt to login first.");
   }
 
   static signOut() async {
