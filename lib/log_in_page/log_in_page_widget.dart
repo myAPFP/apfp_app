@@ -277,6 +277,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     return FFButtonWidget(
       key: Key('LogIn.logInButton'),
       onPressed: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         _login();
       },
       text: 'Log In',
