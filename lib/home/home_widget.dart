@@ -20,7 +20,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final fireAuth = FireAuth();
   late FirebaseMessaging messaging;
-  var titlesList = new List.filled(3, "test");
+  var titlesList = new List.filled(3, "");
 
   @override
   void initState() {
