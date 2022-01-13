@@ -141,7 +141,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 10),
             child: _emailTextBox(),
           ),
         )
@@ -216,7 +216,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       {MainAxisAlignment alignment = MainAxisAlignment.center,
       double lPadding = 0}) {
     return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 5),
         child: Row(mainAxisAlignment: alignment, children: [
           Text(text,
               textAlign: TextAlign.center, style: FlutterFlowTheme.title3)
