@@ -21,7 +21,7 @@ class _AlertWidgetState extends State<AlertWidget> {
   InkWell _backToList() {
     return InkWell(
       onTap: () async {
-        await Navigator.pushAndRemoveUntil(
+        Navigator.pop(
           context,
           PageTransition(
             type: PageTransitionType.leftToRight,
@@ -29,7 +29,6 @@ class _AlertWidgetState extends State<AlertWidget> {
             reverseDuration: Duration(milliseconds: 125),
             child: NavBarPage(initialPage: 'Alerts'),
           ),
-          (r) => false,
         );
       },
       child: Text('< Back to Announcements', style: FlutterFlowTheme.subtitle2),
