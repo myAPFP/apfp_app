@@ -14,7 +14,6 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final fireAuth = FireAuth();
   late FirebaseMessaging messaging;
 
   Padding _signOutButton() {
@@ -24,7 +23,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         onPressed: () async {
           messaging = FirebaseMessaging.instance;
           messaging.deleteToken();
-          await fireAuth.signOut();
+          await FireAuth.signOut();
           await Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(

@@ -1,13 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:apfp/firebase/fire_auth.dart';
 
 class FireStore {
-  static const YT_PLAYLIST_IDS = 'youtube playlist ids';
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getPlaylistID() {
-    return FirebaseFirestore.instance.collection(YT_PLAYLIST_IDS).get();
+  static Future<QuerySnapshot> getPlaylistID() {
+    return FirebaseFirestore.instance.collection('youtube playlist ids').get();
   }
 
-  Future<QuerySnapshot> getAnnouncements() {
+  static void storeUID(String doc_id, String uid) {
+    FirebaseFirestore.instance
+        .collection('registered users')
+        .doc(doc_id)
+        .update({"UID": uid});
+  }
+
+  static Future<QuerySnapshot> getRegisteredUser(String email) {
+    FireAuth.showToast("Verifying Membership...");
+    return FirebaseFirestore.instance
+        .collection('registered users')
+        .where('email', isEqualTo: email)
+        .get();
+  }
+
+  static Future<QuerySnapshot> getAdminEmails() async {
+    return FirebaseFirestore.instance
+        .collection('admins')
+        .get();
+  }
+
+  static Future<QuerySnapshot> getAnnouncements() {
     return FirebaseFirestore.instance
         .collection('announcements')
         .orderBy("id", descending: true)
