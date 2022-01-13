@@ -94,10 +94,10 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                             color: FlutterFlowTheme.tertiaryColor,
                           ),
                           child: AutoSizeText(
-                            widget.description.length < 70
-                                ? widget.description
-                                : "${widget.description.substring(0, 74)}...",
+                            widget.description,
                             minFontSize: 16,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                             style: TextStyle().copyWith(
                               fontWeight: FontWeight.w300,
