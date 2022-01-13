@@ -1,3 +1,5 @@
+import 'package:apfp/flutter_flow/flutter_flow_util.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,11 @@ class _AlertWidgetState extends State<AlertWidget> {
       onTap: () async {
         await Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-            builder: (context) => NavBarPage(initialPage: 'Alerts'),
+          PageTransition(
+            type: PageTransitionType.leftToRight,
+            duration: Duration(milliseconds: 125),
+            reverseDuration: Duration(milliseconds: 125),
+            child: NavBarPage(initialPage: 'Alerts'),
           ),
           (r) => false,
         );
