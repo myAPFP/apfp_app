@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:apfp/firebase/fire_auth.dart';
+import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:apfp/welcome/welcome_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +20,13 @@ class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final fireAuth = FireAuth();
   late FirebaseMessaging messaging;
+  var titlesList = new List.filled(3, "test");
+
+  @override
+  void initState() {
+    _collectAnnouncements();
+    super.initState();
+  }
 
   Padding _signOutButton() {
     return Padding(
@@ -143,6 +154,23 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
+  void _collectAnnouncements() async {
+    int index = 0;
+    final fireStore = FireStore();
+    await fireStore
+        .getAnnouncements(limit: 3)
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs
+        ..forEach((element) {
+          String title = element['title'];
+          setState(() {
+            titlesList[index] = title;
+          });
+          index++;
+        });
+    });
+  }
+
   Padding _activityLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 75, 0, 0),
@@ -194,7 +222,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             _recentAnnouncementsLabel(),
-            _announcements("Alert 1", "Alert 2", "Alert 3"),
+            _announcements(titlesList[0], titlesList[1], titlesList[2]),
             _activityLabel(),
             _activityGUI(),
             // TODO: Find a place for this sign out button
