@@ -23,8 +23,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<String> durationOptions = [];
-  List<String> exerciseTypeOptions = [];
+  // List<String> durationOptions = [];
+  // List<String> exerciseTypeOptions = [];
 
   @override
   void initState() {
@@ -99,6 +99,21 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   //   );
   // }
 
+  FFButtonOptions _ffButtonOptions() {
+    return FFButtonOptions(
+        width: 120,
+        height: 50,
+        color: FlutterFlowTheme.secondaryColor,
+        textStyle: FlutterFlowTheme.title2,
+        elevation: 2,
+        borderSide: BorderSide(
+          color: Colors.transparent,
+          width: 1,
+        ),
+        borderRadius: 12,
+      );
+  }
+
   FFButtonWidget _submitButton() {
     return FFButtonWidget(
       key: Key("AddActivity.submitButton"),
@@ -118,18 +133,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         }
       },
       text: 'Submit',
-      options: FFButtonOptions(
-        width: 120,
-        height: 50,
-        color: FlutterFlowTheme.secondaryColor,
-        textStyle: FlutterFlowTheme.title2,
-        elevation: 2,
-        borderSide: BorderSide(
-          color: Colors.transparent,
-          width: 1,
-        ),
-        borderRadius: 12,
-      ),
+      options: _ffButtonOptions(),
       loading: _loadingButton,
     );
   }

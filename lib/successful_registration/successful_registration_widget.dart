@@ -17,7 +17,7 @@ class _SuccessfulRegistrationWidgetState
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Text _informationDialog() {
+  Text _headerText() {
     return Text(
       'Thank you for registering! Please check your email and confirm your email address before logging in.',
       textAlign: TextAlign.center,
@@ -76,7 +76,7 @@ class _SuccessfulRegistrationWidgetState
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
-                child: _informationDialog(),
+                child: _headerText(),
               ),
             ),
             _backToHomeButton()
