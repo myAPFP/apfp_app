@@ -7,11 +7,12 @@ At this time, functionality is limited to application navigation, account creati
 ## How to Run
 This application is in development and may be prone to bugs/issues/crashes. Run application at own risk.
 1. Install Flutter SDK and an emulator of your choice (or offload to a physical device. Some features are not yet available on iOS emulators or devices).
-2. In your code editor, attach a running emulator to the project.
-3. Find the root of the project in `lib/welcome/welcome_widget.dart`. Run the main() method, which will run the application on your emulator.
+2. In your code editor, attach a running emulator or a physical device to the project.
+3. Find the root of the project in `lib/welcome/welcome_widget.dart`. Run the main() method, which will run the application on your emulator or device.
 
 Instructions for how to install Flutter SDK can be found [here](https://docs.flutter.dev/get-started/install). Implemented testing thus far can be found in `test` and `integration_test` directories. If you have trouble running the Flutter application, try running the following command in your terminal to download packages: `flutter pub get`. If you run into trouble with your Flutter installation, try running `flutter doctor` to verify that your Flutter SDK is properly installed.
 
+If you have trouble running on an iOS device or emulator, ensure that you have the CocoaPods manager installed, which manages dependencies for Xcode projects. Instructions for how to install can be found [here](https://guides.cocoapods.org/using/getting-started.html). Once CocoaPods is installed, you can install the pods for this project by setting the directory to `ios` and running `pod install`. Other CocoaPods commands can be used for troubleshooting, such as `pod outdated` and `pod update`, but only when the directory is set to `ios`. Ensure that your version of the app has been signed with an Apple account, which can be done through Xcode. A Developer account is not required to run the app, but an account must be used to sign the app.
 ## API and SDK Documentation
 As a hybrid application, this project uses multiple SDKs and external APIs. Versions and attributions are listed below.
 
