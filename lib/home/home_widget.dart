@@ -118,9 +118,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  GridView _announcementGrid(
+  IgnorePointer _announcementGrid(
       String alertOneText, String alertTwoText, String alertThreeText) {
-    return GridView(
+    return IgnorePointer(
+        child: GridView(
       padding: EdgeInsets.zero,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
@@ -129,13 +130,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         childAspectRatio: 10,
       ),
       shrinkWrap: true,
-      scrollDirection: Axis.vertical,
       children: [
         _announcementRow(alertOneText),
         _announcementRow(alertTwoText),
         _announcementRow(alertThreeText)
       ],
-    );
+    ));
   }
 
   Container _announcements(
