@@ -73,6 +73,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                             ),
                             child: AutoSizeText(widget.title,
                                 minFontSize: 20,
+                                overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.subtitle1),
                           )
