@@ -1,17 +1,13 @@
-import 'dart:ffi';
-
 import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:apfp/welcome/welcome_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
-  late Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
   HomeWidget({Key? key, required this.announcementsStream}) : super(key: key);
 
   @override
