@@ -12,16 +12,17 @@ import 'activity/activity_widget.dart';
 class NavBarPage extends StatefulWidget {
   NavBarPage({Key? key, required this.initialPage}) : super(key: key);
 
-  final String initialPage;
+  final int initialPage;
 
   @override
   _NavBarPageState createState() => _NavBarPageState();
 }
 
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'Home';
+  int _currentPage = 0;
   late FirebaseMessaging messaging;
-  late Future<QuerySnapshot> announcements;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> announcements;
+  List<Widget> pageList = List<Widget>.empty(growable: true);
 
   @override
   void initState() {
@@ -31,18 +32,16 @@ class _NavBarPageState extends State<NavBarPage> {
     messaging.subscribeToTopic("alerts");
     final fireStore = FireStore();
     announcements = fireStore.getAnnouncements();
+    pageList.add(HomeWidget(announcementsStream: announcements));
+    pageList.add(AlertsWidget(announcementsStream: announcements));
+    pageList.add(AtHomeExercisesWidget());
+    pageList.add(ActivityWidget());
   }
 
   @override
   Widget build(BuildContext context) {
-    final tabs = {
-      'Home': HomeWidget(alertsDB: announcements),
-      'Alerts': AlertsWidget(alertsDB: announcements),
-      'AtHomeExercises': AtHomeExercisesWidget(),
-      'Activity': ActivityWidget(),
-    };
     return Scaffold(
-      body: tabs[_currentPage],
+      body: IndexedStack(children: pageList, index: _currentPage),
       bottomNavigationBar: BottomNavigationBar(
         key: Key('BottomNavBar'),
         items: const <BottomNavigationBarItem>[
@@ -80,11 +79,11 @@ class _NavBarPageState extends State<NavBarPage> {
           )
         ],
         backgroundColor: Color(0xFF54585A),
-        currentIndex: tabs.keys.toList().indexOf(_currentPage),
+        currentIndex: _currentPage,
         selectedItemColor: Color(0xFFBA0C2F),
         unselectedItemColor: FlutterFlowTheme.tertiaryColor,
         onTap: (i) {
-          setState(() => _currentPage = tabs.keys.toList()[i]);
+          setState(() => _currentPage = i);
         },
         showSelectedLabels: true,
         showUnselectedLabels: true,
