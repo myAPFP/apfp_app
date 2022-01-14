@@ -30,8 +30,7 @@ class _NavBarPageState extends State<NavBarPage> {
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
-    final fireStore = FireStore();
-    announcements = fireStore.getAnnouncements();
+    announcements = FireStore.getAnnouncements();
     pageList.add(HomeWidget(announcementsStream: announcements));
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget());

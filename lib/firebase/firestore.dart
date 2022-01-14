@@ -27,7 +27,7 @@ class FireStore {
         .get();
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getAnnouncements(
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAnnouncements(
       {int limit = 20}) {
     return FirebaseFirestore.instance
         .collection('announcements')
