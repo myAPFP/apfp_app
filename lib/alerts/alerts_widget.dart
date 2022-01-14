@@ -8,8 +8,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AlertsWidget extends StatefulWidget {
-  late Future<QuerySnapshot<Object?>> alertsDB;
-  AlertsWidget({Key? key, required this.alertsDB}) : super(key: key);
+  late Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+  AlertsWidget({Key? key, required this.announcementsStream}) : super(key: key);
 
   @override
   _AlertsWidgetState createState() => _AlertsWidgetState();
@@ -83,13 +83,13 @@ class _AlertsWidgetState extends State<AlertsWidget> {
   }
 
   void _collectAnnouncements() {
-    widget.alertsDB.then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs
-        ..forEach((element) {
-          String title = element['title'];
-          String description = element['description'];
-          addToPrevious(_paddedAlert(_makeAlert(title, description)));
-        });
+    widget.announcementsStream
+        .forEach((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      previousAnnouncements.clear();
+      snapshot.docs.forEach((QueryDocumentSnapshot element) {
+        addToPrevious(
+            _paddedAlert(_makeAlert(element['title'], element['description'])));
+      });
     });
   }
 

@@ -6,12 +6,13 @@ import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:apfp/welcome/welcome_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
-  late Future<QuerySnapshot<Object?>> alertsDB;
-  HomeWidget({Key? key, required this.alertsDB}) : super(key: key);
+  late Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+  HomeWidget({Key? key, required this.announcementsStream}) : super(key: key);
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -21,19 +22,10 @@ class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final fireAuth = FireAuth();
   late FirebaseMessaging messaging;
-  List titlesList = new List.filled(20, "");
 
   @override
   void initState() {
     super.initState();
-    int index = 0;
-    widget.alertsDB.then((QuerySnapshot querySnapshot) => querySnapshot.docs
-      ..forEach((element) {
-        setState(() {
-          titlesList[index] = element['title'];
-        });
-        index++;
-      }));
   }
 
   Padding _signOutButton() {
@@ -213,7 +205,20 @@ class _HomeWidgetState extends State<HomeWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             _recentAnnouncementsLabel(),
-            _announcements(titlesList[0], titlesList[1], titlesList[2]),
+            StreamBuilder(
+                stream: widget.announcementsStream,
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.hasData) {
+                    return _announcements(
+                        snapshot.data?.docs[0]['title'],
+                        snapshot.data?.docs[1]['title'],
+                        snapshot.data?.docs[2]['title']);
+                  } else {
+                    return Text("No announcements available.");
+                  }
+                }),
             _activityLabel(),
             _activityGUI(),
             // TODO: Find a place for this sign out button
