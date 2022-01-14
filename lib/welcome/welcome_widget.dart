@@ -1,3 +1,4 @@
+import 'package:apfp/firebase/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -57,6 +58,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       fadeIn: true,
     ),
   };
+
+  List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -137,12 +140,60 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
+  void getAdminEmails() {
+    FireStore.getAdminEmails().then((value) {
+      value.docs
+        ..forEach((element) {
+          adminEmails!.add(element["email"]);
+        });
+    });
+  }
+
   Text _contactText() {
-    return Text(
-      'This app is intended for members of the Adult Physical Fitness Program at Ball State University.' +
-          ' If you do not have an account, please contact an administrator at <EMAIL>.',
+    return Text.rich(
+      TextSpan(
+          text: 'This app is intended for members of the Adult Physical' +
+              ' Fitness Program at Ball State University.' +
+              ' If you do not have an account, you can contact an administrator by ',
+          style: FlutterFlowTheme.subtitle1,
+          children: <InlineSpan>[
+            TextSpan(
+                text: '\nclicking here.',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: FlutterFlowTheme.secondaryColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    EmailContent email = EmailContent(
+                        to: adminEmails,
+                        subject: 'APFP Membership',
+                        body: 'Hello, how can I become a member?');
+                    OpenMailAppResult result =
+                        await OpenMailApp.composeNewEmailInMailApp(
+                            nativePickerTitle: 'Select an email app to compose',
+                            emailContent: email);
+
+                    // If no mail apps found, show error
+                    if (!result.didOpen && !result.canOpen) {
+                      showNoMailAppsDialog(context);
+
+                      // iOS: if multiple mail apps found, show dialog to select.
+                      // There is no native intent/default app system in iOS so
+                      // you have to do it yourself.
+                    } else if (!result.didOpen && result.canOpen) {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return MailAppPickerDialog(
+                            mailApps: result.options,
+                          );
+                        },
+                      );
+                    }
+                  })
+          ]),
       textAlign: TextAlign.center,
-      style: TextStyle().copyWith(fontSize: 22, fontWeight: FontWeight.normal),
     );
   }
 
@@ -203,6 +254,26 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Open Mail App"),
+          content: Text("No mail apps installed"),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,6 +283,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           future: _initFirebaseApp(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
+              getAdminEmails();
               return _routeUI();
             }
             return Center(child: _showInitializingAppDialog());
