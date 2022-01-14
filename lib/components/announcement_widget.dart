@@ -43,8 +43,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                     child: Icon(
-                      Icons.error,
-                      color: FlutterFlowTheme.secondaryColor,
+                      Icons.error_outline,
+                      color: FlutterFlowTheme.primaryColor,
                       size: 30,
                     ),
                   )
