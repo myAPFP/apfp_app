@@ -1,3 +1,4 @@
+import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/validator/validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +30,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final verify = Validator();
-  final fire_auth = FireAuth();
+  late var _docID;
 
   @override
   void initState() {
@@ -102,26 +103,35 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding _informationDialog() {
+  Padding _headerText() {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 150,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Text(
-              'Welcome to the Adult Physical Fitness Program at Ball State University!' +
-                  ' Please enter the details below to create your account.',
-              textAlign: TextAlign.center,
-              style: FlutterFlowTheme.subtitle1,
-            ),
-          )
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Text.rich(
+                TextSpan(
+                    text: 'Welcome to the Adult Physical Fitness App.' +
+                        ' Please enter the details below to create your account.',
+                    style: FlutterFlowTheme.subtitle1,
+                    children: <InlineSpan>[
+                      TextSpan(
+                        text: 'You must be a member of the APFP to sign up.',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: FlutterFlowTheme.secondaryColor),
+                      )
+                    ]),
+                textAlign: TextAlign.center,
+              ))
         ],
       ),
     );
@@ -146,7 +156,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding _firstNameTextBox() {
+  Padding _firstNameTextField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
       child: Container(
@@ -160,8 +170,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
+            var firstUpperCase = value.substring(0, 1).toUpperCase();
             if (!verify.isValidName(value)) {
               return "Please provide a valid first name";
+            } else if (value.substring(0, 1) != firstUpperCase) {
+              return "Please capitalize your name";
             }
             return null;
           },
@@ -198,17 +211,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding _firstName() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_firstNameLabel(), _firstNameTextBox()],
-      ),
-    );
-  }
-
   Row _lastNameLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -228,7 +230,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Container _lastNameTextBox() {
+  Container _lastNameTextField() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
@@ -239,8 +241,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           if (value == null || value.isEmpty) {
             return "Please provide a value";
           }
+          var firstUpperCase = value.substring(0, 1).toUpperCase();
           if (!verify.isValidName(value)) {
-            return "Please provide a valid last name";
+            return "Please provide a valid first name";
+          } else if (value.substring(0, 1) != firstUpperCase) {
+            return "Please capitalize your name";
           }
           return null;
         },
@@ -276,19 +281,25 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Column _lastName() {
-    return Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_lastNameLabel(), _lastNameTextBox()]);
-  }
-
   Row _nameRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_firstName(), _lastName()],
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_firstNameLabel(), _firstNameTextField()],
+          ),
+        ),
+        Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_lastNameLabel(), _lastNameTextField()])
+      ],
     );
   }
 
@@ -398,55 +409,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  void showPwRequirements() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        key: Key("Create.pWRequirements"),
-        title: const Text('Password Requirements'),
-        content: Text('Password must contain at least\n\n' +
-            '- Eight characters\n' +
-            '- One letter\n' +
-            '- One number\n' +
-            '- One special character'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK',
-                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Row passwordIconRow(Function visibilityOnTap) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        InkWell(
-          onTap: () => setState(
-            () => showPwRequirements(),
-          ),
-          child: Icon(Icons.info),
-        ),
-        SizedBox(width: 10),
-        InkWell(
-          onTap: () => visibilityOnTap,
-          child: Icon(
-            _passwordVisibility
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
-            color: Color(0xFF757575),
-            size: 22,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row _passwordTextBox() {
+  Row _passwordTextField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -549,7 +512,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _confirmPasswordTextBox() {
+  Row _confirmPasswordTextField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -630,12 +593,62 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  Row passwordIconRow(Function visibilityOnTap) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        InkWell(
+          onTap: () => setState(
+            () => showPwRequirements(),
+          ),
+          child: Icon(Icons.info),
+        ),
+        SizedBox(width: 10),
+        InkWell(
+          onTap: () => visibilityOnTap,
+          child: Icon(
+            _passwordVisibility
+                ? Icons.visibility_outlined
+                : Icons.visibility_off_outlined,
+            color: Color(0xFF757575),
+            size: 22,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void showPwRequirements() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        key: Key("Create.pWRequirements"),
+        title: const Text('Password Requirements'),
+        content: Text('Password must contain at least\n\n' +
+            '- Eight characters\n' +
+            '- One letter\n' +
+            '- One number\n' +
+            '- One special character'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK',
+                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _verifyAPFPCredentials() {
     if (_formKey.currentState!.validate()) {
-      fire_auth
-          .getRegisteredUser(_getEmail())
+      FireStore.getRegisteredUser(_getEmail())
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.size != 0) {
+          // Only works if there is unqiueness amongst 
+          // all email fields in firestore db
+           _docID = querySnapshot.docs.first.id;
           _createAccount();
         } else {
           FireAuth.showToast(
@@ -646,12 +659,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   void _createAccount() async {
-    User? user = await fire_auth.registerUsingEmailPassword(
+    User? user = await FireAuth.registerUsingEmailPassword(
         name: _getFullName(), email: _getEmail(), password: _getPassword());
     user?.updateDisplayName(_getFullName());
     user?.sendEmailVerification();
     if (user != null) {
-      fire_auth.refreshUser(user);
+      FireAuth.refreshUser(user);
+      FireStore.storeUID(_docID, user.uid);
       if (user.emailVerified) {
         FireAuth.showToast("Account has been verified. Please sign in.");
       } else {
@@ -722,14 +736,14 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 children: [
                   SizedBox(height: 25),
                   _backButtonRow(),
-                  _informationDialog(),
+                  _headerText(),
                   _nameRow(),
                   _emailLabel(),
                   _emailTextBox(),
                   _passwordLabel(),
-                  _passwordTextBox(),
+                  _passwordTextField(),
                   _confirmPasswordLabel(),
-                  _confirmPasswordTextBox(),
+                  _confirmPasswordTextField(),
                   _createAccountButton()
                 ],
               ),

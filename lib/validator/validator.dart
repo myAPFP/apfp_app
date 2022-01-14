@@ -2,7 +2,7 @@ class Validator {
 
   // Matches most names, including those that contains spaces
   RegExp validNameRegex =
-      new RegExp(r"^[\w'\-][^,.0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$");
+      new RegExp(r"^[\w'\-][^,.0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$");
 
   // Matches numbers in XXX-XXX-XXXX format
   RegExp validPhoneRegex = new RegExp(r"\d{3}-\d{3}-\d{4}");

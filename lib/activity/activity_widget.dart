@@ -1,5 +1,4 @@
 import 'package:focused_menu/modals.dart';
-
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -46,26 +45,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         width: 1,
       ),
       borderRadius: 12,
-    );
-  }
-
-  Padding _addPadding(
-      {double? height,
-      BorderRadius? borderRadius,
-      Color? color,
-      Border? border,
-      Widget? child}) {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
-      child: Container(
-        child: child,
-        height: height,
-        decoration: BoxDecoration(
-          border: border,
-          color: color,
-          borderRadius: borderRadius,
-        ),
-      ),
     );
   }
 
@@ -120,7 +99,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             totalCal: "300",
             name: "Basketball",
             type: "Cardio")
-        .paddedActivityCard());    
+        .paddedActivityCard());
   }
 
   @override
@@ -176,19 +155,27 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                           onPressed: () {},
                           child: e))
                       .toList()),
-              _addPadding(
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
+                child: Container(
                   height: 80,
-                  child: null,
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
-                  border: null),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ),
               _addActivityButton(),
-              _addPadding(
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
+                child: Container(
                   height: 80,
-                  child: null,
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
-                  border: null)
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              )
             ],
           ),
         ),

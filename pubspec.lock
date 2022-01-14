@@ -400,6 +400,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0+1"
+  open_mail_app:
+    dependency: "direct main"
+    description:
+      name: open_mail_app
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1"
   page_transition:
     dependency: "direct main"
     description:
