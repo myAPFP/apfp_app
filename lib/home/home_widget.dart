@@ -10,7 +10,8 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
-  HomeWidget({Key? key}) : super(key: key);
+  late Future<QuerySnapshot<Object?>> alertsDB;
+  HomeWidget({Key? key, required this.alertsDB}) : super(key: key);
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -20,12 +21,19 @@ class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final fireAuth = FireAuth();
   late FirebaseMessaging messaging;
-  var titlesList = new List.filled(3, "");
+  List titlesList = new List.filled(20, "");
 
   @override
   void initState() {
-    _collectAnnouncements();
     super.initState();
+    int index = 0;
+    widget.alertsDB.then((QuerySnapshot querySnapshot) => querySnapshot.docs
+      ..forEach((element) {
+        setState(() {
+          titlesList[index] = element['title'];
+        });
+        index++;
+      }));
   }
 
   Padding _signOutButton() {
@@ -152,23 +160,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       ),
       child: _announcementGrid(alertOneText, alertTwoText, alertThreeText),
     );
-  }
-
-  void _collectAnnouncements() async {
-    int index = 0;
-    final fireStore = FireStore();
-    await fireStore
-        .getAnnouncements(limit: 3)
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs
-        ..forEach((element) {
-          String title = element['title'];
-          setState(() {
-            titlesList[index] = title;
-          });
-          index++;
-        });
-    });
   }
 
   Padding _activityLabel() {

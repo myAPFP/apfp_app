@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'firebase/firestore.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'home/home_widget.dart';
 import 'alerts/alerts_widget.dart';
@@ -19,6 +21,7 @@ class NavBarPage extends StatefulWidget {
 class _NavBarPageState extends State<NavBarPage> {
   String _currentPage = 'Home';
   late FirebaseMessaging messaging;
+  late Future<QuerySnapshot> announcements;
 
   @override
   void initState() {
@@ -26,12 +29,14 @@ class _NavBarPageState extends State<NavBarPage> {
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
+    final fireStore = FireStore();
+    announcements = fireStore.getAnnouncements();
   }
 
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'Home': HomeWidget(),
+      'Home': HomeWidget(alertsDB: announcements),
       'Alerts': AlertsWidget(),
       'AtHomeExercises': AtHomeExercisesWidget(),
       'Activity': ActivityWidget(),
