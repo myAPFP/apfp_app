@@ -1,4 +1,5 @@
 import 'package:apfp/firebase/firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../exercise_video/exercise_video_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -88,40 +89,60 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(width: 40),
                           Text("${_index}", style: FlutterFlowTheme.title3),
                         ],
                       ),
-                      Row(mainAxisSize: MainAxisSize.max, children: [
-                        Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                            child: Stack(children: [
-                              Align(
-                                  key: Key('ExerciseTitle'),
-                                  alignment: AlignmentDirectional(-0.1, -0.5),
-                                  child: Text(title,
-                                      style: FlutterFlowTheme.title3)),
-                              Align(
-                                  alignment: AlignmentDirectional(2.64, 0.55),
-                                  child: Padding(
-                                      key: Key('ExerciseDescription'),
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 20, 0, 0),
-                                      child: video.duration!.inMinutes > 1
-                                          ? Text(
-                                              'Source: $author\nVideo Length: ${video.duration!.inMinutes} minutes',
-                                              style: FlutterFlowTheme.subtitle3)
-                                          : Text(
-                                              'Source: $author\nVideo Length: ${video.duration!.inSeconds} seconds',
-                                              style:
-                                                  FlutterFlowTheme.subtitle3)))
-                            ])),
-                      ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                child: Stack(children: [
+                                  Align(
+                                      key: Key('ExerciseTitle'),
+                                      alignment:
+                                          AlignmentDirectional(-0.1, -0.5),
+                                      child: Container(
+                                          constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.75),
+                                          child: AutoSizeText(
+                                            title,
+                                            maxLines: 1,
+                                            style: FlutterFlowTheme.title3,
+                                            minFontSize: 18,
+                                            overflow: TextOverflow.ellipsis,
+                                          ))),
+                                  Align(
+                                      alignment:
+                                          AlignmentDirectional(2.64, 0.55),
+                                      child: Padding(
+                                          key: Key('ExerciseDescription'),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 20, 0, 0),
+                                          child: video.duration!.inMinutes > 1
+                                              ? Text(
+                                                  'Source: $author\nVideo Length: ${video.duration!.inMinutes} minutes',
+                                                  style: FlutterFlowTheme
+                                                      .subtitle3)
+                                              : Text(
+                                                  'Source: $author\nVideo Length: ${video.duration!.inSeconds} seconds',
+                                                  style: FlutterFlowTheme
+                                                      .subtitle3)))
+                                ])),
+                          ]),
                       // Column(
                       //   children: [
                       //     Expanded(
