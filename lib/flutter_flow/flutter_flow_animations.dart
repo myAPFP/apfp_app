@@ -1,7 +1,5 @@
 import 'dart:math';
-import 'dart:ui';
 
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 enum AnimationTrigger {
@@ -76,7 +74,7 @@ extension AnimatedWidgetExtension on Widget {
           );
         }
         if (animationInfo.scale > 0 && animationInfo.scale != 1.0) {
-          final scale = returnedWidget = Transform.scale(
+          returnedWidget = Transform.scale(
             scale: animationInfo.scale +
                 (1.0 - animationInfo.scale) *
                     animationInfo.curvedAnimation.value,

@@ -23,7 +23,6 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
@@ -74,9 +73,10 @@ class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
       ? MediaQuery.of(context).size.width
       : widget.width;
 
-  double? get height => widget.height == null || widget.height! >= double.infinity
-      ? (width != null ? width! / kYoutubeAspectRatio : null)
-      : widget.height;
+  double? get height =>
+      widget.height == null || widget.height! >= double.infinity
+          ? (width != null ? width! / kYoutubeAspectRatio : null)
+          : widget.height;
 
   void initializePlayer() {
     if (!mounted) {
