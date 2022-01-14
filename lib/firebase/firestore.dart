@@ -7,7 +7,7 @@ class FireStore {
     return FirebaseFirestore.instance.collection(YT_PLAYLIST_IDS).get();
   }
 
-  Future<QuerySnapshot> getAnnouncements({int limit = 100}) {
+  Future<QuerySnapshot> getAnnouncements({int limit = 20}) {
     return FirebaseFirestore.instance
         .collection('announcements')
         .orderBy("id", descending: true)
