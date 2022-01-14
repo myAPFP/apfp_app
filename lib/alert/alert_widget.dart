@@ -27,7 +27,7 @@ class _AlertWidgetState extends State<AlertWidget> {
             type: PageTransitionType.leftToRight,
             duration: Duration(milliseconds: 125),
             reverseDuration: Duration(milliseconds: 125),
-            child: NavBarPage(initialPage: 'Alerts'),
+            child: NavBarPage(initialPage: 1),
           ),
         );
       },

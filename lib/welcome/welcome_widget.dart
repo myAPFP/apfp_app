@@ -74,7 +74,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => NavBarPage(initialPage: "Home"),
+          builder: (context) => NavBarPage(initialPage: 0),
         ),
         (r) => false,
       );

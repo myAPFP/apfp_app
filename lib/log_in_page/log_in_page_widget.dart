@@ -266,7 +266,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     try {
       await Navigator.push(
         context,
-        _transitionTo(NavBarPage(initialPage: "Home")),
+        _transitionTo(NavBarPage(initialPage: 0)),
       );
     } finally {
       setState(() => _loadingButton = false);
