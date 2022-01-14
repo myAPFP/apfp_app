@@ -1,4 +1,3 @@
-import 'package:apfp/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../alert/alert_widget.dart';
@@ -8,7 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AlertsWidget extends StatefulWidget {
-  late Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
   AlertsWidget({Key? key, required this.announcementsStream}) : super(key: key);
 
   @override
