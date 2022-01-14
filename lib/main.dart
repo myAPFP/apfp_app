@@ -37,7 +37,7 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'Home': HomeWidget(alertsDB: announcements),
-      'Alerts': AlertsWidget(),
+      'Alerts': AlertsWidget(alertsDB: announcements),
       'AtHomeExercises': AtHomeExercisesWidget(),
       'Activity': ActivityWidget(),
     };

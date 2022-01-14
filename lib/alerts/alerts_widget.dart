@@ -8,7 +8,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AlertsWidget extends StatefulWidget {
-  AlertsWidget({Key? key}) : super(key: key);
+  late Future<QuerySnapshot<Object?>> alertsDB;
+  AlertsWidget({Key? key, required this.alertsDB}) : super(key: key);
 
   @override
   _AlertsWidgetState createState() => _AlertsWidgetState();
@@ -81,9 +82,8 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     });
   }
 
-  void _collectAnnouncements() async {
-    final fireStore = FireStore();
-    await fireStore.getAnnouncements().then((QuerySnapshot querySnapshot) {
+  void _collectAnnouncements() {
+    widget.alertsDB.then((QuerySnapshot querySnapshot) {
       querySnapshot.docs
         ..forEach((element) {
           String title = element['title'];
