@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:apfp/welcome/welcome_widget.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -71,11 +72,15 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Text _announcementText(String text) {
-    return Text(
-      text,
-      style: FlutterFlowTheme.bodyText1,
-    );
+  Container _announcementText(String text) {
+    return Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+        child: AutoSizeText(
+          text,
+          overflow: TextOverflow.ellipsis,
+          style: FlutterFlowTheme.bodyText1,
+        ));
   }
 
   Column _announcementTextColumn(String text) {
@@ -98,7 +103,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Row _announcementRow(String text) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
