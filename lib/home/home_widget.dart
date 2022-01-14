@@ -1,12 +1,15 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:apfp/welcome/welcome_widget.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
-  HomeWidget({Key? key}) : super(key: key);
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+  HomeWidget({Key? key, required this.announcementsStream}) : super(key: key);
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -15,6 +18,11 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late FirebaseMessaging messaging;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Padding _signOutButton() {
     return Padding(
@@ -64,11 +72,15 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Text _announcementText(String text) {
-    return Text(
-      text,
-      style: FlutterFlowTheme.bodyText1,
-    );
+  Container _announcementText(String text) {
+    return Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+        child: AutoSizeText(
+          text,
+          overflow: TextOverflow.ellipsis,
+          style: FlutterFlowTheme.bodyText1,
+        ));
   }
 
   Column _announcementTextColumn(String text) {
@@ -91,7 +103,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Row _announcementRow(String text) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
@@ -106,9 +118,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  GridView _announcementGrid(
+  IgnorePointer _announcementGrid(
       String alertOneText, String alertTwoText, String alertThreeText) {
-    return GridView(
+    return IgnorePointer(
+        child: GridView(
       padding: EdgeInsets.zero,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
@@ -117,13 +130,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         childAspectRatio: 10,
       ),
       shrinkWrap: true,
-      scrollDirection: Axis.vertical,
       children: [
         _announcementRow(alertOneText),
         _announcementRow(alertTwoText),
         _announcementRow(alertThreeText)
       ],
-    );
+    ));
   }
 
   Container _announcements(
@@ -193,7 +205,20 @@ class _HomeWidgetState extends State<HomeWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             _recentAnnouncementsLabel(),
-            _announcements("Alert 1", "Alert 2", "Alert 3"),
+            StreamBuilder(
+                stream: widget.announcementsStream,
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.hasData) {
+                    return _announcements(
+                        snapshot.data?.docs[0]['title'],
+                        snapshot.data?.docs[1]['title'],
+                        snapshot.data?.docs[2]['title']);
+                  } else {
+                    return Text("No announcements available.");
+                  }
+                }),
             _activityLabel(),
             _activityGUI(),
             // TODO: Find a place for this sign out button

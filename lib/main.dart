@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'firebase/firestore.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'home/home_widget.dart';
 import 'alerts/alerts_widget.dart';
@@ -10,15 +12,17 @@ import 'activity/activity_widget.dart';
 class NavBarPage extends StatefulWidget {
   NavBarPage({Key? key, required this.initialPage}) : super(key: key);
 
-  final String initialPage;
+  final int initialPage;
 
   @override
   _NavBarPageState createState() => _NavBarPageState();
 }
 
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'Home';
+  int _currentPage = 0;
   late FirebaseMessaging messaging;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> announcements;
+  List<Widget> pageList = List<Widget>.empty(growable: true);
 
   @override
   void initState() {
@@ -26,18 +30,17 @@ class _NavBarPageState extends State<NavBarPage> {
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
+    announcements = FireStore.getAnnouncements();
+    pageList.add(HomeWidget(announcementsStream: announcements));
+    pageList.add(AlertsWidget(announcementsStream: announcements));
+    pageList.add(AtHomeExercisesWidget());
+    pageList.add(ActivityWidget());
   }
 
   @override
   Widget build(BuildContext context) {
-    final tabs = {
-      'Home': HomeWidget(),
-      'Alerts': AlertsWidget(),
-      'AtHomeExercises': AtHomeExercisesWidget(),
-      'Activity': ActivityWidget(),
-    };
     return Scaffold(
-      body: tabs[_currentPage],
+      body: IndexedStack(children: pageList, index: _currentPage),
       bottomNavigationBar: BottomNavigationBar(
         key: Key('BottomNavBar'),
         items: const <BottomNavigationBarItem>[
@@ -75,11 +78,11 @@ class _NavBarPageState extends State<NavBarPage> {
           )
         ],
         backgroundColor: Color(0xFF54585A),
-        currentIndex: tabs.keys.toList().indexOf(_currentPage),
+        currentIndex: _currentPage,
         selectedItemColor: Color(0xFFBA0C2F),
         unselectedItemColor: FlutterFlowTheme.tertiaryColor,
         onTap: (i) {
-          setState(() => _currentPage = tabs.keys.toList()[i]);
+          setState(() => _currentPage = i);
         },
         showSelectedLabels: true,
         showUnselectedLabels: true,

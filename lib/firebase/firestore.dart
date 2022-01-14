@@ -27,10 +27,12 @@ class FireStore {
         .get();
   }
 
-  static Future<QuerySnapshot> getAnnouncements() {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAnnouncements(
+      {int limit = 20}) {
     return FirebaseFirestore.instance
         .collection('announcements')
         .orderBy("id", descending: true)
-        .get();
+        .limit(limit)
+        .snapshots();
   }
 }

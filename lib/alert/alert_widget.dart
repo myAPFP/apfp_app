@@ -1,3 +1,5 @@
+import 'package:apfp/flutter_flow/flutter_flow_util.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +21,14 @@ class _AlertWidgetState extends State<AlertWidget> {
   InkWell _backButton() {
     return InkWell(
       onTap: () async {
-        await Navigator.pushAndRemoveUntil(
+        Navigator.pop(
           context,
-          MaterialPageRoute(
-            builder: (context) => NavBarPage(initialPage: 'Alerts'),
+          PageTransition(
+            type: PageTransitionType.leftToRight,
+            duration: Duration(milliseconds: 125),
+            reverseDuration: Duration(milliseconds: 125),
+            child: NavBarPage(initialPage: 1),
           ),
-          (r) => false,
         );
       },
       child: Text('< Back to Announcements', style: FlutterFlowTheme.subtitle2),
@@ -70,11 +74,12 @@ class _AlertWidgetState extends State<AlertWidget> {
                     constraints: BoxConstraints(
                         maxHeight: MediaQuery.of(context).size.height * 0.8),
                     child: SingleChildScrollView(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 100),
                         child: Padding(
-                      key: Key('Alert.description'),
-                      padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
-                      child: _announcementParagraph(widget.description),
-                    )))
+                          key: Key('Alert.description'),
+                          padding: EdgeInsetsDirectional.fromSTEB(20, 5, 20, 0),
+                          child: _announcementParagraph(widget.description),
+                        )))
               ],
             ),
           ),

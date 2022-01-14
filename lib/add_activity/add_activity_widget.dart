@@ -1,5 +1,4 @@
 import '../activity_card/activity_card.dart';
-import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -147,7 +146,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                 type: PageTransitionType.leftToRight,
                 duration: Duration(milliseconds: 125),
                 reverseDuration: Duration(milliseconds: 125),
-                child: NavBarPage(initialPage: 'Activity'),
+                child: NavBarPage(initialPage: 3),
               ));
         },
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
@@ -189,19 +188,23 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   }
 
   Padding _activityNameTextField() {
-    return textField(activityNameTextController, Key("AddActivity.activityNameTextField"));
+    return textField(
+        activityNameTextController, Key("AddActivity.activityNameTextField"));
   }
 
   Padding _totalCalTextField() {
-    return textField(totalCalTextController, Key("AddActivity.totalCalTextField"));
+    return textField(
+        totalCalTextController, Key("AddActivity.totalCalTextField"));
   }
 
   Padding _exerciseTextField() {
-    return textField(exerciseTextController, Key("AddActivity.exerciseTextField"));
+    return textField(
+        exerciseTextController, Key("AddActivity.exerciseTextField"));
   }
 
   Padding _durationTextField() {
-    return textField(durationTextController, Key("AddActivity.durationTextField"));
+    return textField(
+        durationTextController, Key("AddActivity.durationTextField"));
   }
 
   @override
@@ -236,7 +239,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                     child: _header(
-                        text: 'Calories Burned', style: FlutterFlowTheme.title3),
+                        text: 'Calories Burned',
+                        style: FlutterFlowTheme.title3),
                   ),
                   _totalCalTextField(),
                   Padding(

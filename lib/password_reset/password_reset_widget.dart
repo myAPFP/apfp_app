@@ -1,4 +1,5 @@
 import 'package:apfp/flutter_flow/flutter_flow_util.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../log_in_page/log_in_page_widget.dart';
@@ -38,7 +39,7 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
     return _passwordController1!.text.trim();
   }
 
-  String _getPassword2(){
+  String _getPassword2() {
     return _passwordController2!.text.trim();
   }
 
@@ -55,15 +56,13 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 25, 0, 0),
       child: InkWell(
-      onTap: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LogInPageWidget()),
-        );
-      },
-      child: Text('< Back', style: FlutterFlowTheme.subtitle2)
-    ),
+          onTap: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LogInPageWidget()),
+            );
+          },
+          child: Text('< Back', style: FlutterFlowTheme.subtitle2)),
     );
   }
 
@@ -103,16 +102,13 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
     );
   }
 
-  Row _passwordRow(){
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: Padding(padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-          child: _passwordTextField())
-        )
-      ]
-    );
+  Row _passwordRow() {
+    return Row(mainAxisSize: MainAxisSize.max, children: [
+      Expanded(
+          child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+              child: _passwordTextField()))
+    ]);
   }
 
   TextFormField _confirmPasswordTextField() {
@@ -151,46 +147,42 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
     );
   }
 
-  Row _confirmPasswordRow(){
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: Padding(padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-          child: _confirmPasswordTextField())
-        )
-      ]
-    );
+  Row _confirmPasswordRow() {
+    return Row(mainAxisSize: MainAxisSize.max, children: [
+      Expanded(
+          child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
+              child: _confirmPasswordTextField()))
+    ]);
   }
 
   Align _resetPasswordButton() {
     return Align(
       alignment: AlignmentDirectional(-0.05, 0),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
-        child: FFButtonWidget(
-      onPressed: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LogInPageWidget(),
-          ),
-        );
-      },
-      text: 'Reset Password',
-      options: FFButtonOptions(
-        width: 200,
-        height: 50,
-        color: Color(0xFFBA0C2F),
-        textStyle: FlutterFlowTheme.title2,
-        elevation: 2,
-        borderSide: BorderSide(
-          color: Colors.transparent,
-          width: 1,
-        ),
-        borderRadius: 12)
-      )),
-      );
+          padding: EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
+          child: FFButtonWidget(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LogInPageWidget(),
+                  ),
+                );
+              },
+              text: 'Reset Password',
+              options: FFButtonOptions(
+                  width: 200,
+                  height: 50,
+                  color: Color(0xFFBA0C2F),
+                  textStyle: FlutterFlowTheme.title2,
+                  elevation: 2,
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: 12))),
+    );
   }
 
   @override
@@ -206,11 +198,15 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _backButton(),
-              Padding( padding: EdgeInsetsDirectional.fromSTEB(15, 50, 0, 0),
-                child: Text('Please enter a new password', style: FlutterFlowTheme.title3)),
+              Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 50, 0, 0),
+                  child: Text('Please enter a new password',
+                      style: FlutterFlowTheme.title3)),
               _passwordRow(),
-              Padding( padding: EdgeInsetsDirectional.fromSTEB(15, 50, 0, 0),
-                child: Text('Confirm new password', style: FlutterFlowTheme.title3)),
+              Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 50, 0, 0),
+                  child: Text('Confirm new password',
+                      style: FlutterFlowTheme.title3)),
               _confirmPasswordRow(),
               _resetPasswordButton()
             ],

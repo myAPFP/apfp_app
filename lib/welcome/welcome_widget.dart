@@ -1,10 +1,9 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import '../create_account/create_account_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -19,6 +18,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: Colors.transparent,
+  ));
   runApp(MyApp());
 }
 
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en', '')],
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(),
       home: WelcomeWidget(),
     );
   }
@@ -53,7 +55,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     'imageOnPageLoadAnimation': AnimationInfo(
       curve: Curves.easeIn,
       trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
+      duration: 300,
       delay: 50,
       fadeIn: true,
     ),
@@ -79,7 +81,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => NavBarPage(initialPage: "Home"),
+          builder: (context) => NavBarPage(initialPage: 0),
         ),
         (r) => false,
       );

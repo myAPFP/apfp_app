@@ -43,8 +43,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                     child: Icon(
-                      Icons.error,
-                      color: FlutterFlowTheme.secondaryColor,
+                      Icons.error_outline,
+                      color: FlutterFlowTheme.primaryColor,
                       size: 30,
                     ),
                   )
@@ -73,6 +73,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                             ),
                             child: AutoSizeText(widget.title,
                                 minFontSize: 20,
+                                overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.subtitle1),
                           )
@@ -94,10 +95,10 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                             color: FlutterFlowTheme.tertiaryColor,
                           ),
                           child: AutoSizeText(
-                            widget.description.length < 70
-                                ? widget.description
-                                : "${widget.description.substring(0, 74)}...",
+                            widget.description,
                             minFontSize: 16,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                             style: TextStyle().copyWith(
                               fontWeight: FontWeight.w300,

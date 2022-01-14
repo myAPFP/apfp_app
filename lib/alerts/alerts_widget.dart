@@ -1,4 +1,3 @@
-import 'package:apfp/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../alert/alert_widget.dart';
@@ -8,7 +7,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AlertsWidget extends StatefulWidget {
-  AlertsWidget({Key? key}) : super(key: key);
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+  AlertsWidget({Key? key, required this.announcementsStream}) : super(key: key);
 
   @override
   _AlertsWidgetState createState() => _AlertsWidgetState();
@@ -81,14 +81,14 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     });
   }
 
-  void _collectAnnouncements() async {
-    await FireStore.getAnnouncements().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs
-        ..forEach((element) {
-          String title = element['title'];
-          String description = element['description'];
-          addToPrevious(_paddedAlert(_makeAlert(title, description)));
-        });
+  void _collectAnnouncements() {
+    widget.announcementsStream
+        .forEach((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      previousAnnouncements.clear();
+      snapshot.docs.forEach((QueryDocumentSnapshot element) {
+        addToPrevious(
+            _paddedAlert(_makeAlert(element['title'], element['description'])));
+      });
     });
   }
 

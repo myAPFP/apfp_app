@@ -207,7 +207,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       {MainAxisAlignment alignment = MainAxisAlignment.center,
       double lPadding = 0}) {
     return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 5),
         child: Row(mainAxisAlignment: alignment, children: [
           Text(text,
               textAlign: TextAlign.center, style: FlutterFlowTheme.title3)
@@ -257,12 +257,13 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     try {
       await Navigator.push(
         context,
-        _transitionTo(NavBarPage(initialPage: "Home")),
+        _transitionTo(NavBarPage(initialPage: 0)),
       );
     } finally {
       setState(() => _loadingButton = false);
     }
   }
+
 
   Padding _logInButton() {
     return Padding(
@@ -274,6 +275,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           FFButtonWidget(
             key: Key('LogIn.logInButton'),
             onPressed: () async {
+              FocusManager.instance.primaryFocus?.unfocus();
               _login();
             },
             text: 'Log In',
