@@ -96,7 +96,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(width: 40),
-                          Text("${_index}", style: FlutterFlowTheme.title3),
+                          Text("$_index", style: FlutterFlowTheme.title3),
                         ],
                       ),
                       Row(

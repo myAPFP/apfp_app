@@ -6,10 +6,10 @@ class FireStore {
     return FirebaseFirestore.instance.collection('youtube playlist ids').get();
   }
 
-  static void storeUID(String doc_id, String uid) {
+  static void storeUID(String docId, String uid) {
     FirebaseFirestore.instance
         .collection('registered users')
-        .doc(doc_id)
+        .doc(docId)
         .update({"UID": uid});
   }
 
@@ -22,9 +22,7 @@ class FireStore {
   }
 
   static Future<QuerySnapshot> getAdminEmails() async {
-    return FirebaseFirestore.instance
-        .collection('admins')
-        .get();
+    return FirebaseFirestore.instance.collection('admins').get();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAnnouncements(

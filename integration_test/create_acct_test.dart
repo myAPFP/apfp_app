@@ -31,8 +31,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Taps Create Account Button without any input
@@ -50,8 +50,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates First Name textFormField with invalid info
@@ -59,7 +59,7 @@ void main() {
           find.byKey(Key("Create.firstNameTextField")), '7n');
       await tester.pumpAndSettle();
 
-      // Presses "Enter" - hides keyboard 
+      // Presses "Enter" - hides keyboard
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
@@ -81,15 +81,15 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates Last Name textFormField with invalid info
       await tester.enterText(find.byKey(Key("Create.lastNameTextField")), '7n');
       await tester.pumpAndSettle();
 
-      // Presses "Enter" - hides keyboard 
+      // Presses "Enter" - hides keyboard
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
@@ -111,8 +111,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates Email textFormField with invalid info
@@ -120,7 +120,7 @@ void main() {
           find.byKey(Key("Create.emailTextField")), 'example');
       await tester.pumpAndSettle();
 
-      // Presses "Enter" - hides keyboard 
+      // Presses "Enter" - hides keyboard
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
@@ -143,8 +143,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates Password textFormField with invalid info
@@ -152,7 +152,7 @@ void main() {
           find.byKey(Key("Create.passwordTextField")), 'pass');
       await tester.pumpAndSettle();
 
-      // Presses "Enter" - hides keyboard 
+      // Presses "Enter" - hides keyboard
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
@@ -165,19 +165,17 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify password textFormField provides warning
-      expect(
-          find.text('Please provide a valid password'), findsNWidgets(1));
+      expect(find.text('Please provide a valid password'), findsNWidgets(1));
     });
 
-    testWidgets(
-        "Enter non-matching confirmed password, receieve a warning.",
+    testWidgets("Enter non-matching confirmed password, receieve a warning.",
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates Password textFormField with valid info
@@ -190,7 +188,7 @@ void main() {
           find.byKey(Key("Create.confirmPasswordTextField")), 'pass');
       await tester.pumpAndSettle();
 
-      // Presses "Enter" - hides keyboard 
+      // Presses "Enter" - hides keyboard
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
@@ -203,8 +201,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify ConfirmPassword textFormField provides warning
-      expect(
-          find.text('Passwords must match'), findsNWidgets(1));
+      expect(find.text('Passwords must match'), findsNWidgets(1));
     });
 
     testWidgets(
@@ -214,8 +211,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textFormField with valid info
@@ -246,8 +243,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textFormField with valid info
@@ -284,8 +281,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Create Account Screen from Welcome
-      var createAcctButton_wel = find.byKey(Key('Welcome.createAcctButton'));
-      await tester.tap(createAcctButton_wel);
+      var createAcctButtonWel = find.byKey(Key('Welcome.createAcctButton'));
+      await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
       // Populates PW textFormFields with example password

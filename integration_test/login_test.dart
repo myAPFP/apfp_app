@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/welcome/welcome_widget.dart' as app;
 
-  // TODO: Complete user story once screen is implemented:
-  // US: If I have forgotten my password, there is a button
-  // I can press to take me through the password reset process.
+// TODO: Complete user story once screen is implemented:
+// US: If I have forgotten my password, there is a button
+// I can press to take me through the password reset process.
 
 /*
   !  These tests assume you're starting at the Welcome page.
@@ -34,8 +34,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info
@@ -55,8 +55,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates password textformfield with valid password
@@ -83,8 +83,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info
