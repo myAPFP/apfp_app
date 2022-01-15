@@ -13,6 +13,9 @@ This application is in development and may be prone to bugs/issues/crashes. Run 
 Instructions for how to install Flutter SDK can be found [here](https://docs.flutter.dev/get-started/install). Implemented testing thus far can be found in `test` and `integration_test` directories. If you have trouble running the Flutter application, try running the following command in your terminal to download packages: `flutter pub get`. If you run into trouble with your Flutter installation, try running `flutter doctor` to verify that your Flutter SDK is properly installed.
 
 If you have trouble running on an iOS device or emulator, ensure that you have the CocoaPods manager installed, which manages dependencies for Xcode projects. Instructions for how to install can be found [here](https://guides.cocoapods.org/using/getting-started.html). Once CocoaPods is installed, you can install the pods for this project by setting the directory to `ios` and running `pod install`. Other CocoaPods commands can be used for troubleshooting, such as `pod outdated` and `pod update`, but only when the directory is set to `ios`. Ensure that your version of the app has been signed with an Apple account, which can be done through Xcode. A Developer account is not required to run the app, but an account must be used to sign the app.
+
+A Firebase project must be configured within this application. For iOS, add a valid **GoogleServices-Info.plist** file to the iOS Runner through Xcode. This must be done through Xcode or it will not be registered. For Android, add the **google-services.json** file to the `android/app` directory. The Firebase configuration files must come from the official APFP application Firebase project, only accessible to developers.
+
 ## API and SDK Documentation
 As a hybrid application, this project uses multiple SDKs and external APIs. Versions and attributions are listed below.
 
