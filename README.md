@@ -8,7 +8,7 @@ At this time, functionality is limited to application navigation, account creati
 This application is in development and may be prone to bugs/issues/crashes. Run application at own risk.
 1. Install Flutter SDK and an emulator of your choice (or offload to a physical device. Some features are not yet available on iOS emulators or devices).
 2. In your code editor, attach a running emulator or a physical device to the project.
-3. Find the root of the project in `lib/welcome/welcome_widget.dart`. Run the main() method, which will run the application on your emulator or device.
+3. Find the root of the project in `lib/main.dart`. Run the main() method, which will run the application on your emulator or device. You can also use `flutter run` in a shell, with additional arguments to customize the configuration.
 
 Instructions for how to install Flutter SDK can be found [here](https://docs.flutter.dev/get-started/install). Implemented testing thus far can be found in `test` and `integration_test` directories. If you have trouble running the Flutter application, try running the following command in your terminal to download packages: `flutter pub get`. If you run into trouble with your Flutter installation, try running `flutter doctor` to verify that your Flutter SDK is properly installed.
 
