@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:apfp/firebase/fire_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +11,10 @@ import 'home/home_widget.dart';
 import 'alerts/alerts_widget.dart';
 import 'at_home_exercises/at_home_exercises_widget.dart';
 import 'activity/activity_widget.dart';
+import 'dart:async';
+import 'dart:developer' as developer;
+import 'package:flutter/services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class NavBarPage extends StatefulWidget {
   NavBarPage({Key? key, required this.initialPage}) : super(key: key);
@@ -18,11 +25,16 @@ class NavBarPage extends StatefulWidget {
   _NavBarPageState createState() => _NavBarPageState();
 }
 
-class _NavBarPageState extends State<NavBarPage> {
+class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
   late FirebaseMessaging messaging;
   late Stream<QuerySnapshot<Map<String, dynamic>>> announcements;
   List<Widget> pageList = List<Widget>.empty(growable: true);
+
+  bool _internetConnected = true;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
@@ -35,6 +47,64 @@ class _NavBarPageState extends State<NavBarPage> {
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget());
     pageList.add(ActivityWidget());
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      initConnectivity();
+    }
+  }
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    _connectionStatus = result;
+    if (_connectionStatus == ConnectivityResult.none) {
+      _internetConnected = false;
+      FireAuth.showToast("Please connect to the Internet.");
+    } else if (_connectionStatus == ConnectivityResult.wifi ||
+        _connectionStatus == ConnectivityResult.mobile) {
+      if (!_internetConnected) {
+        await checkInternetConnection();
+      }
+    }
+  }
+
+  Future<void> checkInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        _internetConnected = true;
+        FireAuth.showToast("Connected to the Internet.");
+      }
+    } on SocketException catch (_) {
+      _internetConnected = false;
+      FireAuth.showToast("Please connect to the Internet.");
+    }
   }
 
   @override

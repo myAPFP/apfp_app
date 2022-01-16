@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/internet_connection/internet.dart';
 import 'package:apfp/validator/validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -641,21 +644,24 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  void _verifyAPFPCredentials() {
-    if (_formKey.currentState!.validate()) {
-      FireStore.getRegisteredUser(_getEmail())
-          .then((QuerySnapshot querySnapshot) {
-        if (querySnapshot.size != 0) {
-          // Only works if there is unqiueness amongst 
-          // all email fields in firestore db
-           _docID = querySnapshot.docs.first.id;
-          _createAccount();
-        } else {
-          FireAuth.showToast(
-              "You must be a member of the APFP to use this app.");
-        }
-      });
-    }
+  void _verifyAPFPCredentials() async {
+    if (await Internet.isConnected()) {
+      if (_formKey.currentState!.validate()) {
+        FireStore.getRegisteredUser(_getEmail())
+            .then((QuerySnapshot querySnapshot) {
+          if (querySnapshot.size != 0) {
+            // Only works if there is unqiueness amongst
+            // all email fields in firestore db
+            _docID = querySnapshot.docs.first.id;
+            _createAccount();
+          } else {
+            FireAuth.showToast(
+                "You must be a member of the APFP to use this app.");
+          }
+        });
+      }
+    } else
+      FireAuth.showToast("Please connect to the Internet.");
   }
 
   void _createAccount() async {

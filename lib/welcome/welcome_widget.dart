@@ -1,4 +1,9 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:developer' as developer;
+import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/firebase/firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
@@ -50,7 +55,7 @@ class WelcomeWidget extends StatefulWidget {
 }
 
 class _WelcomeWidgetState extends State<WelcomeWidget>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final animationsMap = {
     'imageOnPageLoadAnimation': AnimationInfo(
       curve: Curves.easeIn,
@@ -60,6 +65,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       fadeIn: true,
     ),
   };
+
+  bool _internetConnected = true;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -72,6 +82,64 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
       this,
     );
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      initConnectivity();
+    }
+  }
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    _connectionStatus = result;
+    if (_connectionStatus == ConnectivityResult.none) {
+      _internetConnected = false;
+      FireAuth.showToast("Please connect to the Internet.");
+    } else if (_connectionStatus == ConnectivityResult.wifi ||
+        _connectionStatus == ConnectivityResult.mobile) {
+      if (!_internetConnected) {
+        await checkInternetConnection();
+      }
+    }
+  }
+
+  Future<void> checkInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        _internetConnected = true;
+        FireAuth.showToast("Connected to the Internet.");
+      }
+    } on SocketException catch (_) {
+      _internetConnected = false;
+      FireAuth.showToast("Please connect to the Internet.");
+    }
   }
 
   Future<FirebaseApp> _initFirebaseApp() async {

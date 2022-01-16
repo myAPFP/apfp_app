@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:apfp/firebase/fire_auth.dart';
+import 'package:apfp/internet_connection/internet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -237,19 +240,22 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   void _login() async {
-    if (_formKey.currentState!.validate()) {
-      await FireAuth.signInUsingEmailPassword(
-          email: _getEmail(), password: _getPassword(), context: context);
-      User? currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser != null) {
-        FireAuth.refreshUser(currentUser);
-        if (currentUser.emailVerified) {
-          _goHome();
-        } else {
-          FireAuth.showToast("Please verify your email address.");
+    if (await Internet.isConnected()) {
+      if (_formKey.currentState!.validate()) {
+        await FireAuth.signInUsingEmailPassword(
+            email: _getEmail(), password: _getPassword(), context: context);
+        User? currentUser = FirebaseAuth.instance.currentUser;
+        if (currentUser != null) {
+          FireAuth.refreshUser(currentUser);
+          if (currentUser.emailVerified) {
+            _goHome();
+          } else {
+            FireAuth.showToast("Please verify your email address.");
+          }
         }
       }
-    }
+    } else
+      FireAuth.showToast("Please connect to the Internet.");
   }
 
   void _goHome() async {
@@ -264,6 +270,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     }
   }
 
+  
 
   Padding _logInButton() {
     return Padding(
