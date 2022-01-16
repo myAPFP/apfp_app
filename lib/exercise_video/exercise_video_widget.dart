@@ -28,8 +28,8 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
     setState(() {
       _setVideoTitle(widget.video.title);
       _setVideoSource(widget.video.author);
-      _setDiscriptionHeader("Description");
-      _setDiscriptionBody(widget.video.description.isEmpty
+      _setDescriptionHeader("Description");
+      _setDescriptionBody(widget.video.description.isEmpty
           ? "No Description Provided."
           : widget.video.description);
     });
@@ -65,29 +65,23 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
           Navigator.pop(context);
         },
         child: Text('< Back to All Videos',
-            textAlign: TextAlign.start,
-            style: FlutterFlowTheme.subtitle2
-      ));
+            textAlign: TextAlign.start, style: FlutterFlowTheme.subtitle2));
   }
 
   void _setVideoTitle(String vTitle) {
-    _videoTitle = Text(vTitle,
-        style: FlutterFlowTheme.title1);
+    _videoTitle = Text(vTitle, style: FlutterFlowTheme.title1);
   }
 
   void _setVideoSource(String vSource) {
-    _videoSource = Text(vSource,
-        style: FlutterFlowTheme.bodyText1);
+    _videoSource = Text(vSource, style: FlutterFlowTheme.bodyText1);
   }
 
-  void _setDiscriptionHeader(String dHeader) {
-    _descriptionHeader = Text(dHeader,
-        style: FlutterFlowTheme.subtitle1);
+  void _setDescriptionHeader(String dHeader) {
+    _descriptionHeader = Text(dHeader, style: FlutterFlowTheme.subtitle1);
   }
 
-  void _setDiscriptionBody(String dBody) {
-    _descriptionBody = Text(dBody,
-        style: FlutterFlowTheme.bodyText1);
+  void _setDescriptionBody(String dBody) {
+    _descriptionBody = Text(dBody, style: FlutterFlowTheme.bodyText1);
   }
 
   FlutterFlowYoutubePlayer _youtubePlayer() {
