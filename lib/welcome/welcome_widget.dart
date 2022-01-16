@@ -66,6 +66,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     ),
   };
 
+  bool _isInForeground = true;
   bool _internetConnected = true;
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
@@ -97,8 +98,12 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
+      _isInForeground = true;
       initConnectivity();
+    } else if (state == AppLifecycleState.paused) {
+      _isInForeground = false;
     }
   }
 
@@ -118,13 +123,15 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus = result;
-    if (_connectionStatus == ConnectivityResult.none) {
-      _internetConnected = false;
-      FireAuth.showToast("Please connect to the Internet.");
-    } else if (_connectionStatus == ConnectivityResult.wifi ||
-        _connectionStatus == ConnectivityResult.mobile) {
-      if (!_internetConnected) {
-        await checkInternetConnection();
+    if (_isInForeground) {
+      if (_connectionStatus == ConnectivityResult.none) {
+        _internetConnected = false;
+        FireAuth.showToast("Please connect to the Internet.");
+      } else if (_connectionStatus == ConnectivityResult.wifi ||
+          _connectionStatus == ConnectivityResult.mobile) {
+        if (!_internetConnected) {
+          await checkInternetConnection();
+        }
       }
     }
   }

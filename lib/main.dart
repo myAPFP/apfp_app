@@ -30,7 +30,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   late FirebaseMessaging messaging;
   late Stream<QuerySnapshot<Map<String, dynamic>>> announcements;
   List<Widget> pageList = List<Widget>.empty(growable: true);
-
+  bool _isInForeground = true;
   bool _internetConnected = true;
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
@@ -62,8 +62,12 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
+      _isInForeground = true;
       initConnectivity();
+    } else if (state == AppLifecycleState.paused) {
+      _isInForeground = false;
     }
   }
 
@@ -83,13 +87,15 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus = result;
-    if (_connectionStatus == ConnectivityResult.none) {
-      _internetConnected = false;
-      FireAuth.showToast("Please connect to the Internet.");
-    } else if (_connectionStatus == ConnectivityResult.wifi ||
-        _connectionStatus == ConnectivityResult.mobile) {
-      if (!_internetConnected) {
-        await checkInternetConnection();
+    if (_isInForeground) {
+      if (_connectionStatus == ConnectivityResult.none) {
+        _internetConnected = false;
+        FireAuth.showToast("Please connect to the Internet.");
+      } else if (_connectionStatus == ConnectivityResult.wifi ||
+          _connectionStatus == ConnectivityResult.mobile) {
+        if (!_internetConnected) {
+          await checkInternetConnection();
+        }
       }
     }
   }
