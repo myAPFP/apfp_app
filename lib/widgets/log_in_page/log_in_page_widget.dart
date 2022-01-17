@@ -1,15 +1,14 @@
-import 'dart:io';
-
 import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/internet_connection/internet.dart';
+import 'package:apfp/util/internet_connection/internet.dart';
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import '../main.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/main.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:apfp/validator/validator.dart';
+import 'package:apfp/util/validator/validator.dart';
 
 class LogInPageWidget extends StatefulWidget {
   LogInPageWidget({Key? key}) : super(key: key);
@@ -250,12 +249,12 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           if (currentUser.emailVerified) {
             _goHome();
           } else {
-            FireAuth.showToast("Please verify your email address.");
+            Toasted.showToast("Please verify your email address.");
           }
         }
       }
     } else
-      FireAuth.showToast("Please connect to the Internet.");
+      Toasted.showToast("Please connect to the Internet.");
   }
 
   void _goHome() async {

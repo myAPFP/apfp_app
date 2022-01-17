@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/internet_connection/internet.dart';
-import 'package:apfp/validator/validator.dart';
+import 'package:apfp/util/internet_connection/internet.dart';
+import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/util/validator/validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
+import 'package:apfp/flutter_flow/flutter_flow_util.dart';
+import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import '../successful_registration/successful_registration_widget.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
@@ -655,13 +653,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             _docID = querySnapshot.docs.first.id;
             _createAccount();
           } else {
-            FireAuth.showToast(
+            Toasted.showToast(
                 "You must be a member of the APFP to use this app.");
           }
         });
       }
     } else
-      FireAuth.showToast("Please connect to the Internet.");
+      Toasted.showToast("Please connect to the Internet.");
   }
 
   void _createAccount() async {
@@ -673,7 +671,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       FireAuth.refreshUser(user);
       FireStore.storeUID(_docID, user.uid);
       if (user.emailVerified) {
-        FireAuth.showToast("Account has been verified. Please sign in.");
+        Toasted.showToast("Account has been verified. Please sign in.");
       } else {
         _onSuccess();
       }

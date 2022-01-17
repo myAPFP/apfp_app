@@ -1,10 +1,10 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
-import 'package:apfp/welcome/welcome_widget.dart';
+import '../welcome/welcome_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {

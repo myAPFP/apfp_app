@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:developer' as developer;
-import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/internet_connection/internet.dart';
+import 'package:apfp/util/internet_connection/internet.dart';
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,13 +10,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import '../create_account/create_account_widget.dart';
-import '../flutter_flow/flutter_flow_animations.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '../log_in_page/log_in_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../main.dart';
+import '/main.dart';
 
 void main() {
   //Locking app to portrait orientation.
@@ -127,7 +126,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     if (_isInForeground) {
       if (_connectionStatus == ConnectivityResult.none) {
         _internetConnected = false;
-        FireAuth.showToast("Please connect to the Internet.");
+        Toasted.showToast("Please connect to the Internet.");
       } else if (_connectionStatus == ConnectivityResult.wifi ||
           _connectionStatus == ConnectivityResult.mobile) {
         if (!_internetConnected) {
@@ -140,10 +139,10 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   Future<void> checkInternetConnection() async {
     if (await Internet.isConnected()) {
       _internetConnected = true;
-      FireAuth.showToast("Connected to the Internet.");
+      Toasted.showToast("Connected to the Internet.");
     } else {
       _internetConnected = false;
-      FireAuth.showToast("Please connect to the Internet.");
+      Toasted.showToast("Please connect to the Internet.");
     }
   }
 

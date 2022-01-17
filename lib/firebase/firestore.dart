@@ -1,5 +1,5 @@
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:apfp/firebase/fire_auth.dart';
 
 class FireStore {
   static Future<QuerySnapshot> getPlaylistIDs() {
@@ -24,7 +24,7 @@ class FireStore {
   }
 
   static Future<QuerySnapshot> getRegisteredUser(String email) {
-    FireAuth.showToast("Verifying Membership...");
+    Toasted.showToast("Verifying Membership...");
     return FirebaseFirestore.instance
         .collection('registered users')
         .where('email', isEqualTo: email)

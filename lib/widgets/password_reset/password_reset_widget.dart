@@ -1,7 +1,6 @@
 import 'package:apfp/flutter_flow/flutter_flow_util.dart';
-
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '../log_in_page/log_in_page_widget.dart';
 import 'package:flutter/material.dart';
 

@@ -1,17 +1,15 @@
-import 'dart:io';
-
-import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/internet_connection/internet.dart';
+import 'package:apfp/util/internet_connection/internet.dart';
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'firebase/firestore.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
-import 'home/home_widget.dart';
-import 'alerts/alerts_widget.dart';
-import 'at_home_exercises/at_home_exercises_widget.dart';
-import 'activity/activity_widget.dart';
+import 'widgets/home/home_widget.dart';
+import 'widgets/alerts/alerts_widget.dart';
+import 'widgets/at_home_exercises/at_home_exercises_widget.dart';
+import 'widgets/activity/activity_widget.dart';
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:flutter/services.dart';
@@ -91,7 +89,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     if (_isInForeground) {
       if (_connectionStatus == ConnectivityResult.none) {
         _internetConnected = false;
-        FireAuth.showToast("Please connect to the Internet.");
+        Toasted.showToast("Please connect to the Internet.");
       } else if (_connectionStatus == ConnectivityResult.wifi ||
           _connectionStatus == ConnectivityResult.mobile) {
         if (!_internetConnected) {
@@ -104,10 +102,10 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   Future<void> checkInternetConnection() async {
     if (await Internet.isConnected()) {
       _internetConnected = true;
-      FireAuth.showToast("Connected to the Internet.");
+      Toasted.showToast("Connected to the Internet.");
     } else {
       _internetConnected = false;
-      FireAuth.showToast("Please connect to the Internet.");
+      Toasted.showToast("Please connect to the Internet.");
     }
   }
 
