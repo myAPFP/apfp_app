@@ -2,7 +2,7 @@ import 'package:apfp/firebase/firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../exercise_video/exercise_video_widget.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AtHomeExercisesWidget extends StatefulWidget {
@@ -22,12 +22,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   @override
   void initState() {
     super.initState();
-    _getPlaylistIDs().then((ids) {
-      ids.forEach((id) {
-        _preloadYTVideos(id);
-      });
-      _isVideosLoaded = true;
-    });
+    preloadAllVideos();
   }
 
   List<Padding> _paddedHeaderText() {
@@ -96,7 +91,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(width: 40),
-                          Text("${_index}", style: FlutterFlowTheme.title3),
+                          Text("$_index", style: FlutterFlowTheme.title3),
                         ],
                       ),
                       Row(
@@ -158,9 +153,25 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                 ))));
   }
 
+  void preloadAllVideos() {
+    _getPlaylistIDs().then((ids) => ids.forEach((id) => _preloadPlaylist(id)));
+    _getVideoUrls().then((urls) => urls.forEach((url) => _preloadVideo(url)));
+    _isVideosLoaded = true;
+  }
+
+  Future<List<String>> _getVideoUrls() async {
+    List<String> urls = [];
+    await FireStore.getVideoUrls().then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        urls.add(doc["url"]);
+      });
+    });
+    return urls;
+  }
+
   Future<List<String>> _getPlaylistIDs() async {
     List<String> ids = [];
-    await FireStore.getPlaylistID().then((querySnapshot) {
+    await FireStore.getPlaylistIDs().then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         ids.add(doc["id"]);
       });
@@ -168,7 +179,20 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return ids;
   }
 
-  void _preloadYTVideos(String id) async {
+  void _preloadVideo(String url) async {
+    YoutubeExplode yt = YoutubeExplode();
+    Video video = await yt.videos.get(url);
+    _index++;
+    _addVideoToList(_videoTrainingCard(
+        index: _index,
+        author: video.author,
+        url: video.url,
+        title: video.title,
+        video: video));
+    yt.close();
+  }
+
+  void _preloadPlaylist(String id) async {
     YoutubeExplode yt = YoutubeExplode();
     Playlist playlist = await yt.playlists.get(id);
     await for (Video video in yt.playlists.getVideos(playlist.id)) {

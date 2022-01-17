@@ -1,8 +1,8 @@
 import 'package:focused_menu/modals.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
+import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
 

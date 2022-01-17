@@ -1,20 +1,30 @@
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:apfp/firebase/fire_auth.dart';
 
 class FireStore {
-  static Future<QuerySnapshot> getPlaylistID() {
-    return FirebaseFirestore.instance.collection('youtube playlist ids').get();
+  static Future<QuerySnapshot> getPlaylistIDs() {
+    return FirebaseFirestore.instance
+        .collection('youtube playlist ids')
+        .orderBy("Title")
+        .get();
   }
 
-  static void storeUID(String doc_id, String uid) {
+  static Future<QuerySnapshot> getVideoUrls() {
+    return FirebaseFirestore.instance
+        .collection('youtube video urls')
+        .orderBy("Title")
+        .get();
+  }
+
+  static void storeUID(String docId, String uid) {
     FirebaseFirestore.instance
         .collection('registered users')
-        .doc(doc_id)
+        .doc(docId)
         .update({"UID": uid});
   }
 
   static Future<QuerySnapshot> getRegisteredUser(String email) {
-    FireAuth.showToast("Verifying Membership...");
+    Toasted.showToast("Verifying Membership...");
     return FirebaseFirestore.instance
         .collection('registered users')
         .where('email', isEqualTo: email)
@@ -22,9 +32,7 @@ class FireStore {
   }
 
   static Future<QuerySnapshot> getAdminEmails() async {
-    return FirebaseFirestore.instance
-        .collection('admins')
-        .get();
+    return FirebaseFirestore.instance.collection('admins').get();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAnnouncements(

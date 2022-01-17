@@ -1,8 +1,8 @@
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '../activity_card/activity_card.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import '../main.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import 'package:apfp/main.dart';
 import 'package:flutter/material.dart';
 
 class AddActivityWidget extends StatefulWidget {

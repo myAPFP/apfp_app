@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:apfp/validator/validator.dart';
+import 'package:apfp/util/validator/validator.dart';
 void main() {
   final verify = Validator();
   group("User Verification Testing", () {

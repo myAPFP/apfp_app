@@ -2,7 +2,7 @@ import 'package:apfp/flutter_flow/flutter_flow_youtube_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:apfp/welcome/welcome_widget.dart' as app;
+import 'package:apfp/widgets/welcome/welcome_widget.dart' as app;
 
 /*
   ! In order to run these tests, please ensure you're logged into the app
