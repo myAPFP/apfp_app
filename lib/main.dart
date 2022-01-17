@@ -1,83 +1,134 @@
-import 'package:flutter/gestures.dart';
+import 'package:apfp/widgets/settings/settings_widget.dart';
+import 'package:apfp/widgets/welcome/welcome_widget.dart';
+import 'package:apfp/util/internet_connection/internet.dart';
+import 'package:apfp/util/toasted/toasted.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:apfp/welcome/welcome_widget.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'firebase/firestore.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'home/home_widget.dart';
-import 'alerts/alerts_widget.dart';
-import 'at_home_exercises/at_home_exercises_widget.dart';
-import 'activity/activity_widget.dart';
-import 'settings/settings_widget.dart';
+import 'widgets/home/home_widget.dart';
+import 'widgets/alerts/alerts_widget.dart';
+import 'widgets/at_home_exercises/at_home_exercises_widget.dart';
+import 'widgets/activity/activity_widget.dart';
+import 'dart:async';
+import 'dart:developer' as developer;
+import 'package:connectivity_plus/connectivity_plus.dart';
 
-void main() async {
+void main() {
+  //Locking app to portrait orientation.
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: Colors.transparent,
+  ));
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'APFP',
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en', '')],
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: NavBarPage(),
-    );
-  }
-}
-
 class NavBarPage extends StatefulWidget {
-  NavBarPage({Key key, this.initialPage}) : super(key: key);
+  NavBarPage({Key? key, required this.initialPage}) : super(key: key);
 
-  final String initialPage;
+  final int initialPage;
 
   @override
   _NavBarPageState createState() => _NavBarPageState();
 }
 
-/// This is the private State class that goes with NavBarPage.
-class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'Home';
+class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
+  int _currentPage = 0;
+  late FirebaseMessaging messaging;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> announcements;
+  List<Widget> pageList = List<Widget>.empty(growable: true);
+  bool _isInForeground = true;
+  bool _internetConnected = true;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
-    _currentPage = widget.initialPage ?? _currentPage;
+    _currentPage = widget.initialPage;
+    messaging = FirebaseMessaging.instance;
+    messaging.subscribeToTopic("alerts");
+    announcements = FireStore.getAnnouncements();
+    pageList.add(HomeWidget(announcementsStream: announcements));
+    pageList.add(AlertsWidget(announcementsStream: announcements));
+    pageList.add(AtHomeExercisesWidget());
+    pageList.add(ActivityWidget());
+    pageList.add(SettingsWidget());
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _isInForeground = true;
+      initConnectivity();
+    } else if (state == AppLifecycleState.paused) {
+      _isInForeground = false;
+    }
+  }
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    _connectionStatus = result;
+    if (_isInForeground) {
+      if (_connectionStatus == ConnectivityResult.none) {
+        _internetConnected = false;
+        Toasted.showToast("Please connect to the Internet.");
+      } else if (_connectionStatus == ConnectivityResult.wifi ||
+          _connectionStatus == ConnectivityResult.mobile) {
+        if (!_internetConnected) {
+          await checkInternetConnection();
+        }
+      }
+    }
+  }
+
+  Future<void> checkInternetConnection() async {
+    if (await Internet.isConnected()) {
+      _internetConnected = true;
+      Toasted.showToast("Connected to the Internet.");
+    } else {
+      _internetConnected = false;
+      Toasted.showToast("Please connect to the Internet.");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final tabs = {
-      'Home': HomeWidget(),
-      'Alerts': AlertsWidget(),
-      'AtHomeExercises': AtHomeExercisesWidget(),
-      'Activity': ActivityWidget(),
-      'settings': SettingsWidget(),
-    };
-    final currentIndex = tabs.keys.toList().indexOf(_currentPage);
     return Scaffold(
-      body: tabs[_currentPage],
+      body: IndexedStack(children: pageList, index: _currentPage),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (i) => setState(() => _currentPage = tabs.keys.toList()[i]),
-        backgroundColor: Color(0xFF54585A),
-        selectedItemColor: Color(0xFFBA0C2F),
-        unselectedItemColor: FlutterFlowTheme.tertiaryColor,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
+        key: Key('BottomNavBar'),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
@@ -85,7 +136,7 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 48,
             ),
             label: 'Home',
-            tooltip: '',
+            tooltip: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -93,7 +144,7 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 40,
             ),
             label: 'Alerts',
-            tooltip: '',
+            tooltip: 'Alerts',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(
@@ -101,7 +152,7 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 35,
             ),
             label: 'Exercises',
-            tooltip: '',
+            tooltip: 'Exercises',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(
@@ -109,17 +160,24 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 40,
             ),
             label: 'My Activity',
-            tooltip: '',
+            tooltip: 'My Activity',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-              size: 40,
-            ),
+            icon: Icon(Icons.settings, size: 40),
             label: 'Settings',
-            tooltip: '',
+            tooltip: 'Settings',
           )
         ],
+        backgroundColor: Color(0xFF54585A),
+        currentIndex: _currentPage,
+        selectedItemColor: Color(0xFFBA0C2F),
+        unselectedItemColor: FlutterFlowTheme.tertiaryColor,
+        onTap: (i) {
+          setState(() => _currentPage = i);
+        },
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
