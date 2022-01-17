@@ -1,17 +1,22 @@
+import 'dart:async';
+import 'dart:developer' as developer;
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/util/internet_connection/internet.dart';
+import 'package:apfp/util/toasted/toasted.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import '../create_account/create_account_widget.dart';
-import '../flutter_flow/flutter_flow_animations.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '../log_in_page/log_in_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../main.dart';
+import '/main.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of the application.
@@ -39,7 +44,7 @@ class WelcomeWidget extends StatefulWidget {
 }
 
 class _WelcomeWidgetState extends State<WelcomeWidget>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final animationsMap = {
     'imageOnPageLoadAnimation': AnimationInfo(
       curve: Curves.easeIn,
@@ -49,6 +54,12 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       fadeIn: true,
     ),
   };
+
+  bool _isInForeground = true;
+  bool _internetConnected = true;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -61,6 +72,67 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
       this,
     );
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _isInForeground = true;
+      initConnectivity();
+    } else if (state == AppLifecycleState.paused) {
+      _isInForeground = false;
+    }
+  }
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    _connectionStatus = result;
+    if (_isInForeground) {
+      if (_connectionStatus == ConnectivityResult.none) {
+        _internetConnected = false;
+        Toasted.showToast("Please connect to the Internet.");
+      } else if (_connectionStatus == ConnectivityResult.wifi ||
+          _connectionStatus == ConnectivityResult.mobile) {
+        if (!_internetConnected) {
+          await checkInternetConnection();
+        }
+      }
+    }
+  }
+
+  Future<void> checkInternetConnection() async {
+    if (await Internet.isConnected()) {
+      _internetConnected = true;
+      Toasted.showToast("Connected to the Internet.");
+    } else {
+      _internetConnected = false;
+      Toasted.showToast("Please connect to the Internet.");
+    }
   }
 
   Future<FirebaseApp> _initFirebaseApp() async {

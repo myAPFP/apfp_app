@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+<<<<<<< HEAD
 import 'package:apfp/main.dart' as app;
+=======
+import 'package:apfp/widgets/welcome/welcome_widget.dart' as app;
+>>>>>>> origin/development
 
 // TODO: Complete user story once screen is implemented:
 // US: If I have forgotten my password, there is a button

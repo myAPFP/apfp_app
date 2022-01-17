@@ -1,5 +1,5 @@
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -20,10 +20,10 @@ class FireAuth {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
-          showToast('The password provided is too weak.');
+          Toasted.showToast('The password provided is too weak.');
           break;
         case 'email-already-in-use':
-          showToast('An account already exists with this email.');
+          Toasted.showToast('An account already exists with this email.');
           break;
       }
     }
@@ -43,13 +43,13 @@ class FireAuth {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
-          showToast('No user found for that email.');
+          Toasted.showToast('No user found for that email.');
           break;
         case 'wrong-password':
-          showToast('Wrong password provided.');
+          Toasted.showToast('Wrong password provided.');
           break;
         case 'user-disabled':
-          showToast('Account is disabled. Please contact the admin.');
+          Toasted.showToast('Account is disabled. Please contact the admin.');
           break;
       }
     }
@@ -75,15 +75,15 @@ class FireAuth {
       refreshUser(user);
       if (!user.emailVerified) {
         sendEMmailNotification(user);
-        showToast("A new verification email has been sent.");
+        Toasted.showToast("A new verification email has been sent.");
       }
     } else
-      showToast("You must attempt to login first.");
+      Toasted.showToast("You must attempt to login first.");
   }
 
   static signOut() async {
     await FirebaseAuth.instance.signOut();
-    showToast("Signed out.");
+    Toasted.showToast("Signed out.");
   }
 
   static deleteCurrentUser() async {
@@ -94,9 +94,9 @@ class FireAuth {
           .doc(user.uid)
           .delete()
           .whenComplete(() {
-        showToast("Deleting Account..");
+        Toasted.showToast("Deleting Account..");
         FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
-          showToast("Account has been deleted.");
+          Toasted.showToast("Account has been deleted.");
         });
       });
     }
@@ -106,7 +106,7 @@ class FireAuth {
     User? user = FirebaseAuth.instance.currentUser;
     user!
         .updateEmail(newEmail)
-        .then((value) => showToast("Email has been updated."));
+        .then((value) => Toasted.showToast("Email has been updated."));
   }
 
   static sendResetPasswordLink({required String email}) async {
@@ -114,12 +114,9 @@ class FireAuth {
     await auth
         .sendPasswordResetEmail(email: email)
         .whenComplete(
-            () => showToast("Please check your email to reset your password."))
-        .catchError((e) => showToast(e.toString()));
+            () => Toasted.showToast("Please check your email to reset your password."))
+        .catchError((e) => Toasted.showToast(e.toString()));
   }
 
-  static void showToast(String msg) {
-    Fluttertoast.showToast(
-        msg: msg, toastLength: Toast.LENGTH_LONG, gravity: ToastGravity.BOTTOM);
-  }
+  
 }
