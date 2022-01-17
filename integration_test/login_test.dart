@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+<<<<<<< HEAD
+import 'package:apfp/main.dart' as app;
+=======
 import 'package:apfp/widgets/welcome/welcome_widget.dart' as app;
+>>>>>>> origin/development
 
-  // TODO: Complete user story once screen is implemented:
-  // US: If I have forgotten my password, there is a button
-  // I can press to take me through the password reset process.
+// TODO: Complete user story once screen is implemented:
+// US: If I have forgotten my password, there is a button
+// I can press to take me through the password reset process.
 
 /*
   !  These tests assume you're starting at the Welcome page.
@@ -34,8 +38,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info
@@ -55,8 +59,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates password textformfield with valid password
@@ -83,8 +87,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+<<<<<<< HEAD
+import 'package:apfp/main.dart' as app;
+=======
 import 'package:apfp/widgets/welcome/welcome_widget.dart' as app;
+>>>>>>> origin/development
 
 /*
   !  These tests assume you're starting at the Welcome page.
@@ -22,16 +26,16 @@ import 'package:apfp/widgets/welcome/welcome_widget.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Email Not Confirmed Screen Integration Tests', (){
-    testWidgets("US: If I reach this page, I am shown a message explaining that" +
-      "my email has not yet been validated", (WidgetTester tester) async {
-        
+  group('Email Not Confirmed Screen Integration Tests', () {
+    testWidgets(
+        "US: If I reach this page, I am shown a message explaining that" +
+            "my email has not yet been validated", (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info
@@ -46,19 +50,20 @@ void main() {
       var loginButton = find.byKey(Key('Login.loginInButton'));
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
-        
+
       // Ensure email not confirmed message is present
       expect(find.byKey(Key('Email.contextMessage')), findsOneWidget);
     });
 
-    testWidgets("US: I am able to resent the confirmation email if I have not received" +
-      "it or if I have deleted it", (WidgetTester tester) async {
+    testWidgets(
+        "US: I am able to resent the confirmation email if I have not received" +
+            "it or if I have deleted it", (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
       // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info
@@ -83,13 +88,13 @@ void main() {
     });
 
     testWidgets("US: I can return to the welcome screen using a button",
-      (WidgetTester tester) async{
+        (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
-        // Launches Login Screen from Welcome
-      var loginButton_wel = find.byKey(Key('Welcome.loginButton'));
-      await tester.tap(loginButton_wel);
+      // Launches Login Screen from Welcome
+      var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
+      await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
       // Populates each textformfield with valid info

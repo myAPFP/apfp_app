@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+<<<<<<< HEAD
+import 'package:apfp/main.dart' as app;
+=======
 import 'package:apfp/widgets/welcome/welcome_widget.dart' as app;
+>>>>>>> origin/development
 
 /*
   ! In order to run these tests, please ensure you're logged into the app
@@ -29,7 +33,7 @@ void main() {
     testWidgets(
         'US: I can input the name of the activity, the type of activity,' +
             'calories burned and duration of the activity via text boxes.' +
-        'US: I can submit the information to be stored in the application.',
+            'US: I can submit the information to be stored in the application.',
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -56,17 +60,18 @@ void main() {
           find.byKey(Key("AddActivity.durationTextField")), '10 min');
       await tester.pumpAndSettle();
 
-      // Presses "Enter" - hides keyboard 
+      // Presses "Enter" - hides keyboard
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
-      // Adds new activity 
+      // Adds new activity
       await tester.tap(find.byKey(Key("AddActivity.submitButton")));
       await tester.pumpAndSettle();
 
       // Verifies new info is stored
       expect(find.byIcon(Icons.info), findsOneWidget);
-      expect(find.text("10 min                       100 cals"), findsOneWidget);
+      expect(
+          find.text("10 min                       100 cals"), findsOneWidget);
       expect(find.text("Jogging"), findsOneWidget);
       expect(find.text("Cardio"), findsNWidgets(4));
     });

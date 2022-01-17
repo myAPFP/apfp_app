@@ -2,7 +2,11 @@ import 'package:apfp/flutter_flow/flutter_flow_youtube_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+<<<<<<< HEAD
+import 'package:apfp/main.dart' as app;
+=======
 import 'package:apfp/widgets/welcome/welcome_widget.dart' as app;
+>>>>>>> origin/development
 
 /*
   ! In order to run these tests, please ensure you're logged into the app
@@ -28,7 +32,8 @@ void main() {
 
   group('Exercise Video Screen Integration Tests', () {
     testWidgets(
-      'US: I can access a YouTube player containing an exercise video.', (WidgetTester tester) async{
+        'US: I can access a YouTube player containing an exercise video.',
+        (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -45,8 +50,8 @@ void main() {
     });
 
     testWidgets(
-      'US: I can view info about the video, such as the title, source, and description.',
-      (WidgetTester tester) async{
+        'US: I can view info about the video, such as the title, source, and description.',
+        (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -63,10 +68,11 @@ void main() {
       expect(find.byKey(Key('Video.videoSource')), findsWidgets);
       expect(find.byKey(Key('Video.videoDescriptionTitle')), findsWidgets);
       expect(find.byKey(Key('Video.videoDescriptionBody')), findsWidgets);
-      });
+    });
 
     testWidgets(
-      'US: I can return to the list of exercise videos using a button.', (WidgetTester tester) async{
+        'US: I can return to the list of exercise videos using a button.',
+        (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 

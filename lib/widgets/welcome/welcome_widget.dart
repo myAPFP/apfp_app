@@ -18,17 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '/main.dart';
 
-void main() {
-  //Locking app to portrait orientation.
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Colors.transparent,
-  ));
-  runApp(MyApp());
-}
-
 class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   @override

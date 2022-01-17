@@ -1,8 +1,10 @@
+import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'firebase/firestore.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
@@ -14,6 +16,17 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:flutter/services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+
+void main() {
+  //Locking app to portrait orientation.
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: Colors.transparent,
+  ));
+  runApp(MyApp());
+}
 
 class NavBarPage extends StatefulWidget {
   NavBarPage({Key? key, required this.initialPage}) : super(key: key);
