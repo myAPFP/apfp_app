@@ -1,3 +1,8 @@
+import 'package:apfp/firebase/fire_auth.dart';
+import 'package:apfp/widgets/welcome/welcome_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +15,25 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
+  late FirebaseMessaging messaging;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final userDisplayName = FirebaseAuth.instance.currentUser!.displayName;
 
   Padding _logOutButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
-        onPressed: () {
-          print('Button pressed ...');
+        onPressed: () async{
+          messaging = FirebaseMessaging.instance;
+          messaging.deleteToken();
+          await FireAuth.signOut();
+          await Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WelcomeWidget(),
+            ),
+            (r) => false,
+          );
         },
         text: 'Log Out',
         options: FFButtonOptions(
@@ -95,7 +111,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                     child: Text(
-                      'Hello, [First Name]!',
+                      'Hello, $userDisplayName!',
                       style: FlutterFlowTheme.title2,
                     ),
                   ),
@@ -129,7 +145,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               onTap: () {
                 print("DA Tapped!");
               }),
-              _logOutButton()
+          _logOutButton()
         ],
       ),
     );
