@@ -3,11 +3,17 @@ import 'package:apfp/firebase/fire_auth.dart';
 
 class FireStore {
   static Future<QuerySnapshot> getPlaylistIDs() {
-    return FirebaseFirestore.instance.collection('youtube playlist ids').get();
+    return FirebaseFirestore.instance
+        .collection('youtube playlist ids')
+        .orderBy("Title", descending: true)
+        .get();
   }
 
   static Future<QuerySnapshot> getVideoUrls() {
-    return FirebaseFirestore.instance.collection('youtube video urls').get();
+    return FirebaseFirestore.instance
+        .collection('youtube video urls')
+        .orderBy("Title", descending: true)
+        .get();
   }
 
   static void storeUID(String docId, String uid) {
@@ -26,9 +32,7 @@ class FireStore {
   }
 
   static Future<QuerySnapshot> getAdminEmails() async {
-    return FirebaseFirestore.instance
-        .collection('admins')
-        .get();
+    return FirebaseFirestore.instance.collection('admins').get();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAnnouncements(
