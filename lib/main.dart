@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:apfp/firebase/fire_auth.dart';
+import 'package:apfp/internet_connection/internet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -101,13 +102,10 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   }
 
   Future<void> checkInternetConnection() async {
-    try {
-      final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        _internetConnected = true;
-        FireAuth.showToast("Connected to the Internet.");
-      }
-    } on SocketException catch (_) {
+    if (await Internet.isConnected()) {
+      _internetConnected = true;
+      FireAuth.showToast("Connected to the Internet.");
+    } else {
       _internetConnected = false;
       FireAuth.showToast("Please connect to the Internet.");
     }

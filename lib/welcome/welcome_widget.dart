@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:developer' as developer;
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/internet_connection/internet.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -137,13 +138,10 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   }
 
   Future<void> checkInternetConnection() async {
-    try {
-      final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        _internetConnected = true;
-        FireAuth.showToast("Connected to the Internet.");
-      }
-    } on SocketException catch (_) {
+    if (await Internet.isConnected()) {
+      _internetConnected = true;
+      FireAuth.showToast("Connected to the Internet.");
+    } else {
       _internetConnected = false;
       FireAuth.showToast("Please connect to the Internet.");
     }

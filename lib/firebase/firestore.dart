@@ -5,14 +5,14 @@ class FireStore {
   static Future<QuerySnapshot> getPlaylistIDs() {
     return FirebaseFirestore.instance
         .collection('youtube playlist ids')
-        .orderBy("Title", descending: true)
+        .orderBy("Title")
         .get();
   }
 
   static Future<QuerySnapshot> getVideoUrls() {
     return FirebaseFirestore.instance
         .collection('youtube video urls')
-        .orderBy("Title", descending: true)
+        .orderBy("Title")
         .get();
   }
 
