@@ -94,9 +94,7 @@ class FireAuth {
           .doc(user.uid)
           .delete()
           .whenComplete(() {
-        Toasted.showToast("Deleting Account..");
         FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
-          Toasted.showToast("Account has been deleted.");
         });
       });
     }
