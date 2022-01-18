@@ -2,6 +2,7 @@ import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -19,21 +20,66 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final userDisplayName = FirebaseAuth.instance.currentUser!.displayName;
 
+  Text dialogText() {
+    return Text.rich(TextSpan(
+        text: "Are you sure you want to delete your account?\n\nThis will be ",
+        style: TextStyle(fontSize: 20),
+        children: [
+          TextSpan(
+              text: 'permanent',
+              style: TextStyle(
+                  fontSize: 20, color: FlutterFlowTheme.secondaryColor)),
+          TextSpan(
+              text:
+                  ' and all of your data will be deleted.\n\nThe app will now exit.',
+              style: TextStyle(fontSize: 20))
+        ]));
+  }
+
+  void _showDeletionConfirmation() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Delete Account'),
+        content: dialogText(),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('NO'),
+          ),
+          TextButton(
+            onPressed: () {
+              FireAuth.deleteCurrentUser();
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            },
+            child: const Text('YES'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _returnToWelcome() async {
+    await Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WelcomeWidget(),
+      ),
+      (r) => false,
+    );
+  }
+
   Padding _logOutButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
-        onPressed: () async{
+        onPressed: () async {
           messaging = FirebaseMessaging.instance;
           messaging.deleteToken();
           await FireAuth.signOut();
-          await Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WelcomeWidget(),
-            ),
-            (r) => false,
-          );
+          _returnToWelcome();
         },
         text: 'Log Out',
         options: FFButtonOptions(
@@ -143,7 +189,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           _settingsButton(
               text: "Delete Account",
               onTap: () {
-                print("DA Tapped!");
+                _showDeletionConfirmation();
               }),
           _logOutButton()
         ],
