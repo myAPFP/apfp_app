@@ -77,13 +77,10 @@ class FireAuth {
   }
 
   static void _deleteUserAccount() {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
-        // Closes app
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      });
-    }
+    // Deletes user then closes app
+    FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    });
   }
 
   static deleteCurrentUser(String email) async {
