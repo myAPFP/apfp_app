@@ -76,21 +76,19 @@ class FireAuth {
     Toasted.showToast("Logged out.");
   }
 
-  static deleteCurrentUser(String email) async {
+  static void _deleteUserAccount() {
     User? user = FirebaseAuth.instance.currentUser;
-    
-    // Deletes user doc stored in Firestore DB
-    FirebaseFirestore.instance
-        .collection('registered users')
-        .doc(FireStore.getUserDocID(email))
-        .delete()
-        .whenComplete(() {
-      // Deletes user's account
-      user!.delete().whenComplete(() {
+    if (user != null) {
+      FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
         // Closes app
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       });
-    });
+    }
+  }
+
+  static deleteCurrentUser(String email) async {
+    FireStore.deleteUserDoc(email);
+    _deleteUserAccount();
   }
 
   static updateEmail({required String newEmail}) {

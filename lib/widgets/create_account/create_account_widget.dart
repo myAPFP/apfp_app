@@ -645,6 +645,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   void _verifyAPFPCredentials() async {
     if (await Internet.isConnected()) {
       if (_formKey.currentState!.validate()) {
+        Toasted.showToast("Verifiying Membership...");
         FireStore.getRegisteredUser(_getEmail())
             .then((QuerySnapshot querySnapshot) {
           if (querySnapshot.size != 0) {

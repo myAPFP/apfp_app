@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStore {
-  static  String _docID = "";
-
   static Future<QuerySnapshot> getPlaylistIDs() {
     return FirebaseFirestore.instance
         .collection('youtube playlist ids')
@@ -24,23 +22,23 @@ class FireStore {
         .update({"UID": uid});
   }
 
-  static String getUserDocID(String email) {
-    print(email);
-    getRegisteredUser(email).then((querySnapshot) {
-      if (querySnapshot.size != 0) {
-        _docID = querySnapshot.docs.first.id;
-        print("PASS: id is $_docID");
-      } else
-        print("FAIL");
-    });   
-    return _docID;
-  }
-
   static Future<QuerySnapshot> getRegisteredUser(String email) {
     return FirebaseFirestore.instance
         .collection('registered users')
         .where('email', isEqualTo: email)
         .get();
+  }
+
+  static void deleteUserDoc(String email) {
+    // Fetches user's doc ID from Firestore DB
+    getRegisteredUser(email).then((querySnapshot) {
+      var docID = querySnapshot.docs.first.id;
+      // Deletes user doc stored in Firestore DB
+      FirebaseFirestore.instance
+          .collection('registered users')
+          .doc(docID)
+          .delete();
+    });
   }
 
   static Future<QuerySnapshot> getAdminEmails() async {
