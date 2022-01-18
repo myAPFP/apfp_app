@@ -50,7 +50,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           ),
           TextButton(
             onPressed: () {
-              FireAuth.deleteCurrentUser();
+              FireAuth.deleteCurrentUser(currentUser!.email!);
             },
             child: const Text('YES',
                 style: TextStyle(color: FlutterFlowTheme.secondaryColor)),

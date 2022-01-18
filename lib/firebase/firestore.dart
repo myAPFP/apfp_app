@@ -1,7 +1,8 @@
-import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStore {
+  static  String _docID = "";
+
   static Future<QuerySnapshot> getPlaylistIDs() {
     return FirebaseFirestore.instance
         .collection('youtube playlist ids')
@@ -23,8 +24,19 @@ class FireStore {
         .update({"UID": uid});
   }
 
+  static String getUserDocID(String email) {
+    print(email);
+    getRegisteredUser(email).then((querySnapshot) {
+      if (querySnapshot.size != 0) {
+        _docID = querySnapshot.docs.first.id;
+        print("PASS: id is $_docID");
+      } else
+        print("FAIL");
+    });   
+    return _docID;
+  }
+
   static Future<QuerySnapshot> getRegisteredUser(String email) {
-    Toasted.showToast("Verifying Membership...");
     return FirebaseFirestore.instance
         .collection('registered users')
         .where('email', isEqualTo: email)

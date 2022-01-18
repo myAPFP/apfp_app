@@ -1,3 +1,4 @@
+import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,20 +76,21 @@ class FireAuth {
     Toasted.showToast("Logged out.");
   }
 
-  static deleteCurrentUser() async {
+  static deleteCurrentUser(String email) async {
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      FirebaseFirestore.instance
-          .collection('registered users')
-          .doc(user.uid)
-          .delete()
-          .whenComplete(() {
-        FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
-          // Closes app
-          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-        });
+    
+    // Deletes user doc stored in Firestore DB
+    FirebaseFirestore.instance
+        .collection('registered users')
+        .doc(FireStore.getUserDocID(email))
+        .delete()
+        .whenComplete(() {
+      // Deletes user's account
+      user!.delete().whenComplete(() {
+        // Closes app
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       });
-    }
+    });
   }
 
   static updateEmail({required String newEmail}) {
