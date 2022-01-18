@@ -29,9 +29,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         element.data()!.forEach((key, value) {
           activityElement.add(value);
         });
-        print(activityElement[0]);
         addCard(ActivityCard(
-                icon: Icons.access_time,
+                icon: Icons.emoji_events_rounded,
                 duration: activityElement[i][2],
                 name: activityElement[i][0],
                 totalCal: "200",
