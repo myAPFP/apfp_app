@@ -16,7 +16,7 @@ class SettingsWidget extends StatefulWidget {
 class _SettingsWidgetState extends State<SettingsWidget> {
   late FirebaseMessaging messaging;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final userDisplayName = FirebaseAuth.instance.currentUser!.displayName;
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   Text dialogText() {
     return Text.rich(TextSpan(
@@ -156,7 +156,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                     child: Text(
-                      'Hello, $userDisplayName!',
+                      'Hello, ${currentUser!.displayName}!',
                       style: FlutterFlowTheme.title2,
                     ),
                   ),
@@ -183,7 +183,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           _settingsButton(
               text: "Change Password",
               onTap: () {
-                print("CP Tapped!");
+                FireAuth.sendResetPasswordLink(email: currentUser!.email!);
               }),
           _settingsButton(
               text: "Delete Account",
