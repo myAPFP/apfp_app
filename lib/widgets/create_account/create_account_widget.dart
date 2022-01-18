@@ -668,7 +668,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     user?.updateDisplayName(_getFullName());
     user?.sendEmailVerification();
     if (user != null) {
-      FireAuth.refreshUser(user);
+      await user.reload();
       FireStore.storeUID(_docID, user.uid);
       if (user.emailVerified) {
         Toasted.showToast("Account has been verified. Please sign in.");

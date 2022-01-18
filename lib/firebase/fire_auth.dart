@@ -57,27 +57,15 @@ class FireAuth {
     return user;
   }
 
-  static Future<User?> refreshUser(User user) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    await user.reload();
-    User? refreshedUser = auth.currentUser;
-    return refreshedUser;
-  }
-
-  static sendEMmailNotification(User? user) async {
-    if (user != null) {
-      await user.sendEmailVerification();
-    }
-  }
-
   static reSendEmailVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      refreshUser(user);
+      await user.reload();
       if (!user.emailVerified) {
-        sendEMmailNotification(user);
+        user.sendEmailVerification();
         Toasted.showToast("A new verification email has been sent.");
-      }
+      } else
+        Toasted.showToast('Your email has already been verified.');
     } else
       Toasted.showToast("You must attempt to login first.");
   }
@@ -114,10 +102,8 @@ class FireAuth {
     final auth = FirebaseAuth.instance;
     await auth
         .sendPasswordResetEmail(email: email)
-        .whenComplete(
-            () => Toasted.showToast("Please check your email to reset your password."))
+        .whenComplete(() => Toasted.showToast(
+            "Please check your email to reset your password."))
         .catchError((e) => Toasted.showToast(e.toString()));
   }
-
-  
 }
