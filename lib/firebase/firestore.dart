@@ -1,5 +1,6 @@
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStore {
   static Future<QuerySnapshot> getPlaylistIDs() {
@@ -41,6 +42,13 @@ class FireStore {
         .collection('announcements')
         .orderBy("id", descending: true)
         .limit(limit)
+        .snapshots();
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> getUserActivity() {
+    return FirebaseFirestore.instance
+        .collection('activity')
+        .doc(FirebaseAuth.instance.currentUser!.email.toString())
         .snapshots();
   }
 }

@@ -39,8 +39,11 @@ class NavBarPage extends StatefulWidget {
 
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
+  Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity =
+      FireStore.getUserActivity();
   late FirebaseMessaging messaging;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> announcements;
+  Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
+      FireStore.getAnnouncements();
   List<Widget> pageList = List<Widget>.empty(growable: true);
   bool _isInForeground = true;
   bool _internetConnected = true;
@@ -54,11 +57,10 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
-    announcements = FireStore.getAnnouncements();
     pageList.add(HomeWidget(announcementsStream: announcements));
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget());
-    pageList.add(ActivityWidget());
+    pageList.add(ActivityWidget(activityStream: userActivity));
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);

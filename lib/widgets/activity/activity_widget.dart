@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
@@ -7,7 +8,8 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
 
 class ActivityWidget extends StatefulWidget {
-  ActivityWidget({Key? key}) : super(key: key);
+  late final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
+  ActivityWidget({Key? key, required this.activityStream}) : super(key: key);
 
   @override
   _ActivityWidgetState createState() => _ActivityWidgetState();
@@ -17,6 +19,27 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _collectActivity() {
+    widget.activityStream
+        .forEach((DocumentSnapshot<Map<String, dynamic>> element) {
+      cards.clear();
+      for (int i = 0; i < element.data()!.length; i++) {
+        List<dynamic> activityElement = List.empty(growable: true);
+        element.data()!.forEach((key, value) {
+          activityElement.add(value);
+        });
+        print(activityElement[0]);
+        addCard(ActivityCard(
+                icon: Icons.access_time,
+                duration: activityElement[i][2],
+                name: activityElement[i][0],
+                totalCal: "200",
+                type: activityElement[i][1])
+            .paddedActivityCard());
+      }
+    });
+  }
 
   Row _headerTextRow(String text) {
     return Row(
@@ -76,30 +99,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   @override
   void initState() {
     super.initState();
-
-    addCard(ActivityCard(
-            icon: Icons.sports_basketball_sharp,
-            duration: "30 min",
-            totalCal: "300",
-            name: "Basketball",
-            type: "Cardio")
-        .paddedActivityCard());
-
-    addCard(ActivityCard(
-            icon: Icons.directions_walk_sharp,
-            duration: "30 min",
-            totalCal: "150",
-            name: "Walking",
-            type: "Cardio")
-        .paddedActivityCard());
-
-    addCard(ActivityCard(
-            icon: Icons.sports_basketball_sharp,
-            duration: "30 min",
-            totalCal: "300",
-            name: "Basketball",
-            type: "Cardio")
-        .paddedActivityCard());
+    _collectActivity();
   }
 
   @override
