@@ -2,8 +2,6 @@ import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/services.dart';
-
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +50,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           TextButton(
             onPressed: () {
               FireAuth.deleteCurrentUser();
-              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
             },
             child: const Text('YES'),
           ),
