@@ -19,7 +19,8 @@ class _SuccessfulRegistrationWidgetState
 
   Text _headerText() {
     return Text(
-      'Thank you for registering! Please check your email and confirm your email address before logging in.',
+      'Thank you for registering! Please verify your email address before logging in.\n\n' +
+          'If you are using a BSU email, be sure to check your junk folder.',
       textAlign: TextAlign.center,
       style: TextStyle().copyWith(fontSize: 22, fontWeight: FontWeight.normal),
     );
