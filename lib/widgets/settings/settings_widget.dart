@@ -45,13 +45,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('NO'),
+            child: const Text('NO',
+                style: TextStyle(color: FlutterFlowTheme.primaryColor)),
           ),
           TextButton(
             onPressed: () {
               FireAuth.deleteCurrentUser();
             },
-            child: const Text('YES'),
+            child: const Text('YES',
+                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
           ),
         ],
       ),
