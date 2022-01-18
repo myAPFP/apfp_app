@@ -33,7 +33,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 icon: Icons.emoji_events_rounded,
                 duration: activityElement[i][2],
                 name: activityElement[i][0],
-                totalCal: "200",
                 type: activityElement[i][1])
             .paddedActivityCard());
       }

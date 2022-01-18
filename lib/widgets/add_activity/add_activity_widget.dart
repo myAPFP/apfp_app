@@ -100,17 +100,17 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
 
   FFButtonOptions _ffButtonOptions() {
     return FFButtonOptions(
-        width: 120,
-        height: 50,
-        color: FlutterFlowTheme.secondaryColor,
-        textStyle: FlutterFlowTheme.title2,
-        elevation: 2,
-        borderSide: BorderSide(
-          color: Colors.transparent,
-          width: 1,
-        ),
-        borderRadius: 12,
-      );
+      width: 120,
+      height: 50,
+      color: FlutterFlowTheme.secondaryColor,
+      textStyle: FlutterFlowTheme.title2,
+      elevation: 2,
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 1,
+      ),
+      borderRadius: 12,
+    );
   }
 
   FFButtonWidget _submitButton() {
@@ -122,7 +122,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           Padding ac = ActivityCard(
                   icon: Icons.info,
                   duration: _getDuration(),
-                  totalCal: _getTotalCal(),
                   name: _getName(),
                   type: _getExercise())
               .paddedActivityCard();

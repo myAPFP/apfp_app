@@ -10,31 +10,12 @@ class ActivityCard {
 
   Card? _card;
 
-  ActivityCard(
-      {String? duration,
-      String? totalCal,
-      String? type,
-      String? name,
-      IconData? icon}) {
+  ActivityCard({String? duration, String? type, String? name, IconData? icon}) {
     this.name = name;
     this.type = type;
     this.icon = icon;
     this.duration = duration;
-    this.totalCal = totalCal;
     _createActivityCard();
-  }
-
-  Align _align(
-      {required AlignmentDirectional alignment,
-      required EdgeInsetsDirectional padding,
-      Widget? child}) {
-    return Align(
-      alignment: alignment,
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
-    );
   }
 
   void _createActivityCard() {
