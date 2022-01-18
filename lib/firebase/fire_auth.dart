@@ -2,6 +2,7 @@ import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 
 class FireAuth {
   static Future<User?> registerUsingEmailPassword(
@@ -95,6 +96,8 @@ class FireAuth {
           .delete()
           .whenComplete(() {
         FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
+          // Closes app
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         });
       });
     }
