@@ -72,7 +72,7 @@ class FireAuth {
 
   static signOut() async {
     await FirebaseAuth.instance.signOut();
-    Toasted.showToast("Signed out.");
+    Toasted.showToast("Logged out.");
   }
 
   static deleteCurrentUser() async {
