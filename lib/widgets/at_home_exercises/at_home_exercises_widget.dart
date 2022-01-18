@@ -122,20 +122,37 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                                   Align(
                                       alignment:
                                           AlignmentDirectional(2.64, 0.55),
-                                      child: Padding(
-                                          key: Key('ExerciseDescription'),
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 20, 0, 0),
-                                          child: video.duration!.inMinutes > 1
-                                              ? Text(
-                                                  'Source: $author\nVideo Length: ${video.duration!.inMinutes} minutes',
-                                                  style: FlutterFlowTheme
-                                                      .subtitle3)
-                                              : Text(
-                                                  'Source: $author\nVideo Length: ${video.duration!.inSeconds} seconds',
-                                                  style: FlutterFlowTheme
-                                                      .subtitle3)))
+                                      child: Container(
+                                          constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.75),
+                                          child: Padding(
+                                              key: Key('ExerciseDescription'),
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 20, 0, 0),
+                                              child: video.duration!.inMinutes >
+                                                      1
+                                                  ? Text(
+                                                      'Source: $author'
+                                                      '\nVideo Length: ${video.duration!.inMinutes} minutes',
+                                                      style: FlutterFlowTheme
+                                                          .subtitle3,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      maxLines: 2,
+                                                      softWrap: false)
+                                                  : Text(
+                                                      'Source: $author'
+                                                      '\nVideo Length: ${video.duration!.inSeconds} seconds',
+                                                      style: FlutterFlowTheme
+                                                          .subtitle3,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      maxLines: 2,
+                                                      softWrap: false,
+                                                    ))))
                                 ])),
                           ]),
                       // Column(
