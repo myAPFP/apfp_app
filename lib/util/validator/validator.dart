@@ -41,6 +41,6 @@ class Validator {
   }
 
   static bool textFieldHasValue(TextEditingController controller) {
-    return controller.text != "" && controller.text.isNotEmpty;
+    return controller.text.isNotEmpty;
   }
 }
