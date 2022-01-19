@@ -40,7 +40,7 @@ class NavBarPage extends StatefulWidget {
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
   Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity =
-      FireStore.getUserActivity();
+      FireStore.createUserActivityStream();
   late FirebaseMessaging messaging;
   Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
       FireStore.getAnnouncements();

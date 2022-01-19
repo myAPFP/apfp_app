@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:apfp/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import '../add_activity/add_activity_widget.dart';
@@ -19,24 +22,32 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  late Map<String, dynamic> currentSnapshotBackup;
 
   void _collectActivity() {
-    widget.activityStream
-        .forEach((DocumentSnapshot<Map<String, dynamic>> element) {
+    List<dynamic> activityElement = List.empty(growable: true);
+    widget.activityStream.forEach((element) {
+      currentSnapshotBackup = element.data()!;
       cards.clear();
-      for (int i = 0; i < element.data()!.length; i++) {
-        List<dynamic> activityElement = List.empty(growable: true);
-        element.data()!.forEach((key, value) {
-          activityElement.add(value);
-        });
+      element.data()!.forEach((key, value) {
+        activityElement.clear();
+        activityElement.add(value.entries.first.value[0]);
+        activityElement.add(value.entries.first.value[1]);
+        activityElement.add(value.entries.first.value[2]);
         addCard(ActivityCard(
                 icon: Icons.emoji_events_rounded,
-                duration: activityElement[i][2],
-                name: activityElement[i][0],
-                type: activityElement[i][1])
+                duration: activityElement[2],
+                name: activityElement[0],
+                type: activityElement[1])
             .paddedActivityCard());
-      }
+      });
     });
+  }
+
+  void addActivityToCloud(ActivityCard activityCard) {
+    currentSnapshotBackup.putIfAbsent(DateTime.now().toIso8601String(),
+        () => [activityCard.name, activityCard.type, activityCard.duration]);
+    FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
   Row _headerTextRow(String text) {
@@ -75,9 +86,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          Padding result = await Navigator.push(context,
+          var result = await Navigator.push(context,
               MaterialPageRoute(builder: (context) => AddActivityWidget()));
-          addCard(result);
+          addActivityToCloud(result);
         } finally {
           setState(() => _loadingButton = false);
         }

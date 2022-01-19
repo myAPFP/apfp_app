@@ -45,10 +45,18 @@ class FireStore {
         .snapshots();
   }
 
-  static Stream<DocumentSnapshot<Map<String, dynamic>>> getUserActivity() {
+  static DocumentReference<Map<String, dynamic>> getUserActivityDocument() {
     return FirebaseFirestore.instance
         .collection('activity')
-        .doc(FirebaseAuth.instance.currentUser!.email.toString())
-        .snapshots();
+        .doc(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>>
+      createUserActivityStream() {
+    return getUserActivityDocument().snapshots();
+  }
+
+  static Future<void> updateWorkoutData(Map<String, dynamic> data) {
+    return getUserActivityDocument().update(data);
   }
 }

@@ -22,9 +22,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // List<String> durationOptions = [];
-  // List<String> exerciseTypeOptions = [];
-
   @override
   void initState() {
     super.initState();
@@ -32,8 +29,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     totalCalTextController = TextEditingController();
     exerciseTextController = TextEditingController();
     durationTextController = TextEditingController();
-    // _populateDurationOptions();
-    // _populateExcerciseOptions();
   }
 
   @override
@@ -51,10 +46,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     return activityNameTextController!.text.toString().trim();
   }
 
-  String _getTotalCal() {
-    return totalCalTextController!.text.toString().trim();
-  }
-
   String _getExercise() {
     return exerciseTextController!.text.toString().trim();
   }
@@ -62,41 +53,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   String _getDuration() {
     return durationTextController!.text.toString().trim();
   }
-
-  // void _populateExcerciseOptions() {
-  //   setState(() {
-  //     exerciseTypeOptions.add("Option 1");
-  //     exerciseTypeOptions.add("Option 2");
-  //   });
-  // }
-
-  // void _populateDurationOptions() {
-  //   setState(() {
-  //     durationOptions.add("Option 1");
-  //     durationOptions.add("Option 2");
-  //   });
-  // }
-
-  // Padding _dropDown(List<String> options, String? valueToChange) {
-  //   return Padding(
-  //     padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-  //     child: FlutterFlowDropDown(
-  //       initialOption: valueToChange ??= 'Select a option',
-  //       options: options,
-  //       onChanged: (val) => setState(() => valueToChange = val),
-  //       width: MediaQuery.of(context).size.width,
-  //       height: 50,
-  //       textStyle: FlutterFlowTheme.bodyText1,
-  //       fillColor: Colors.white,
-  //       elevation: 2,
-  //       borderColor: FlutterFlowTheme.primaryColor,
-  //       borderWidth: 0,
-  //       borderRadius: 10,
-  //       margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-  //       hidesUnderline: true,
-  //     ),
-  //   );
-  // }
 
   FFButtonOptions _ffButtonOptions() {
     return FFButtonOptions(
@@ -119,13 +75,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          Padding ac = ActivityCard(
+          Navigator.pop(
+              context,
+              ActivityCard(
                   icon: Icons.info,
                   duration: _getDuration(),
                   name: _getName(),
-                  type: _getExercise())
-              .paddedActivityCard();
-          Navigator.pop(context, ac);
+                  type: _getExercise()));
         } finally {
           setState(() => _loadingButton = false);
         }
