@@ -44,7 +44,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     });
   }
 
-  void addActivityToCloud(ActivityCard activityCard) {
+  void _addActivityToCloud(ActivityCard activityCard) {
     currentSnapshotBackup.putIfAbsent(DateTime.now().toIso8601String(),
         () => [activityCard.name, activityCard.type, activityCard.duration]);
     FireStore.updateWorkoutData(currentSnapshotBackup);
@@ -88,7 +88,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         try {
           var result = await Navigator.push(context,
               MaterialPageRoute(builder: (context) => AddActivityWidget()));
-          addActivityToCloud(result);
+          _addActivityToCloud(result);
         } finally {
           setState(() => _loadingButton = false);
         }
