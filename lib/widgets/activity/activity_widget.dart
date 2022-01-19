@@ -51,7 +51,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   void _removeActivityFromCloud(String id) {
-    print(id);
     currentSnapshotBackup.removeWhere((key, value) =>
         ((value.entries.first.value[0] +
                 " " +
@@ -59,13 +58,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 " " +
                 value.entries.first.value[2]) ==
             id));
-    currentSnapshotBackup.forEach((key, value) {
-      print(value.entries.first.value[0] +
-          " " +
-          value.entries.first.value[1] +
-          " " +
-          value.entries.first.value[2]);
-    });
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
