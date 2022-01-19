@@ -26,6 +26,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     List<dynamic> activityElement = List.empty(growable: true);
     widget.activityStream.forEach((element) {
       currentSnapshotBackup = element.data()!;
+      cards.clear();
       element.data()!.forEach((key, value) {
         activityElement.clear();
         activityElement.add(value[0]);
