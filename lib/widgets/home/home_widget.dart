@@ -29,9 +29,9 @@ class _HomeWidgetState extends State<HomeWidget> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 20),
+          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 10),
           child: Text(
-            'Recent\nAnnouncements',
+            'Recent Announcements',
             style: FlutterFlowTheme.title1,
           ),
         )

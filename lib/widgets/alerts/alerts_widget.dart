@@ -57,7 +57,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
 
   Padding _paddedHeader(AutoSizeText header) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(25, 50, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.85,
         height: 40,
