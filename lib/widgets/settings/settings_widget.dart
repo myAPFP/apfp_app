@@ -118,7 +118,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
-  Padding _settingsButton({String text = "", void Function()? onTap}) {
+  Padding _settingsButton({String? text, void Function()? onTap}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
       child: Material(
@@ -142,7 +142,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(text, style: FlutterFlowTheme.title2),
+                  Text(text!, style: FlutterFlowTheme.title2),
                   Icon(
                     Icons.chevron_right_rounded,
                     color: FlutterFlowTheme.tertiaryColor,
