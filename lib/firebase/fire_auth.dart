@@ -1,8 +1,6 @@
-import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class FireAuth {
@@ -77,7 +75,7 @@ class FireAuth {
   }
 
   static void deleteUserAccount() {
-    // Deletes user then closes app
+    /// Deletes user then closes app
     FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     });
