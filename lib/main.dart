@@ -39,8 +39,7 @@ class NavBarPage extends StatefulWidget {
 
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
-  late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity =
-      connectActivityDocument();
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity;
   late FirebaseMessaging messaging;
   Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
       FireStore.getAnnouncements();
@@ -53,8 +52,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    userActivity = connectActivityDocument();
     super.initState();
-    connectActivityDocument();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
