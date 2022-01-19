@@ -29,18 +29,6 @@ class FireStore {
         .get();
   }
 
-  static void deleteUserDoc(String email) {
-    // Fetches user's doc ID from Firestore DB
-    getRegisteredUser(email).then((querySnapshot) {
-      var docID = querySnapshot.docs.first.id;
-      // Deletes user doc stored in Firestore DB
-      FirebaseFirestore.instance
-          .collection('registered users')
-          .doc(docID)
-          .delete();
-    });
-  }
-
   static Future<QuerySnapshot> getAdminEmails() async {
     return FirebaseFirestore.instance.collection('admins').get();
   }
