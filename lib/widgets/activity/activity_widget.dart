@@ -26,12 +26,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     List<dynamic> activityElement = List.empty(growable: true);
     widget.activityStream.forEach((element) {
       currentSnapshotBackup = element.data()!;
-      cards.clear();
       element.data()!.forEach((key, value) {
         activityElement.clear();
-        activityElement.add(value.entries.first.value[0]);
-        activityElement.add(value.entries.first.value[1]);
-        activityElement.add(value.entries.first.value[2]);
+        activityElement.add(value[0]);
+        activityElement.add(value[1]);
+        activityElement.add(value[2]);
         if (DateTime.parse(key).day == DateTime.now().day) {
           addCard(ActivityCard(
                   icon: Icons.emoji_events_rounded,
@@ -51,13 +50,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   void _removeActivityFromCloud(String id) {
-    currentSnapshotBackup.removeWhere((key, value) =>
-        ((value.entries.first.value[0] +
-                " " +
-                value.entries.first.value[1] +
-                " " +
-                value.entries.first.value[2]) ==
-            id));
+    currentSnapshotBackup.removeWhere(
+        (key, value) => ((value[0] + " " + value[1] + " " + value[2]) == id));
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
