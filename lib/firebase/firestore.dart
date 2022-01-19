@@ -57,7 +57,7 @@ class FireStore {
   }
 
   static Future<void> updateWorkoutData(Map<String, dynamic> data) {
-    return getUserActivityDocument().update(data);
+    return getUserActivityDocument().set(data);
   }
 
   static void createUserActivityDocument() async {

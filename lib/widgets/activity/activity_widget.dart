@@ -50,6 +50,25 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
+  void _removeActivityFromCloud(String id) {
+    print(id);
+    currentSnapshotBackup.removeWhere((key, value) =>
+        ((value.entries.first.value[0] +
+                " " +
+                value.entries.first.value[1] +
+                " " +
+                value.entries.first.value[2]) ==
+            id));
+    currentSnapshotBackup.forEach((key, value) {
+      print(value.entries.first.value[0] +
+          " " +
+          value.entries.first.value[1] +
+          " " +
+          value.entries.first.value[2]);
+    });
+    FireStore.updateWorkoutData(currentSnapshotBackup);
+  }
+
   Row _headerTextRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -157,6 +176,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     Icon(Icons.delete, color: Colors.redAccent),
                                 onPressed: () {
                                   setState(() {
+                                    _removeActivityFromCloud(e.key
+                                        .toString()
+                                        .substring(
+                                            e.key.toString().indexOf("'") + 1,
+                                            e.key.toString().lastIndexOf("'")));
                                     cards.remove(e);
                                   });
                                 })

@@ -77,6 +77,7 @@ class ActivityCard {
 
   Padding paddedActivityCard() {
     return Padding(
+      key: Key('$name $type $duration'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,
