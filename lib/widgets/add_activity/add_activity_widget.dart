@@ -191,13 +191,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         style: FlutterFlowTheme.title3),
                   ),
                   _activityNameTextField(),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                    child: _header(
-                        text: 'Calories Burned',
-                        style: FlutterFlowTheme.title3),
-                  ),
-                  _totalCalTextField(),
+                  // Padding(
+                  //   padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                  //   child: _header(
+                  //       text: 'Calories Burned',
+                  //       style: FlutterFlowTheme.title3),
+                  // ),
+                  // _totalCalTextField(),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                     child: _header(
