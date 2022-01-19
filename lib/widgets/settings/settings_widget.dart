@@ -49,7 +49,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               style: TextStyle(
                   fontSize: 20, color: FlutterFlowTheme.secondaryColor)),
           TextSpan(
-              text: '\n\nwith instructions on how to change your password.',
+              text: '\n\nwith instructions on how to do so.',
               style: TextStyle(fontSize: 20))
         ]));
   }
