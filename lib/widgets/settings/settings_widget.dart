@@ -221,7 +221,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     title: Text('Delete Account'),
                     content: _deleteAcctDialogText(),
                     onYesTap: () =>
-                        FireAuth.deleteCurrentUser(currentUser!.email!));
+                        FireAuth.deleteUserAccount());
               }),
           _logOutButton()
         ],

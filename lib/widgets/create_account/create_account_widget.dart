@@ -30,7 +30,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   bool _loadingButton = false;
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final verify = Validator();
   late var _docID;
 
   @override
@@ -172,7 +171,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               return "Please provide a value";
             }
             var firstUpperCase = value.substring(0, 1).toUpperCase();
-            if (!verify.isValidName(value)) {
+            if (!Validator.isValidName(value)) {
               return "Please provide a valid first name";
             } else if (value.substring(0, 1) != firstUpperCase) {
               return "Please capitalize your name";
@@ -243,7 +242,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             return "Please provide a value";
           }
           var firstUpperCase = value.substring(0, 1).toUpperCase();
-          if (!verify.isValidName(value)) {
+          if (!Validator.isValidName(value)) {
             return "Please provide a valid first name";
           } else if (value.substring(0, 1) != firstUpperCase) {
             return "Please capitalize your name";
@@ -344,7 +343,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
                 }
-                if (!verify.isValidEmail(value)) {
+                if (!Validator.isValidEmail(value)) {
                   return "Please provide a valid email address";
                 }
                 return null;
@@ -424,7 +423,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
                 }
-                if (!verify.isValidPassword(value)) {
+                if (!Validator.isValidPassword(value)) {
                   return "Please provide a valid password";
                 }
                 return null;
@@ -642,7 +641,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  void _verifyAPFPCredentials() async {
+  void _ValidatorAPFPCredentials() async {
     if (await Internet.isConnected()) {
       if (_formKey.currentState!.validate()) {
         Toasted.showToast("Verifiying Membership...");
@@ -703,7 +702,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           FFButtonWidget(
             key: Key("Create.createAcctButton"),
             onPressed: () async {
-              _verifyAPFPCredentials();
+              _ValidatorAPFPCredentials();
             },
             text: 'Create Account',
             options: FFButtonOptions(

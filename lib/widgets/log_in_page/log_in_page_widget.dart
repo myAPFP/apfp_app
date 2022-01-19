@@ -24,7 +24,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  final verify = Validator();
 
   @override
   void initState() {
@@ -101,7 +100,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
                 }
-                if (!verify.isValidEmail(value)) {
+                if (!Validator.isValidEmail(value)) {
                   return "Please provide a valid email address";
                 }
                 return null;
@@ -249,7 +248,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           if (currentUser.emailVerified) {
             _goHome();
           } else {
-            Toasted.showToast("Please verify your email address.");
+            Toasted.showToast("Please Validator your email address.");
           }
         }
       }
