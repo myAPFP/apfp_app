@@ -1,3 +1,6 @@
+import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/util/validator/validator.dart';
+
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '../activity_card/activity_card.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -75,13 +78,19 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          Navigator.pop(
-              context,
-              ActivityCard(
-                  icon: Icons.info,
-                  duration: _getDuration(),
-                  name: _getName(),
-                  type: _getExercise()));
+          if (Validator.textFieldHasValue(activityNameTextController!) &&
+              Validator.textFieldHasValue(durationTextController!) &&
+              Validator.textFieldHasValue(exerciseTextController!)) {
+            Navigator.pop(
+                context,
+                ActivityCard(
+                    icon: Icons.info,
+                    duration: _getDuration(),
+                    name: _getName(),
+                    type: _getExercise()));
+          } else {
+            Toasted.showToast('Ensure all fields are filled');
+          }
         } finally {
           setState(() => _loadingButton = false);
         }
