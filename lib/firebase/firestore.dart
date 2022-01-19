@@ -59,4 +59,11 @@ class FireStore {
   static Future<void> updateWorkoutData(Map<String, dynamic> data) {
     return getUserActivityDocument().update(data);
   }
+
+  static void createUserActivityDocument() async {
+    await FirebaseFirestore.instance
+        .collection('activity')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .set(new Map());
+  }
 }

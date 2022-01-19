@@ -1,7 +1,9 @@
+import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,8 +41,8 @@ class NavBarPage extends StatefulWidget {
 
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
-  Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity =
-      FireStore.createUserActivityStream();
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity =
+      connectActivityDocument();
   late FirebaseMessaging messaging;
   Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
       FireStore.getAnnouncements();
@@ -54,6 +56,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    connectActivityDocument();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
@@ -83,6 +86,21 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     } else if (state == AppLifecycleState.paused) {
       _isInForeground = false;
     }
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> connectActivityDocument() {
+    Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
+        FirebaseFirestore.instance
+            .collection('activity')
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .get();
+    userDocumentReference.then((value) {
+      if (!value.exists) {
+        FireStore.createUserActivityDocument();
+      }
+      return FireStore.createUserActivityStream();
+    });
+    return FireStore.createUserActivityStream();
   }
 
   Future<void> initConnectivity() async {
