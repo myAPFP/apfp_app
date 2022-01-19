@@ -24,47 +24,14 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
   }
 
-  Padding _signOutButton() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50.0),
-      child: FFButtonWidget(
-        onPressed: () async {
-          messaging = FirebaseMessaging.instance;
-          messaging.deleteToken();
-          await FireAuth.signOut();
-          await Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WelcomeWidget(),
-            ),
-            (r) => false,
-          );
-        },
-        text: 'Sign Out',
-        options: FFButtonOptions(
-          width: 170,
-          height: 50,
-          color: Color(0xFFBA0C2F),
-          textStyle: FlutterFlowTheme.title2,
-          elevation: 2,
-          borderSide: BorderSide(
-            color: Colors.transparent,
-            width: 1,
-          ),
-          borderRadius: 12,
-        ),
-      ),
-    );
-  }
-
   Row _recentAnnouncementsLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 20),
+          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 10),
           child: Text(
-            'Recent\nAnnouncements',
+            'Recent Announcements',
             style: FlutterFlowTheme.title1,
           ),
         )
@@ -221,9 +188,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                 }),
             _activityLabel(),
             _activityGUI(),
-            // TODO: Find a place for this sign out button
-            // TODO: Maybe make a settings screen?
-            _signOutButton()
           ],
         ),
       ),

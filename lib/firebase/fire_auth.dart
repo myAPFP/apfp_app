@@ -1,7 +1,9 @@
+import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 
 class FireAuth {
   static Future<User?> registerUsingEmailPassword(
@@ -56,50 +58,34 @@ class FireAuth {
     return user;
   }
 
-  static Future<User?> refreshUser(User user) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    await user.reload();
-    User? refreshedUser = auth.currentUser;
-    return refreshedUser;
-  }
-
-  static sendEMmailNotification(User? user) async {
-    if (user != null) {
-      await user.sendEmailVerification();
-    }
-  }
-
   static reSendEmailVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      refreshUser(user);
+      await user.reload();
       if (!user.emailVerified) {
-        sendEMmailNotification(user);
+        user.sendEmailVerification();
         Toasted.showToast("A new verification email has been sent.");
-      }
+      } else
+        Toasted.showToast('Your email has already been verified.');
     } else
       Toasted.showToast("You must attempt to login first.");
   }
 
   static signOut() async {
     await FirebaseAuth.instance.signOut();
-    Toasted.showToast("Signed out.");
+    Toasted.showToast("Logged out.");
   }
 
-  static deleteCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      FirebaseFirestore.instance
-          .collection('registered users')
-          .doc(user.uid)
-          .delete()
-          .whenComplete(() {
-        Toasted.showToast("Deleting Account..");
-        FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
-          Toasted.showToast("Account has been deleted.");
-        });
-      });
-    }
+  static void _deleteUserAccount() {
+    // Deletes user then closes app
+    FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    });
+  }
+
+  static deleteCurrentUser(String email) async {
+    FireStore.deleteUserDoc(email);
+    _deleteUserAccount();
   }
 
   static updateEmail({required String newEmail}) {
@@ -113,10 +99,8 @@ class FireAuth {
     final auth = FirebaseAuth.instance;
     await auth
         .sendPasswordResetEmail(email: email)
-        .whenComplete(
-            () => Toasted.showToast("Please check your email to reset your password."))
+        .whenComplete(() => Toasted.showToast(
+            "The link has been sent."))
         .catchError((e) => Toasted.showToast(e.toString()));
   }
-
-  
 }

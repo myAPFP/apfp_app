@@ -23,7 +23,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 15),
+         padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
           child: Text(
             text,
             style: FlutterFlowTheme.title1,

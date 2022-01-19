@@ -245,7 +245,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             email: _getEmail(), password: _getPassword(), context: context);
         User? currentUser = FirebaseAuth.instance.currentUser;
         if (currentUser != null) {
-          FireAuth.refreshUser(currentUser);
+          await currentUser.reload();
           if (currentUser.emailVerified) {
             _goHome();
           } else {
@@ -268,8 +268,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       setState(() => _loadingButton = false);
     }
   }
-
-  
 
   Padding _logInButton() {
     return Padding(
