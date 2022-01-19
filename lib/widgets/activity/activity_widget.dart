@@ -32,12 +32,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         activityElement.add(value.entries.first.value[0]);
         activityElement.add(value.entries.first.value[1]);
         activityElement.add(value.entries.first.value[2]);
-        addCard(ActivityCard(
-                icon: Icons.emoji_events_rounded,
-                duration: activityElement[2],
-                name: activityElement[0],
-                type: activityElement[1])
-            .paddedActivityCard());
+        if (DateTime.parse(key).day == DateTime.now().day) {
+          addCard(ActivityCard(
+                  icon: Icons.emoji_events_rounded,
+                  duration: activityElement[2],
+                  name: activityElement[0],
+                  type: activityElement[1])
+              .paddedActivityCard());
+        }
       });
     });
   }
