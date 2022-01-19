@@ -95,7 +95,6 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
       if (!value.exists) {
         FireStore.createUserActivityDocument();
       }
-      return FireStore.createUserActivityStream();
     });
     return FireStore.createUserActivityStream();
   }

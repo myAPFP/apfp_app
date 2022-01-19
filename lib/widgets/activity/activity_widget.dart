@@ -9,7 +9,7 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
 
 class ActivityWidget extends StatefulWidget {
-  late final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
   ActivityWidget({Key? key, required this.activityStream}) : super(key: key);
 
   @override
@@ -25,9 +25,13 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   void _collectActivity() {
     List<dynamic> activityElement = List.empty(growable: true);
     widget.activityStream.forEach((element) {
-      currentSnapshotBackup = element.data()!;
+      if (element.data() == null) {
+        currentSnapshotBackup = new Map();
+      } else {
+        currentSnapshotBackup = element.data()!;
+      }
       cards.clear();
-      element.data()!.forEach((key, value) {
+      currentSnapshotBackup.forEach((key, value) {
         activityElement.clear();
         activityElement.add(value[0]);
         activityElement.add(value[1]);
@@ -114,6 +118,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   @override
   void initState() {
     super.initState();
+    widget.activityStream.first.then((firstElement) {
+      currentSnapshotBackup = firstElement.data()!;
+    });
     _collectActivity();
   }
 
