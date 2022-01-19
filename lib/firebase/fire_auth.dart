@@ -100,7 +100,7 @@ class FireAuth {
     await auth
         .sendPasswordResetEmail(email: email)
         .whenComplete(() => Toasted.showToast(
-            "Please check your email to reset your password."))
+            "The link has been sent."))
         .catchError((e) => Toasted.showToast(e.toString()));
   }
 }

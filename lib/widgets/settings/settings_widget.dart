@@ -18,7 +18,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final currentUser = FirebaseAuth.instance.currentUser;
 
-  Text dialogText() {
+  Text _deleteAcctDialogText() {
     return Text.rich(TextSpan(
         text: "Are you sure you want to delete your account?\n\nThis will be ",
         style: TextStyle(fontSize: 20),
@@ -34,12 +34,33 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ]));
   }
 
-  void _showDeletionConfirmation() {
+  Text _logoutDialogText() {
+    return Text('Are you sure you want to log out?\n\nYour data will be saved.',
+        style: TextStyle(fontSize: 20));
+  }
+
+  Text _changePasswordDialogText() {
+    return Text.rich(TextSpan(
+        text: 'Want to change your password?\n\nA link will be sent to:\n\n',
+        style: TextStyle(fontSize: 20),
+        children: [
+          TextSpan(
+              text: '${currentUser!.email}',
+              style: TextStyle(
+                  fontSize: 20, color: FlutterFlowTheme.secondaryColor)),
+          TextSpan(
+              text: '\n\nwith instructions on how to change your password.',
+              style: TextStyle(fontSize: 20))
+        ]));
+  }
+
+  void _showConfirmationDialog(
+      {Text? title, Text? content, Function()? onYesTap}) {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('Delete Account'),
-        content: dialogText(),
+        title: title,
+        content: content,
         actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -49,9 +70,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 style: TextStyle(color: FlutterFlowTheme.primaryColor)),
           ),
           TextButton(
-            onPressed: () {
-              FireAuth.deleteCurrentUser(currentUser!.email!);
-            },
+            onPressed: onYesTap,
             child: const Text('YES',
                 style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
           ),
@@ -74,12 +93,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
-        onPressed: () async {
-          messaging = FirebaseMessaging.instance;
-          messaging.deleteToken();
-          await FireAuth.signOut();
-          _returnToWelcome();
-        },
+        onPressed: () => _showConfirmationDialog(
+            title: Text('Logout'),
+            content: _logoutDialogText(),
+            onYesTap: () async {
+              messaging = FirebaseMessaging.instance;
+              messaging.deleteToken();
+              await FireAuth.signOut();
+              _returnToWelcome();
+            }),
         text: 'Log Out',
         options: FFButtonOptions(
           width: 130,
@@ -183,12 +205,23 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           _settingsButton(
               text: "Change Password",
               onTap: () {
-                FireAuth.sendResetPasswordLink(email: currentUser!.email!);
+                _showConfirmationDialog(
+                    title: Text('Change Password'),
+                    content: _changePasswordDialogText(),
+                    onYesTap: () {
+                      FireAuth.sendResetPasswordLink(
+                          email: currentUser!.email!);
+                      Navigator.pop(context);
+                    });
               }),
           _settingsButton(
               text: "Delete Account",
               onTap: () {
-                _showDeletionConfirmation();
+                _showConfirmationDialog(
+                    title: Text('Delete Account'),
+                    content: _deleteAcctDialogText(),
+                    onYesTap: () =>
+                        FireAuth.deleteCurrentUser(currentUser!.email!));
               }),
           _logOutButton()
         ],
