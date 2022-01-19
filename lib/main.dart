@@ -1,4 +1,3 @@
-import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
@@ -16,7 +15,6 @@ import 'widgets/at_home_exercises/at_home_exercises_widget.dart';
 import 'widgets/activity/activity_widget.dart';
 import 'dart:async';
 import 'dart:developer' as developer;
-import 'package:flutter/services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() {

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:apfp/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
