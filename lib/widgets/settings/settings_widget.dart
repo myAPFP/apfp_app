@@ -55,23 +55,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   }
 
   void _showConfirmationDialog(
-      {Text? title, Text? content, Function()? onYesTap}) {
-    showDialog<String>(
+      {required String title,
+      required Widget content,
+      required Function() onYesTap,
+      required String cancelText,
+      required String submitText}) {
+    showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: title,
-        content: content,
+        title: Text(title),
+        content: SingleChildScrollView(
+            child: content, scrollDirection: Axis.vertical),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('NO',
+            child: Text(cancelText,
                 style: TextStyle(color: FlutterFlowTheme.primaryColor)),
           ),
           TextButton(
             onPressed: onYesTap,
-            child: const Text('YES',
+            child: Text(submitText,
                 style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
           ),
         ],
@@ -94,8 +99,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
         onPressed: () => _showConfirmationDialog(
-            title: Text('Logout'),
+            title: 'Logout',
             content: _logoutDialogText(),
+            cancelText: 'No',
+            submitText: 'Yes',
             onYesTap: () async {
               messaging = FirebaseMessaging.instance;
               messaging.deleteToken();
@@ -118,7 +125,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
-  Padding _settingsButton({String? text, void Function()? onTap}) {
+  Padding _settingsButton({String? title, void Function()? onTap}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
       child: Material(
@@ -142,7 +149,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(text!, style: FlutterFlowTheme.title2),
+                  Text(title!, style: FlutterFlowTheme.title2),
                   Icon(
                     Icons.chevron_right_rounded,
                     color: FlutterFlowTheme.tertiaryColor,
@@ -162,69 +169,95 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.tertiaryColor,
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 160,
-            decoration: BoxDecoration(
-              color: FlutterFlowTheme.secondaryColor,
-            ),
-            child: Align(
-              alignment: AlignmentDirectional(0.05, 0.55),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                    child: Text(
-                      'Hello, ${currentUser!.displayName}!',
-                      style: FlutterFlowTheme.title2,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 160,
+              decoration: BoxDecoration(
+                color: FlutterFlowTheme.secondaryColor,
+              ),
+              child: Align(
+                alignment: AlignmentDirectional(0.05, 0.55),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                      child: Text(
+                        'Hello, ${currentUser!.displayName}!',
+                        style: FlutterFlowTheme.title2,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 15),
-          _settingsButton(
-              text: "Add Activity Tracker",
-              onTap: () {
-                print("AAT Tapped!");
-              }),
-          _settingsButton(
-              text: "Set Activity Goals",
-              onTap: () {
-                print("SAG Tapped!");
-              }),
-          _settingsButton(
-              text: "Notification Settings",
-              onTap: () {
-                print("NS Tapped!");
-              }),
-          _settingsButton(
-              text: "Change Password",
-              onTap: () {
-                _showConfirmationDialog(
-                    title: Text('Change Password'),
-                    content: _changePasswordDialogText(),
-                    onYesTap: () {
-                      FireAuth.sendResetPasswordLink(
-                          email: currentUser!.email!);
-                      Navigator.pop(context);
-                    });
-              }),
-          _settingsButton(
-              text: "Delete Account",
-              onTap: () {
-                _showConfirmationDialog(
-                    title: Text('Delete Account'),
-                    content: _deleteAcctDialogText(),
-                    onYesTap: () =>
-                        FireAuth.deleteUserAccount());
-              }),
-          _logOutButton()
-        ],
+            SizedBox(height: 15),
+            _settingsButton(
+                title: "Add Activity Tracker",
+                onTap: () {
+                  print("AAT Tapped!");
+                }),
+            _settingsButton(
+                title: "Set Activity Goals",
+                onTap: () {
+                  print("SAG Tapped!");
+                }),
+            _settingsButton(
+                title: "Notification Settings",
+                onTap: () {
+                  print("NS Tapped!");
+                }),
+            _settingsButton(
+                title: "Change Password",
+                onTap: () {
+                  _showConfirmationDialog(
+                      title: 'Change Password',
+                      content: _changePasswordDialogText(),
+                      cancelText: 'No',
+                      submitText: 'Yes',
+                      onYesTap: () {
+                        FireAuth.sendResetPasswordLink(
+                            email: currentUser!.email!);
+                        Navigator.pop(context);
+                      });
+                }),
+            _settingsButton(
+                title: "Delete Account",
+                onTap: () {
+                  _showConfirmationDialog(
+                      title: 'Delete Account',
+                      content: _deleteAcctDialogText(),
+                      cancelText: 'No',
+                      submitText: 'Yes',
+                      onYesTap: () {
+                        // Navigator.pop(context);
+                        _showConfirmationDialog(
+                            title: 'Please sign in to confirm.',
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                    decoration:
+                                        InputDecoration(hintText: 'Email')),
+                                TextField(
+                                    decoration:
+                                        InputDecoration(hintText: 'Password'))
+                              ],
+                            ),
+                            cancelText: 'Back',
+                            submitText: 'Sign In',
+                            onYesTap: () {
+                              FireAuth.deleteUserAccount();
+                            });
+                      });
+                }),
+            _logOutButton()
+          ],
+        ),
       ),
     );
   }
