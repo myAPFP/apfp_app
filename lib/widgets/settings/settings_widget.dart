@@ -1,7 +1,10 @@
 import 'package:apfp/firebase/fire_auth.dart';
+import 'package:apfp/util/internet_connection/internet.dart';
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +18,28 @@ class SettingsWidget extends StatefulWidget {
 
 class _SettingsWidgetState extends State<SettingsWidget> {
   late FirebaseMessaging messaging;
+  TextEditingController? _emailController;
+  TextEditingController? _passwordController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final currentUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController!.dispose();
+    _passwordController!.dispose();
+  }
+
+  String _getPassword() {
+    return _passwordController!.text.trim();
+  }
 
   Text _deleteAcctDialogText() {
     return Text.rich(TextSpan(
@@ -27,9 +50,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               text: 'permanent',
               style: TextStyle(
                   fontSize: 20, color: FlutterFlowTheme.secondaryColor)),
+          // ! We are closing app here for now, as calling returnToWelcome() from a
+          // ! dialog pop up creates routing issues, causing the app to only return to Home
           TextSpan(
-              text:
-                  ' and all of your data will be deleted.\n\nThe app will now exit.',
+              text: ' and all of your data will be deleted.\n\n' +
+                  'You must enter your password again to confirm or exit the app.',
               style: TextStyle(fontSize: 20))
         ]));
   }
@@ -54,12 +79,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ]));
   }
 
-  void _showConfirmationDialog(
-      {required String title,
-      required Widget content,
-      required Function() onYesTap,
-      required String cancelText,
-      required String submitText}) {
+  void _showConfirmationDialog({
+    required String title,
+    required Widget content,
+    required Function() onSubmitTap,
+    required Function() onCancelTap,
+    required String cancelText,
+    required String submitText,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -68,20 +95,69 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             child: content, scrollDirection: Axis.vertical),
         actions: <Widget>[
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: onCancelTap,
             child: Text(cancelText,
                 style: TextStyle(color: FlutterFlowTheme.primaryColor)),
           ),
           TextButton(
-            onPressed: onYesTap,
+            onPressed: onSubmitTap,
             child: Text(submitText,
                 style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
           ),
         ],
       ),
     );
+  }
+
+  TextField _emailTextField() {
+    return _textField(
+        enabled: false,
+        kbType: TextInputType.emailAddress,
+        hintText: currentUser!.email,
+        contr: _emailController);
+  }
+
+  TextField _passwordTextField() {
+    return _textField(
+        enabled: true,
+        kbType: TextInputType.visiblePassword,
+        hintText: 'Password',
+        contr: _passwordController);
+  }
+
+  TextField _textField(
+      {bool? enabled,
+      TextInputType? kbType,
+      String? hintText,
+      TextEditingController? contr}) {
+    return TextField(
+        enabled: enabled,
+        cursorColor: FlutterFlowTheme.secondaryColor,
+        style: FlutterFlowTheme.bodyText1,
+        textAlign: TextAlign.start,
+        keyboardType: kbType,
+        controller: contr,
+        decoration: InputDecoration(
+            hintText: hintText,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+                width: 1,
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(4.0),
+                topRight: Radius.circular(4.0),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
+                ))));
   }
 
   void _returnToWelcome() async {
@@ -103,10 +179,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             content: _logoutDialogText(),
             cancelText: 'No',
             submitText: 'Yes',
-            onYesTap: () async {
+            onCancelTap: () => Navigator.pop(context),
+            onSubmitTap: () async {
               messaging = FirebaseMessaging.instance;
               messaging.deleteToken();
               await FireAuth.signOut();
+              Toasted.showToast("Logged out.");
               _returnToWelcome();
             }),
         text: 'Log Out',
@@ -164,99 +242,115 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
+  _signOutAndDelete() async {
+    if (await Internet.isConnected()) {
+      await FireAuth.signInUsingEmailPassword(
+              email: currentUser!.email!, password: _getPassword())
+          .then((value) => FireAuth.deleteUserAccount());
+    } else
+      Toasted.showToast("Please connect to the Internet.");
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.tertiaryColor,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 160,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.secondaryColor,
-              ),
-              child: Align(
-                alignment: AlignmentDirectional(0.05, 0.55),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                      child: Text(
-                        'Hello, ${currentUser!.displayName}!',
-                        style: FlutterFlowTheme.title2,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: FlutterFlowTheme.tertiaryColor,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 160,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.secondaryColor,
+                ),
+                child: Align(
+                  alignment: AlignmentDirectional(0.05, 0.55),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                        child: Text(
+                          'Hello, ${currentUser!.displayName}!',
+                          style: FlutterFlowTheme.title2,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 15),
-            _settingsButton(
-                title: "Add Activity Tracker",
-                onTap: () {
-                  print("AAT Tapped!");
-                }),
-            _settingsButton(
-                title: "Set Activity Goals",
-                onTap: () {
-                  print("SAG Tapped!");
-                }),
-            _settingsButton(
-                title: "Notification Settings",
-                onTap: () {
-                  print("NS Tapped!");
-                }),
-            _settingsButton(
-                title: "Change Password",
-                onTap: () {
-                  _showConfirmationDialog(
-                      title: 'Change Password',
-                      content: _changePasswordDialogText(),
-                      cancelText: 'No',
-                      submitText: 'Yes',
-                      onYesTap: () {
-                        FireAuth.sendResetPasswordLink(
-                            email: currentUser!.email!);
-                        Navigator.pop(context);
-                      });
-                }),
-            _settingsButton(
-                title: "Delete Account",
-                onTap: () {
-                  _showConfirmationDialog(
-                      title: 'Delete Account',
-                      content: _deleteAcctDialogText(),
-                      cancelText: 'No',
-                      submitText: 'Yes',
-                      onYesTap: () {
-                        // Navigator.pop(context);
-                        _showConfirmationDialog(
-                            title: 'Please sign in to confirm.',
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextField(
-                                    decoration:
-                                        InputDecoration(hintText: 'Email')),
-                                TextField(
-                                    decoration:
-                                        InputDecoration(hintText: 'Password'))
-                              ],
-                            ),
-                            cancelText: 'Back',
-                            submitText: 'Sign In',
-                            onYesTap: () {
-                              FireAuth.deleteUserAccount();
-                            });
-                      });
-                }),
-            _logOutButton()
-          ],
+              SizedBox(height: 15),
+              _settingsButton(
+                  title: "Add Activity Tracker",
+                  onTap: () {
+                    print("AAT Tapped!");
+                  }),
+              _settingsButton(
+                  title: "Set Activity Goals",
+                  onTap: () {
+                    print("SAG Tapped!");
+                  }),
+              _settingsButton(
+                  title: "Notification Settings",
+                  onTap: () {
+                    print("NS Tapped!");
+                  }),
+              _settingsButton(
+                  title: "Change Password",
+                  onTap: () {
+                    _showConfirmationDialog(
+                        title: 'Change Password',
+                        content: _changePasswordDialogText(),
+                        cancelText: 'No',
+                        submitText: 'Yes',
+                        onCancelTap: () => Navigator.pop(context),
+                        onSubmitTap: () {
+                          FireAuth.sendResetPasswordLink(
+                              email: currentUser!.email!);
+                          Navigator.pop(context);
+                        });
+                  }),
+              _settingsButton(
+                  title: "Delete Account",
+                  onTap: () {
+                    _showConfirmationDialog(
+                        title: 'Delete Account',
+                        content: _deleteAcctDialogText(),
+                        cancelText: 'No',
+                        submitText: 'Yes',
+                        onCancelTap: () => Navigator.pop(context),
+                        onSubmitTap: () {
+                          _showConfirmationDialog(
+                              title: 'Enter your password to confirm.',
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _emailTextField(),
+                                  SizedBox(height: 5),
+                                  _passwordTextField()
+                                ],
+                              ),
+                              cancelText: 'Exit App',
+                              submitText: 'Delete Account',
+                              onCancelTap: () => SystemChannels.platform
+                                  .invokeMethod('SystemNavigator.pop'),
+                              onSubmitTap: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                // Firebase requires a user to be recently
+                                // signed in before deleting their account
+                                FireAuth.signOut();
+                                _signOutAndDelete();
+                              });
+                        });
+                  }),
+              _logOutButton()
+            ],
+          ),
         ),
       ),
     );
