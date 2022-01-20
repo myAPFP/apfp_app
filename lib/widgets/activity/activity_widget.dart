@@ -31,7 +31,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         currentSnapshotBackup = element.data()!;
         currentSnapshotBackup.forEach((key, value) {
           if (DateTime.parse(key).day != DateTime.now().day) {
-            print("Old activity detected");
             Map<String, dynamic> buffer = element.data()!;
             buffer.remove(key);
             FireStore.updateWorkoutData(buffer);
