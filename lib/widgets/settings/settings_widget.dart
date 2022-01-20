@@ -308,7 +308,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             children: [
                               _deleteAcctDialogText(),
                               _dialogInfoRow(
-                                  'Tap anywhere outside this dialog box to go back')
+                                  'Tap anywhere outside of this dialog box to go back')
                             ]),
                         cancelText: 'No',
                         submitText: 'Yes',
@@ -326,7 +326,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                   _passwordTextField(),
                                   SizedBox(height: 30),
                                   _dialogInfoRow(
-                                      'Tap anywhere outside this dialog box to go back'),
+                                      'Tap anywhere outside of this dialog box to go back'),
                                   SizedBox(height: 15),
                                   _dialogInfoRow(
                                       'If you exit, restarting the app will prompt you to login')
