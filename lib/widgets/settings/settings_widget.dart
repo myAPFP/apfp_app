@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -80,36 +81,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ]));
   }
 
-  void _showConfirmationDialog({
-    required String title,
-    required Widget content,
-    required Function() onSubmitTap,
-    required Function() onCancelTap,
-    required String cancelText,
-    required String submitText,
-  }) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(title),
-        content: SingleChildScrollView(
-            child: content, scrollDirection: Axis.vertical),
-        actions: <Widget>[
-          TextButton(
-            onPressed: onCancelTap,
-            child: Text(cancelText,
-                style: TextStyle(color: FlutterFlowTheme.primaryColor)),
-          ),
-          TextButton(
-            onPressed: onSubmitTap,
-            child: Text(submitText,
-                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
-          ),
-        ],
-      ),
-    );
-  }
-
   TextField _emailTextField() {
     return _textField(
         enabled: false,
@@ -175,7 +146,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
-        onPressed: () => _showConfirmationDialog(
+        onPressed: () => ConfirmationDialog.showConfirmationDialog(
+            context: context,
             title: 'Logout',
             content: _logoutDialogText(),
             cancelText: 'No',
@@ -303,7 +275,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               _settingsButton(
                   title: "Change Password",
                   onTap: () {
-                    _showConfirmationDialog(
+                    ConfirmationDialog.showConfirmationDialog(
+                        context: context,
                         title: 'Change Password',
                         content: _changePasswordDialogText(),
                         cancelText: 'No',
@@ -318,14 +291,16 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               _settingsButton(
                   title: "Delete Account",
                   onTap: () {
-                    _showConfirmationDialog(
+                    ConfirmationDialog.showConfirmationDialog(
                         title: 'Delete Account',
+                        context: context,
                         content: _deleteAcctDialogText(),
                         cancelText: 'No',
                         submitText: 'Yes',
                         onCancelTap: () => Navigator.pop(context),
                         onSubmitTap: () {
-                          _showConfirmationDialog(
+                          ConfirmationDialog.showConfirmationDialog(
+                              context: context,
                               title: 'Enter your password to confirm.',
                               content: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
