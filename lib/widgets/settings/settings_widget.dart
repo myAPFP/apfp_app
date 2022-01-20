@@ -341,11 +341,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               onCancelTap: () => SystemChannels.platform
                                   .invokeMethod('SystemNavigator.pop'),
                               onSubmitTap: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                // Firebase requires a user to be recently
-                                // signed in before deleting their account
-                                FireAuth.signOut();
-                                _signInAndDelete();
+                                if (_getPassword().isNotEmpty) {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  // Firebase requires a user to be recently
+                                  // signed in before deleting their account
+                                  FireAuth.signOut();
+                                  _signInAndDelete();
+                                } else
+                                  Toasted.showToast(
+                                      'Please provide a password.');
                               });
                         });
                   }),

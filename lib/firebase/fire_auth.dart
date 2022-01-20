@@ -60,7 +60,7 @@ class FireAuth {
       await user.reload();
       if (!user.emailVerified) {
         user.sendEmailVerification();
-        Toasted.showToast("A new verification email has been sent.");
+        Toasted.showToast("A new verification email has been sent to: ${user.email}");
       } else
         Toasted.showToast('Your email has already been verified.');
     } else
