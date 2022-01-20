@@ -26,15 +26,19 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Row _recentAnnouncementsLabel() {
     return Row(
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 10),
-          child: Text(
-            'Recent Announcements',
-            style: FlutterFlowTheme.title1,
-          ),
-        )
+        Container(
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 10),
+              child: AutoSizeText(
+                'Recent Announcements',
+                style: FlutterFlowTheme.title1,
+                minFontSize: 12,
+                maxLines: 1,
+              ),
+            ))
       ],
     );
   }
