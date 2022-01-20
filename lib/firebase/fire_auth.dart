@@ -74,6 +74,7 @@ class FireAuth {
   static void deleteUserAccount() {
     /// Deletes user then closes app
     FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
+      Toasted.showToast("Account has been deleted.");
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     });
   }
