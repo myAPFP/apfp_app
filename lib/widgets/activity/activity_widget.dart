@@ -29,6 +29,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         currentSnapshotBackup = new Map();
       } else {
         currentSnapshotBackup = element.data()!;
+        currentSnapshotBackup.forEach((key, value) {
+          if (DateTime.parse(key).day != DateTime.now().day) {
+            print("Old activity detected");
+            Map<String, dynamic> buffer = element.data()!;
+            buffer.remove(key);
+            FireStore.updateWorkoutData(buffer);
+          }
+        });
       }
       cards.clear();
       currentSnapshotBackup.forEach((key, value) {
@@ -36,14 +44,12 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         activityElement.add(value[0]);
         activityElement.add(value[1]);
         activityElement.add(value[2]);
-        if (DateTime.parse(key).day == DateTime.now().day) {
-          addCard(ActivityCard(
-                  icon: Icons.emoji_events_rounded,
-                  duration: activityElement[2],
-                  name: activityElement[0],
-                  type: activityElement[1])
-              .paddedActivityCard());
-        }
+        addCard(ActivityCard(
+                icon: Icons.emoji_events_rounded,
+                duration: activityElement[2],
+                name: activityElement[0],
+                type: activityElement[1])
+            .paddedActivityCard());
       });
     });
   }
