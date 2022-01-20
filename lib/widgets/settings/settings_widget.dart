@@ -54,7 +54,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           // ! dialog pop up creates routing issues, causing the app to only return to Home
           TextSpan(
               text: ' and all of your data will be deleted.\n\n' +
-                  'You must enter your password again to confirm or exit the app.',
+                  'You must enter your password again to confirm or exit the app.' +
+                  '\n\nRestarting the app will prompt you to log in again.',
               style: TextStyle(fontSize: 20))
         ]));
   }
