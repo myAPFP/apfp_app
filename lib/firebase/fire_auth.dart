@@ -31,9 +31,7 @@ class FireAuth {
   }
 
   static Future<User?> signInUsingEmailPassword(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
+      {required String email, required String password}) async {
     User? user;
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
@@ -71,7 +69,6 @@ class FireAuth {
 
   static signOut() async {
     await FirebaseAuth.instance.signOut();
-    Toasted.showToast("Logged out.");
   }
 
   static void deleteUserAccount() {
@@ -92,8 +89,7 @@ class FireAuth {
     final auth = FirebaseAuth.instance;
     await auth
         .sendPasswordResetEmail(email: email)
-        .whenComplete(() => Toasted.showToast(
-            "The link has been sent."))
+        .whenComplete(() => Toasted.showToast("The link has been sent."))
         .catchError((e) => Toasted.showToast(e.toString()));
   }
 }
