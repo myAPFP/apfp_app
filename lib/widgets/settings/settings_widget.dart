@@ -242,7 +242,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
-  _signOutAndDelete() async {
+  _signInAndDelete() async {
     if (await Internet.isConnected()) {
       await FireAuth.signInUsingEmailPassword(
               email: currentUser!.email!, password: _getPassword())
@@ -344,7 +344,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 // Firebase requires a user to be recently
                                 // signed in before deleting their account
                                 FireAuth.signOut();
-                                _signOutAndDelete();
+                                _signInAndDelete();
                               });
                         });
                   }),
