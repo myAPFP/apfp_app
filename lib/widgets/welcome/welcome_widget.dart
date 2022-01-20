@@ -49,7 +49,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     'imageOnPageLoadAnimation': AnimationInfo(
       curve: Curves.easeIn,
       trigger: AnimationTrigger.onPageLoad,
-      duration: 300,
+      duration: 200,
       delay: 50,
       fadeIn: true,
     ),
