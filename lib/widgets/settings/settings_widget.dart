@@ -54,9 +54,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           // ! We are closing app here for now, as calling returnToWelcome() from a
           // ! dialog pop up creates routing issues, causing the app to only return to Home
           TextSpan(
-              text: ' and all of your data will be deleted.\n\n' +
-                  'You must enter your password again to confirm or exit the app.' +
-                  '\n\nRestarting the app will prompt you to log in again.',
+              text: ' and all of your data will be deleted.\n\n',
               style: TextStyle(fontSize: 20))
         ]));
   }
@@ -93,7 +91,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return _textField(
         enabled: true,
         kbType: TextInputType.visiblePassword,
-        hintText: 'Password',
+        hintText: 'Enter your password here',
         contr: _passwordController);
   }
 
@@ -139,6 +137,16 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         builder: (context) => WelcomeWidget(),
       ),
       (r) => false,
+    );
+  }
+
+  Row _dialogInfoRow(String text) {
+    return Row(
+      children: [
+        Icon(Icons.info, color: FlutterFlowTheme.secondaryColor),
+        SizedBox(width: 10),
+        Expanded(child: Text(text, style: TextStyle(fontSize: 20)))
+      ],
     );
   }
 
@@ -294,7 +302,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     ConfirmationDialog.showConfirmationDialog(
                         title: 'Delete Account',
                         context: context,
-                        content: _deleteAcctDialogText(),
+                        content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _deleteAcctDialogText(),
+                              _dialogInfoRow(
+                                  'Tap anywhere outside this dialog to go back')
+                            ]),
                         cancelText: 'No',
                         submitText: 'Yes',
                         onCancelTap: () => Navigator.pop(context),
@@ -308,7 +323,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 children: [
                                   _emailTextField(),
                                   SizedBox(height: 5),
-                                  _passwordTextField()
+                                  _passwordTextField(),
+                                  SizedBox(height: 30),
+                                  _dialogInfoRow(
+                                      'Tap anywhere outside this dialog to go back'),
+                                  SizedBox(height: 15),
+                                  _dialogInfoRow(
+                                      'If you exit, restarting the app will prompt you to login')
                                 ],
                               ),
                               cancelText: 'Exit App',
