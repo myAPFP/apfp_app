@@ -313,8 +313,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               ),
                               cancelText: 'Exit App',
                               submitText: 'Delete Account',
-                              onCancelTap: () => SystemChannels.platform
-                                  .invokeMethod('SystemNavigator.pop'),
+                              onCancelTap: () {
+                                FireAuth.signOut();
+                                SystemChannels.platform
+                                    .invokeMethod('SystemNavigator.pop');
+                              },
                               onSubmitTap: () {
                                 if (_getPassword().isNotEmpty) {
                                   FocusManager.instance.primaryFocus?.unfocus();
