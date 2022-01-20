@@ -90,7 +90,7 @@ class FireAuth {
     final auth = FirebaseAuth.instance;
     await auth
         .sendPasswordResetEmail(email: email)
-        .whenComplete(() => Toasted.showToast("The link has been sent."))
+        .whenComplete(() => Toasted.showToast("A link has been sent to $email"))
         .catchError((e) => Toasted.showToast(e.toString()));
   }
 }
