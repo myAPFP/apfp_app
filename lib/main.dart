@@ -1,3 +1,4 @@
+import 'package:apfp/widgets/settings/settings_widget.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
@@ -61,6 +62,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget());
     pageList.add(ActivityWidget(activityStream: userActivity));
+    pageList.add(SettingsWidget());
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
@@ -176,6 +178,11 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
             ),
             label: 'My Activity',
             tooltip: 'My Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings, size: 40),
+            label: 'Settings',
+            tooltip: 'Settings',
           )
         ],
         backgroundColor: Color(0xFF54585A),

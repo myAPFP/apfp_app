@@ -103,16 +103,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
 
   InkWell _goBackButton() {
     return InkWell(
-        onTap: () async {
-          await Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.leftToRight,
-                duration: Duration(milliseconds: 125),
-                reverseDuration: Duration(milliseconds: 125),
-                child: NavBarPage(initialPage: 3),
-              ));
-        },
+        onTap: () => Navigator.pop(context),
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
