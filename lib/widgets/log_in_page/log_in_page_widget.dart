@@ -241,14 +241,14 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     if (await Internet.isConnected()) {
       if (_formKey.currentState!.validate()) {
         await FireAuth.signInUsingEmailPassword(
-            email: _getEmail(), password: _getPassword(), context: context);
+            email: _getEmail(), password: _getPassword());
         User? currentUser = FirebaseAuth.instance.currentUser;
         if (currentUser != null) {
           await currentUser.reload();
           if (currentUser.emailVerified) {
             _goHome();
           } else {
-            Toasted.showToast("Please Validator your email address.");
+            Toasted.showToast("Please verify your email address.");
           }
         }
       }
