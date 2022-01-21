@@ -3,7 +3,6 @@ import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';

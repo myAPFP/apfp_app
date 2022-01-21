@@ -4,8 +4,6 @@ import 'package:apfp/util/validator/validator.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '../activity_card/activity_card.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import 'package:apfp/main.dart';
 import 'package:flutter/material.dart';
 
 class AddActivityWidget extends StatefulWidget {
@@ -145,11 +143,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   Padding _activityNameTextField() {
     return textField(
         activityNameTextController, Key("AddActivity.activityNameTextField"));
-  }
-
-  Padding _totalCalTextField() {
-    return textField(
-        totalCalTextController, Key("AddActivity.totalCalTextField"));
   }
 
   Padding _exerciseTextField() {
