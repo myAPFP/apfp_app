@@ -35,7 +35,6 @@ class _HomeWidgetState extends State<HomeWidget> {
               child: AutoSizeText(
                 'Recent Announcements',
                 style: FlutterFlowTheme.title1,
-                minFontSize: 12,
                 maxLines: 1,
               ),
             ))
@@ -127,14 +126,15 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Padding _activityLabel() {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 75, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(
+          MediaQuery.of(context).size.width * 0.04,
+          MediaQuery.of(context).size.height * 0.05,
+          0,
+          0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-            child: Text('Today\'s Activity', style: FlutterFlowTheme.title1),
-          )
+          AutoSizeText('Today\'s Activity', style: FlutterFlowTheme.title1),
         ],
       ),
     );
@@ -146,7 +146,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: 200,
+        height: MediaQuery.of(context).size.height * 0.4,
         decoration: BoxDecoration(
           color: Colors.white,
           shape: BoxShape.rectangle,
@@ -172,6 +172,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
+          child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -192,9 +193,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                 }),
             _activityLabel(),
             _activityGUI(),
+            SizedBox(
+              height: 30,
+            )
           ],
         ),
-      ),
+      )),
     );
   }
 }
