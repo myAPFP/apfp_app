@@ -1,6 +1,3 @@
-import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
-import '../welcome/welcome_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -26,18 +23,18 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Row _recentAnnouncementsLabel() {
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 10),
-              child: AutoSizeText(
-                'Recent Announcements',
-                style: FlutterFlowTheme.title1,
-                maxLines: 1,
-              ),
-            ))
+          width: MediaQuery.of(context).size.width * 0.92,
+          height: MediaQuery.of(context).size.height * 0.06,
+          child: AutoSizeText(
+            'Recent Announcements',
+            style: FlutterFlowTheme.title1,
+            maxLines: 1,
+            overflow: TextOverflow.fade,
+          ),
+        )
       ],
     );
   }
@@ -63,28 +60,24 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Icon _errorIcon() {
-    return Icon(
-      Icons.error_outline,
-      color: Colors.black,
-      size: 24,
-    );
+  Column _errorIcon() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+              padding: EdgeInsetsDirectional.all(2),
+              child: Icon(
+                Icons.error_outline,
+                color: FlutterFlowTheme.secondaryColor,
+                size: 22,
+              ))
+        ]);
   }
 
   Row _announcementRow(String text) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [_errorIcon()],
-          ),
-        ),
-        _announcementTextColumn(text)
-      ],
+      children: [_errorIcon(), _announcementTextColumn(text)],
     );
   }
 
@@ -128,7 +121,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(
           MediaQuery.of(context).size.width * 0.04,
-          MediaQuery.of(context).size.height * 0.05,
+          MediaQuery.of(context).size.height * 0.03,
           0,
           0),
       child: Row(
@@ -141,6 +134,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Padding _activityGUI() {
+    // This widget will be modified soon. Placeholder.
     return Padding(
       key: Key('Home.activityGUI'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
