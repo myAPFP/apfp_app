@@ -3,7 +3,7 @@ This is a developing application created for members of the Adult Physical Fitne
 
 At this time, functionality is limited to application navigation, account creation and log-in for approved APFP members, exercise videos dynamically pulled from YouTube, and pulling previous announcements from a database. Users that are signed into the app may also receive push notifications from administrators regarding important information sent out by the APFP.
 
-## Each .dart file in the source code of this branch will have documentation.
+## Each .dart file found in 'lib' in the source code of this branch will have documentation.
 
 ## How to Run
 This application is in development and may be prone to bugs/issues/crashes. Run application at own risk.
