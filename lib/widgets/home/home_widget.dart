@@ -66,7 +66,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-              padding: EdgeInsetsDirectional.all(2),
+              padding: EdgeInsetsDirectional.all(3),
               child: Icon(
                 Icons.error_outline,
                 color: FlutterFlowTheme.secondaryColor,
