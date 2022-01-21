@@ -3,6 +3,7 @@ import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
@@ -196,7 +197,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         child: InkWell(
           onTap: onTap,
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
+            width: MediaQuery.of(context).size.width * 0.95,
             height: 60,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.secondaryColor,
@@ -245,7 +246,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 160,
+                height: MediaQuery.of(context).size.height * 0.25,
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.secondaryColor,
                 ),
