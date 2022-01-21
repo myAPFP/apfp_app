@@ -1,5 +1,4 @@
 import 'package:apfp/util/toasted/toasted.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
@@ -59,8 +58,11 @@ class FireAuth {
     if (user != null) {
       await user.reload();
       if (!user.emailVerified) {
-        user.sendEmailVerification();
-        Toasted.showToast("A new verification email has been sent to: ${user.email}");
+        user
+            .sendEmailVerification()
+            .onError((error, stackTrace) => print(error));
+        Toasted.showToast(
+            "A new verification email has been sent to: ${user.email}");
       } else
         Toasted.showToast('Your email has already been verified.');
     } else
@@ -91,6 +93,6 @@ class FireAuth {
     await auth
         .sendPasswordResetEmail(email: email)
         .whenComplete(() => Toasted.showToast("A link has been sent to $email"))
-        .catchError((e) => Toasted.showToast(e.toString()));
+        .onError((error, stackTrace) => print(error));
   }
 }
