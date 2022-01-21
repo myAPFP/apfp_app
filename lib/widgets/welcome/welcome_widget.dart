@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -155,30 +156,28 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       child: Padding(
         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset(
               'assets/images/BSU_APFP_logo.png',
               width: MediaQuery.of(context).size.width * 0.8,
-              height: 200,
+              height: MediaQuery.of(context).size.height * 0.3,
               fit: BoxFit.fitWidth,
             ).animated([animationsMap['imageOnPageLoadAnimation']]),
             _welcomeText(),
-            Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                child: _contactText(),
-              ),
-            ),
+            _contactText(),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+              padding: EdgeInsetsDirectional.fromSTEB(
+                  0,
+                  MediaQuery.of(context).size.height * 0.02,
+                  0,
+                  MediaQuery.of(context).size.height * 0.02),
               child: _logInButton(),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-              child: _createAccountButton(),
+            _createAccountButton(),
+            SizedBox(
+              height: 25,
             )
           ],
         ),
@@ -212,8 +211,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     });
   }
 
-  Text _contactText() {
-    return Text.rich(
+  AutoSizeText _contactText() {
+    return AutoSizeText.rich(
       TextSpan(
           text: 'This app is intended for members of the Adult Physical' +
               ' Fitness Program at Ball State University.' +
@@ -257,6 +256,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
                   })
           ]),
       textAlign: TextAlign.center,
+      maxLines: 6,
     );
   }
 
@@ -274,7 +274,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       },
       text: 'Log In',
       options: FFButtonOptions(
-        width: 170,
+        width: MediaQuery.of(context).size.width * 0.4,
         height: 50,
         color: Color(0xFFBA0C2F),
         textStyle: FlutterFlowTheme.title2,
@@ -302,7 +302,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       },
       text: 'Create Account',
       options: FFButtonOptions(
-        width: 250,
+        width: MediaQuery.of(context).size.width * 0.7,
         height: 50,
         color: Colors.white,
         textStyle: TextStyle()
