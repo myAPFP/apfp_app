@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -20,6 +21,7 @@ class LogInPageWidget extends StatefulWidget {
 class _LogInPageWidgetState extends State<LogInPageWidget> {
   TextEditingController? _emailController;
   TextEditingController? _passwordController;
+  TextEditingController? _dialogEmailController;
   late bool passwordVisibility;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -30,6 +32,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _dialogEmailController = TextEditingController();
     passwordVisibility = false;
   }
 
@@ -38,10 +41,15 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     super.dispose();
     _emailController!.dispose();
     _passwordController!.dispose();
+    _dialogEmailController!.dispose();
   }
 
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
+  }
+
+  String _getDialogEmail() {
+    return _dialogEmailController!.text.trim().toLowerCase();
   }
 
   String _getPassword() {
@@ -86,7 +94,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Row _emailTextField() {
+  Row _emailTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -141,7 +149,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Row _passwordTextField() {
+  Row _passwordTextFormField() {
     return Row(
       key: Key('LogIn.passwordTextBox'),
       mainAxisSize: MainAxisSize.max,
@@ -301,6 +309,30 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  void _showEmailDialog(
+      {String? title, String? contentText, Function()? onSubmitTap}) {
+    ConfirmationDialog.showConfirmationDialog(
+        context: context,
+        title: title!,
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(contentText!, style: TextStyle(fontSize: 20)),
+            SizedBox(height: 20),
+            _textField(
+                enabled: true,
+                kbType: TextInputType.emailAddress,
+                hintText: 'Email',
+                contr: _dialogEmailController)
+          ],
+        ),
+        onSubmitTap: onSubmitTap!,
+        onCancelTap: () => Navigator.pop(context),
+        cancelText: "Back",
+        submitText: "Send");
+  }
+
   Padding _resendEmailButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
@@ -311,9 +343,18 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           FFButtonWidget(
             key: Key('LogIn.resendEmailButton'),
             onPressed: () async {
-              FireAuth.reSendEmailVerification();
+              _showEmailDialog(
+                  title: 'Resend Email Verification',
+                  contentText: 'A new verification email will be sent to:',
+                  onSubmitTap: () {
+                    if (Validator.isValidEmail(_getDialogEmail())) {
+                      FireAuth.reSendEmailVerification();
+                      Navigator.pop(context);
+                    } else
+                      Toasted.showToast('Please provide a valid email address');
+                  });
             },
-            text: 'Resend email verification',
+            text: 'Resend Email Verification',
             options: FFButtonOptions(
               width: 250,
               height: 50,
@@ -341,16 +382,66 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: _textFieldLabel("Forgot Your Password?"),
-          )
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: InkWell(
+                child: _textFieldLabel("Forgot Your Password?"),
+                onTap: () => _showEmailDialog(
+                    title: 'Forget Password',
+                    contentText:
+                        'Please enter the email associated with your account.' +
+                            '\n\nYou will recieve a link to reset your password.',
+                    onSubmitTap: () {
+                      if (Validator.isValidEmail(_getDialogEmail())) {
+                        FireAuth.sendResetPasswordLink(
+                            email: _getDialogEmail());
+                        Navigator.pop(context);
+                      } else
+                        Toasted.showToast(
+                            'Please provide a valid email address');
+                    }),
+              ))
         ],
       ),
     );
+  }
+
+  TextField _textField(
+      {bool? enabled,
+      TextInputType? kbType,
+      String? hintText,
+      TextEditingController? contr}) {
+    return TextField(
+        enabled: enabled,
+        cursorColor: FlutterFlowTheme.secondaryColor,
+        style: FlutterFlowTheme.bodyText1,
+        textAlign: TextAlign.start,
+        keyboardType: kbType,
+        controller: contr,
+        decoration: InputDecoration(
+            hintText: hintText,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+                width: 1,
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(4.0),
+                topRight: Radius.circular(4.0),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
+                ))));
   }
 
   @override
@@ -370,10 +461,10 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                   _returnToWelcome(),
                   _textFieldLabel("Email Address",
                       alignment: MainAxisAlignment.start, lPadding: 20),
-                  _emailTextField(),
+                  _emailTextFormField(),
                   _textFieldLabel("Password",
                       alignment: MainAxisAlignment.start, lPadding: 20),
-                  _passwordTextField(),
+                  _passwordTextFormField(),
                   _logInButton(),
                   _resendEmailButton(),
                   _forgotPasswordLabel()
