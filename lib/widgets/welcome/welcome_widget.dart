@@ -151,36 +151,30 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     return firebaseApp;
   }
 
+  Widget _apfpLogo() {
+    return Image.asset(
+      'assets/images/BSU_APFP_logo.png',
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.3,
+      fit: BoxFit.fitWidth,
+    ).animated([animationsMap['imageOnPageLoadAnimation']]);
+  }
+
   SafeArea _routeUI() {
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(
-              'assets/images/BSU_APFP_logo.png',
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.3,
-              fit: BoxFit.fitWidth,
-            ).animated([animationsMap['imageOnPageLoadAnimation']]),
-            _welcomeText(),
-            _contactText(),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(
-                  0,
-                  MediaQuery.of(context).size.height * 0.02,
-                  0,
-                  MediaQuery.of(context).size.height * 0.02),
-              child: _logInButton(),
-            ),
-            _createAccountButton(),
-            SizedBox(
-              height: 25,
-            )
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _apfpLogo(),
+          _welcomeText(),
+          _contactText(),
+          _logInButton(),
+          _createAccountButton(),
+          SizedBox(
+            height: 25,
+          )
+        ],
       ),
     );
   }
@@ -211,53 +205,56 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     });
   }
 
-  AutoSizeText _contactText() {
-    return AutoSizeText.rich(
-      TextSpan(
-          text: 'This app is intended for members of the Adult Physical' +
-              ' Fitness Program at Ball State University.' +
-              ' If you do not have an account, you can contact an administrator by ',
-          style: FlutterFlowTheme.subtitle1,
-          children: <InlineSpan>[
-            TextSpan(
-                text: '\nclicking here.',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: FlutterFlowTheme.secondaryColor),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () async {
-                    EmailContent email = EmailContent(
-                        to: adminEmails,
-                        subject: 'APFP Membership',
-                        body: 'Hello, how can I become a member?');
-                    OpenMailAppResult result =
-                        await OpenMailApp.composeNewEmailInMailApp(
-                            nativePickerTitle: 'Select an email app to compose',
-                            emailContent: email);
+  Padding _contactText() {
+    return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+        child: AutoSizeText.rich(
+          TextSpan(
+              text: 'This app is intended for members of the Adult Physical' +
+                  ' Fitness Program at Ball State University.' +
+                  ' If you do not have an account, you can contact an administrator by ',
+              style: FlutterFlowTheme.subtitle1,
+              children: <InlineSpan>[
+                TextSpan(
+                    text: '\nclicking here.',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: FlutterFlowTheme.secondaryColor),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        EmailContent email = EmailContent(
+                            to: adminEmails,
+                            subject: 'APFP Membership',
+                            body: 'Hello, how can I become a member?');
+                        OpenMailAppResult result =
+                            await OpenMailApp.composeNewEmailInMailApp(
+                                nativePickerTitle:
+                                    'Select an email app to compose',
+                                emailContent: email);
 
-                    // If no mail apps found, show error
-                    if (!result.didOpen && !result.canOpen) {
-                      showNoMailAppsDialog(context);
+                        // If no mail apps found, show error
+                        if (!result.didOpen && !result.canOpen) {
+                          showNoMailAppsDialog(context);
 
-                      // iOS: if multiple mail apps found, show dialog to select.
-                      // There is no native intent/default app system in iOS so
-                      // you have to do it yourself.
-                    } else if (!result.didOpen && result.canOpen) {
-                      showDialog(
-                        context: context,
-                        builder: (_) {
-                          return MailAppPickerDialog(
-                            mailApps: result.options,
+                          // iOS: if multiple mail apps found, show dialog to select.
+                          // There is no native intent/default app system in iOS so
+                          // you have to do it yourself.
+                        } else if (!result.didOpen && result.canOpen) {
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return MailAppPickerDialog(
+                                mailApps: result.options,
+                              );
+                            },
                           );
-                        },
-                      );
-                    }
-                  })
-          ]),
-      textAlign: TextAlign.center,
-      maxLines: 6,
-    );
+                        }
+                      })
+              ]),
+          textAlign: TextAlign.center,
+          maxLines: 6,
+        ));
   }
 
   FFButtonWidget _logInButton() {
