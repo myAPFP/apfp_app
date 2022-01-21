@@ -29,9 +29,13 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return [
       Padding(
         key: Key('Exercises.header'),
-        padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
         child: Row(mainAxisSize: MainAxisSize.max, children: [
-          Text('At-Home Exercises', style: FlutterFlowTheme.title1)
+          AutoSizeText(
+            'At-Home Exercises',
+            style: FlutterFlowTheme.title1,
+            overflow: TextOverflow.fade,
+          )
         ]),
       ),
       Padding(
@@ -57,7 +61,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
       title = "${title.substring(0, 30)}...";
     }
     return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(10, 8, 10, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: InkWell(
             onTap: () async {
               await Navigator.push(
