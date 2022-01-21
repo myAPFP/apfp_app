@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -53,9 +54,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           // ! We are closing app here for now, as calling returnToWelcome() from a
           // ! dialog pop up creates routing issues, causing the app to only return to Home
           TextSpan(
-              text: ' and all of your data will be deleted.\n\n' +
-                  'You must enter your password again to confirm or exit the app.' +
-                  '\n\nRestarting the app will prompt you to log in again.',
+              text: ' and all of your data will be deleted.\n\n',
               style: TextStyle(fontSize: 20))
         ]));
   }
@@ -80,36 +79,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ]));
   }
 
-  void _showConfirmationDialog({
-    required String title,
-    required Widget content,
-    required Function() onSubmitTap,
-    required Function() onCancelTap,
-    required String cancelText,
-    required String submitText,
-  }) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(title),
-        content: SingleChildScrollView(
-            child: content, scrollDirection: Axis.vertical),
-        actions: <Widget>[
-          TextButton(
-            onPressed: onCancelTap,
-            child: Text(cancelText,
-                style: TextStyle(color: FlutterFlowTheme.primaryColor)),
-          ),
-          TextButton(
-            onPressed: onSubmitTap,
-            child: Text(submitText,
-                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
-          ),
-        ],
-      ),
-    );
-  }
-
   TextField _emailTextField() {
     return _textField(
         enabled: false,
@@ -122,7 +91,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return _textField(
         enabled: true,
         kbType: TextInputType.visiblePassword,
-        hintText: 'Password',
+        hintText: 'Enter your password here',
         contr: _passwordController);
   }
 
@@ -171,11 +140,22 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
+  Row _dialogInfoRow(String text) {
+    return Row(
+      children: [
+        Icon(Icons.info, color: FlutterFlowTheme.secondaryColor),
+        SizedBox(width: 10),
+        Expanded(child: Text(text, style: TextStyle(fontSize: 20)))
+      ],
+    );
+  }
+
   Padding _logOutButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
-        onPressed: () => _showConfirmationDialog(
+        onPressed: () => ConfirmationDialog.showConfirmationDialog(
+            context: context,
             title: 'Logout',
             content: _logoutDialogText(),
             cancelText: 'No',
@@ -303,7 +283,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               _settingsButton(
                   title: "Change Password",
                   onTap: () {
-                    _showConfirmationDialog(
+                    ConfirmationDialog.showConfirmationDialog(
+                        context: context,
                         title: 'Change Password',
                         content: _changePasswordDialogText(),
                         cancelText: 'No',
@@ -318,14 +299,23 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               _settingsButton(
                   title: "Delete Account",
                   onTap: () {
-                    _showConfirmationDialog(
+                    ConfirmationDialog.showConfirmationDialog(
                         title: 'Delete Account',
-                        content: _deleteAcctDialogText(),
+                        context: context,
+                        content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _deleteAcctDialogText(),
+                              _dialogInfoRow(
+                                  'Tap anywhere outside of this dialog box to go back')
+                            ]),
                         cancelText: 'No',
                         submitText: 'Yes',
                         onCancelTap: () => Navigator.pop(context),
                         onSubmitTap: () {
-                          _showConfirmationDialog(
+                          ConfirmationDialog.showConfirmationDialog(
+                              context: context,
                               title: 'Enter your password to confirm.',
                               content: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -333,13 +323,22 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 children: [
                                   _emailTextField(),
                                   SizedBox(height: 5),
-                                  _passwordTextField()
+                                  _passwordTextField(),
+                                  SizedBox(height: 30),
+                                  _dialogInfoRow(
+                                      'Tap anywhere outside of this dialog box to go back'),
+                                  SizedBox(height: 15),
+                                  _dialogInfoRow(
+                                      'If you exit, restarting the app will prompt you to login')
                                 ],
                               ),
                               cancelText: 'Exit App',
                               submitText: 'Delete Account',
-                              onCancelTap: () => SystemChannels.platform
-                                  .invokeMethod('SystemNavigator.pop'),
+                              onCancelTap: () {
+                                FireAuth.signOut();
+                                SystemChannels.platform
+                                    .invokeMethod('SystemNavigator.pop');
+                              },
                               onSubmitTap: () {
                                 if (_getPassword().isNotEmpty) {
                                   FocusManager.instance.primaryFocus?.unfocus();

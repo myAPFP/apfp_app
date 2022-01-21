@@ -2,6 +2,7 @@ import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
@@ -620,28 +621,23 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   void showPwRequirements() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        key: Key("Create.pWRequirements"),
-        title: const Text('Password Requirements'),
-        content: Text('Password must contain at least\n\n' +
-            '- Eight characters\n' +
-            '- One letter\n' +
-            '- One number\n' +
-            '- One special character'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK',
-                style: TextStyle(color: FlutterFlowTheme.secondaryColor)),
-          ),
-        ],
-      ),
-    );
+    ConfirmationDialog.showConfirmationDialog(
+        context: context,
+        title: 'Password Requirements',
+        content: Text(
+            'Password must contain at least\n\n' +
+                '- Eight characters\n' +
+                '- One letter\n' +
+                '- One number\n' +
+                '- One special character',
+            style: TextStyle(fontSize: 20)),
+        cancelText: "",
+        submitText: "OK",
+        onCancelTap: () {},
+        onSubmitTap: () => Navigator.pop(context, 'OK'));
   }
 
-  void _ValidatorAPFPCredentials() async {
+  void _verifyAPFPCredentials() async {
     if (await Internet.isConnected()) {
       if (_formKey.currentState!.validate()) {
         Toasted.showToast("Verifiying Membership...");
@@ -702,7 +698,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           FFButtonWidget(
             key: Key("Create.createAcctButton"),
             onPressed: () async {
-              _ValidatorAPFPCredentials();
+              _verifyAPFPCredentials();
             },
             text: 'Create Account',
             options: FFButtonOptions(
