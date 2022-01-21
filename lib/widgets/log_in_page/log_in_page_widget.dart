@@ -109,9 +109,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  /// Returns a [TextFormField] which is wrapped in a [Padding] widget.
-  /// [Padding] is wrapped in [Expanded] and [Expanded] is wrapped in
-  /// a [Row] widget.
+  /// Returns a [TextFormField] which is used for email address input.
   ///
   /// This [Widget] uses [_emailController] as its [TextEditingController]
   Row _emailTextFormField() {
@@ -169,10 +167,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  /// Returns a [TextFormField] which is wrapped in a [Padding] widget.
-  /// [Padding] is wrapped in [Expanded] and [Expanded] is wrapped in
-  /// a [Row] widget.
-  ///
+  /// Returns a [TextFormField] which is used for password input.
+  /// 
   /// This [Widget] uses [_passwordController] as its [TextEditingController]
   Row _passwordTextFormField() {
     return Row(
@@ -237,10 +233,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  /// Returns a [Text] which is wrapped in a [Row] widget.
-  /// [Row] is wrapped in [Padding].
-  ///
-  /// This [Widget] is used to create labels to appear on screen.
+  
+  /// Returns a [Padding] which creates labels to appear on screen.
   /// 
   /// The default [alignment] is set to [MainAxisAlignment.center]
   /// 
@@ -303,10 +297,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     }
   }
 
-  /// Uses [FFButtonWidget] which is wrapped in a [Row].
-  /// The [Row] is wrapped in Padding.
-  ///
-  /// This creates the 'Log In' button which appears on screen.
+  /// Returns a [Padding] which creates the 'Log In' button which appears on screen.
   /// When pressed, _login() is called.
   Padding _logInButton() {
     return Padding(
@@ -404,10 +395,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                 ))));
   }
 
-  /// Uses [FFButtonWidget] which is wrapped in a [Row].
-  /// The [Row] is wrapped in Padding.
-  ///
-  /// This creates the 'Resend Email Verification' button which appears on screen.
+  /// Returns a [Padding] which creates the 'Resend Email Verification' button which appears on screen.
   /// When pressed, _showEmailDialog() is called, showing a dialog which prompts
   /// a user to enter their email address to receive another verification email.
   ///
@@ -453,10 +441,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  /// Uses [InkWell] which is wrapped in a [Container].
-  /// The [Container] is wrapped in [Row]. The [Row] is wrapped in [Padding].
-  ///
-  /// This creates the 'Forgot Your Password?' label which appears on screen.
+  /// Returns a [Padding] which creates the 'Forgot Your Password?' label which appears on screen.
   /// When pressed, _showEmailDialog() is called, showing a dialog which prompts
   /// a user to enter their email address to receive instructions on how to reset
   /// their password.
