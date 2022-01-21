@@ -10,31 +10,12 @@ class ActivityCard {
 
   Card? _card;
 
-  ActivityCard(
-      {String? duration,
-      String? totalCal,
-      String? type,
-      String? name,
-      IconData? icon}) {
+  ActivityCard({String? duration, String? type, String? name, IconData? icon}) {
     this.name = name;
     this.type = type;
     this.icon = icon;
     this.duration = duration;
-    this.totalCal = totalCal;
     _createActivityCard();
-  }
-
-  Align _align(
-      {required AlignmentDirectional alignment,
-      required EdgeInsetsDirectional padding,
-      Widget? child}) {
-    return Align(
-      alignment: alignment,
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
-    );
   }
 
   void _createActivityCard() {
@@ -48,42 +29,47 @@ class ActivityCard {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-            child: Stack(
-              children: [
-                _align(
-                    alignment: AlignmentDirectional(-1.13, 0.04),
-                    padding: EdgeInsetsDirectional.all(0),
-                    child: Icon(
-                      icon,
-                      color: Color(0xFF54585A),
-                      size: 80,
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(103.56, -0.17),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 20, 0, 0),
-                    child: Text(
-                      '$duration                       $totalCal cals',
-                      style: FlutterFlowTheme.bodyText1,
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(-0.21, 0.31),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 30, 0, 0),
-                    child: Text(
-                      '$type',
-                      style: FlutterFlowTheme.bodyText1,
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(0, -0.58),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 0, 0, 0),
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(icon, color: Color(0xFF54585A), size: 80),
+          ]),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(children: [
+                Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQueryData.fromWindow(
+                                    WidgetsBinding.instance!.window)
+                                .size
+                                .width *
+                            0.7),
                     child: Text(
                       '$name',
                       style: FlutterFlowTheme.subtitle1,
+                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      softWrap: false,
                     ))
-              ],
-            ),
-          )
+              ]),
+              Row(children: [
+                Text(
+                  '$type',
+                  style: FlutterFlowTheme.bodyText1,
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                )
+              ]),
+              Row(children: [
+                Text(
+                  '$duration',
+                  style: FlutterFlowTheme.bodyText1,
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                )
+              ])
+            ],
+          ),
         ],
       ),
     );
@@ -91,6 +77,7 @@ class ActivityCard {
 
   Padding paddedActivityCard() {
     return Padding(
+      key: Key('$name $type $duration'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,
