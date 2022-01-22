@@ -25,25 +25,25 @@ class LogInPageWidget extends StatefulWidget {
 }
 
 class _LogInPageWidgetState extends State<LogInPageWidget> {
-  /// [TextEditingController] for _emailTextFormField()
+  /// [TextEditingController] for [_emailTextFormField]
   TextEditingController? _emailController;
 
-  /// [TextEditingController] for _passwordTextFormField()
+  /// [TextEditingController] for [_passwordTextFormField]
   TextEditingController? _passwordController;
 
-  /// [TextEditingController] for the _emailDialogTextField() within _showEmailDialog()
+  /// [TextEditingController] for the [_emailDialogTextField] within [_showEmailDialog]
   TextEditingController? _dialogEmailController;
 
-  /// Controls visisbility of characters in _passwordTextFormField()
+  /// Controls visisbility of characters in [_passwordTextFormField]
   late bool passwordVisibility;
 
   /// Sets the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  /// Serves as key for the [Scaffold] found in build()
+  /// Serves as key for the [Scaffold] found in [build]
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  /// Serves as key for the [Form] found in build()
+  /// Serves as key for the [Form] found in [build]
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -68,7 +68,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     return _emailController!.text.trim().toLowerCase();
   }
 
-  /// Returns trimmed, lowercased text taken from [_dialogEmailController] within _showEmailDialog()
+  /// Returns trimmed, lowercased text taken from [_dialogEmailController] within [_showEmailDialog]
   String _getDialogEmail() {
     return _dialogEmailController!.text.trim().toLowerCase();
   }
@@ -78,7 +78,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     return _passwordController!.text.trim();
   }
 
-  /// Adds leftToRight transition animation between this route
+  /// Adds leftToRight [PageTransition] animation between this route
   /// ([LogInPageWidget]) and another route.
   PageTransition _transitionTo(Widget child) {
     return PageTransition(
@@ -238,7 +238,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// 
   /// The default [alignment] is set to [MainAxisAlignment.center]
   /// 
-  /// The [lPadding] refers to the start value used in EdgeInsetsDirectional.fromSTEB()
+  /// The [lPadding] refers to the start value used in [EdgeInsetsDirectional.fromSTEB]
   /// which by default is 0.
   Padding _textFieldLabel(String text,
       {MainAxisAlignment alignment = MainAxisAlignment.center,
@@ -283,7 +283,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// This method is called when a user attempts to login with the correct
   /// credentials AND has their email address verified.
   ///
-  /// When called an CircularProgressIndicator loading animation starts until
+  /// When called a [CircularProgressIndicator] loading animation starts until
   /// the user is successfully taken to Home.
   void _goHome() async {
     setState(() => _loadingButton = true);
@@ -298,7 +298,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// Returns a [Padding] which creates the 'Log In' button which appears on screen.
-  /// When pressed, _login() is called.
+  /// When pressed, [_login] is called.
   Padding _logInButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
@@ -333,11 +333,11 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// When called, this method shows a dialog which has a title, content text
-  /// and a textfield allowing users to enter their email address.
+  /// and a [TextField] allowing users to enter their email address.
   ///
   /// The [title] will be displayed on the top of the dialog in bold font.
   ///
-  /// The [contentText] will be displayed above the textfield.
+  /// The [contentText] will be displayed above the [TextField].
   ///
   /// The [onSubmitTap] parameter holds the method to be called when the user
   /// presses the dialog's submit ('SEND') button.
@@ -361,7 +361,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         submitText: "Send");
   }
 
-  /// Returns a [TextField] which is used within _showEmailDialog()
+  /// Returns a [TextField] which is used within [_showEmailDialog]
   ///
   /// This [Widget] uses [_dialogEmailController] as its [TextEditingController] 
   TextField _emailDialogTextField() {
@@ -396,7 +396,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// Returns a [Padding] which creates the 'Resend Email Verification' button which appears on screen.
-  /// When pressed, _showEmailDialog() is called, showing a dialog which prompts
+  /// When pressed, [_showEmailDialog] is called, showing a dialog which prompts
   /// a user to enter their email address to receive another verification email.
   ///
   /// If a user submits an invalid email address, a relevant warning toast is displayed.
@@ -442,7 +442,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// Returns a [Padding] which creates the 'Forgot Your Password?' label which appears on screen.
-  /// When pressed, _showEmailDialog() is called, showing a dialog which prompts
+  /// When pressed, [_showEmailDialog] is called, showing a dialog which prompts
   /// a user to enter their email address to receive instructions on how to reset
   /// their password.
   ///
