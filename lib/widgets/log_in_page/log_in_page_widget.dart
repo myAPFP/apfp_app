@@ -25,25 +25,27 @@ class LogInPageWidget extends StatefulWidget {
 }
 
 class _LogInPageWidgetState extends State<LogInPageWidget> {
-  /// [TextEditingController] for [_emailTextFormField]
+  /// [TextEditingController] for [_emailTextFormField].
   TextEditingController? _emailController;
 
-  /// [TextEditingController] for [_passwordTextFormField]
+  /// [TextEditingController] for [_passwordTextFormField].
   TextEditingController? _passwordController;
 
-  /// [TextEditingController] for the [_emailDialogTextField] within [_showEmailDialog]
+  /// [TextEditingController] for the [_emailDialogTextField] within [_showEmailDialog].
   TextEditingController? _dialogEmailController;
 
-  /// Controls visisbility of characters in [_passwordTextFormField]
+  /// Controls visisbility of characters in [_passwordTextFormField].
   late bool passwordVisibility;
 
   /// Sets the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  /// Serves as key for the [Scaffold] found in [build]
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  /// Serves as key for the [Form] found in [build]
+  /// Serves as key for the [Form] found in [build].
+  /// 
+  /// Used to validate the current state of the [Form].
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -63,17 +65,17 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     _dialogEmailController!.dispose();
   }
 
-  /// Returns trimmed, lowercased text taken from [_emailController]
+  /// Returns trimmed, lowercased text taken from [_emailController].
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
 
-  /// Returns trimmed, lowercased text taken from [_dialogEmailController] within [_showEmailDialog]
+  /// Returns trimmed, lowercased text taken from [_dialogEmailController] within [_showEmailDialog].
   String _getDialogEmail() {
     return _dialogEmailController!.text.trim().toLowerCase();
   }
 
-  /// Returns trimmed text taken from [_passwordController]
+  /// Returns trimmed text taken from [_passwordController].
   String _getPassword() {
     return _passwordController!.text.trim();
   }
@@ -91,7 +93,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   /// Returns a [Padding] widget who's child is a [InkWell].
   ///
-  /// [InkWell]'s [onTap] parameter is used to go back to [WelcomeWidget]
+  /// [InkWell]'s [onTap] parameter is used to go back to [WelcomeWidget].
   /// 
   /// [InkWell]'s [child] parameter holds a [Text] which serves as the button title.
   Padding _backButton() {
@@ -111,7 +113,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   /// Returns a [TextFormField] which is used for email address input.
   ///
-  /// This [Widget] uses [_emailController] as its [TextEditingController]
+  /// This [Widget] uses [_emailController] as its [TextEditingController].
   Row _emailTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -169,7 +171,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   /// Returns a [TextFormField] which is used for password input.
   /// 
-  /// This [Widget] uses [_passwordController] as its [TextEditingController]
+  /// This [Widget] uses [_passwordController] as its [TextEditingController].
   Row _passwordTextFormField() {
     return Row(
       key: Key('LogIn.passwordTextBox'),
@@ -236,9 +238,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   
   /// Returns a [Padding] which creates labels to appear on screen.
   /// 
-  /// The default [alignment] is set to [MainAxisAlignment.center]
+  /// The default [alignment] is set to [MainAxisAlignment.center].
   /// 
-  /// The [lPadding] refers to the start value used in [EdgeInsetsDirectional.fromSTEB]
+  /// The [lPadding] refers to the start value used in [EdgeInsetsDirectional.fromSTEB].
   /// which by default is 0.
   Padding _textFieldLabel(String text,
       {MainAxisAlignment alignment = MainAxisAlignment.center,
@@ -361,9 +363,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         submitText: "Send");
   }
 
-  /// Returns a [TextField] which is used within [_showEmailDialog]
+  /// Returns a [TextField] which is used within [_showEmailDialog].
   ///
-  /// This [Widget] uses [_dialogEmailController] as its [TextEditingController] 
+  /// This [Widget] uses [_dialogEmailController] as its [TextEditingController].
   TextField _emailDialogTextField() {
     return TextField(
         enabled: true,
