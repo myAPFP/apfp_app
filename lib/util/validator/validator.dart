@@ -17,7 +17,7 @@ class Validator {
   ///    - One number 
   ///    - One special character
   static RegExp validPasswordRegex = new RegExp(
-      r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
+      r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[_@$!%*#?&])[A-Za-z\d_@$!%*#?&]{8,}$");
 
   static bool isValidName(String name) {
     return _validNameRegex.hasMatch(name);
