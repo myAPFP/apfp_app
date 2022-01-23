@@ -215,7 +215,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
             colors: colorizeColors,
           ),
         ],
-        isRepeatingAnimation: true,
+        isRepeatingAnimation: false,
       ),
     );
   }
