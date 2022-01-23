@@ -1,3 +1,5 @@
+import 'package:apfp/firebase/firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
@@ -7,7 +9,8 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
 
 class ActivityWidget extends StatefulWidget {
-  ActivityWidget({Key? key}) : super(key: key);
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
+  ActivityWidget({Key? key, required this.activityStream}) : super(key: key);
 
   @override
   _ActivityWidgetState createState() => _ActivityWidgetState();
@@ -17,6 +20,50 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  late Map<String, dynamic> currentSnapshotBackup;
+
+  void _collectActivity() {
+    List<dynamic> activityElement = List.empty(growable: true);
+    widget.activityStream.forEach((element) {
+      if (element.data() == null) {
+        currentSnapshotBackup = new Map();
+      } else {
+        currentSnapshotBackup = element.data()!;
+        currentSnapshotBackup.forEach((key, value) {
+          if (DateTime.parse(key).day != DateTime.now().day) {
+            Map<String, dynamic> buffer = element.data()!;
+            buffer.remove(key);
+            FireStore.updateWorkoutData(buffer);
+          }
+        });
+      }
+      cards.clear();
+      currentSnapshotBackup.forEach((key, value) {
+        activityElement.clear();
+        activityElement.add(value[0]);
+        activityElement.add(value[1]);
+        activityElement.add(value[2]);
+        addCard(ActivityCard(
+                icon: Icons.emoji_events_rounded,
+                duration: activityElement[2],
+                name: activityElement[0],
+                type: activityElement[1])
+            .paddedActivityCard());
+      });
+    });
+  }
+
+  void _addActivityToCloud(ActivityCard activityCard) {
+    currentSnapshotBackup.putIfAbsent(DateTime.now().toIso8601String(),
+        () => [activityCard.name, activityCard.type, activityCard.duration]);
+    FireStore.updateWorkoutData(currentSnapshotBackup);
+  }
+
+  void _removeActivityFromCloud(String id) {
+    currentSnapshotBackup.removeWhere(
+        (key, value) => ((value[0] + " " + value[1] + " " + value[2]) == id));
+    FireStore.updateWorkoutData(currentSnapshotBackup);
+  }
 
   Row _headerTextRow(String text) {
     return Row(
@@ -54,9 +101,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          Padding result = await Navigator.push(context,
+          var result = await Navigator.push(context,
               MaterialPageRoute(builder: (context) => AddActivityWidget()));
-          addCard(result);
+          _addActivityToCloud(result);
         } finally {
           setState(() => _loadingButton = false);
         }
@@ -76,30 +123,10 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   @override
   void initState() {
     super.initState();
-
-    addCard(ActivityCard(
-            icon: Icons.sports_basketball_sharp,
-            duration: "30 min",
-            totalCal: "300",
-            name: "Basketball",
-            type: "Cardio")
-        .paddedActivityCard());
-
-    addCard(ActivityCard(
-            icon: Icons.directions_walk_sharp,
-            duration: "30 min",
-            totalCal: "150",
-            name: "Walking",
-            type: "Cardio")
-        .paddedActivityCard());
-
-    addCard(ActivityCard(
-            icon: Icons.sports_basketball_sharp,
-            duration: "30 min",
-            totalCal: "300",
-            name: "Basketball",
-            type: "Cardio")
-        .paddedActivityCard());
+    widget.activityStream.first.then((firstElement) {
+      currentSnapshotBackup = firstElement.data()!;
+    });
+    _collectActivity();
   }
 
   @override
@@ -148,6 +175,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     Icon(Icons.delete, color: Colors.redAccent),
                                 onPressed: () {
                                   setState(() {
+                                    _removeActivityFromCloud(e.key
+                                        .toString()
+                                        .substring(
+                                            e.key.toString().indexOf("'") + 1,
+                                            e.key.toString().lastIndexOf("'")));
                                     cards.remove(e);
                                   });
                                 })

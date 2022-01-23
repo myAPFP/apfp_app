@@ -1,5 +1,6 @@
-class Validator {
+import 'package:flutter/cupertino.dart';
 
+class Validator {
   /// Matches most names, including those that contains spaces
   static RegExp _validNameRegex =
       new RegExp(r"^[\w'\-][^,.0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$");
@@ -34,5 +35,9 @@ class Validator {
 
   static bool isValidPassword(String password) {
     return validPasswordRegex.hasMatch(password);
+  }
+
+  static bool textFieldHasValue(TextEditingController controller) {
+    return controller.text.isNotEmpty;
   }
 }

@@ -3,6 +3,7 @@ import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,8 +40,10 @@ class NavBarPage extends StatefulWidget {
 
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity;
   late FirebaseMessaging messaging;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> announcements;
+  Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
+      FireStore.getAnnouncements();
   List<Widget> pageList = List<Widget>.empty(growable: true);
   bool _isInForeground = true;
   bool _internetConnected = true;
@@ -50,15 +53,15 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    userActivity = connectActivityDocument();
     super.initState();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
-    announcements = FireStore.getAnnouncements();
     pageList.add(HomeWidget(announcementsStream: announcements));
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget());
-    pageList.add(ActivityWidget());
+    pageList.add(ActivityWidget(activityStream: userActivity));
     pageList.add(SettingsWidget());
     initConnectivity();
     _connectivitySubscription =
@@ -82,6 +85,20 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     } else if (state == AppLifecycleState.paused) {
       _isInForeground = false;
     }
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> connectActivityDocument() {
+    Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
+        FirebaseFirestore.instance
+            .collection('activity')
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .get();
+    userDocumentReference.then((value) {
+      if (!value.exists) {
+        FireStore.createUserActivityDocument();
+      }
+    });
+    return FireStore.createUserActivityStream();
   }
 
   Future<void> initConnectivity() async {

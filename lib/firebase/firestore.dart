@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStore {
   static Future<QuerySnapshot> getPlaylistIDs() {
@@ -40,5 +41,27 @@ class FireStore {
         .orderBy("id", descending: true)
         .limit(limit)
         .snapshots();
+  }
+
+  static DocumentReference<Map<String, dynamic>> getUserActivityDocument() {
+    return FirebaseFirestore.instance
+        .collection('activity')
+        .doc(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>>
+      createUserActivityStream() {
+    return getUserActivityDocument().snapshots();
+  }
+
+  static Future<void> updateWorkoutData(Map<String, dynamic> data) {
+    return getUserActivityDocument().set(data);
+  }
+
+  static void createUserActivityDocument() async {
+    await FirebaseFirestore.instance
+        .collection('activity')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .set(new Map());
   }
 }
