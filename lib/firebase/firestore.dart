@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FireStore {
   static Future<QuerySnapshot> getPlaylistIDs() {
     return FirebaseFirestore.instance
-        .collection('youtube playlist ids')
+        .collection('youtube playlists')
         .orderBy("Title")
         .get();
   }
 
   static Future<QuerySnapshot> getVideoUrls() {
     return FirebaseFirestore.instance
-        .collection('youtube video urls')
+        .collection('youtube videos')
         .orderBy("Title")
         .get();
   }
