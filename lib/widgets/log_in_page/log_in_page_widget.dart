@@ -261,10 +261,10 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           children: [
             Text(contentText!, style: TextStyle(fontSize: 20)),
             SizedBox(height: 20),
-            _textField(
+            ConfirmationDialog.dialogTextField(
                 enabled: true,
                 kbType: TextInputType.emailAddress,
-                hintText: 'Email',
+                hintText: 'Enter your email here',
                 contr: _dialogEmailController)
           ],
         ),
@@ -340,21 +340,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           )
         ],
       ),
-    );
-  }
-
-  TextField _textField(
-      {bool? enabled,
-      TextInputType? kbType,
-      String? hintText,
-      TextEditingController? contr}) {
-    return TextField(
-      enabled: enabled,
-      cursorColor: FlutterFlowTheme.secondaryColor,
-      style: FlutterFlowTheme.bodyText1,
-      textAlign: TextAlign.start,
-      keyboardType: kbType,
-      controller: contr,
     );
   }
 

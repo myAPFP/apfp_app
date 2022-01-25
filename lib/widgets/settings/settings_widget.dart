@@ -80,54 +80,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   }
 
   TextField _emailTextField() {
-    return _textField(
+    return ConfirmationDialog.dialogTextField(
         enabled: false,
         kbType: TextInputType.emailAddress,
-        hintText: currentUser!.email,
+        hintText: currentUser!.email!,
         contr: _emailController);
   }
 
   TextField _passwordTextField() {
-    return _textField(
+    return ConfirmationDialog.dialogTextField(
         enabled: true,
         kbType: TextInputType.visiblePassword,
         hintText: 'Enter your password here',
         contr: _passwordController);
-  }
-
-  TextField _textField(
-      {bool? enabled,
-      TextInputType? kbType,
-      String? hintText,
-      TextEditingController? contr}) {
-    return TextField(
-        enabled: enabled,
-        cursorColor: FlutterFlowTheme.secondaryColor,
-        style: FlutterFlowTheme.bodyText1,
-        textAlign: TextAlign.start,
-        keyboardType: kbType,
-        controller: contr,
-        decoration: InputDecoration(
-            hintText: hintText,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.black,
-                width: 1,
-              ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4.0),
-                topRight: Radius.circular(4.0),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.black,
-                  width: 1,
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4.0),
-                  topRight: Radius.circular(4.0),
-                ))));
   }
 
   void _returnToWelcome() async {
