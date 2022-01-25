@@ -61,6 +61,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
+  bool isDeleted = false;
   List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -138,14 +139,20 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   Future<FirebaseApp> _initFirebaseApp() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null && user.emailVerified) {
-      await Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NavBarPage(initialPage: 0),
-        ),
-        (r) => false,
-      );
+    user!.getIdToken(true).catchError((e) {
+      isDeleted = true;
+    });
+    Toasted.showToast('Account isDeleted: $isDeleted');
+    if (!isDeleted) {
+      if (user.emailVerified) {
+        await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavBarPage(initialPage: 0),
+          ),
+          (r) => false,
+        );
+      }
     }
     return firebaseApp;
   }
