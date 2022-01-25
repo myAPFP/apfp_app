@@ -46,7 +46,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                 child: Text(
                     'The following videos are some exercises that can be done at home.' +
                         ' Please remember to be safe when exercising.',
-                    style: FlutterFlowTheme.title3))
+                    style: FlutterFlowTheme.bodyText1))
           ]))
     ];
   }
@@ -142,7 +142,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                                                       'Source: $author'
                                                       '\nVideo Length: ${video.duration!.inMinutes} minutes',
                                                       style: FlutterFlowTheme
-                                                          .subtitle3,
+                                                          .bodyText1,
                                                       overflow:
                                                           TextOverflow.fade,
                                                       maxLines: 2,
@@ -151,7 +151,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                                                       'Source: $author'
                                                       '\nVideo Length: ${video.duration!.inSeconds} seconds',
                                                       style: FlutterFlowTheme
-                                                          .subtitle3,
+                                                          .bodyText1,
                                                       overflow:
                                                           TextOverflow.fade,
                                                       maxLines: 2,
@@ -159,16 +159,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                                                     ))))
                                 ])),
                           ]),
-                      // Column(
-                      //   children: [
-                      //     Expanded(
-                      //         flex: 1,
-                      //         child: Align(
-                      //             alignment: AlignmentDirectional(0.05, 0),
-                      //             child: Icon(Icons.chevron_right,
-                      //                 color: Color(0xFF95A1AC), size: 28)))
-                      //   ],
-                      // )
                     ],
                   ),
                 ))));
