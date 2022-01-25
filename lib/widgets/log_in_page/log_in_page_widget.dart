@@ -69,29 +69,21 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     return Text('< Back to Home', style: FlutterFlowTheme.subtitle2);
   }
 
-  Padding _backButton() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-      child: InkWell(
-        onTap: () async {
-          await Navigator.push(
-            context,
-            _transitionTo(WelcomeWidget()),
-          );
-        },
-        child: _backToHomeText(),
-      ),
-    );
-  }
-
-  Padding _returnToWelcome() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 80),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [_backButton()],
-      ),
-    );
+  Row _backButton() {
+    return Row(children: [
+      Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(20, 25, 0, 50),
+        child: InkWell(
+          onTap: () async {
+            await Navigator.push(
+              context,
+              _transitionTo(WelcomeWidget()),
+            );
+          },
+          child: _backToHomeText(),
+        ),
+      )
+    ]);
   }
 
   Row _emailTextFormField() {
@@ -100,7 +92,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
             child: TextFormField(
               key: Key("Login.emailTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
@@ -115,31 +107,14 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               },
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
-              obscureText: false,
               decoration: InputDecoration(
-                hintText: 'example@bsu.edu',
-                hintStyle: FlutterFlowTheme.bodyText1,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
+                  hintText: 'example@bsu.edu',
+                  hintStyle: FlutterFlowTheme.bodyText1,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2),
                   ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
-                  ),
-                ),
-              ),
+                  focusedBorder:
+                      OutlineInputBorder(borderSide: BorderSide(width: 2))),
               style: FlutterFlowTheme.bodyText1,
               textAlign: TextAlign.start,
             ),
@@ -156,7 +131,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
             child: TextFormField(
               key: Key("Login.passwordTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
@@ -169,26 +144,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               controller: _passwordController,
               obscureText: !passwordVisibility,
               decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4.0),
-                    topRight: Radius.circular(4.0),
-                  ),
-                ),
+                border: OutlineInputBorder(borderSide: BorderSide(width: 2.0)),
+                focusedBorder:
+                    OutlineInputBorder(borderSide: BorderSide(width: 2)),
                 suffixIcon: InkWell(
                   key: Key("Login.passwordVisibiltyIcon"),
                   onTap: () => setState(
@@ -212,36 +170,19 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Padding _textFieldLabel(String text,
-      {MainAxisAlignment alignment = MainAxisAlignment.center,
-      double lPadding = 0}) {
-    return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(lPadding, 0, 0, 5),
-        child: Row(mainAxisAlignment: alignment, children: [
-          Text(text,
-              textAlign: TextAlign.center, style: FlutterFlowTheme.title3)
-        ]));
-  }
-
-  Padding label(String text) {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: _textFieldLabel(text),
-            ),
-          )
-        ],
-      ),
+  Row _label(String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 15, 0, 5),
+            child: Text(
+              text,
+              style: FlutterFlowTheme.title3,
+              textAlign: TextAlign.center,
+            ))
+      ],
     );
   }
 
@@ -320,10 +261,10 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           children: [
             Text(contentText!, style: TextStyle(fontSize: 20)),
             SizedBox(height: 20),
-            _textField(
+            ConfirmationDialog.dialogTextField(
                 enabled: true,
                 kbType: TextInputType.emailAddress,
-                hintText: 'Email',
+                hintText: 'Enter your email here',
                 contr: _dialogEmailController)
           ],
         ),
@@ -381,67 +322,25 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: InkWell(
-                child: _textFieldLabel("Forgot Your Password?"),
-                onTap: () => _showEmailDialog(
-                    title: 'Forget Password',
-                    contentText:
-                        'Please enter the email associated with your account.' +
-                            '\n\nYou will recieve a link to reset your password.',
-                    onSubmitTap: () {
-                      if (Validator.isValidEmail(_getDialogEmail())) {
-                        FireAuth.sendResetPasswordLink(
-                            email: _getDialogEmail());
-                        Navigator.pop(context);
-                      } else
-                        Toasted.showToast(
-                            'Please provide a valid email address');
-                    }),
-              ))
+          InkWell(
+            child:
+                Text("Forgot Your Password?", style: FlutterFlowTheme.title3),
+            onTap: () => _showEmailDialog(
+                title: 'Forget Password',
+                contentText:
+                    'Please enter the email associated with your account.' +
+                        '\n\nYou will recieve a link to reset your password.',
+                onSubmitTap: () {
+                  if (Validator.isValidEmail(_getDialogEmail())) {
+                    FireAuth.sendResetPasswordLink(email: _getDialogEmail());
+                    Navigator.pop(context);
+                  } else
+                    Toasted.showToast('Please provide a valid email address');
+                }),
+          )
         ],
       ),
     );
-  }
-
-  TextField _textField(
-      {bool? enabled,
-      TextInputType? kbType,
-      String? hintText,
-      TextEditingController? contr}) {
-    return TextField(
-        enabled: enabled,
-        cursorColor: FlutterFlowTheme.secondaryColor,
-        style: FlutterFlowTheme.bodyText1,
-        textAlign: TextAlign.start,
-        keyboardType: kbType,
-        controller: contr,
-        decoration: InputDecoration(
-            hintText: hintText,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.black,
-                width: 1,
-              ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4.0),
-                topRight: Radius.circular(4.0),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.black,
-                  width: 1,
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4.0),
-                  topRight: Radius.circular(4.0),
-                ))));
   }
 
   @override
@@ -458,12 +357,10 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  _returnToWelcome(),
-                  _textFieldLabel("Email Address",
-                      alignment: MainAxisAlignment.start, lPadding: 20),
+                  _backButton(),
+                  _label("Email Address"),
                   _emailTextFormField(),
-                  _textFieldLabel("Password",
-                      alignment: MainAxisAlignment.start, lPadding: 20),
+                  _label("Password"),
                   _passwordTextFormField(),
                   _logInButton(),
                   _resendEmailButton(),

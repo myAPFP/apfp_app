@@ -80,54 +80,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   }
 
   TextField _emailTextField() {
-    return _textField(
+    return ConfirmationDialog.dialogTextField(
         enabled: false,
         kbType: TextInputType.emailAddress,
-        hintText: currentUser!.email,
+        hintText: currentUser!.email!,
         contr: _emailController);
   }
 
   TextField _passwordTextField() {
-    return _textField(
+    return ConfirmationDialog.dialogTextField(
         enabled: true,
         kbType: TextInputType.visiblePassword,
         hintText: 'Enter your password here',
         contr: _passwordController);
-  }
-
-  TextField _textField(
-      {bool? enabled,
-      TextInputType? kbType,
-      String? hintText,
-      TextEditingController? contr}) {
-    return TextField(
-        enabled: enabled,
-        cursorColor: FlutterFlowTheme.secondaryColor,
-        style: FlutterFlowTheme.bodyText1,
-        textAlign: TextAlign.start,
-        keyboardType: kbType,
-        controller: contr,
-        decoration: InputDecoration(
-            hintText: hintText,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.black,
-                width: 1,
-              ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4.0),
-                topRight: Radius.circular(4.0),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.black,
-                  width: 1,
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4.0),
-                  topRight: Radius.circular(4.0),
-                ))));
   }
 
   void _returnToWelcome() async {
@@ -196,7 +161,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         child: InkWell(
           onTap: onTap,
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
+            width: MediaQuery.of(context).size.width * 0.95,
             height: 60,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.secondaryColor,
@@ -245,7 +210,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 160,
+                height: MediaQuery.of(context).size.height * 0.25,
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.secondaryColor,
                 ),

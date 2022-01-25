@@ -744,7 +744,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   _passwordTextField(),
                   _confirmPasswordLabel(),
                   _confirmPasswordTextField(),
-                  _createAccountButton()
+                  _createAccountButton(),
+                  SizedBox(height: 25)
                 ],
               ),
             ),

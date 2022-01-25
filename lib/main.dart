@@ -176,7 +176,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
               FontAwesomeIcons.heartbeat,
               size: 40,
             ),
-            label: 'My Activity',
+            label: 'Activity',
             tooltip: 'My Activity',
           ),
           BottomNavigationBarItem(
@@ -193,7 +193,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
           setState(() => _currentPage = i);
         },
         showSelectedLabels: true,
-        showUnselectedLabels: true,
+        showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
       ),
     );

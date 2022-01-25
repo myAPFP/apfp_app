@@ -37,7 +37,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           }
         });
       }
-      cards.clear();
+      setState(() {
+        cards.clear();
+      });
       currentSnapshotBackup.forEach((key, value) {
         activityElement.clear();
         activityElement.add(value[0]);
@@ -70,7 +72,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-         padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
+          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
           child: Text(
             text,
             style: FlutterFlowTheme.title1,

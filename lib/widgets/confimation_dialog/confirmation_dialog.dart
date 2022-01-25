@@ -32,4 +32,39 @@ class ConfirmationDialog {
       ),
     );
   }
+
+  static TextField dialogTextField(
+      {bool enabled = true,
+      TextInputType kbType = TextInputType.text,
+      String hintText = 'Enter value here',
+      TextEditingController? contr}) {
+    return TextField(
+        enabled: enabled,
+        cursorColor: FlutterFlowTheme.secondaryColor,
+        style: FlutterFlowTheme.bodyText1,
+        textAlign: TextAlign.start,
+        keyboardType: kbType,
+        controller: contr,
+        decoration: InputDecoration(
+            hintText: hintText,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+                width: 1,
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(4.0),
+                topRight: Radius.circular(4.0),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
+                ))));
+  }
 }
