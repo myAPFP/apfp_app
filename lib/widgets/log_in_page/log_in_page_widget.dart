@@ -104,6 +104,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             child: TextFormField(
               key: Key("Login.emailTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
+              autofillHints: [AutofillHints.email],
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
