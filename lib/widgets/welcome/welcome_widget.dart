@@ -68,11 +68,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   @override
   void initState() {
     super.initState();
-    startPageLoadAnimations(
-      animationsMap.values
-          .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-      this,
-    );
+    // startPageLoadAnimations(
+    //   animationsMap.values
+    //       .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
+    //   this,
+    // );
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
@@ -139,12 +139,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   Future<FirebaseApp> _initFirebaseApp() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;
-    user!.getIdToken(true).catchError((e) {
-      isDeleted = true;
-    });
-    Toasted.showToast('Account isDeleted: $isDeleted');
-    if (!isDeleted) {
-      if (user.emailVerified) {
+    user!.reload().then((_) => user.getIdToken(true));
+    User? newUser = FirebaseAuth.instance.currentUser;
+      if (newUser != null && newUser.emailVerified) {
         await Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -153,7 +150,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           (r) => false,
         );
       }
-    }
     return firebaseApp;
   }
 
