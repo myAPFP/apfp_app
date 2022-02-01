@@ -4,28 +4,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FireStore {
   static Future<QuerySnapshot> getPlaylistIDs() {
     return FirebaseFirestore.instance
-        .collection('youtube playlists')
+        .collection('youtube-playlists')
         .orderBy("Title")
         .get();
   }
 
   static Future<QuerySnapshot> getVideoUrls() {
     return FirebaseFirestore.instance
-        .collection('youtube videos')
+        .collection('youtube-videos')
         .orderBy("Title")
         .get();
   }
 
   static void storeUID(String docId, String uid) {
     FirebaseFirestore.instance
-        .collection('registered users')
+        .collection('registered-users')
         .doc(docId)
         .update({"UID": uid});
   }
 
   static Future<QuerySnapshot> getRegisteredUser(String email) {
     return FirebaseFirestore.instance
-        .collection('registered users')
+        .collection('registered-users')
         .where('email', isEqualTo: email)
         .get();
   }
