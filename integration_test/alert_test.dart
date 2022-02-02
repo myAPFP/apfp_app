@@ -44,7 +44,6 @@ void main() {
       // Ensure title and description exist and are displayed
       expect(find.byKey(Key('Alert.title')), findsOneWidget);
       expect(find.byKey(Key('Alert.description')), findsOneWidget);
-      expect(find.text('Test'), findsOneWidget);
     });
 
     testWidgets(

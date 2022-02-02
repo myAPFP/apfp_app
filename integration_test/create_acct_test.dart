@@ -56,7 +56,7 @@ void main() {
 
       // Populates First Name textFormField with invalid info
       await tester.enterText(
-          find.byKey(Key("Create.firstNameTextField")), '7n');
+          find.byKey(Key("Create.firstNameTextField")), '7996');
       await tester.pumpAndSettle();
 
       // Presses "Enter" - hides keyboard
@@ -86,7 +86,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Populates Last Name textFormField with invalid info
-      await tester.enterText(find.byKey(Key("Create.lastNameTextField")), '7n');
+      await tester.enterText(find.byKey(Key("Create.lastNameTextField")), '7996');
       await tester.pumpAndSettle();
 
       // Presses "Enter" - hides keyboard

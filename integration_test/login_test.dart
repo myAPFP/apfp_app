@@ -7,22 +7,6 @@ import 'package:apfp/main.dart' as app;
 // US: If I have forgotten my password, there is a button
 // I can press to take me through the password reset process.
 
-/*
-  !  These tests assume you're starting at the Welcome page.
-  !  Please log out of the app in Debugging mode before running.
-  !  Within 
-  ?  welcome_widget.dart,
-  !  you MUST in-comment out the following animation code found within it's
-  ?  initState():
-    
-  ?  startPageLoadAnimations(
-  ?    animationsMap.values
-  ?        .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-  ?    this,
-  ?  );
-  ! This allows the app to run properly.
-*/
-
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -96,7 +80,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Taps Login button
-      var loginButton = find.byKey(Key('Login.loginInButton'));
+      var loginButton = find.byKey(Key('LogIn.logInButton'));
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
     });
