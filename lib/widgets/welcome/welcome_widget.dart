@@ -68,11 +68,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   @override
   void initState() {
     super.initState();
-    // startPageLoadAnimations(
-    //   animationsMap.values
-    //       .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-    //   this,
-    // );
+    startPageLoadAnimations(
+      animationsMap.values
+          .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
+      this,
+    );
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
@@ -140,8 +140,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;
     user!.reload().then((_) => user.getIdToken(true));
-    User? newUser = FirebaseAuth.instance.currentUser;
-      if (newUser != null && newUser.emailVerified) {
+      if (user.emailVerified) {
         await Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
