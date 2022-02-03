@@ -128,7 +128,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   Row _passwordTextFormField() {
     return Row(
-      key: Key('LogIn.passwordTextBox'),
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
