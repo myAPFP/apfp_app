@@ -140,15 +140,15 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;
     user!.reload().then((_) => user.getIdToken(true));
-      if (user.emailVerified) {
-        await Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NavBarPage(initialPage: 0),
-          ),
-          (r) => false,
-        );
-      }
+    if (user.emailVerified) {
+      await Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NavBarPage(initialPage: 0),
+        ),
+        (r) => false,
+      );
+    }
     return firebaseApp;
   }
 

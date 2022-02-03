@@ -147,11 +147,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         activityNameTextController, Key("AddActivity.activityNameTextField"));
   }
 
-  Padding _totalCalTextField() {
-    return textField(
-        totalCalTextController, Key("AddActivity.totalCalTextField"));
-  }
-
   Padding _exerciseTextField() {
     return textField(
         exerciseTextController, Key("AddActivity.exerciseTextField"));
@@ -191,13 +186,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         style: FlutterFlowTheme.title3),
                   ),
                   _activityNameTextField(),
-                  // Padding(
-                  //   padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                  //   child: _header(
-                  //       text: 'Calories Burned',
-                  //       style: FlutterFlowTheme.title3),
-                  // ),
-                  // _totalCalTextField(),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                     child: _header(
