@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as developer;
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
@@ -165,7 +166,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
               height: 200,
               fit: BoxFit.fitWidth,
             ).animated([animationsMap['imageOnPageLoadAnimation']]),
-            _welcomeText(),
+            _welcomeAnimated(),
             Align(
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
@@ -195,11 +196,27 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     ]);
   }
 
-  Text _welcomeText() {
-    return Text(
-      'Welcome!',
-      style: TextStyle().copyWith(
-        fontSize: 48,
+  SizedBox _welcomeAnimated() {
+    const colorizeColors = [
+      FlutterFlowTheme.primaryColor,
+      FlutterFlowTheme.secondaryColor,
+      FlutterFlowTheme.tertiaryColor
+    ];
+    const colorizeTextStyle = TextStyle(
+      fontSize: 50.0,
+      fontFamily: 'Open Sans',
+    );
+    return SizedBox(
+      width: 190.0,
+      child: AnimatedTextKit(
+        animatedTexts: [
+          ColorizeAnimatedText(
+            'Welcome!',
+            textStyle: colorizeTextStyle,
+            colors: colorizeColors,
+          ),
+        ],
+        isRepeatingAnimation: false,
       ),
     );
   }
