@@ -166,6 +166,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
           key: (Key("Create.firstNameTextField")),
+          autofillHints: [AutofillHints.givenName],
           cursorColor: FlutterFlowTheme.secondaryColor,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -237,6 +238,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       decoration: BoxDecoration(),
       child: TextFormField(
         key: Key("Create.lastNameTextField"),
+        autofillHints: [AutofillHints.familyName],
         cursorColor: FlutterFlowTheme.secondaryColor,
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -282,25 +284,27 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _nameRow() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_firstNameLabel(), _firstNameTextField()],
+  AutofillGroup _nameRow() {
+    return AutofillGroup(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_firstNameLabel(), _firstNameTextField()],
+            ),
           ),
-        ),
-        Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_lastNameLabel(), _lastNameTextField()])
-      ],
+          Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_lastNameLabel(), _lastNameTextField()])
+        ],
+      ),
     );
   }
 
@@ -330,7 +334,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _emailTextBox() {
+  Row _emailTextField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -339,6 +343,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
               key: Key("Create.emailTextField"),
+              autofillHints: [AutofillHints.email],
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -739,7 +744,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   _headerText(),
                   _nameRow(),
                   _emailLabel(),
-                  _emailTextBox(),
+                  _emailTextField
+              (),
                   _passwordLabel(),
                   _passwordTextField(),
                   _confirmPasswordLabel(),

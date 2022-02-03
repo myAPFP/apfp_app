@@ -96,6 +96,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
             child: TextFormField(
               key: Key("Login.emailTextField"),
+              autofillHints: [AutofillHints.email],
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
