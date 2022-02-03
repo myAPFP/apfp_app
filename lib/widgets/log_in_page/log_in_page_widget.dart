@@ -2,6 +2,7 @@ import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
+import 'package:apfp/widgets/email_not_confirmed/email_not_confirmed_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -197,7 +198,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           if (currentUser.emailVerified) {
             _goHome();
           } else {
-            Toasted.showToast("Please verify your email address.");
+            await Navigator.push(
+                context, _transitionTo(EmailNotConfirmedWidget(email: _getEmail())));
           }
         }
       }
@@ -274,46 +276,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         submitText: "Send");
   }
 
-  Padding _resendEmailButton() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FFButtonWidget(
-            key: Key('LogIn.resendEmailButton'),
-            onPressed: () async {
-              _showEmailDialog(
-                  title: 'Resend Email Verification',
-                  contentText: 'A new verification email will be sent to:',
-                  onSubmitTap: () {
-                    if (Validator.isValidEmail(_getDialogEmail())) {
-                      FireAuth.reSendEmailVerification();
-                      Navigator.pop(context);
-                    } else
-                      Toasted.showToast('Please provide a valid email address');
-                  });
-            },
-            text: 'Resend Email Verification',
-            options: FFButtonOptions(
-              width: 250,
-              height: 50,
-              color: Color(0xFFBA0C2F),
-              textStyle: FlutterFlowTheme.title2,
-              elevation: 2,
-              borderSide: BorderSide(
-                color: Colors.transparent,
-                width: 1,
-              ),
-              borderRadius: 12,
-            ),
-            loading: _loadingButton,
-          )
-        ],
-      ),
-    );
-  }
+  
 
   Padding _forgotPasswordLabel() {
     return Padding(
@@ -363,7 +326,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                   _label("Password"),
                   _passwordTextFormField(),
                   _logInButton(),
-                  _resendEmailButton(),
                   _forgotPasswordLabel()
                 ],
               ),
