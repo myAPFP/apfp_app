@@ -61,7 +61,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-  bool isDeleted = false;
   List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
