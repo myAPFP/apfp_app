@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as developer;
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
@@ -139,7 +140,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   Future<FirebaseApp> _initFirebaseApp() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null && user.emailVerified) {
+    user!.reload().then((_) => user.getIdToken(true));
+    if (user.emailVerified) {
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -167,7 +169,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _apfpLogo(),
-          _welcomeText(),
+          _welcomeAnimated(),
           _contactText(),
           _logInButton(),
           _createAccountButton(),
@@ -187,11 +189,27 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     ]);
   }
 
-  Text _welcomeText() {
-    return Text(
-      'Welcome!',
-      style: TextStyle().copyWith(
-        fontSize: 48,
+  SizedBox _welcomeAnimated() {
+    const colorizeColors = [
+      FlutterFlowTheme.primaryColor,
+      FlutterFlowTheme.secondaryColor,
+      FlutterFlowTheme.tertiaryColor
+    ];
+    const colorizeTextStyle = TextStyle(
+      fontSize: 50.0,
+      fontFamily: 'Open Sans',
+    );
+    return SizedBox(
+      width: 190.0,
+      child: AnimatedTextKit(
+        animatedTexts: [
+          ColorizeAnimatedText(
+            'Welcome!',
+            textStyle: colorizeTextStyle,
+            colors: colorizeColors,
+          ),
+        ],
+        isRepeatingAnimation: false,
       ),
     );
   }

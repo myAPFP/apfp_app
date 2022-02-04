@@ -4,6 +4,7 @@ import 'package:apfp/util/validator/validator.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '../activity_card/activity_card.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+
 import 'package:flutter/material.dart';
 
 class AddActivityWidget extends StatefulWidget {
@@ -184,13 +185,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         style: FlutterFlowTheme.title3),
                   ),
                   _activityNameTextField(),
-                  // Padding(
-                  //   padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                  //   child: _header(
-                  //       text: 'Calories Burned',
-                  //       style: FlutterFlowTheme.title3),
-                  // ),
-                  // _totalCalTextField(),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                     child: _header(
