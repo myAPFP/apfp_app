@@ -3,22 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/main.dart' as app;
 
-/*
-  !  These tests assume you're starting at the Welcome page.
-  !  Please log out of the app in Debugging mode before running.
-  !  Within 
-  ?  welcome_widget.dart,
-  !  you MUST in-comment out the following animation code found within it's
-  ?  initState():
-    
-  ?  startPageLoadAnimations(
-  ?    animationsMap.values
-  ?        .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-  ?    this,
-  ?  );
-  ! This allows the app to run properly.
-*/
-
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -56,7 +40,7 @@ void main() {
 
       // Populates First Name textFormField with invalid info
       await tester.enterText(
-          find.byKey(Key("Create.firstNameTextField")), '7n');
+          find.byKey(Key("Create.firstNameTextField")), '7996');
       await tester.pumpAndSettle();
 
       // Presses "Enter" - hides keyboard
@@ -86,7 +70,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Populates Last Name textFormField with invalid info
-      await tester.enterText(find.byKey(Key("Create.lastNameTextField")), '7n');
+      await tester.enterText(find.byKey(Key("Create.lastNameTextField")), '7996');
       await tester.pumpAndSettle();
 
       // Presses "Enter" - hides keyboard

@@ -3,29 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/main.dart' as app;
 
-/*
-  !  These tests assume you're starting at the Welcome page.
-  !  Please log out of the app in Debugging mode before running.
-  !  Within 
-  ?  welcome_widget.dart,
-  !  you MUST in-comment out the following animation code found within it's
-  ?  initState():
-    
-  ?  startPageLoadAnimations(
-  ?    animationsMap.values
-  ?        .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-  ?    this,
-  ?  );
-  ! This allows the app to run properly.
-*/
-
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Email Not Confirmed Screen Integration Tests', () {
     testWidgets(
         "US: If I reach this page, I am shown a message explaining that" +
-            "my email has not yet been validated", (WidgetTester tester) async {
+            "my email has not yet been verified", (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -43,7 +27,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Taps Login button
-      var loginButton = find.byKey(Key('Login.loginInButton'));
+      var loginButton = find.byKey(Key('LogIn.logInButton'));
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
 
@@ -52,7 +36,7 @@ void main() {
     });
 
     testWidgets(
-        "US: I am able to resent the confirmation email if I have not received" +
+        "US: I am able to resend the confirmation email if I have not received" +
             "it or if I have deleted it", (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -71,15 +55,15 @@ void main() {
       await tester.pumpAndSettle();
 
       // Taps Login button
-      var loginButton = find.byKey(Key('Login.loginInButton'));
+      var loginButton = find.byKey(Key('LogIn.logInButton'));
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
 
       // Ensure button exists to resend email confirmation
-      expect(find.text('Resend Confirmation Email'), findsOneWidget);
+      expect(find.text('Resend Email Verification'), findsOneWidget);
 
       // Tap on button to ensure email confirmation resends
-      await tester.tap(find.text('Resend Confirmation Email'));
+      await tester.tap(find.text('Resend Email Verification'));
       tester.pumpAndSettle();
     });
 
@@ -102,7 +86,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Taps Login button
-      var loginButton = find.byKey(Key('Login.loginInButton'));
+      var loginButton = find.byKey(Key('LogIn.logInButton'));
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
 

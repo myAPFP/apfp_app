@@ -246,7 +246,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           }
           var firstUpperCase = value.substring(0, 1).toUpperCase();
           if (!Validator.isValidName(value)) {
-            return "Please provide a valid first name";
+            return "Please provide a valid last name";
           } else if (value.substring(0, 1) != firstUpperCase) {
             return "Please capitalize your name";
           }
@@ -749,7 +749,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   _passwordTextField(),
                   _confirmPasswordLabel(),
                   _confirmPasswordTextField(),
-                  _createAccountButton()
+                  _createAccountButton(),
+                  SizedBox(height: 25)
                 ],
               ),
             ),
