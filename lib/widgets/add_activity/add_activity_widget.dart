@@ -117,13 +117,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
-  Padding textField(TextEditingController? controller, Key key, double width) {
+  Padding _activityNameTextField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: Container(
-        width: width,
+        width: MediaQuery.of(context).size.width,
         child: TextFormField(
-          key: key,
+          key: Key("AddActivity.activityNameTextField"),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
@@ -133,7 +133,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             }
             return null;
           },
-          controller: controller,
+          controller: activityNameTextController,
           obscureText: false,
           decoration: InputDecoration(
             isDense: true,
@@ -158,18 +158,45 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
-  Padding _activityNameTextField() {
-    return textField(
-        activityNameTextController,
-        Key("AddActivity.activityNameTextField"),
-        MediaQuery.of(context).size.width);
-  }
-
   Padding _durationTextField() {
-    return textField(
-        durationTextController,
-        Key("AddActivity.durationTextField"),
-        MediaQuery.of(context).size.width / 3);
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width / 3,
+        child: TextFormField(
+          key: Key("AddActivity.durationTextField"),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please provide a value";
+            }
+            if (value.length > 15) {
+              return "15 character max limit.  Current count: ${value.length}";
+            }
+            return null;
+          },
+          controller: durationTextController,
+          obscureText: false,
+          decoration: InputDecoration(
+            isDense: true,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: FlutterFlowTheme.primaryColor,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: FlutterFlowTheme.primaryColor,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          style: FlutterFlowTheme.bodyText1,
+        ),
+      ),
+    );
   }
 
   @override
