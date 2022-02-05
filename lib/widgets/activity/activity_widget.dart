@@ -25,7 +25,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   late Map<String, dynamic> currentSnapshotBackup;
 
   void _collectActivity() {
-    List<dynamic> activityElement = List.empty(growable: true);
     widget.activityStream.forEach((element) {
       Map sortedMap = new Map();
       if (element.data() == null) {
@@ -46,18 +45,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
       sortedMap.forEach((key, value) {
-        activityElement.clear();
-        activityElement.add(value[0]);
-        activityElement.add(value[1]);
-        activityElement.add(value[2]);
         String hour = DateTime.parse(key).hour.toString();
         NumberFormat formatter = new NumberFormat("00");
         String minute = formatter.format(DateTime.parse(key).minute).toString();
         addCard(ActivityCard(
                 icon: Icons.emoji_events_rounded,
-                duration: activityElement[2],
-                name: activityElement[0],
-                type: activityElement[1],
+                duration: value[2],
+                name: value[0],
+                type: value[1],
                 timestamp: hour + ":" + minute)
             .paddedActivityCard());
       });
