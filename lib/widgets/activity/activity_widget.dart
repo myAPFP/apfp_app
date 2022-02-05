@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:sortedmap/sortedmap.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
@@ -25,6 +26,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   void _collectActivity() {
     List<dynamic> activityElement = List.empty(growable: true);
     widget.activityStream.forEach((element) {
+      Map sortedMap = new Map();
       if (element.data() == null) {
         currentSnapshotBackup = new Map();
       } else {
@@ -40,7 +42,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       setState(() {
         cards.clear();
       });
-      currentSnapshotBackup.forEach((key, value) {
+      sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
+        ..sort((e1, e2) => e2.key.compareTo(e1.key)));
+      sortedMap.forEach((key, value) {
         activityElement.clear();
         activityElement.add(value[0]);
         activityElement.add(value[1]);
