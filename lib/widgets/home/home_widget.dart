@@ -164,35 +164,11 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  void _returnToWelcome() async {
-    await Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => WelcomeWidget(),
-      ),
-      (r) => false,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        ConfirmationDialog.showConfirmationDialog(
-            context: context,
-            title: "Return to Welcome Screen?",
-            content:
-                Text("You will be logged out.", style: TextStyle(fontSize: 20)),
-            onSubmitTap: () {
-              FireAuth.signOut();
-              Toasted.showToast("Logged out.");
-              _returnToWelcome();
-            },
-            onCancelTap: () {
-              Navigator.pop(context);
-            },
-            cancelText: "Back",
-            submitText: "Log Out");
+        ConfirmationDialog.showExitAppDialog(context);
         return false;
       },
       child: Scaffold(

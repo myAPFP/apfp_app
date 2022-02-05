@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import '../confimation_dialog/confirmation_dialog.dart';
 import '../exercise_video/exercise_video_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -228,7 +229,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, true);
+        ConfirmationDialog.showExitAppDialog(context);
         return false;
       },
       child: Scaffold(

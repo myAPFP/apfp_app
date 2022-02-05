@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../alert/alert_widget.dart';
+import '../confimation_dialog/confirmation_dialog.dart';
 import '/components/announcement_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -102,7 +103,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, true);
+        ConfirmationDialog.showExitAppDialog(context);
         return false;
       },
       child: Scaffold(

@@ -203,9 +203,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: WillPopScope(
         onWillPop: () async {
-          Navigator.pop(context, true);
-          return false;
-        },
+        ConfirmationDialog.showExitAppDialog(context);
+        return false;
+      },
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.tertiaryColor,
