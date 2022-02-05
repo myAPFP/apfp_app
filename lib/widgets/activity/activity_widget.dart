@@ -1,5 +1,4 @@
 import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/flutter_flow/flutter_flow_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
