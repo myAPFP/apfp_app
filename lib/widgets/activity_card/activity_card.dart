@@ -1,7 +1,6 @@
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:apfp/util/toasted/toasted.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ActivityCard {
   String? name;
@@ -40,6 +39,7 @@ class ActivityCard {
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Icon(icon, color: Color(0xFF54585A), size: 80),
           ]),
+          SizedBox(width: 15),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -54,27 +54,45 @@ class ActivityCard {
                             0.7),
                     child: Text(
                       '$name',
-                      style: FlutterFlowTheme.subtitle1,
+                      style: FlutterFlowTheme.title1,
                       overflow: TextOverflow.fade,
                       maxLines: 1,
                       softWrap: false,
                     ))
               ]),
+              SizedBox(height: 15),
               Row(children: [
-                Text(
-                  '$type',
-                  style: FlutterFlowTheme.bodyText1,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                )
+                AutoSizeText.rich(TextSpan(
+                    text: 'Type:',
+                    style: FlutterFlowTheme.title3,
+                    children: [
+                      TextSpan(
+                        text: ' $type',
+                        style: FlutterFlowTheme.bodyText1,
+                      )
+                    ])),
+                SizedBox(width: 15),
+                AutoSizeText.rich(TextSpan(
+                    text: 'Duration:',
+                    style: FlutterFlowTheme.title3,
+                    children: [
+                      TextSpan(
+                        text: ' $duration',
+                        style: FlutterFlowTheme.bodyText1,
+                      )
+                    ]))
               ]),
+              SizedBox(height: 15),
               Row(children: [
-                Text(
-                  '$duration logged at $timestamp',
-                  style: FlutterFlowTheme.bodyText1,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                )
+                AutoSizeText.rich(TextSpan(
+                    text: 'Logged at ',
+                    style: FlutterFlowTheme.bodyText1,
+                    children: [
+                      TextSpan(
+                        text: '$timestamp',
+                        style: FlutterFlowTheme.title3,
+                      )
+                    ]))
               ])
             ],
           ),
