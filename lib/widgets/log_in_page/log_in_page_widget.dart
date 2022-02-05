@@ -4,6 +4,7 @@ import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/email_not_confirmed/email_not_confirmed_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -76,10 +77,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         padding: EdgeInsetsDirectional.fromSTEB(20, 25, 0, 50),
         child: InkWell(
           onTap: () async {
-            await Navigator.push(
-              context,
-              _transitionTo(WelcomeWidget()),
-            );
+            _returnToWelcome();
           },
           child: _backToHomeText(),
         ),
@@ -199,8 +197,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           if (currentUser.emailVerified) {
             _goHome();
           } else {
-            await Navigator.push(
-                context, _transitionTo(EmailNotConfirmedWidget(email: _getEmail())));
+            await Navigator.push(context,
+                _transitionTo(EmailNotConfirmedWidget(email: _getEmail())));
           }
         }
       }
@@ -277,8 +275,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         submitText: "Send");
   }
 
-  
-
   Padding _forgotPasswordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
@@ -307,28 +303,41 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  void _returnToWelcome() async {
+    await Navigator.push(
+      context,
+      _transitionTo(WelcomeWidget()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _backButton(),
-                  _label("Email Address"),
-                  _emailTextFormField(),
-                  _label("Password"),
-                  _passwordTextFormField(),
-                  _logInButton(),
-                  _forgotPasswordLabel()
-                ],
+      child: WillPopScope(
+        onWillPop: () async {
+          _returnToWelcome();
+          return false;
+        },
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    _backButton(),
+                    _label("Email Address"),
+                    _emailTextFormField(),
+                    _label("Password"),
+                    _passwordTextFormField(),
+                    _logInButton(),
+                    _forgotPasswordLabel()
+                  ],
+                ),
               ),
             ),
           ),

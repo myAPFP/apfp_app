@@ -67,15 +67,13 @@ class _SuccessfulRegistrationWidgetState
     );
   }
 
-  Future<bool> _onWillPop() async {
-    _goToWelcome();
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: () async {
+        _goToWelcome();
+        return false;
+      },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,

@@ -160,53 +160,59 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-          key: scaffoldKey,
-          backgroundColor: Colors.white,
-          body: SafeArea(
-              child: SingleChildScrollView(
-            child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
-                    child: _goBackButton(),
-                  ),
-                  Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
-                      child: _header(
-                          text: 'Add New Activity',
-                          style: FlutterFlowTheme.title1)),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                    child: _header(
-                        text: 'Name of Activity',
-                        style: FlutterFlowTheme.title3),
-                  ),
-                  _activityNameTextField(),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                    child: _header(
-                        text: 'Type of Exercise',
-                        style: FlutterFlowTheme.title3),
-                  ),
-                  _exerciseTextField(),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                    child: _header(
-                        text: 'Duration', style: FlutterFlowTheme.title3),
-                  ),
-                  _durationTextField(),
-                  Align(
-                    alignment: AlignmentDirectional(0, 0),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
-                      child: _submitButton(),
+      child: WillPopScope(
+        onWillPop: () async {
+          Navigator.pop(context, true);
+          return false;
+        },
+        child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: Colors.white,
+            body: SafeArea(
+                child: SingleChildScrollView(
+              child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
+                      child: _goBackButton(),
                     ),
-                  )
-                ]),
-          ))),
+                    Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
+                        child: _header(
+                            text: 'Add New Activity',
+                            style: FlutterFlowTheme.title1)),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                      child: _header(
+                          text: 'Name of Activity',
+                          style: FlutterFlowTheme.title3),
+                    ),
+                    _activityNameTextField(),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                      child: _header(
+                          text: 'Type of Exercise',
+                          style: FlutterFlowTheme.title3),
+                    ),
+                    _exerciseTextField(),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                      child: _header(
+                          text: 'Duration', style: FlutterFlowTheme.title3),
+                    ),
+                    _durationTextField(),
+                    Align(
+                      alignment: AlignmentDirectional(0, 0),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
+                        child: _submitButton(),
+                      ),
+                    )
+                  ]),
+            ))),
+      ),
     );
   }
 }

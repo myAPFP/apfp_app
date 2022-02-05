@@ -226,30 +226,36 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                _paddedHeaderText()[0],
-                _paddedHeaderText()[1],
-                !_isVideosLoaded
-                    ? Text("Loading Videos...",
-                        style: FlutterFlowTheme.subtitle3)
-                    : Text("Video Count: ${videoList.length}",
-                        style: FlutterFlowTheme.subtitle3),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: videoList,
-            ),
-            SizedBox(height: 10)
-          ]),
-        )));
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true);
+        return false;
+      },
+      child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+              child: SingleChildScrollView(
+            child: Column(mainAxisSize: MainAxisSize.max, children: [
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _paddedHeaderText()[0],
+                  _paddedHeaderText()[1],
+                  !_isVideosLoaded
+                      ? Text("Loading Videos...",
+                          style: FlutterFlowTheme.subtitle3)
+                      : Text("Video Count: ${videoList.length}",
+                          style: FlutterFlowTheme.subtitle3),
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: videoList,
+              ),
+              SizedBox(height: 10)
+            ]),
+          ))),
+    );
   }
 }

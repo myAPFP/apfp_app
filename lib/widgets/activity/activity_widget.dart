@@ -133,84 +133,93 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          key: Key("Activity.singleChildScrollView"),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _headerTextRow('Today\'s Activity'),
-              Column(
-                  children: cards
-                      .map((e) => FocusedMenuHolder(
-                          menuWidth: MediaQuery.of(context).size.width * 0.50,
-                          blurSize: 5.0,
-                          menuItemExtent: 45,
-                          menuBoxDecoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0))),
-                          duration: Duration(milliseconds: 100),
-                          animateMenuItems: true,
-                          blurBackgroundColor: Colors.black54,
-                          bottomOffsetHeight: 100,
-                          openWithTap: true,
-                          menuItems: <FocusedMenuItem>[
-                            // FocusedMenuItem(title: Text("Open"),trailingIcon: Icon(Icons.open_in_new) ,onPressed: (){
-                            //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ScreenTwo()));
-                            // }),
-                            FocusedMenuItem(
-                                title: Text("Share"),
-                                trailingIcon: Icon(Icons.share),
-                                onPressed: () {}),
-                            FocusedMenuItem(
-                                title: Text("Favorite"),
-                                trailingIcon: Icon(Icons.favorite_border),
-                                onPressed: () {}),
-                            FocusedMenuItem(
-                                title: Text("Delete",
-                                    style: TextStyle(color: Colors.redAccent)),
-                                trailingIcon:
-                                    Icon(Icons.delete, color: Colors.redAccent),
-                                onPressed: () {
-                                  setState(() {
-                                    _removeActivityFromCloud(e.key
-                                        .toString()
-                                        .substring(
-                                            e.key.toString().indexOf("'") + 1,
-                                            e.key.toString().lastIndexOf("'")));
-                                    cards.remove(e);
-                                  });
-                                })
-                          ],
-                          onPressed: () {},
-                          child: e))
-                      .toList()),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
-                child: Container(
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(16),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true);
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            key: Key("Activity.singleChildScrollView"),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _headerTextRow('Today\'s Activity'),
+                Column(
+                    children: cards
+                        .map((e) => FocusedMenuHolder(
+                            menuWidth: MediaQuery.of(context).size.width * 0.50,
+                            blurSize: 5.0,
+                            menuItemExtent: 45,
+                            menuBoxDecoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0))),
+                            duration: Duration(milliseconds: 100),
+                            animateMenuItems: true,
+                            blurBackgroundColor: Colors.black54,
+                            bottomOffsetHeight: 100,
+                            openWithTap: true,
+                            menuItems: <FocusedMenuItem>[
+                              // FocusedMenuItem(title: Text("Open"),trailingIcon: Icon(Icons.open_in_new) ,onPressed: (){
+                              //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ScreenTwo()));
+                              // }),
+                              FocusedMenuItem(
+                                  title: Text("Share"),
+                                  trailingIcon: Icon(Icons.share),
+                                  onPressed: () {}),
+                              FocusedMenuItem(
+                                  title: Text("Favorite"),
+                                  trailingIcon: Icon(Icons.favorite_border),
+                                  onPressed: () {}),
+                              FocusedMenuItem(
+                                  title: Text("Delete",
+                                      style:
+                                          TextStyle(color: Colors.redAccent)),
+                                  trailingIcon: Icon(Icons.delete,
+                                      color: Colors.redAccent),
+                                  onPressed: () {
+                                    setState(() {
+                                      _removeActivityFromCloud(e.key
+                                          .toString()
+                                          .substring(
+                                              e.key.toString().indexOf("'") + 1,
+                                              e.key
+                                                  .toString()
+                                                  .lastIndexOf("'")));
+                                      cards.remove(e);
+                                    });
+                                  })
+                            ],
+                            onPressed: () {},
+                            child: e))
+                        .toList()),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
+                  child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                 ),
-              ),
-              _addActivityButton(),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
-                child: Container(
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(16),
+                _addActivityButton(),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
+                  child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -353,18 +353,24 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: FutureBuilder(
-          future: _initFirebaseApp(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              getAdminEmails();
-              return _routeUI();
-            }
-            return Center(child: _showInitializingAppDialog());
-          }),
+    return WillPopScope(
+      onWillPop: () async {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: FutureBuilder(
+            future: _initFirebaseApp(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                getAdminEmails();
+                return _routeUI();
+              }
+              return Center(child: _showInitializingAppDialog());
+            }),
+      ),
     );
   }
 }
