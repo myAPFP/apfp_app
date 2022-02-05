@@ -181,7 +181,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         ConfirmationDialog.showConfirmationDialog(
             context: context,
             title: "Return to Welcome Screen?",
-            content: Text("You will be logged out."),
+            content:
+                Text("You will be logged out.", style: TextStyle(fontSize: 20)),
             onSubmitTap: () {
               FireAuth.signOut();
               Toasted.showToast("Logged out.");
