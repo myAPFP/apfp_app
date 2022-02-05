@@ -1,12 +1,13 @@
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ActivityCard {
   String? name;
   String? type;
   IconData? icon;
   String? duration;
-  String? totalCal;
   String? timestamp;
 
   Card? _card;
