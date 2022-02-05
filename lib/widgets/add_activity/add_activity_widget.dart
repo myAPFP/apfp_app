@@ -17,7 +17,6 @@ class AddActivityWidget extends StatefulWidget {
 class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? duration;
   String? exercisetype;
-  String? dropDownValue1;
 
   TextEditingController? activityNameTextController;
   TextEditingController? exerciseTextController;
@@ -69,7 +68,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
       'Body Composition',
       'Speed',
       'Kinesthetic'
-      ].toList();
+    ].toList();
   }
 
   FFButtonOptions _ffButtonOptions() {
@@ -118,52 +117,59 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
-  Padding textField(TextEditingController? controller, Key key) {
+  Padding textField(TextEditingController? controller, Key key, double width) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-      child: TextFormField(
-        key: key,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Please provide a value";
-          }
-          if (value.length > 15) {
-            return "15 character max limit.  Current count: ${value.length}";
-          }
-          return null;
-        },
-        controller: controller,
-        obscureText: false,
-        decoration: InputDecoration(
-          isDense: true,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: FlutterFlowTheme.primaryColor,
-              width: 1,
+      child: Container(
+        width: width,
+        child: TextFormField(
+          key: key,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please provide a value";
+            }
+            if (value.length > 15) {
+              return "15 character max limit.  Current count: ${value.length}";
+            }
+            return null;
+          },
+          controller: controller,
+          obscureText: false,
+          decoration: InputDecoration(
+            isDense: true,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: FlutterFlowTheme.primaryColor,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(10),
             ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: FlutterFlowTheme.primaryColor,
-              width: 1,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: FlutterFlowTheme.primaryColor,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(10),
             ),
-            borderRadius: BorderRadius.circular(10),
           ),
+          style: FlutterFlowTheme.bodyText1,
         ),
-        style: FlutterFlowTheme.bodyText1,
       ),
     );
   }
 
   Padding _activityNameTextField() {
     return textField(
-        activityNameTextController, Key("AddActivity.activityNameTextField"));
+        activityNameTextController,
+        Key("AddActivity.activityNameTextField"),
+        MediaQuery.of(context).size.width);
   }
 
   Padding _durationTextField() {
     return textField(
-        durationTextController, Key("AddActivity.durationTextField"));
+        durationTextController,
+        Key("AddActivity.durationTextField"),
+        MediaQuery.of(context).size.width / 3);
   }
 
   @override
@@ -206,7 +212,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                         child: FlutterFlowDropDown(
-                          initialOption: exercisetype ??= 'Select a type',
+                          initialOption: 'Cardio',
                           options: _exerciseTypes(),
                           onChanged: (val) =>
                               setState(() => exercisetype = val),
@@ -226,7 +232,27 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                       child: _header(
                           text: 'Duration', style: FlutterFlowTheme.title3),
                     ),
-                    _durationTextField(),
+                    Row(
+                      children: [
+                        _durationTextField(),
+                        FlutterFlowDropDown(
+                          initialOption: 'Min',
+                          options: ['Sec', 'Min', 'Hr'],
+                          onChanged: (val) =>
+                              setState(() => exercisetype = val),
+                          width: MediaQuery.of(context).size.width * .55 ,
+                          height: 50,
+                          textStyle: FlutterFlowTheme.bodyText1,
+                          fillColor: Colors.white,
+                          elevation: 2,
+                          borderColor: FlutterFlowTheme.primaryColor,
+                          borderWidth: 0,
+                          borderRadius: 10,
+                          margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
+                          hidesUnderline: true,
+                        )
+                      ],
+                    ),
                     Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(
