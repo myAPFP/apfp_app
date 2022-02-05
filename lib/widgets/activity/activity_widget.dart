@@ -1,6 +1,8 @@
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/flutter_flow/flutter_flow_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:intl/intl.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
@@ -48,11 +50,15 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         activityElement.add(value[0]);
         activityElement.add(value[1]);
         activityElement.add(value[2]);
+        String hour = DateTime.parse(key).hour.toString();
+        NumberFormat formatter = new NumberFormat("00");
+        String minute = formatter.format(DateTime.parse(key).minute).toString();
         addCard(ActivityCard(
                 icon: Icons.emoji_events_rounded,
                 duration: activityElement[2],
                 name: activityElement[0],
-                type: activityElement[1])
+                type: activityElement[1],
+                timestamp: hour + ":" + minute)
             .paddedActivityCard());
       });
     });

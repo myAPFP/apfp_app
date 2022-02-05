@@ -7,14 +7,21 @@ class ActivityCard {
   IconData? icon;
   String? duration;
   String? totalCal;
+  String? timestamp;
 
   Card? _card;
 
-  ActivityCard({String? duration, String? type, String? name, IconData? icon}) {
+  ActivityCard(
+      {String? duration,
+      String? type,
+      String? name,
+      IconData? icon,
+      String? timestamp}) {
     this.name = name;
     this.type = type;
     this.icon = icon;
     this.duration = duration;
+    this.timestamp = timestamp;
     _createActivityCard();
   }
 
@@ -62,7 +69,7 @@ class ActivityCard {
               ]),
               Row(children: [
                 Text(
-                  '$duration',
+                  '$duration logged at $timestamp',
                   style: FlutterFlowTheme.bodyText1,
                   overflow: TextOverflow.fade,
                   maxLines: 1,
