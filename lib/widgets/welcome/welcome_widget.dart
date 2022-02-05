@@ -200,14 +200,13 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
       fontFamily: 'Open Sans',
     );
     return SizedBox(
-      width: 190.0,
+      width: MediaQuery.of(context).size.width,
       child: AnimatedTextKit(
         animatedTexts: [
-          ColorizeAnimatedText(
-            'Welcome!',
-            textStyle: colorizeTextStyle,
-            colors: colorizeColors,
-          ),
+          ColorizeAnimatedText('Welcome!',
+              textStyle: colorizeTextStyle,
+              colors: colorizeColors,
+              textAlign: TextAlign.center),
         ],
         isRepeatingAnimation: false,
       ),
