@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import '../activity_card/activity_card.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ActivityWidget extends StatefulWidget {
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
@@ -21,6 +23,7 @@ class ActivityWidget extends StatefulWidget {
 
 class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
+  XFile? imagepick = null;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late Map<String, dynamic> currentSnapshotBackup;
 
@@ -103,9 +106,41 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   share({String? body, String? subject}) async {
     final box = context.findRenderObject() as RenderBox?;
-    await Share.share(body!,
-        subject: subject,
-        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    imagepick == null
+        ? await Share.share(body!,
+            subject: subject,
+            sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size)
+        : await Share.shareFiles([imagepick!.path],
+            text: body,
+            subject: subject,
+            sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+  }
+
+  void _showShareWithImageDialog(List<String> cardInfo) async {
+    ConfirmationDialog.showConfirmationDialog(
+        context: context,
+        title: Text('Do you want to share your ${cardInfo[0]} activity now?'),
+        content: Text(
+            'The image you just added will be included.' +
+                '\n\nIf you chose no, the image will be deleted.',
+            style: TextStyle(fontSize: 20)),
+        onSubmitTap: () async {
+          share(
+              subject: "New Activity Completed!",
+              body: 'I completed a new activity! \n\n' +
+                  'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
+                  'Exercise Type: ${cardInfo[1]}\n' +
+                  'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                  '\nSent from the APFP App.');
+          imagepick = null;
+          Navigator.pop(context);
+        },
+        onCancelTap: () {
+          imagepick = null;
+          Navigator.pop(context);
+        },
+        cancelText: 'No',
+        submitText: 'Share');
   }
 
   @override
@@ -150,6 +185,21 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                               openWithTap: true,
                               menuItems: <FocusedMenuItem>[
                                 FocusedMenuItem(
+                                    title: Text("Add Image and Share"),
+                                    trailingIcon: Icon(Icons.image),
+                                    onPressed: () async {
+                                      final cardInfo =
+                                          Validator.cardInfoToList(e)!;
+                                      imagepick = null;
+                                      imagepick = await ImagePicker().pickImage(
+                                          source: ImageSource.camera);
+                                      if (imagepick == null) {
+                                        return;
+                                      } else {
+                                        _showShareWithImageDialog(cardInfo);
+                                      }
+                                    }),
+                                FocusedMenuItem(
                                     title: Text("Share"),
                                     trailingIcon: Icon(Icons.share),
                                     onPressed: () {
@@ -170,11 +220,13 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     trailingIcon: Icon(Icons.delete,
                                         color: Colors.redAccent),
                                     onPressed: () {
+                                      final cardInfo =
+                                          Validator.cardInfoToList(e)!;
                                       ConfirmationDialog.showConfirmationDialog(
-                                          title: "Remove Activity?",
+                                          title: Text("Remove Activity?"),
                                           context: context,
                                           content: Text(
-                                              "Do you want to remove this activity?" +
+                                              "Do you want to remove your ${cardInfo[0]} activity?" +
                                                   "\n\nThis can't be undone.",
                                               style: TextStyle(fontSize: 20)),
                                           cancelText: 'Back',
