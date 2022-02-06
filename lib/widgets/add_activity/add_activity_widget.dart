@@ -93,7 +93,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                 ActivityCard(
                     icon: Icons.info,
                     duration: '${_getDuration()} $unitOfTime',
-                    name: _getName(),
+                    name: _getName().replaceAll(RegExp(' +'), '-'),
                     type: exercisetype));
           }
         } finally {
