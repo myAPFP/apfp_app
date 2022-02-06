@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class Validator {
   /// Matches any string containing only letters (lowercase & uppercase)
-  static RegExp _validActivityName = new RegExp(r'^[a-zA-Z]+$');
+  static RegExp _validActivityName = new RegExp(r'^[a-zA-Z\s]+$');
 
   /// Matches int, double, float
   static RegExp _numeric =
