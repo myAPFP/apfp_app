@@ -16,13 +16,12 @@ class ActivityCard {
       {String? duration,
       String? type,
       String? name,
-      IconData? icon,
-      String? timestamp}) {
+      IconData? icon}) {
     this.name = name;
     this.type = type;
     this.icon = icon;
     this.duration = duration;
-    this.timestamp = timestamp;
+    this.timestamp = DateTime.now().toString();
     _createActivityCard();
   }
 

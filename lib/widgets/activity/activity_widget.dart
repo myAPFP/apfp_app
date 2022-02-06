@@ -48,8 +48,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 icon: Icons.emoji_events_rounded,
                 duration: value[2],
                 name: value[0],
-                type: value[1],
-                timestamp: key)
+                type: value[1])
             .paddedActivityCard(context));
       });
     });
