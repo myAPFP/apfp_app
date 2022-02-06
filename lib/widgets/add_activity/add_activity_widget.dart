@@ -172,7 +172,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             }
 
             if (double.parse(value) > 100) {
-              return 'No numbers over 100';
+              return '99 is max limit';
             }
             return null;
           },
