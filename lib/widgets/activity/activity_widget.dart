@@ -196,6 +196,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                                           .lastIndexOf("'")));
                                               cards.remove(e);
                                             });
+                                            Navigator.pop(context);
                                           });
                                     })
                               ],
