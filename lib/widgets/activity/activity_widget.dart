@@ -19,7 +19,6 @@ class ActivityWidget extends StatefulWidget {
 
 class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late Map<String, dynamic> currentSnapshotBackup;
 
@@ -84,41 +83,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       ],
     );
   }
-
-  FFButtonOptions _ffButtonOptions() {
-    return FFButtonOptions(
-      width: 250,
-      height: 50,
-      color: FlutterFlowTheme.secondaryColor,
-      textStyle: FlutterFlowTheme.title2,
-      elevation: 2,
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 1,
-      ),
-      borderRadius: 12,
-    );
-  }
-
-  FFButtonWidget _addActivityButton() {
-    return FFButtonWidget(
-      key: Key("Activity.addActivityButtton"),
-      onPressed: () async {
-        setState(() => _loadingButton = true);
-        try {
-          var result = await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddActivityWidget()));
-          _addActivityToCloud(result);
-        } finally {
-          setState(() => _loadingButton = false);
-        }
-      },
-      text: '+ Add New Activity',
-      options: _ffButtonOptions(),
-      loading: _loadingButton,
-    );
-  }
-
+  
   void addCard(Padding card) {
     setState(() {
       cards.add(card);
@@ -138,6 +103,18 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: FlutterFlowTheme.secondaryColor,
+        child: Icon(Icons.add),
+        onPressed: () async {
+          try {
+            var result = await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddActivityWidget()));
+            _addActivityToCloud(result);
+          } finally {
+          }
+        },
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -162,16 +139,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                           bottomOffsetHeight: 100,
                           openWithTap: true,
                           menuItems: <FocusedMenuItem>[
-                            // FocusedMenuItem(title: Text("Open"),trailingIcon: Icon(Icons.open_in_new) ,onPressed: (){
-                            //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ScreenTwo()));
-                            // }),
                             FocusedMenuItem(
                                 title: Text("Share"),
                                 trailingIcon: Icon(Icons.share),
-                                onPressed: () {}),
-                            FocusedMenuItem(
-                                title: Text("Favorite"),
-                                trailingIcon: Icon(Icons.favorite_border),
                                 onPressed: () {}),
                             FocusedMenuItem(
                                 title: Text("Delete",
@@ -202,17 +172,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                   ),
                 ),
               ),
-              _addActivityButton(),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
-                child: Container(
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-              )
             ],
           ),
         ),
