@@ -623,7 +623,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   void showPwRequirements() {
     ConfirmationDialog.showConfirmationDialog(
         context: context,
-        title: 'Password Requirements',
+        title: Text('Password Requirements'),
         content: Text(
             'Password must contain at least\n\n' +
                 '- Eight characters\n' +

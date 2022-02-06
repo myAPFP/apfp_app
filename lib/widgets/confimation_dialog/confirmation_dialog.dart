@@ -4,7 +4,7 @@ import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
 class ConfirmationDialog {
   static void showConfirmationDialog({
     required BuildContext context,
-    required String title,
+    required Widget title,
     required Widget content,
     required Function() onSubmitTap,
     required Function() onCancelTap,
@@ -14,7 +14,7 @@ class ConfirmationDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text(title),
+        title: title,
         content: SingleChildScrollView(
             child: content, scrollDirection: Axis.vertical),
         actions: <Widget>[

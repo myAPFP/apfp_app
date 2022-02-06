@@ -121,7 +121,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       child: FFButtonWidget(
         onPressed: () => ConfirmationDialog.showConfirmationDialog(
             context: context,
-            title: 'Logout',
+            title: Text('Logout'),
             content: _logoutDialogText(),
             cancelText: 'No',
             submitText: 'Yes',
@@ -250,7 +250,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   onTap: () {
                     ConfirmationDialog.showConfirmationDialog(
                         context: context,
-                        title: 'Change Password',
+                        title: Text('Change Password'),
                         content: _changePasswordDialogText(),
                         cancelText: 'No',
                         submitText: 'Yes',
@@ -265,7 +265,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   title: "Delete Account",
                   onTap: () {
                     ConfirmationDialog.showConfirmationDialog(
-                        title: 'Delete Account',
+                        title: Text('Delete Account'),
                         context: context,
                         content: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -281,7 +281,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         onSubmitTap: () {
                           ConfirmationDialog.showConfirmationDialog(
                               context: context,
-                              title: 'Enter your password to confirm.',
+                              title: Text('Enter your password to confirm.'),
                               content: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisSize: MainAxisSize.min,
