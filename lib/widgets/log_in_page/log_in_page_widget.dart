@@ -255,7 +255,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       {String? title, String? contentText, Function()? onSubmitTap}) {
     ConfirmationDialog.showConfirmationDialog(
         context: context,
-        title: title!,
+        title: Text(title!),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,

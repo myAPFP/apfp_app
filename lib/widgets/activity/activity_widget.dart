@@ -1,12 +1,17 @@
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/util/validator/validator.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../confimation_dialog/confirmation_dialog.dart';
 
@@ -20,13 +25,22 @@ class ActivityWidget extends StatefulWidget {
 
 class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
-  bool _loadingButton = false;
+  XFile? imagepick = null;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late Map<String, dynamic> currentSnapshotBackup;
 
+  @override
+  void initState() {
+    super.initState();
+    widget.activityStream.first.then((firstElement) {
+      currentSnapshotBackup = firstElement.data()!;
+    });
+    _collectActivity();
+  }
+
   void _collectActivity() {
-    List<dynamic> activityElement = List.empty(growable: true);
     widget.activityStream.forEach((element) {
+      Map sortedMap = new Map();
       if (element.data() == null) {
         currentSnapshotBackup = new Map();
       } else {
@@ -42,17 +56,19 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       setState(() {
         cards.clear();
       });
-      currentSnapshotBackup.forEach((key, value) {
-        activityElement.clear();
-        activityElement.add(value[0]);
-        activityElement.add(value[1]);
-        activityElement.add(value[2]);
+      sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
+        ..sort((e1, e2) => e2.key.compareTo(e1.key)));
+      sortedMap.forEach((key, value) {
         addCard(ActivityCard(
                 icon: Icons.emoji_events_rounded,
-                duration: activityElement[2],
-                name: activityElement[0],
-                type: activityElement[1])
-            .paddedActivityCard());
+                duration: value[2],
+                name: value[0],
+                type: value[1],
+                timestamp: key != null
+                    ? DateFormat.jm().format(DateTime.parse(key))
+                    : DateFormat.jm().format(
+                        DateTime.parse(DateTime.now().toIso8601String())))
+            .paddedActivityCard(context));
       });
     });
   }
@@ -84,144 +100,188 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     );
   }
 
-  FFButtonOptions _ffButtonOptions() {
-    return FFButtonOptions(
-      width: 250,
-      height: 50,
-      color: FlutterFlowTheme.secondaryColor,
-      textStyle: FlutterFlowTheme.title2,
-      elevation: 2,
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 1,
-      ),
-      borderRadius: 12,
-    );
-  }
-
-  FFButtonWidget _addActivityButton() {
-    return FFButtonWidget(
-      key: Key("Activity.addActivityButtton"),
-      onPressed: () async {
-        setState(() => _loadingButton = true);
-        try {
-          var result = await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddActivityWidget()));
-          _addActivityToCloud(result);
-        } finally {
-          setState(() => _loadingButton = false);
-        }
-      },
-      text: '+ Add New Activity',
-      options: _ffButtonOptions(),
-      loading: _loadingButton,
-    );
-  }
-
   void addCard(Padding card) {
     setState(() {
       cards.add(card);
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    widget.activityStream.first.then((firstElement) {
-      currentSnapshotBackup = firstElement.data()!;
-    });
-    _collectActivity();
+  share({String? body, String? subject}) async {
+    final box = context.findRenderObject() as RenderBox?;
+    imagepick == null
+        ? await Share.share(body!,
+            subject: subject,
+            sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size)
+        : await Share.shareFiles([imagepick!.path],
+            text: body,
+            subject: subject,
+            sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+  }
+
+  void _showShareWithImageDialog(List<String> cardInfo) async {
+    ConfirmationDialog.showConfirmationDialog(
+        context: context,
+        title: Text('Share Activity?'),
+        content: Text(
+            'The image you just added will be included with your ${cardInfo[0]} activity.' +
+                '\n\nIf you chose no, the image will be deleted.',
+            style: TextStyle(fontSize: 20)),
+        onSubmitTap: () async {
+          share(
+              subject: "New Activity Completed!",
+              body: 'I completed a new activity! \n\n' +
+                  'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
+                  'Exercise Type: ${cardInfo[1]}\n' +
+                  'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                  '\nSent from the APFP App.');
+          imagepick = null;
+          Navigator.pop(context);
+        },
+        onCancelTap: () {
+          imagepick = null;
+          Navigator.pop(context);
+        },
+        cancelText: 'No',
+        submitText: 'Share');
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        ConfirmationDialog.showExitAppDialog(context);
-        return false;
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            key: Key("Activity.singleChildScrollView"),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _headerTextRow('Today\'s Activity'),
-                Column(
-                    children: cards
-                        .map((e) => FocusedMenuHolder(
-                            menuWidth: MediaQuery.of(context).size.width * 0.50,
-                            blurSize: 5.0,
-                            menuItemExtent: 45,
-                            menuBoxDecoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0))),
-                            duration: Duration(milliseconds: 100),
-                            animateMenuItems: true,
-                            blurBackgroundColor: Colors.black54,
-                            bottomOffsetHeight: 100,
-                            openWithTap: true,
-                            menuItems: <FocusedMenuItem>[
-                              // FocusedMenuItem(title: Text("Open"),trailingIcon: Icon(Icons.open_in_new) ,onPressed: (){
-                              //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ScreenTwo()));
-                              // }),
-                              FocusedMenuItem(
-                                  title: Text("Share"),
-                                  trailingIcon: Icon(Icons.share),
-                                  onPressed: () {}),
-                              FocusedMenuItem(
-                                  title: Text("Favorite"),
-                                  trailingIcon: Icon(Icons.favorite_border),
-                                  onPressed: () {}),
-                              FocusedMenuItem(
-                                  title: Text("Delete",
-                                      style:
-                                          TextStyle(color: Colors.redAccent)),
-                                  trailingIcon: Icon(Icons.delete,
-                                      color: Colors.redAccent),
-                                  onPressed: () {
-                                    setState(() {
-                                      _removeActivityFromCloud(e.key
-                                          .toString()
-                                          .substring(
-                                              e.key.toString().indexOf("'") + 1,
-                                              e.key
+    return Scaffold(
+      key: scaffoldKey,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: FlutterFlowTheme.secondaryColor,
+        child: Icon(Icons.add),
+        onPressed: () async {
+          try {
+            var result = await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddActivityWidget()));
+            _addActivityToCloud(result);
+          } finally {}
+        },
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          key: Key("Activity.singleChildScrollView"),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _headerTextRow('Today\'s Activity'),
+              cards.length > 0
+                  ? Column(
+                      children: cards
+                          .map((e) => FocusedMenuHolder(
+                              menuWidth:
+                                  MediaQuery.of(context).size.width * 0.50,
+                              blurSize: 5.0,
+                              menuItemExtent: 45,
+                              menuBoxDecoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
+                              duration: Duration(milliseconds: 100),
+                              animateMenuItems: true,
+                              blurBackgroundColor: Colors.black54,
+                              bottomOffsetHeight: 100,
+                              openWithTap: true,
+                              menuItems: <FocusedMenuItem>[
+                                FocusedMenuItem(
+                                    title: Text("Add Image and Share"),
+                                    trailingIcon: Icon(Icons.image),
+                                    onPressed: () async {
+                                      final cardInfo =
+                                          Validator.cardInfoToList(e)!;
+                                      imagepick = null;
+                                      imagepick = await ImagePicker().pickImage(
+                                          source: ImageSource.camera);
+                                      if (imagepick == null) {
+                                        return;
+                                      } else {
+                                        _showShareWithImageDialog(cardInfo);
+                                      }
+                                    }),
+                                FocusedMenuItem(
+                                    title: Text("Share"),
+                                    trailingIcon: Icon(Icons.share),
+                                    onPressed: () {
+                                      final cardInfo =
+                                          Validator.cardInfoToList(e)!;
+                                      share(
+                                          subject: "New Activity Completed!",
+                                          body: 'I completed a new activity!\n\n' +
+                                              'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
+                                              'Exercise Type: ${cardInfo[1]}\n' +
+                                              'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                                              '\nSent from the APFP App.');
+                                    }),
+                                FocusedMenuItem(
+                                    title: Text("Delete",
+                                        style:
+                                            TextStyle(color: Colors.redAccent)),
+                                    trailingIcon: Icon(Icons.delete,
+                                        color: Colors.redAccent),
+                                    onPressed: () {
+                                      final cardInfo =
+                                          Validator.cardInfoToList(e)!;
+                                      ConfirmationDialog.showConfirmationDialog(
+                                          title: Text("Remove Activity?"),
+                                          context: context,
+                                          content: Text(
+                                              "Do you want to remove your ${cardInfo[0]} activity?" +
+                                                  "\n\nThis can't be undone.",
+                                              style: TextStyle(fontSize: 20)),
+                                          cancelText: 'Back',
+                                          submitText: "Remove",
+                                          onCancelTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onSubmitTap: () {
+                                            setState(() {
+                                              _removeActivityFromCloud(e.key
                                                   .toString()
-                                                  .lastIndexOf("'")));
-                                      cards.remove(e);
-                                    });
-                                  })
-                            ],
-                            onPressed: () {},
-                            child: e))
-                        .toList()),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
-                  child: Container(
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(16),
+                                                  .substring(
+                                                      e.key
+                                                              .toString()
+                                                              .indexOf("'") +
+                                                          1,
+                                                      e.key
+                                                          .toString()
+                                                          .lastIndexOf("'")));
+                                              cards.remove(e);
+                                            });
+                                            Navigator.pop(context);
+                                          });
+                                    })
+                              ],
+                              onPressed: () {},
+                              child: e))
+                          .toList())
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 50),
+                        Text(
+                          'No Activities Recorded!',
+                          style: TextStyle(
+                            fontSize: 30.0,
+                            fontFamily: 'Open Sans',
+                          ),
+                        ),
+                      ],
                     ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
+                child: Container(
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                _addActivityButton(),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
-                  child: Container(
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
+
           ),
         ),
       ),

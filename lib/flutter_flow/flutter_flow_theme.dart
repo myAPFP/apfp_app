@@ -23,6 +23,12 @@ class FlutterFlowTheme {
         fontWeight: FontWeight.w600,
         fontSize: 18,
       );
+  static TextStyle get title3Red => TextStyle().copyWith(
+        fontFamily: 'Open Sans',
+        color: secondaryColor,
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
+      );
   static TextStyle get subtitle1 => TextStyle().copyWith(
         fontFamily: 'Open Sans',
         color: primaryColor,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:apfp/firebase/firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -17,6 +19,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   int _index = 0;
+  Timer? timer;
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
 
@@ -24,6 +27,14 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   void initState() {
     super.initState();
     preloadAllVideos();
+    timer =
+        Timer.periodic(Duration(minutes: 30), (Timer t) => preloadAllVideos());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   List<Padding> _paddedHeaderText() {
@@ -135,29 +146,63 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                                                   0.75),
                                           child: Padding(
                                               key: Key('ExerciseDescription'),
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 20, 0, 0),
+                                              padding:
+                                                  EdgeInsetsDirectional.fromSTEB(
+                                                      0, 20, 0, 0),
                                               child: video.duration!.inMinutes >
                                                       1
-                                                  ? Text(
-                                                      'Source: $author'
-                                                      '\nVideo Length: ${video.duration!.inMinutes} minutes',
+                                                  ? AutoSizeText.rich(TextSpan(
+                                                      text: 'Source: ',
                                                       style: FlutterFlowTheme
-                                                          .bodyText1,
-                                                      overflow:
-                                                          TextOverflow.fade,
-                                                      maxLines: 2,
-                                                      softWrap: false)
-                                                  : Text(
-                                                      'Source: $author'
-                                                      '\nVideo Length: ${video.duration!.inSeconds} seconds',
+                                                          .title3Red,
+                                                      children: [
+                                                          TextSpan(
+                                                            text: ' $author',
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .bodyText1,
+                                                          ),
+                                                          TextSpan(
+                                                            text:
+                                                                '\nVideo Length: ',
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .title3Red,
+                                                          ),
+                                                          TextSpan(
+                                                            text:
+                                                                '${video.duration!.inMinutes} minutes',
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .bodyText1,
+                                                          )
+                                                        ]))
+                                                  : AutoSizeText.rich(TextSpan(
+                                                      text: 'Source: ',
                                                       style: FlutterFlowTheme
-                                                          .bodyText1,
-                                                      overflow:
-                                                          TextOverflow.fade,
-                                                      maxLines: 2,
-                                                      softWrap: false,
-                                                    ))))
+                                                          .title3Red,
+                                                      children: [
+                                                          TextSpan(
+                                                            text: ' $author',
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .bodyText1,
+                                                          ),
+                                                          TextSpan(
+                                                            text:
+                                                                '\nVideo Length: ',
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .title3Red,
+                                                          ),
+                                                          TextSpan(
+                                                            text:
+                                                                '${video.duration!.inSeconds} seconds',
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .bodyText1,
+                                                          )
+                                                        ])))))
                                 ])),
                           ]),
                     ],

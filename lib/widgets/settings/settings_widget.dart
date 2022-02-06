@@ -121,7 +121,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       child: FFButtonWidget(
         onPressed: () => ConfirmationDialog.showConfirmationDialog(
             context: context,
-            title: 'Logout',
+            title: Text('Logout'),
             content: _logoutDialogText(),
             cancelText: 'No',
             submitText: 'Yes',
@@ -234,77 +234,88 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
-                _settingsButton(
-                    title: "Add Activity Tracker",
-                    onTap: () {
-                      print("AAT Tapped!");
-                    }),
-                _settingsButton(
-                    title: "Set Activity Goals",
-                    onTap: () {
-                      print("SAG Tapped!");
-                    }),
-                _settingsButton(
-                    title: "Notification Settings",
-                    onTap: () {
-                      print("NS Tapped!");
-                    }),
-                _settingsButton(
-                    title: "Change Password",
-                    onTap: () {
-                      ConfirmationDialog.showConfirmationDialog(
-                          context: context,
-                          title: 'Change Password',
-                          content: _changePasswordDialogText(),
-                          cancelText: 'No',
-                          submitText: 'Yes',
-                          onCancelTap: () => Navigator.pop(context),
-                          onSubmitTap: () {
-                            FireAuth.sendResetPasswordLink(
-                                email: currentUser!.email!);
-                            Navigator.pop(context);
-                          });
-                    }),
-                _settingsButton(
-                    title: "Delete Account",
-                    onTap: () {
-                      ConfirmationDialog.showConfirmationDialog(
-                          title: 'Delete Account',
-                          context: context,
-                          content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                _deleteAcctDialogText(),
-                                _dialogInfoRow(
-                                    'Tap anywhere outside of this dialog box to go back')
-                              ]),
-                          cancelText: 'No',
-                          submitText: 'Yes',
-                          onCancelTap: () => Navigator.pop(context),
-                          onSubmitTap: () {
-                            ConfirmationDialog.showConfirmationDialog(
-                                context: context,
-                                title: 'Enter your password to confirm.',
-                                content: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    _emailTextField(),
-                                    SizedBox(height: 5),
-                                    _passwordTextField(),
-                                    SizedBox(height: 30),
-                                    _dialogInfoRow(
-                                        'Tap anywhere outside of this dialog box to go back'),
-                                    SizedBox(height: 15),
-                                    _dialogInfoRow(
-                                        'If you exit, restarting the app will prompt you to login')
-                                  ],
-                                ),
-                                cancelText: 'Exit App',
-                                submitText: 'Delete Account',
-                                onCancelTap: () {
+              ),
+              SizedBox(height: 15),
+              _settingsButton(
+                  title: "Add Activity Tracker",
+                  onTap: () {
+                    print("AAT Tapped!");
+                  }),
+              _settingsButton(
+                  title: "Set Activity Goals",
+                  onTap: () {
+                    print("SAG Tapped!");
+                  }),
+              _settingsButton(
+                  title: "Notification Settings",
+                  onTap: () {
+                    print("NS Tapped!");
+                  }),
+              _settingsButton(
+                  title: "Change Password",
+                  onTap: () {
+                    ConfirmationDialog.showConfirmationDialog(
+                        context: context,
+                        title: Text('Change Password'),
+                        content: _changePasswordDialogText(),
+                        cancelText: 'No',
+                        submitText: 'Yes',
+                        onCancelTap: () => Navigator.pop(context),
+                        onSubmitTap: () {
+                          FireAuth.sendResetPasswordLink(
+                              email: currentUser!.email!);
+                          Navigator.pop(context);
+                        });
+                  }),
+              _settingsButton(
+                  title: "Delete Account",
+                  onTap: () {
+                    ConfirmationDialog.showConfirmationDialog(
+                        title: Text('Delete Account'),
+                        context: context,
+                        content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _deleteAcctDialogText(),
+                              _dialogInfoRow(
+                                  'Tap anywhere outside of this dialog box to go back')
+                            ]),
+                        cancelText: 'No',
+                        submitText: 'Yes',
+                        onCancelTap: () => Navigator.pop(context),
+                        onSubmitTap: () {
+                          ConfirmationDialog.showConfirmationDialog(
+                              context: context,
+                              title: Text('Enter your password to confirm.'),
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _emailTextField(),
+                                  SizedBox(height: 5),
+                                  _passwordTextField(),
+                                  SizedBox(height: 30),
+                                  _dialogInfoRow(
+                                      'Tap anywhere outside of this dialog box to go back'),
+                                  SizedBox(height: 15),
+                                  _dialogInfoRow(
+                                      'If you exit, restarting the app will prompt you to login')
+                                ],
+                              ),
+                              cancelText: 'Exit App',
+                              submitText: 'Delete Account',
+                              onCancelTap: () {
+                                FireAuth.signOut();
+                                SystemChannels.platform
+                                    .invokeMethod('SystemNavigator.pop');
+                              },
+                              onSubmitTap: () {
+                                if (_getPassword().isNotEmpty) {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  // Firebase requires a user to be recently
+                                  // signed in before deleting their account
+
                                   FireAuth.signOut();
                                   SystemChannels.platform
                                       .invokeMethod('SystemNavigator.pop');
