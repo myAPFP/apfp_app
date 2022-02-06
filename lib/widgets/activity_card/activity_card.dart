@@ -51,7 +51,7 @@ class ActivityCard {
                                     WidgetsBinding.instance!.window)
                                 .size
                                 .width *
-                            0.7),
+                            0.6),
                     child: Text(
                       '$name',
                       style: FlutterFlowTheme.title1,
@@ -84,18 +84,18 @@ class ActivityCard {
                           style: FlutterFlowTheme.bodyText1,
                         )
                       ])),
-                  SizedBox(width: 5),
-                  AutoSizeText.rich(TextSpan(
-                      text: '| Logged at ',
-                      style: FlutterFlowTheme.bodyText1,
-                      children: [
-                        TextSpan(
-                          text: '$timestamp',
-                          style: FlutterFlowTheme.title3,
-                        )
-                      ]))
                 ],
               ),
+              SizedBox(width: 5),
+              AutoSizeText.rich(TextSpan(
+                  text: 'Logged at ',
+                  style: FlutterFlowTheme.bodyText1,
+                  children: [
+                    TextSpan(
+                      text: '$timestamp',
+                      style: FlutterFlowTheme.title3,
+                    )
+                  ]))
             ],
           ),
         ],
