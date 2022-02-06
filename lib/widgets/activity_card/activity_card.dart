@@ -16,12 +16,13 @@ class ActivityCard {
       {String? duration,
       String? type,
       String? name,
-      IconData? icon}) {
+      IconData? icon,
+      String? timestamp}) {
     this.name = name;
     this.type = type;
     this.icon = icon;
     this.duration = duration;
-    this.timestamp = DateTime.now().toString();
+    this.timestamp = timestamp;
     _createActivityCard();
   }
 
@@ -92,7 +93,7 @@ class ActivityCard {
                   style: FlutterFlowTheme.bodyText1,
                   children: [
                     TextSpan(
-                      text: DateFormat.jm().format(DateTime.parse(timestamp!)),
+                      text: timestamp,
                       style: FlutterFlowTheme.title3,
                     )
                   ]))

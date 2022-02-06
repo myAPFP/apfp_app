@@ -48,7 +48,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 icon: Icons.emoji_events_rounded,
                 duration: value[2],
                 name: value[0],
-                type: value[1])
+                type: value[1],
+                timestamp: key != null
+                    ? DateFormat.jm().format(DateTime.parse(key))
+                    : DateFormat.jm().format(
+                        DateTime.parse(DateTime.now().toIso8601String())))
             .paddedActivityCard(context));
       });
     });
