@@ -130,55 +130,74 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _headerTextRow('Today\'s Activity'),
-              Column(
-                  children: cards
-                      .map((e) => FocusedMenuHolder(
-                          menuWidth: MediaQuery.of(context).size.width * 0.50,
-                          blurSize: 5.0,
-                          menuItemExtent: 45,
-                          menuBoxDecoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0))),
-                          duration: Duration(milliseconds: 100),
-                          animateMenuItems: true,
-                          blurBackgroundColor: Colors.black54,
-                          bottomOffsetHeight: 100,
-                          openWithTap: true,
-                          menuItems: <FocusedMenuItem>[
-                            FocusedMenuItem(
-                                title: Text("Share"),
-                                trailingIcon: Icon(Icons.share),
-                                onPressed: () {
-                                  final cardInfo =
-                                      Validator.cardInfoToList(e)!;
-                                  share(
-                                      'I completed a new activity! \n\n' +
-                                          'Activity: ${cardInfo[0]} \n' +
-                                          'Exercise Type: ${cardInfo[1]}\n' +
-                                          'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
-                                          '\nSent from the APFP App.',
-                                      "New Activity Completed!");
-                                }),
-                            FocusedMenuItem(
-                                title: Text("Delete",
-                                    style: TextStyle(color: Colors.redAccent)),
-                                trailingIcon:
-                                    Icon(Icons.delete, color: Colors.redAccent),
-                                onPressed: () {
-                                  setState(() {
-                                    _removeActivityFromCloud(e.key
-                                        .toString()
-                                        .substring(
-                                            e.key.toString().indexOf("'") + 1,
-                                            e.key.toString().lastIndexOf("'")));
-                                    cards.remove(e);
-                                  });
-                                })
-                          ],
-                          onPressed: () {},
-                          child: e))
-                      .toList()),
+              cards.length > 0
+                  ? Column(
+                      children: cards
+                          .map((e) => FocusedMenuHolder(
+                              menuWidth:
+                                  MediaQuery.of(context).size.width * 0.50,
+                              blurSize: 5.0,
+                              menuItemExtent: 45,
+                              menuBoxDecoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
+                              duration: Duration(milliseconds: 100),
+                              animateMenuItems: true,
+                              blurBackgroundColor: Colors.black54,
+                              bottomOffsetHeight: 100,
+                              openWithTap: true,
+                              menuItems: <FocusedMenuItem>[
+                                FocusedMenuItem(
+                                    title: Text("Share"),
+                                    trailingIcon: Icon(Icons.share),
+                                    onPressed: () {
+                                      final cardInfo =
+                                          Validator.cardInfoToList(e)!;
+                                      share(
+                                          'I completed a new activity! \n\n' +
+                                              'Activity: ${cardInfo[0]} \n' +
+                                              'Exercise Type: ${cardInfo[1]}\n' +
+                                              'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                                              '\nSent from the APFP App.',
+                                          "New Activity Completed!");
+                                    }),
+                                FocusedMenuItem(
+                                    title: Text("Delete",
+                                        style:
+                                            TextStyle(color: Colors.redAccent)),
+                                    trailingIcon: Icon(Icons.delete,
+                                        color: Colors.redAccent),
+                                    onPressed: () {
+                                      setState(() {
+                                        _removeActivityFromCloud(e.key
+                                            .toString()
+                                            .substring(
+                                                e.key.toString().indexOf("'") +
+                                                    1,
+                                                e.key
+                                                    .toString()
+                                                    .lastIndexOf("'")));
+                                        cards.remove(e);
+                                      });
+                                    })
+                              ],
+                              onPressed: () {},
+                              child: e))
+                          .toList())
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 50),
+                        Text(
+                          'No Activities Recorded!',
+                          style: TextStyle(
+                            fontSize: 30.0,
+                            fontFamily: 'Open Sans',
+                          ),
+                        ),
+                      ],
+                    ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
                 child: Container(
