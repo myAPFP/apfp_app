@@ -1,6 +1,4 @@
-import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
-
 import '../../flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '../activity_card/activity_card.dart';
@@ -16,7 +14,8 @@ class AddActivityWidget extends StatefulWidget {
 
 class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? duration;
-  String? exercisetype;
+  String? unitOfTime = 'Min';
+  String? exercisetype = 'Cardio';
 
   TextEditingController? activityNameTextController;
   TextEditingController? exerciseTextController;
@@ -49,10 +48,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
 
   String _getName() {
     return activityNameTextController!.text.toString().trim();
-  }
-
-  String _getExercise() {
-    return exercisetype!.trim();
   }
 
   String _getDuration() {
@@ -97,9 +92,9 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                 context,
                 ActivityCard(
                     icon: Icons.info,
-                    duration: _getDuration(),
+                    duration: '${_getDuration()} $unitOfTime',
                     name: _getName(),
-                    type: _getExercise()));
+                    type: exercisetype));
           }
         } finally {
           setState(() => _loadingButton = false);
@@ -272,8 +267,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         FlutterFlowDropDown(
                           initialOption: 'Min',
                           options: ['Sec', 'Min', 'Hr'],
-                          onChanged: (val) =>
-                              setState(() => exercisetype = val),
+                          onChanged: (val) => setState(() => unitOfTime = val),
                           width: MediaQuery.of(context).size.width * .55,
                           height: 50,
                           textStyle: FlutterFlowTheme.bodyText1,
