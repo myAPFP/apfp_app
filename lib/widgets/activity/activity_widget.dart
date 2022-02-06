@@ -44,15 +44,12 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
       sortedMap.forEach((key, value) {
-        String hour = DateTime.parse(key).hour.toString();
-        NumberFormat formatter = new NumberFormat("00");
-        String minute = formatter.format(DateTime.parse(key).minute).toString();
         addCard(ActivityCard(
                 icon: Icons.emoji_events_rounded,
                 duration: value[2],
                 name: value[0],
                 type: value[1],
-                timestamp: hour + ":" + minute)
+                timestamp: key)
             .paddedActivityCard(context));
       });
     });
