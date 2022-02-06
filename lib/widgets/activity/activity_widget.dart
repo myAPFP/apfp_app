@@ -207,7 +207,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                           Validator.cardInfoToList(e)!;
                                       share(
                                           subject: "New Activity Completed!",
-                                          body: 'I completed a new activity! \n\n' +
+                                          body: 'I completed a new activity!\n\n' +
                                               'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
                                               'Exercise Type: ${cardInfo[1]}\n' +
                                               'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
