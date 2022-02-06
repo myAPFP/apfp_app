@@ -167,13 +167,14 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isValidDuration(value)) {
+            if (!Validator.isValidDuration(value) || double.parse(value) < 1) {
               return 'Positive numbers (1+) only';
             }
 
-            if (double.parse(value) > 100) {
+            if (double.parse(value) > 99) {
               return '99 is max limit';
             }
+
             return null;
           },
           controller: durationTextController,

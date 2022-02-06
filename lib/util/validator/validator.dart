@@ -9,7 +9,7 @@ class Validator {
 
   /// Matches positive double, int, and float values >= 1
   static RegExp _numericRegex =
-      new RegExp(r'^[+]?([1-9]|[1-9][1-9]|100)*\.?[1-9]+$');
+      new RegExp(r'^[+]?([0-9]|[0-9][0-9]|100)*\.?[0-9]+$');
 
   /// Matches most names, including those that contains spaces
   static RegExp _validNameRegex =
