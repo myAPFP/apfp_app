@@ -1,11 +1,12 @@
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/util/validator/validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,15 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late Map<String, dynamic> currentSnapshotBackup;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.activityStream.first.then((firstElement) {
+      currentSnapshotBackup = firstElement.data()!;
+    });
+    _collectActivity();
+  }
 
   void _collectActivity() {
     widget.activityStream.forEach((element) {
@@ -83,20 +93,18 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       ],
     );
   }
-  
+
   void addCard(Padding card) {
     setState(() {
       cards.add(card);
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    widget.activityStream.first.then((firstElement) {
-      currentSnapshotBackup = firstElement.data()!;
-    });
-    _collectActivity();
+  share(String? body, String subject) async {
+    final box = context.findRenderObject() as RenderBox?;
+    await Share.share(body!,
+        subject: subject,
+        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
 
   @override
@@ -111,8 +119,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             var result = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddActivityWidget()));
             _addActivityToCloud(result);
-          } finally {
-          }
+          } finally {}
         },
       ),
       backgroundColor: Colors.white,
@@ -142,7 +149,17 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                             FocusedMenuItem(
                                 title: Text("Share"),
                                 trailingIcon: Icon(Icons.share),
-                                onPressed: () {}),
+                                onPressed: () {
+                                  final cardInfo =
+                                      Validator.activityCardToString(e)!;
+                                  share(
+                                      'I completed a new activity! \n\n' +
+                                          'Activity: ${cardInfo[0]} \n' +
+                                          'Exercise Type: ${cardInfo[1]}\n' +
+                                          'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                                          '\nSent from the APFP App.',
+                                      "New Activity Completed!");
+                                }),
                             FocusedMenuItem(
                                 title: Text("Delete",
                                     style: TextStyle(color: Colors.redAccent)),

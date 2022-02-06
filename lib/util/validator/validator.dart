@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
 class Validator {
+  static RegExp _activityCardToStrRegex = new RegExp(r"/\[<(.*?)\>]/gm");
+
   /// Matches any string containing only letters (lowercase & uppercase)
-  static RegExp _validActivityName = new RegExp(r'^[a-zA-Z\s]+$');
+  static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
 
   /// Matches positive double, int, and float values >= 1
-  static RegExp _numeric =
+  static RegExp _numericRegex =
       new RegExp(r'^[+]?([1-9]|[1-9][1-9]|100)*\.?[1-9]+$');
 
   /// Matches most names, including those that contains spaces
@@ -27,12 +29,18 @@ class Validator {
   static RegExp validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
+  static List<String>? activityCardToString(Padding paddedActivityCard) {
+    final regex = RegExp(r'\[<(.*?)\>]');
+    final match = regex.firstMatch(paddedActivityCard.toString());
+    return match!.group(0)!.substring(3, match.group(0)!.length - 3).split(' ');
+  }
+
   static bool isValidDuration(String duration) {
-    return _numeric.hasMatch(duration);
+    return _numericRegex.hasMatch(duration);
   }
 
   static bool isValidActivity(String activityName) {
-    return _validActivityName.hasMatch(activityName);
+    return _validActivityNameRegex.hasMatch(activityName);
   }
 
   static bool isValidName(String name) {
