@@ -131,6 +131,9 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value.length > 15) {
               return "15 character max limit.  Current count: ${value.length}";
             }
+            if (!Validator.isValidActivity(value)) {
+              return 'Only letters are allowed';
+            }
             return null;
           },
           controller: activityNameTextController,
@@ -169,8 +172,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (value.length > 15) {
-              return "15 character max limit.  Current count: ${value.length}";
+            if (!Validator.isValidDuration(value)) {
+              return 'Numbers only';
+            }
+
+            if (double.parse(value) > 100) {
+              return 'No numbers over 100';
             }
             return null;
           },
@@ -267,7 +274,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                           options: ['Sec', 'Min', 'Hr'],
                           onChanged: (val) =>
                               setState(() => exercisetype = val),
-                          width: MediaQuery.of(context).size.width * .55 ,
+                          width: MediaQuery.of(context).size.width * .55,
                           height: 50,
                           textStyle: FlutterFlowTheme.bodyText1,
                           fillColor: Colors.white,

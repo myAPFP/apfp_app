@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
 class Validator {
+  /// Matches any string containing only letters (lowercase & uppercase)
+  static RegExp _validActivityName = new RegExp(r'^[a-zA-Z]+$');
+
+  /// Matches int, double, float
+  static RegExp _numeric =
+      new RegExp(r'^[-+]?([0-9]|[1-9][0-9]|100)*\.?[0-9]+$');
+
   /// Matches most names, including those that contains spaces
   static RegExp _validNameRegex =
       new RegExp(r"^[\w'\-][^,.0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$");
@@ -15,10 +22,18 @@ class Validator {
   ///  Matches passwords with at least:
   ///    - 8 characters
   ///    - One letter
-  ///    - One number 
+  ///    - One number
   ///    - One special character
   static RegExp validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
+
+  static bool isValidDuration(String duration) {
+    return _numeric.hasMatch(duration.toString());
+  }
+
+  static bool isValidActivity(String activityName) {
+    return _validActivityName.hasMatch(activityName);
+  }
 
   static bool isValidName(String name) {
     return _validNameRegex.hasMatch(name);
