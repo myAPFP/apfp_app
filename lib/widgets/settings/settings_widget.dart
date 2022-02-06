@@ -201,31 +201,37 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.tertiaryColor,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.25,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.secondaryColor,
-                ),
-                child: Align(
-                  alignment: AlignmentDirectional(0.05, 0.55),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                        child: Text(
-                          'Hello, ${currentUser!.displayName}!',
-                          style: FlutterFlowTheme.title2,
+      child: WillPopScope(
+        onWillPop: () async {
+        ConfirmationDialog.showExitAppDialog(context);
+        return false;
+      },
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: FlutterFlowTheme.tertiaryColor,
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.secondaryColor,
+                  ),
+                  child: Align(
+                    alignment: AlignmentDirectional(0.05, 0.55),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                          child: Text(
+                            'Hello, ${currentUser!.displayName}!',
+                            style: FlutterFlowTheme.title2,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -309,16 +315,27 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   // Firebase requires a user to be recently
                                   // signed in before deleting their account
+
                                   FireAuth.signOut();
-                                  _signInAndDelete();
-                                } else
-                                  Toasted.showToast(
-                                      'Please provide a password.');
-                              });
-                        });
-                  }),
-              _logOutButton()
-            ],
+                                  SystemChannels.platform
+                                      .invokeMethod('SystemNavigator.pop');
+                                },
+                                onSubmitTap: () {
+                                  if (_getPassword().isNotEmpty) {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    // Firebase requires a user to be recently
+                                    // signed in before deleting their account
+                                    FireAuth.signOut();
+                                    _signInAndDelete();
+                                  } else
+                                    Toasted.showToast(
+                                        'Please provide a password.');
+                                });
+                          });
+                    }),
+                _logOutButton()
+              ],
+            ),
           ),
         ),
       ),

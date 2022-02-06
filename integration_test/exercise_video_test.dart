@@ -4,25 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apfp/main.dart' as app;
 
-/*
-  ! In order to run these tests, please ensure you're logged into the app
-  ! after launching it in Debugging mode. These tests assume you've reached 
-  ! the homepage. Once logged in, stop the app and within 
-  ? welcome_widget.dart, 
-  ! you MUST comment out the following animation code found within it's
-  ? initState():
-    
-  ?  startPageLoadAnimations(
-  ?    animationsMap.values
-  ?        .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-  ?    this,
-  ?  );
-
-  ! This is done to prevent animation tickers from stalling our tests, causing 
-  ! them to all fail. Before launching the app in Debugging mode again, 
-  ! you MUST un-comment out the above animation code.
-*/
-
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 

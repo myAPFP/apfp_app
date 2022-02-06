@@ -50,38 +50,45 @@ class _AlertWidgetState extends State<AlertWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
-                  child: _backButton(),
-                ),
-                Padding(
-                  key: Key('Alert.title'),
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
-                  child: _announcementTitle(widget.title),
-                ),
-                Container(
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.8),
-                    child: SingleChildScrollView(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 100),
-                        child: Padding(
-                          key: Key('Alert.description'),
-                          padding: EdgeInsetsDirectional.fromSTEB(20, 5, 20, 0),
-                          child: _announcementParagraph(widget.description),
-                        )))
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true);
+        return false;
+      },
+      child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 25, 15, 0),
+                    child: _backButton(),
+                  ),
+                  Padding(
+                    key: Key('Alert.title'),
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
+                    child: _announcementTitle(widget.title),
+                  ),
+                  Container(
+                      constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.8),
+                      child: SingleChildScrollView(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 100),
+                          child: Padding(
+                            key: Key('Alert.description'),
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(20, 5, 20, 0),
+                            child: _announcementParagraph(widget.description),
+                          )))
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }

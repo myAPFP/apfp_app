@@ -1,3 +1,8 @@
+import 'package:apfp/firebase/fire_auth.dart';
+import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/util/validator/validator.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -5,7 +10,8 @@ import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
 
 class EmailNotConfirmedWidget extends StatefulWidget {
-  EmailNotConfirmedWidget({Key? key}) : super(key: key);
+  final String? email;
+  EmailNotConfirmedWidget({Key? key, this.email}) : super(key: key);
 
   @override
   _EmailNotConfirmedWidgetState createState() =>
@@ -14,7 +20,25 @@ class EmailNotConfirmedWidget extends StatefulWidget {
 
 class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
   bool _loadingButton = false;
+  TextEditingController? _dialogEmailController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  String _getDialogEmail() {
+    return _dialogEmailController!.text.trim().toLowerCase();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _dialogEmailController = TextEditingController();
+    _dialogEmailController!.text = widget.email != null ? widget.email! : "";
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _dialogEmailController!.dispose();
+  }
 
   Padding _contextMessage() {
     return Padding(
@@ -26,18 +50,18 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width * 0.9,
-            height: 300,
+            height: 100,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.tertiaryColor,
             ),
             child: Text(
-              'Your account cannot be accessed until the email address is confirmed.' +
-                  'Please check your email account for a confirmation before logging in.',
+              'You won\'t be able to log in until your email address is verified.' +
+                  '\n\nPlease check your email account for a verification link before logging in.',
               textAlign: TextAlign.center,
-              style: TextStyle().copyWith(
-                fontWeight: FontWeight.normal,
-                color: FlutterFlowTheme.primaryColor,
-              ),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: FlutterFlowTheme.primaryColor),
             ),
           )
         ],
@@ -45,33 +69,75 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
     );
   }
 
-  Row _resendEmailRow() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.05,
-          decoration: BoxDecoration(
-            color: FlutterFlowTheme.tertiaryColor,
-          ),
-          child: Text(
-            'Resend Confirmation Email',
-            textAlign: TextAlign.center,
-            style: TextStyle().copyWith(
-              color: FlutterFlowTheme.secondaryColor,
+  void _showEmailDialog(
+      {String? title, String? contentText, Function()? onSubmitTap}) {
+    ConfirmationDialog.showConfirmationDialog(
+        context: context,
+        title: title!,
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(contentText!, style: TextStyle(fontSize: 20)),
+            SizedBox(height: 20),
+            ConfirmationDialog.dialogTextField(
+                enabled: true,
+                kbType: TextInputType.emailAddress,
+                hintText: 'Enter your email here',
+                contr: _dialogEmailController)
+          ],
+        ),
+        onSubmitTap: onSubmitTap!,
+        onCancelTap: () => Navigator.pop(context),
+        cancelText: "Back",
+        submitText: "Send");
+  }
+
+  Padding _resendEmailButton() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FFButtonWidget(
+            key: Key('LogIn.resendEmailButton'),
+            onPressed: () async {
+              _showEmailDialog(
+                  title: 'Resend Email Verification',
+                  contentText: 'A new verification email will be sent to:',
+                  onSubmitTap: () {
+                    if (Validator.isValidEmail(_getDialogEmail())) {
+                      FireAuth.reSendEmailVerification();
+                      Navigator.pop(context);
+                    } else
+                      Toasted.showToast('Please provide a valid email address');
+                  });
+            },
+            text: 'Resend Email Verification',
+            options: FFButtonOptions(
+              width: 250,
+              height: 50,
+              color: Color(0xFFBA0C2F),
+              textStyle: FlutterFlowTheme.title2,
+              elevation: 2,
+              borderSide: BorderSide(
+                color: Colors.transparent,
+                width: 1,
+              ),
+              borderRadius: 12,
             ),
-          ),
-        )
-      ],
+            loading: _loadingButton,
+          )
+        ],
+      ),
     );
   }
 
   Padding _returnToHome() {
     return Padding(
       key: Key('Email.returnHomeButton'),
-      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -100,16 +166,14 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
       },
       text: 'Back to Home',
       options: FFButtonOptions(
-        width: 180,
+        width: 250,
         height: 50,
-        color: FlutterFlowTheme.tertiaryColor,
-        textStyle: TextStyle().copyWith(
-          color: FlutterFlowTheme.primaryColor,
-        ),
+        color: Color(0xFFBA0C2F),
+        textStyle: FlutterFlowTheme.title2,
         elevation: 2,
         borderSide: BorderSide(
-          color: FlutterFlowTheme.secondaryColor,
-          width: 3,
+          color: Colors.transparent,
+          width: 1,
         ),
         borderRadius: 12,
       ),
@@ -119,13 +183,20 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.tertiaryColor,
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [_contextMessage(), _resendEmailRow(), _returnToHome()],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true);
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: FlutterFlowTheme.tertiaryColor,
+        body: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [_contextMessage(), _resendEmailButton(), _returnToHome()],
+          ),
         ),
       ),
     );

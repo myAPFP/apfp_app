@@ -1,6 +1,10 @@
+import 'package:apfp/firebase/fire_auth.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '../../util/toasted/toasted.dart';
+import '../welcome/welcome_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -162,37 +166,43 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _recentAnnouncementsLabel(),
-            StreamBuilder(
-                stream: widget.announcementsStream,
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.hasData) {
-                    return _announcements(
-                        snapshot.data?.docs[0]['title'],
-                        snapshot.data?.docs[1]['title'],
-                        snapshot.data?.docs[2]['title']);
-                  } else {
-                    return Text("No announcements available.");
-                  }
-                }),
-            _activityLabel(),
-            _activityGUI(),
-            SizedBox(
-              height: 30,
-            )
-          ],
-        ),
-      )),
+    return WillPopScope(
+      onWillPop: () async {
+        ConfirmationDialog.showExitAppDialog(context);
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              _recentAnnouncementsLabel(),
+              StreamBuilder(
+                  stream: widget.announcementsStream,
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.hasData) {
+                      return _announcements(
+                          snapshot.data?.docs[0]['title'],
+                          snapshot.data?.docs[1]['title'],
+                          snapshot.data?.docs[2]['title']);
+                    } else {
+                      return Text("No announcements available.");
+                    }
+                  }),
+              _activityLabel(),
+              _activityGUI(),
+              SizedBox(
+                height: 30,
+              )
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

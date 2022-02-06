@@ -13,6 +13,8 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../confimation_dialog/confirmation_dialog.dart';
+
 class ActivityWidget extends StatefulWidget {
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
   ActivityWidget({Key? key, required this.activityStream}) : super(key: key);
@@ -279,6 +281,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 ),
               ),
             ],
+
           ),
         ),
       ),
