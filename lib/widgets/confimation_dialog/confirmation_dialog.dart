@@ -1,12 +1,7 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/services.dart';
-
-import '../../firebase/fire_auth.dart';
-import '../../util/toasted/toasted.dart';
-import '../welcome/welcome_widget.dart';
 
 class ConfirmationDialog {
   static void showConfirmationDialog({
@@ -78,7 +73,7 @@ class ConfirmationDialog {
   static void showExitAppDialog(BuildContext context) {
     ConfirmationDialog.showConfirmationDialog(
         context: context,
-        title: "Exit the app?",
+        title: Text("Exit the app?"),
         content:
             Text("The app will now close.", style: TextStyle(fontSize: 20)),
         onSubmitTap: () {
