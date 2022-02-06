@@ -65,7 +65,7 @@ class ActivityCard {
               Row(children: [
                 AutoSizeText.rich(TextSpan(
                     text: 'Type:',
-                    style: FlutterFlowTheme.title3,
+                    style: FlutterFlowTheme.title3Red,
                     children: [
                       TextSpan(
                         text: ' $type',
@@ -78,7 +78,7 @@ class ActivityCard {
                 children: [
                   AutoSizeText.rich(TextSpan(
                       text: 'Duration:',
-                      style: FlutterFlowTheme.title3,
+                      style: FlutterFlowTheme.title3Red,
                       children: [
                         TextSpan(
                           text: ' $duration',
@@ -94,7 +94,7 @@ class ActivityCard {
                   children: [
                     TextSpan(
                       text: timestamp,
-                      style: FlutterFlowTheme.title3,
+                      style: FlutterFlowTheme.title3Red,
                     )
                   ]))
             ],
