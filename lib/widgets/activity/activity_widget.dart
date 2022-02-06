@@ -151,7 +151,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                 trailingIcon: Icon(Icons.share),
                                 onPressed: () {
                                   final cardInfo =
-                                      Validator.activityCardToString(e)!;
+                                      Validator.cardInfoToList(e)!;
                                   share(
                                       'I completed a new activity! \n\n' +
                                           'Activity: ${cardInfo[0]} \n' +

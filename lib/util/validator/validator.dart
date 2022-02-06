@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class Validator {
-  static RegExp _activityCardToStrRegex = new RegExp(r"/\[<(.*?)\>]/gm");
+  /// Extracts activity data from a paddedActivityCard
+  static RegExp _cardToStrRegex = new RegExp(r'\[<(.*?)\>]');
 
   /// Matches any string containing only letters (lowercase & uppercase)
   static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
@@ -29,9 +30,8 @@ class Validator {
   static RegExp validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
-  static List<String>? activityCardToString(Padding paddedActivityCard) {
-    final regex = RegExp(r'\[<(.*?)\>]');
-    final match = regex.firstMatch(paddedActivityCard.toString());
+  static List<String>? cardInfoToList(Padding paddedActivityCard) {
+    final match = _cardToStrRegex.firstMatch(paddedActivityCard.toString());
     return match!.group(0)!.substring(3, match.group(0)!.length - 3).split(' ');
   }
 
