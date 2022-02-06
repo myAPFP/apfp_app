@@ -158,7 +158,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                       share(
                                           subject: "New Activity Completed!",
                                           body: 'I completed a new activity! \n\n' +
-                                              'Activity: ${cardInfo[0]} \n' +
+                                              'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
                                               'Exercise Type: ${cardInfo[1]}\n' +
                                               'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
                                               '\nSent from the APFP App.');
