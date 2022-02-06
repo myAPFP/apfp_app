@@ -119,9 +119,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   void _showShareWithImageDialog(List<String> cardInfo) async {
     ConfirmationDialog.showConfirmationDialog(
         context: context,
-        title: Text('Do you want to share your ${cardInfo[0]} activity now?'),
+        title: Text('Share Activity?'),
         content: Text(
-            'The image you just added will be included.' +
+            'The image you just added will be included with your ${cardInfo[0]} activity.' +
                 '\n\nIf you chose no, the image will be deleted.',
             style: TextStyle(fontSize: 20)),
         onSubmitTap: () async {
