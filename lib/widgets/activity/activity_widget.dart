@@ -1,7 +1,6 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';

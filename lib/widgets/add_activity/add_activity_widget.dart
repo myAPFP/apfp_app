@@ -3,7 +3,6 @@ import '../../flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '../activity_card/activity_card.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-
 import 'package:flutter/material.dart';
 
 class AddActivityWidget extends StatefulWidget {
@@ -207,16 +206,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: () async {
-          Navigator.pop(context, true);
-          return false;
-        },
-        child: Scaffold(
-            key: scaffoldKey,
-            backgroundColor: Colors.white,
-            body: SafeArea(
-                child: SingleChildScrollView(
+      child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+              child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
               child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +282,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         )
                       ],
                     ),
-
                     Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(
@@ -295,9 +290,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                       ),
                     )
                   ]),
-
-            ))),
-      ),
+            ),
+          ))),
     );
   }
 }
