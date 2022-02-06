@@ -60,7 +60,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
       'Endurance',
       'Strength',
       'Flexibility',
-      'Body Composition',
+      'Body-Composition',
       'Speed',
       'Kinesthetic'
     ].toList();
