@@ -58,6 +58,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to attach photos to your workouts</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to attach images from camera roll to your workouts</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to record audio that can be attached to your workouts</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
