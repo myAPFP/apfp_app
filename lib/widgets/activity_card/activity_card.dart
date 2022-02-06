@@ -71,29 +71,31 @@ class ActivityCard {
                         style: FlutterFlowTheme.bodyText1,
                       )
                     ])),
-                SizedBox(width: 15),
-                AutoSizeText.rich(TextSpan(
-                    text: 'Duration:',
-                    style: FlutterFlowTheme.title3,
-                    children: [
-                      TextSpan(
-                        text: ' $duration',
-                        style: FlutterFlowTheme.bodyText1,
-                      )
-                    ]))
               ]),
-              SizedBox(height: 15),
-              Row(children: [
-                AutoSizeText.rich(TextSpan(
-                    text: 'Logged at ',
-                    style: FlutterFlowTheme.bodyText1,
-                    children: [
-                      TextSpan(
-                        text: '$timestamp',
-                        style: FlutterFlowTheme.title3,
-                      )
-                    ]))
-              ])
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  AutoSizeText.rich(TextSpan(
+                      text: 'Duration:',
+                      style: FlutterFlowTheme.title3,
+                      children: [
+                        TextSpan(
+                          text: ' $duration',
+                          style: FlutterFlowTheme.bodyText1,
+                        )
+                      ])),
+                  SizedBox(width: 5),
+                  AutoSizeText.rich(TextSpan(
+                      text: '| Logged at ',
+                      style: FlutterFlowTheme.bodyText1,
+                      children: [
+                        TextSpan(
+                          text: '$timestamp',
+                          style: FlutterFlowTheme.title3,
+                        )
+                      ]))
+                ],
+              ),
             ],
           ),
         ],
@@ -101,13 +103,14 @@ class ActivityCard {
     );
   }
 
-  Padding paddedActivityCard() {
+  Padding paddedActivityCard(BuildContext context) {
     return Padding(
       key: Key('$name $type $duration'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,
-        height: 120,
+        height: 130,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(color: Color(0xFF54585A)),
           color: Colors.transparent,

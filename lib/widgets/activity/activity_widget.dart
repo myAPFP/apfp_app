@@ -53,7 +53,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 name: value[0],
                 type: value[1],
                 timestamp: hour + ":" + minute)
-            .paddedActivityCard());
+            .paddedActivityCard(context));
       });
     });
   }
