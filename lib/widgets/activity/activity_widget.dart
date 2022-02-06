@@ -1,5 +1,6 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/validator/validator.dart';
+import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
@@ -169,17 +170,33 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     trailingIcon: Icon(Icons.delete,
                                         color: Colors.redAccent),
                                     onPressed: () {
-                                      setState(() {
-                                        _removeActivityFromCloud(e.key
-                                            .toString()
-                                            .substring(
-                                                e.key.toString().indexOf("'") +
-                                                    1,
-                                                e.key
-                                                    .toString()
-                                                    .lastIndexOf("'")));
-                                        cards.remove(e);
-                                      });
+                                      ConfirmationDialog.showConfirmationDialog(
+                                          title: "Remove Activity?",
+                                          context: context,
+                                          content: Text(
+                                              "Do you want to remove this activity?" +
+                                                  "\n\nThis can't be undone.",
+                                              style: TextStyle(fontSize: 20)),
+                                          cancelText: 'Back',
+                                          submitText: "Remove",
+                                          onCancelTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onSubmitTap: () {
+                                            setState(() {
+                                              _removeActivityFromCloud(e.key
+                                                  .toString()
+                                                  .substring(
+                                                      e.key
+                                                              .toString()
+                                                              .indexOf("'") +
+                                                          1,
+                                                      e.key
+                                                          .toString()
+                                                          .lastIndexOf("'")));
+                                              cards.remove(e);
+                                            });
+                                          });
                                     })
                               ],
                               onPressed: () {},
