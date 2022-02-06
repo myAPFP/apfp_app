@@ -1,7 +1,7 @@
 # Adult Physical Fitness Program App
 This is a developing application created for members of the Adult Physical Fitness Program at Ball State University. Members will be able to view announcements sent by administrators of the APFP, access at-home exercise videos, and log activity that can be shared with administrators, all in one easy-to-use application. 
 
-At this time, functionality is limited to application navigation, account creation and log-in for approved APFP members, exercise videos dynamically pulled from YouTube, and pulling previous announcements from a database. Users that are signed into the app may also receive push notifications from administrators regarding important information sent out by the APFP.
+At this time, functionality is limited to application navigation, account creation and log-in for approved APFP members, exercise videos dynamically pulled from YouTube, pulling previous announcements from a database, and logging and sharing daily activity. Users that are signed into the app may also receive push notifications from administrators regarding important information sent out by the APFP. Push notifications are currently only functional on Android devices.
 
 
 ## How to Run
