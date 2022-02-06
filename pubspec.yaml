@@ -49,6 +49,7 @@ dependencies:
   open_mail_app: ^0.4.1
   connectivity_plus: ^2.2.0
   share_plus: ^3.0.4
+  image_picker: ^0.8.4+6
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.1
