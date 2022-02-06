@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:apfp/firebase/firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -16,6 +18,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   int _index = 0;
+  Timer? timer;
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
 
@@ -23,6 +26,14 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   void initState() {
     super.initState();
     preloadAllVideos();
+    timer =
+        Timer.periodic(Duration(minutes: 30), (Timer t) => preloadAllVideos());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   List<Padding> _paddedHeaderText() {
