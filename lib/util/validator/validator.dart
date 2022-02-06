@@ -7,7 +7,7 @@ class Validator {
   /// Matches any string containing only letters (lowercase & uppercase)
   static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
 
-  /// Matches positive double, int, and float values >= 1
+  /// Matches positive double, int, and float values >= 0
   static RegExp _numericRegex =
       new RegExp(r'^[+]?([0-9]|[0-9][0-9]|100)*\.?[0-9]+$');
 
