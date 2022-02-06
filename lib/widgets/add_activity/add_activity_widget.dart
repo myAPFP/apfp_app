@@ -168,7 +168,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
               return "Please provide a value";
             }
             if (!Validator.isValidDuration(value)) {
-              return 'Positive numbers only';
+              return 'Positive numbers (1+) only';
             }
 
             if (double.parse(value) > 100) {
