@@ -4,9 +4,9 @@ class Validator {
   /// Matches any string containing only letters (lowercase & uppercase)
   static RegExp _validActivityName = new RegExp(r'^[a-zA-Z\s]+$');
 
-  /// Matches int, double, float
+  /// Matches positive double, int, and float values
   static RegExp _numeric =
-      new RegExp(r'^[-+]?([0-9]|[1-9][0-9]|100)*\.?[0-9]+$');
+      new RegExp(r'^[+]?([0-9]|[1-9][0-9]|100)*\.?[0-9]+$');
 
   /// Matches most names, including those that contains spaces
   static RegExp _validNameRegex =
@@ -28,7 +28,7 @@ class Validator {
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
   static bool isValidDuration(String duration) {
-    return _numeric.hasMatch(duration.toString());
+    return _numeric.hasMatch(duration);
   }
 
   static bool isValidActivity(String activityName) {

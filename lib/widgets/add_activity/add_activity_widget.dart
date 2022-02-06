@@ -127,7 +127,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
               return "15 character max limit.  Current count: ${value.length}";
             }
             if (!Validator.isValidActivity(value)) {
-              return 'Only letters are allowed';
+              return 'Alphabet letters only';
             }
             return null;
           },
@@ -168,7 +168,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
               return "Please provide a value";
             }
             if (!Validator.isValidDuration(value)) {
-              return 'Numbers only';
+              return 'Positive numbers only';
             }
 
             if (double.parse(value) > 100) {
