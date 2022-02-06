@@ -100,7 +100,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     });
   }
 
-  share(String? body, String subject) async {
+  share({String? body, String? subject}) async {
     final box = context.findRenderObject() as RenderBox?;
     await Share.share(body!,
         subject: subject,
@@ -155,12 +155,12 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                       final cardInfo =
                                           Validator.cardInfoToList(e)!;
                                       share(
-                                          'I completed a new activity! \n\n' +
+                                          subject: "New Activity Completed!",
+                                          body: 'I completed a new activity! \n\n' +
                                               'Activity: ${cardInfo[0]} \n' +
                                               'Exercise Type: ${cardInfo[1]}\n' +
                                               'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
-                                              '\nSent from the APFP App.',
-                                          "New Activity Completed!");
+                                              '\nSent from the APFP App.');
                                     }),
                                 FocusedMenuItem(
                                     title: Text("Delete",
