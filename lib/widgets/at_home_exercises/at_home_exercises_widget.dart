@@ -69,9 +69,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
       required String url,
       required String title,
       required Video video}) {
-    if (title.length > 30) {
-      title = "${title.substring(0, 30)}...";
-    }
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: InkWell(
@@ -84,7 +81,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
               );
             },
             child: Container(
-                height: 100,
+                height: MediaQuery.of(context).size.height * 0.12,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(16),
@@ -106,108 +103,83 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          SizedBox(width: 40),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.1),
                           Text("$_index", style: FlutterFlowTheme.title3),
                         ],
                       ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                                child: Stack(children: [
-                                  Align(
-                                      key: Key('ExerciseTitle'),
-                                      alignment:
-                                          AlignmentDirectional(-0.1, -0.5),
-                                      child: Container(
-                                          constraints: BoxConstraints(
-                                              maxWidth: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.75),
-                                          child: AutoSizeText(
-                                            title,
-                                            maxLines: 1,
-                                            style: FlutterFlowTheme.title3,
-                                            minFontSize: 18,
-                                            overflow: TextOverflow.ellipsis,
-                                          ))),
-                                  Align(
-                                      alignment:
-                                          AlignmentDirectional(2.64, 0.55),
-                                      child: Container(
-                                          constraints: BoxConstraints(
-                                              maxWidth: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.75),
-                                          child: Padding(
-                                              key: Key('ExerciseDescription'),
-                                              padding:
-                                                  EdgeInsetsDirectional.fromSTEB(
-                                                      0, 20, 0, 0),
-                                              child: video.duration!.inMinutes >
-                                                      1
-                                                  ? AutoSizeText.rich(TextSpan(
-                                                      text: 'Source: ',
-                                                      style: FlutterFlowTheme
-                                                          .title3Red,
-                                                      children: [
-                                                          TextSpan(
-                                                            text: ' $author',
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .bodyText1,
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                '\nVideo Length: ',
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .title3Red,
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                '${video.duration!.inMinutes} minutes',
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .bodyText1,
-                                                          )
-                                                        ]))
-                                                  : AutoSizeText.rich(TextSpan(
-                                                      text: 'Source: ',
-                                                      style: FlutterFlowTheme
-                                                          .title3Red,
-                                                      children: [
-                                                          TextSpan(
-                                                            text: ' $author',
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .bodyText1,
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                '\nVideo Length: ',
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .title3Red,
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                '${video.duration!.inSeconds} seconds',
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .bodyText1,
-                                                          )
-                                                        ])))))
-                                ])),
+                            _titleRow(title),
+                            _sourceRow(author),
+                            _lengthRow(video)
                           ]),
                     ],
                   ),
                 ))));
+  }
+
+  Row _titleRow(String title) {
+    return Row(children: [
+      Container(
+          constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.75),
+          child: AutoSizeText(
+            title,
+            maxLines: 1,
+            style: FlutterFlowTheme.title3,
+            overflow: TextOverflow.ellipsis,
+            minFontSize: 18,
+          ))
+    ]);
+  }
+
+  Row _sourceRow(String author) {
+    return Row(children: [
+      Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+        child: AutoSizeText.rich(
+          TextSpan(
+              text: 'Source: ',
+              style: FlutterFlowTheme.title3Red,
+              children: [
+                TextSpan(text: '$author', style: FlutterFlowTheme.bodyText1)
+              ]),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          minFontSize: 14,
+        ),
+      )
+    ]);
+  }
+
+  Row _lengthRow(Video video) {
+    return Row(children: [
+      Container(
+          constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.75),
+          child: AutoSizeText.rich(
+            TextSpan(
+                text: 'Video Length: ',
+                style: FlutterFlowTheme.title3Red,
+                children: video.duration!.inMinutes > 1
+                    ? [
+                        TextSpan(
+                            text: '${video.duration!.inMinutes} minutes',
+                            style: FlutterFlowTheme.bodyText1)
+                      ]
+                    : [
+                        TextSpan(
+                            text: '${video.duration!.inSeconds} seconds',
+                            style: FlutterFlowTheme.bodyText1)
+                      ]),
+            overflow: TextOverflow.ellipsis,
+          ))
+    ]);
   }
 
   void preloadAllVideos() {
