@@ -18,8 +18,8 @@ class AtHomeExercisesWidget extends StatefulWidget {
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  int _index = 0;
   Timer? timer;
+  int _index = 0;
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
 
@@ -27,8 +27,10 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   void initState() {
     super.initState();
     preloadAllVideos();
-    timer =
-        Timer.periodic(Duration(minutes: 30), (Timer t) => preloadAllVideos());
+    timer = Timer.periodic(Duration(minutes: 30), (Timer t) {
+      videoList.clear();
+      preloadAllVideos();
+    });
   }
 
   @override
