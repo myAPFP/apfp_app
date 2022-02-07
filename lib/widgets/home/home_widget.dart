@@ -1,10 +1,7 @@
-import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import '../../util/toasted/toasted.dart';
-import '../welcome/welcome_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
