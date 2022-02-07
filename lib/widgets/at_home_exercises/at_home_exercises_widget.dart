@@ -81,7 +81,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
               );
             },
             child: Container(
-                height: MediaQuery.of(context).size.height * 0.12,
+                height: MediaQuery.of(context).size.height * 0.13,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(16),
@@ -178,6 +178,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                             style: FlutterFlowTheme.bodyText1)
                       ]),
             overflow: TextOverflow.ellipsis,
+            minFontSize: 14,
           ))
     ]);
   }
