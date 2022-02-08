@@ -41,16 +41,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Used to attach photos to your workouts</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>We will sync your data with the Apple Health app to give you better insights</string>
+		<string>We will sync your data with the Apple Health app to give you better insights</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>We will sync your data with the Apple Health app to give you better insights</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Used to record audio that can be attached to your workouts</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Used to attach images from camera roll to your workouts</string>
+		<string>We will sync your data with the Apple Health app to give you better insights</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -68,6 +62,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to attach photos to your workouts</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to attach images from camera roll to your workouts</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to record audio that can be attached to your workouts</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

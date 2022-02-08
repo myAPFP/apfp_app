@@ -1,8 +1,10 @@
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import '../add_activity/add_activity_widget.dart';
@@ -37,7 +39,25 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     _collectActivity();
   }
 
-  void _collectActivity() {
+  void _collectActivity() async {
+    HealthFactory health = new HealthFactory();
+    List<HealthDataType> types = List.empty(growable: true);
+    types.addAll([HealthDataType.WORKOUT]);
+    await health.requestAuthorization(types).then((value) async {
+      if (value) {
+        DateTime now = DateTime.now();
+        await health
+            .getHealthDataFromTypes(
+                DateTime(now.year, now.month, now.day), now, types)
+            .then((value) {
+          for (HealthDataPoint dataPoint in value) {
+            print(dataPoint);
+          }
+        });
+      } else {
+        Toasted.showToast("Permission to collect health data denied.");
+      }
+    });
     widget.activityStream.forEach((element) {
       Map sortedMap = new Map();
       if (element.data() == null) {
@@ -280,7 +300,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 ),
               ),
             ],
-
           ),
         ),
       ),
