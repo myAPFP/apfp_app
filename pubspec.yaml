@@ -51,6 +51,7 @@ dependencies:
   share_plus: ^3.0.4
   image_picker: ^0.8.4+6
   animated_text_kit: ^4.2.1
+  health: ^3.4.3
 
 
 dev_dependencies:
