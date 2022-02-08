@@ -81,7 +81,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
               );
             },
             child: Container(
-                height: MediaQuery.of(context).size.height * 0.13,
+                height: MediaQuery.of(context).size.height * 0.15,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(16),
@@ -114,7 +114,9 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _titleRow(title),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                             _sourceRow(author),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                             _lengthRow(video)
                           ]),
                     ],
