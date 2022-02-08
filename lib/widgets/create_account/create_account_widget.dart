@@ -83,15 +83,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             child: InkWell(
               key: Key("Create.backButton"),
               onTap: () async {
-                await Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    duration: Duration(milliseconds: 125),
-                    reverseDuration: Duration(milliseconds: 125),
-                    child: WelcomeWidget(),
-                  ),
-                );
+                _returnToWelcome();
               },
               child: Text(
                 '< Back',
@@ -628,7 +620,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   void showPwRequirements() {
     ConfirmationDialog.showConfirmationDialog(
         context: context,
-        title: 'Password Requirements',
+        title: Text('Password Requirements'),
         content: Text(
             'Password must contain at least\n\n' +
                 '- Eight characters\n' +
@@ -725,34 +717,51 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  void _returnToWelcome() async {
+    await Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.leftToRight,
+        duration: Duration(milliseconds: 125),
+        reverseDuration: Duration(milliseconds: 125),
+        child: WelcomeWidget(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(height: 25),
-                  _backButtonRow(),
-                  _headerText(),
-                  _nameRow(),
-                  _emailLabel(),
-                  _emailTextField
-              (),
-                  _passwordLabel(),
-                  _passwordTextField(),
-                  _confirmPasswordLabel(),
-                  _confirmPasswordTextField(),
-                  _createAccountButton(),
-                  SizedBox(height: 25)
-                ],
+      child: WillPopScope(
+        onWillPop: () async {
+          _returnToWelcome();
+          return false;
+        },
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(height: 25),
+                    _backButtonRow(),
+                    _headerText(),
+                    _nameRow(),
+                    _emailLabel(),
+                    _emailTextField(),
+                    _passwordLabel(),
+                    _passwordTextField(),
+                    _confirmPasswordLabel(),
+                    _confirmPasswordTextField(),
+                    _createAccountButton(),
+                    SizedBox(height: 25)
+                  ],
+                ),
               ),
             ),
           ),

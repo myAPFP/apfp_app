@@ -1,10 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
+import 'package:flutter/services.dart';
 
 class ConfirmationDialog {
   static void showConfirmationDialog({
     required BuildContext context,
-    required String title,
+    required Widget title,
     required Widget content,
     required Function() onSubmitTap,
     required Function() onCancelTap,
@@ -14,7 +16,7 @@ class ConfirmationDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text(title),
+        title: title,
         content: SingleChildScrollView(
             child: content, scrollDirection: Axis.vertical),
         actions: <Widget>[
@@ -66,5 +68,21 @@ class ConfirmationDialog {
                   topLeft: Radius.circular(4.0),
                   topRight: Radius.circular(4.0),
                 ))));
+  }
+
+  static void showExitAppDialog(BuildContext context) {
+    ConfirmationDialog.showConfirmationDialog(
+        context: context,
+        title: Text("Exit the app?"),
+        content:
+            Text("The app will now close.", style: TextStyle(fontSize: 20)),
+        onSubmitTap: () {
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        },
+        onCancelTap: () {
+          Navigator.pop(context);
+        },
+        cancelText: "Back",
+        submitText: "Exit");
   }
 }

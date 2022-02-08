@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../alert/alert_widget.dart';
+import '../confimation_dialog/confirmation_dialog.dart';
 import '/components/announcement_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -100,35 +101,41 @@ class _AlertsWidgetState extends State<AlertsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.tertiaryColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              // Row(
-              //   mainAxisSize: MainAxisSize.max,
-              //   mainAxisAlignment: MainAxisAlignment.start,
-              //   children: [_paddedHeader(_makeHeader('Unread Announcements'))],
-              // ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: unReadAnnouncements,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _paddedHeader(_makeHeader('Previous Announcements')),
-                ],
-              ),
-              Column(
-                children: previousAnnouncements,
-              )
-            ],
+    return WillPopScope(
+      onWillPop: () async {
+        ConfirmationDialog.showExitAppDialog(context);
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: FlutterFlowTheme.tertiaryColor,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                // Row(
+                //   mainAxisSize: MainAxisSize.max,
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [_paddedHeader(_makeHeader('Unread Announcements'))],
+                // ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: unReadAnnouncements,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _paddedHeader(_makeHeader('Previous Announcements')),
+                  ],
+                ),
+                Column(
+                  children: previousAnnouncements,
+                )
+              ],
+            ),
           ),
         ),
       ),
