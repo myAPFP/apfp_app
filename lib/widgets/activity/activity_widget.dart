@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
@@ -6,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
@@ -42,33 +45,64 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   void _collectActivity() async {
     HealthFactory health = new HealthFactory();
     List<HealthDataType> types = List.empty(growable: true);
-    types.addAll([HealthDataType.WORKOUT]);
-    await health.requestAuthorization(types).then((value) async {
-      if (value) {
-        DateTime now = DateTime.now();
-        await health
-            .getHealthDataFromTypes(
-                DateTime(now.year, now.month, now.day), now, types)
-            .then((value) {
-          for (HealthDataPoint dataPoint in value) {
-            _addActivityToCloud(
-                ActivityCard(
-                    icon: Icons.emoji_events_rounded,
-                    duration: dataPoint.dateTo
-                            .difference(dataPoint.dateFrom)
-                            .inMinutes
-                            .toString() +
-                        " minutes",
-                    name: "Imported Activity",
-                    type: "Exercise",
-                    timestamp: DateFormat.jm().format(dataPoint.dateTo)),
-                dataPoint.dateTo.toString());
-          }
-        });
-      } else {
-        Toasted.showToast("Permission to collect health data denied.");
-      }
-    });
+    types.addAll([HealthDataType.MOVE_MINUTES]);
+    if (Platform.isIOS) {
+      await health
+          .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
+        if (value) {
+          DateTime now = DateTime.now();
+          await health.getHealthDataFromTypes(
+              DateTime(now.year, now.month, now.day),
+              now,
+              [HealthDataType.WORKOUT]).then((value) {
+            for (HealthDataPoint dataPoint in value) {
+              _addActivityToCloud(
+                  ActivityCard(
+                      icon: Icons.emoji_events_rounded,
+                      duration: dataPoint.dateTo
+                              .difference(dataPoint.dateFrom)
+                              .inMinutes
+                              .toString() +
+                          " minutes",
+                      name: "Imported Activity",
+                      type: "Exercise",
+                      timestamp: DateFormat.jm().format(dataPoint.dateTo)),
+                  dataPoint.dateTo.toString());
+            }
+          });
+        } else {
+          Toasted.showToast("Permission to collect health data denied.");
+        }
+      });
+    } else {
+      await Permission.activityRecognition.request().then((value) async => {
+            if (value.isGranted)
+              {
+                await health.requestAuthorization(
+                    [HealthDataType.MOVE_MINUTES]).then((value) async {
+                  if (value) {
+                    DateTime now = DateTime.now();
+                    await health.getHealthDataFromTypes(
+                        DateTime(now.year, now.month, now.day),
+                        now,
+                        [HealthDataType.MOVE_MINUTES]).then((value) {
+                      _addActivityToCloud(
+                          ActivityCard(
+                              icon: Icons.emoji_events_rounded,
+                              duration: value.length.toString() + " minutes",
+                              name: "Imported Activity",
+                              type: "Exercise",
+                              timestamp:
+                                  DateFormat.jm().format(value[0].dateTo)),
+                          value[0].dateTo.toString());
+                    });
+                  }
+                })
+              }
+            else
+              {Toasted.showToast("Permission to collect health data denied.")}
+          });
+    }
     widget.activityStream.forEach((element) {
       Map sortedMap = new Map();
       if (element.data() == null) {
