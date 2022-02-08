@@ -32,11 +32,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   @override
   void initState() {
+    _collectActivity();
     super.initState();
     widget.activityStream.first.then((firstElement) {
       currentSnapshotBackup = firstElement.data()!;
     });
-    _collectActivity();
   }
 
   void _collectActivity() async {
@@ -51,7 +51,18 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 DateTime(now.year, now.month, now.day), now, types)
             .then((value) {
           for (HealthDataPoint dataPoint in value) {
-            print(dataPoint);
+            _addActivityToCloud(
+                ActivityCard(
+                    icon: Icons.emoji_events_rounded,
+                    duration: dataPoint.dateTo
+                            .difference(dataPoint.dateFrom)
+                            .inMinutes
+                            .toString() +
+                        " minutes",
+                    name: "Imported Activity",
+                    type: "Exercise",
+                    timestamp: DateFormat.jm().format(dataPoint.dateTo)),
+                dataPoint.dateTo.toString());
           }
         });
       } else {
@@ -92,9 +103,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     });
   }
 
-  void _addActivityToCloud(ActivityCard activityCard) {
-    currentSnapshotBackup.putIfAbsent(DateTime.now().toIso8601String(),
-        () => [activityCard.name, activityCard.type, activityCard.duration]);
+  void _addActivityToCloud(ActivityCard activityCard, String logTime) {
+    if (logTime == "") {
+      currentSnapshotBackup.putIfAbsent(DateTime.now().toIso8601String(),
+          () => [activityCard.name, activityCard.type, activityCard.duration]);
+    } else {
+      currentSnapshotBackup.putIfAbsent(logTime,
+          () => [activityCard.name, activityCard.type, activityCard.duration]);
+    }
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
@@ -175,7 +191,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           try {
             var result = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddActivityWidget()));
-            _addActivityToCloud(result);
+            _addActivityToCloud(result, "");
           } finally {}
         },
       ),
