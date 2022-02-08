@@ -256,7 +256,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                               openWithTap: true,
                               menuItems: <FocusedMenuItem>[
                                 FocusedMenuItem(
-                                    title: Text("Add Image and Share"),
+                                    title: Text("+ Image/Share"),
                                     trailingIcon: Icon(Icons.image),
                                     onPressed: () async {
                                       final cardInfo =
