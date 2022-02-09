@@ -78,7 +78,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   void _removeActivityFromCloud(String id) {
-    currentSnapshotBackup.removeWhere((key, value) => (key == id));
+    currentSnapshotBackup
+        .removeWhere((key, value) => (key == id.split(' ')[0]));
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
@@ -225,7 +226,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                           title: Text("Remove Activity?"),
                                           context: context,
                                           content: Text(
-                                              "Do you want to remove your ${cardInfo[0]} activity?" +
+                                              "Do you want to remove your ${cardInfo[1]} activity?" +
                                                   "\n\nThis can't be undone.",
                                               style: TextStyle(fontSize: 20)),
                                           cancelText: 'Back',
@@ -235,7 +236,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                           },
                                           onSubmitTap: () {
                                             setState(() {
-                                              print(e.key);
                                               _removeActivityFromCloud(e.key
                                                   .toString()
                                                   .substring(
