@@ -202,30 +202,32 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   void _preloadPlaylists() {
     widget.playlistStream.forEach(((snapshot) {
       playlistIDs.clear();
-      videoList.clear();
       _index = 0;
       snapshot.docs.forEach((document) {
         playlistIDs.add(document["id"]);
       });
-      for (String id in playlistIDs) {
-        _preloadPlaylist(id);
-      }
-      videoURLs.clear();
+      _updateVideoList();
     }));
+  }
+
+  void _updateVideoList() {
+    videoList.clear();
+    for (String id in playlistIDs) {
+      _preloadPlaylist(id);
+    }
+    for (String url in videoURLs) {
+      _preloadVideo(url);
+    }
   }
 
   void _preloadVideos() {
     widget.videoStream.forEach((snapshot) {
       videoURLs.clear();
-      videoList.clear();
       _index = 0;
       snapshot.docs.forEach((document) {
         videoURLs.add(document["url"]);
       });
-      for (String url in videoURLs) {
-        _preloadVideo(url);
-      }
-      playlistIDs.clear();
+      _updateVideoList();
     });
   }
 
