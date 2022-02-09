@@ -1,6 +1,7 @@
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ActivityCard {
   String? name;
@@ -92,7 +93,7 @@ class ActivityCard {
                   style: FlutterFlowTheme.bodyText1,
                   children: [
                     TextSpan(
-                      text: timestamp,
+                      text: DateFormat.jm().format(DateTime.parse(timestamp!)),
                       style: FlutterFlowTheme.title3Red,
                     )
                   ]))
@@ -105,7 +106,7 @@ class ActivityCard {
 
   Padding paddedActivityCard(BuildContext context) {
     return Padding(
-      key: Key('$name $type $duration'),
+      key: Key('$timestamp'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,

@@ -64,23 +64,21 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 name: value[0],
                 type: value[1],
                 timestamp: key != null
-                    ? DateFormat.jm().format(DateTime.parse(key))
-                    : DateFormat.jm().format(
-                        DateTime.parse(DateTime.now().toIso8601String())))
+                    ? DateTime.parse(key).toIso8601String()
+                    : DateTime.now().toIso8601String())
             .paddedActivityCard(context));
       });
     });
   }
 
   void _addActivityToCloud(ActivityCard activityCard) {
-    currentSnapshotBackup.putIfAbsent(DateTime.now().toIso8601String(),
+    currentSnapshotBackup.putIfAbsent(activityCard.timestamp.toString(),
         () => [activityCard.name, activityCard.type, activityCard.duration]);
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
   void _removeActivityFromCloud(String id) {
-    currentSnapshotBackup.removeWhere(
-        (key, value) => ((value[0] + " " + value[1] + " " + value[2]) == id));
+    currentSnapshotBackup.removeWhere((key, value) => (key == id));
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
@@ -237,6 +235,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                           },
                                           onSubmitTap: () {
                                             setState(() {
+                                              print(e.key);
                                               _removeActivityFromCloud(e.key
                                                   .toString()
                                                   .substring(
@@ -280,7 +279,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                 ),
               ),
             ],
-
           ),
         ),
       ),

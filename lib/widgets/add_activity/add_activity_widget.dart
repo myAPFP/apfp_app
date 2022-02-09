@@ -94,7 +94,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     icon: Icons.info,
                     duration: '${_getDuration()} $unitOfTime',
                     name: _getName().replaceAll(RegExp(' +'), '-'),
-                    type: exercisetype));
+                    type: exercisetype,
+                    timestamp: DateTime.now().toIso8601String()));
           }
         } finally {
           setState(() => _loadingButton = false);
