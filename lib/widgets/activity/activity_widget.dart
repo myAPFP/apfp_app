@@ -154,7 +154,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           try {
             var result = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddActivityWidget()));
-            _addActivityToCloud(result);
+            if (result != null) {
+              _addActivityToCloud(result);
+            }
           } finally {}
         },
       ),
