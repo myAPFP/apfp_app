@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:apfp/firebase/firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -29,6 +28,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   bool _isVideosLoaded = false;
   List<String> playlistIDs = [];
   List<String> videoURLs = [];
+  List<String> playlistBackup = [];
+  List<String> videoBackup = [];
 
   @override
   void initState() {
@@ -201,33 +202,37 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   void _preloadPlaylists() {
     widget.playlistStream.forEach(((snapshot) {
-      playlistIDs.clear();
       _index = 0;
       snapshot.docs.forEach((document) {
         playlistIDs.add(document["id"]);
       });
+      playlistBackup = playlistIDs.toList();
       _updateVideoList();
+      playlistIDs.clear();
     }));
   }
 
   void _updateVideoList() {
     videoList.clear();
-    for (String id in playlistIDs) {
-      _preloadPlaylist(id);
-    }
-    for (String url in videoURLs) {
-      _preloadVideo(url);
+    if (playlistBackup.isNotEmpty && videoBackup.isNotEmpty) {
+      for (String id in playlistBackup) {
+        _preloadPlaylist(id);
+      }
+      for (String url in videoBackup) {
+        _preloadVideo(url);
+      }
     }
   }
 
   void _preloadVideos() {
     widget.videoStream.forEach((snapshot) {
-      videoURLs.clear();
       _index = 0;
       snapshot.docs.forEach((document) {
         videoURLs.add(document["url"]);
       });
+      videoBackup = videoURLs.toList();
       _updateVideoList();
+      videoURLs.clear();
     });
   }
 
