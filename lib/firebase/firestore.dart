@@ -2,25 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStore {
-  static Future<QuerySnapshot> getPlaylistIDs() {
-    return FirebaseFirestore.instance
-        .collection('youtube-playlists')
-        .orderBy("Title")
-        .get();
-  }
-
   static Stream<QuerySnapshot> getYTPlaylistIDs() {
     return FirebaseFirestore.instance
         .collection('youtube-playlists')
         .orderBy("Title")
         .snapshots();
-  }
-
-  static Future<QuerySnapshot> getVideoUrls() {
-    return FirebaseFirestore.instance
-        .collection('youtube-videos')
-        .orderBy("Title")
-        .get();
   }
 
   static Stream<QuerySnapshot> getYTVideoUrls() {
