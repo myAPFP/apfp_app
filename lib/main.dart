@@ -42,6 +42,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
   late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity;
   late FirebaseMessaging messaging;
+  Stream<QuerySnapshot> ytPlaylistStream = FireStore.getYTPlaylistIDs();
+  Stream<QuerySnapshot> ytVideoStream = FireStore.getYTVideoUrls();
   Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
       FireStore.getAnnouncements();
   List<Widget> pageList = List<Widget>.empty(growable: true);
@@ -60,7 +62,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     messaging.subscribeToTopic("alerts");
     pageList.add(HomeWidget(announcementsStream: announcements));
     pageList.add(AlertsWidget(announcementsStream: announcements));
-    pageList.add(AtHomeExercisesWidget());
+    pageList.add(AtHomeExercisesWidget(
+        playlistStream: ytPlaylistStream, videoStream: ytVideoStream));
     pageList.add(ActivityWidget(activityStream: userActivity));
     pageList.add(SettingsWidget());
     initConnectivity();

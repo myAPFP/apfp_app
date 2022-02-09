@@ -9,11 +9,25 @@ class FireStore {
         .get();
   }
 
+  static Stream<QuerySnapshot> getYTPlaylistIDs() {
+    return FirebaseFirestore.instance
+        .collection('youtube-playlists')
+        .orderBy("Title")
+        .snapshots();
+  }
+
   static Future<QuerySnapshot> getVideoUrls() {
     return FirebaseFirestore.instance
         .collection('youtube-videos')
         .orderBy("Title")
         .get();
+  }
+
+  static Stream<QuerySnapshot> getYTVideoUrls() {
+    return FirebaseFirestore.instance
+        .collection('youtube-videos')
+        .orderBy("Title")
+        .snapshots();
   }
 
   static void storeUID(String docId, String uid) {
