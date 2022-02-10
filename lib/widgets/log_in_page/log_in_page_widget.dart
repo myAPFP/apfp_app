@@ -94,8 +94,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
             child: TextFormField(
               key: Key("Login.emailTextField"),
-              cursorColor: FlutterFlowTheme.secondaryColor,
               autofillHints: [AutofillHints.email],
+              cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
@@ -126,7 +126,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
 
   Row _passwordTextFormField() {
     return Row(
-      key: Key('LogIn.passwordTextBox'),
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(

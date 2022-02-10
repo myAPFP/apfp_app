@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:apfp/firebase/firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../confimation_dialog/confirmation_dialog.dart';
 import '../exercise_video/exercise_video_widget.dart';
@@ -9,7 +9,12 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AtHomeExercisesWidget extends StatefulWidget {
-  AtHomeExercisesWidget({Key? key}) : super(key: key);
+  final Stream<QuerySnapshot<Object?>> playlistStream;
+  final Stream<QuerySnapshot<Object?>> videoStream;
+
+  AtHomeExercisesWidget(
+      {Key? key, required this.playlistStream, required this.videoStream})
+      : super(key: key);
 
   @override
   _AtHomeExercisesWidgetState createState() => _AtHomeExercisesWidgetState();
@@ -18,24 +23,22 @@ class AtHomeExercisesWidget extends StatefulWidget {
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Timer? timer;
   int _index = 0;
   List<Widget> videoList = [];
   bool _isVideosLoaded = false;
+  List<String> playlistIDs = [];
+  List<String> videoURLs = [];
+  List<String> playlistBackup = [];
+  List<String> videoBackup = [];
 
   @override
   void initState() {
     super.initState();
     preloadAllVideos();
-    timer = Timer.periodic(Duration(minutes: 30), (Timer t) {
-      videoList.clear();
-      preloadAllVideos();
-    });
   }
 
   @override
   void dispose() {
-    timer?.cancel();
     super.dispose();
   }
 
@@ -116,9 +119,13 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _titleRow(title),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.005),
                             _sourceRow(author),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.005),
                             _lengthRow(video)
                           ]),
                     ],
@@ -188,29 +195,45 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   void preloadAllVideos() {
-    _getPlaylistIDs().then((ids) => ids.forEach((id) => _preloadPlaylist(id)));
-    _getVideoUrls().then((urls) => urls.forEach((url) => _preloadVideo(url)));
+    _preloadPlaylists();
+    _preloadVideos();
     _isVideosLoaded = true;
   }
 
-  Future<List<String>> _getVideoUrls() async {
-    List<String> urls = [];
-    await FireStore.getVideoUrls().then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        urls.add(doc["url"]);
+  void _preloadPlaylists() {
+    widget.playlistStream.forEach(((snapshot) {
+      _index = 0;
+      snapshot.docs.forEach((document) {
+        playlistIDs.add(document["id"]);
       });
-    });
-    return urls;
+      playlistBackup = playlistIDs.toList();
+      _updateVideoList();
+      playlistIDs.clear();
+    }));
   }
 
-  Future<List<String>> _getPlaylistIDs() async {
-    List<String> ids = [];
-    await FireStore.getPlaylistIDs().then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        ids.add(doc["id"]);
+  void _updateVideoList() {
+    videoList.clear();
+    if (playlistBackup.isNotEmpty && videoBackup.isNotEmpty) {
+      for (String id in playlistBackup) {
+        _preloadPlaylist(id);
+      }
+      for (String url in videoBackup) {
+        _preloadVideo(url);
+      }
+    }
+  }
+
+  void _preloadVideos() {
+    widget.videoStream.forEach((snapshot) {
+      _index = 0;
+      snapshot.docs.forEach((document) {
+        videoURLs.add(document["url"]);
       });
+      videoBackup = videoURLs.toList();
+      _updateVideoList();
+      videoURLs.clear();
     });
-    return ids;
   }
 
   void _preloadVideo(String url) async {

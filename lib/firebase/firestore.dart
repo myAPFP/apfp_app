@@ -2,18 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStore {
-  static Future<QuerySnapshot> getPlaylistIDs() {
+  static Stream<QuerySnapshot> getYTPlaylistIDs() {
     return FirebaseFirestore.instance
         .collection('youtube-playlists')
         .orderBy("Title")
-        .get();
+        .snapshots();
   }
 
-  static Future<QuerySnapshot> getVideoUrls() {
+  static Stream<QuerySnapshot> getYTVideoUrls() {
     return FirebaseFirestore.instance
         .collection('youtube-videos')
         .orderBy("Title")
-        .get();
+        .snapshots();
   }
 
   static void storeUID(String docId, String uid) {

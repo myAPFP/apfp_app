@@ -230,8 +230,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       decoration: BoxDecoration(),
       child: TextFormField(
         key: Key("Create.lastNameTextField"),
-        cursorColor: FlutterFlowTheme.secondaryColor,
         autofillHints: [AutofillHints.familyName],
+        cursorColor: FlutterFlowTheme.secondaryColor,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Please provide a value";
@@ -326,7 +326,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _emailTextBox() {
+  Row _emailTextField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -335,8 +335,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
               key: Key("Create.emailTextField"),
-              cursorColor: FlutterFlowTheme.secondaryColor,
               autofillHints: [AutofillHints.email],
+              cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
@@ -753,7 +753,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     _headerText(),
                     _nameRow(),
                     _emailLabel(),
-                    _emailTextBox(),
+                    _emailTextField(),
                     _passwordLabel(),
                     _passwordTextField(),
                     _confirmPasswordLabel(),
