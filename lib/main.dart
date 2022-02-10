@@ -19,7 +19,6 @@ import 'dart:developer' as developer;
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() {
-  //Locking app to portrait orientation.
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -55,8 +54,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    userActivity = connectActivityDocument();
     super.initState();
+    userActivity = connectActivityDocument();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
@@ -74,9 +73,9 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    super.dispose();
     WidgetsBinding.instance!.removeObserver(this);
     _connectivitySubscription.cancel();
-    super.dispose();
   }
 
   @override
