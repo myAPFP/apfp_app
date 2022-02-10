@@ -106,7 +106,7 @@ class ActivityCard {
 
   Padding paddedActivityCard(BuildContext context) {
     return Padding(
-      key: Key('$timestamp $name'),
+      key: Key('$timestamp $name $type $duration'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,

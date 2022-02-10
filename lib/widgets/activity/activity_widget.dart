@@ -205,14 +205,16 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     title: Text("Share"),
                                     trailingIcon: Icon(Icons.share),
                                     onPressed: () {
-                                      final cardInfo =
-                                          Validator.cardInfoToList(e)!;
+                                      List<String> cardInfo =
+                                          e.key.toString().split(' ');
+                                      // final cardInfo =
+                                      //     Validator.cardInfoToList(e)!;
                                       share(
                                           subject: "New Activity Completed!",
                                           body: 'I completed a new activity!\n\n' +
-                                              'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
-                                              'Exercise Type: ${cardInfo[1]}\n' +
-                                              'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                                              'Activity: ${cardInfo[1]}\n' +
+                                              'Exercise Type: ${cardInfo[2]}\n' +
+                                              'Duration: ${cardInfo[3] + ' ' + cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
                                               '\nSent from the APFP App.');
                                     }),
                                 FocusedMenuItem(
