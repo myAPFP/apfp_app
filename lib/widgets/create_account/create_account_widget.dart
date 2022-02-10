@@ -83,15 +83,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             child: InkWell(
               key: Key("Create.backButton"),
               onTap: () async {
-                await Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    duration: Duration(milliseconds: 125),
-                    reverseDuration: Duration(milliseconds: 125),
-                    child: WelcomeWidget(),
-                  ),
-                );
+                _returnToWelcome();
               },
               child: Text(
                 '< Back',
@@ -166,6 +158,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         alignment: AlignmentDirectional(0, 0),
         child: TextFormField(
           key: (Key("Create.firstNameTextField")),
+          autofillHints: [AutofillHints.givenName],
           cursorColor: FlutterFlowTheme.secondaryColor,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -237,6 +230,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       decoration: BoxDecoration(),
       child: TextFormField(
         key: Key("Create.lastNameTextField"),
+        autofillHints: [AutofillHints.familyName],
         cursorColor: FlutterFlowTheme.secondaryColor,
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -244,7 +238,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           }
           var firstUpperCase = value.substring(0, 1).toUpperCase();
           if (!Validator.isValidName(value)) {
-            return "Please provide a valid first name";
+            return "Please provide a valid last name";
           } else if (value.substring(0, 1) != firstUpperCase) {
             return "Please capitalize your name";
           }
@@ -282,25 +276,27 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _nameRow() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_firstNameLabel(), _firstNameTextField()],
+  AutofillGroup _nameRow() {
+    return AutofillGroup(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_firstNameLabel(), _firstNameTextField()],
+            ),
           ),
-        ),
-        Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_lastNameLabel(), _lastNameTextField()])
-      ],
+          Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_lastNameLabel(), _lastNameTextField()])
+        ],
+      ),
     );
   }
 
@@ -330,7 +326,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _emailTextBox() {
+  Row _emailTextField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -339,6 +335,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
               key: Key("Create.emailTextField"),
+              autofillHints: [AutofillHints.email],
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -623,7 +620,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   void showPwRequirements() {
     ConfirmationDialog.showConfirmationDialog(
         context: context,
-        title: 'Password Requirements',
+        title: Text('Password Requirements'),
         content: Text(
             'Password must contain at least\n\n' +
                 '- Eight characters\n' +
@@ -720,32 +717,51 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  void _returnToWelcome() async {
+    await Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.leftToRight,
+        duration: Duration(milliseconds: 125),
+        reverseDuration: Duration(milliseconds: 125),
+        child: WelcomeWidget(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(height: 25),
-                  _backButtonRow(),
-                  _headerText(),
-                  _nameRow(),
-                  _emailLabel(),
-                  _emailTextBox(),
-                  _passwordLabel(),
-                  _passwordTextField(),
-                  _confirmPasswordLabel(),
-                  _confirmPasswordTextField(),
-                  _createAccountButton()
-                ],
+      child: WillPopScope(
+        onWillPop: () async {
+          _returnToWelcome();
+          return false;
+        },
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(height: 25),
+                    _backButtonRow(),
+                    _headerText(),
+                    _nameRow(),
+                    _emailLabel(),
+                    _emailTextField(),
+                    _passwordLabel(),
+                    _passwordTextField(),
+                    _confirmPasswordLabel(),
+                    _confirmPasswordTextField(),
+                    _createAccountButton(),
+                    SizedBox(height: 25)
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,40 +1,29 @@
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ActivityCard {
   String? name;
   String? type;
   IconData? icon;
   String? duration;
-  String? totalCal;
+  String? timestamp;
 
   Card? _card;
 
   ActivityCard(
       {String? duration,
-      String? totalCal,
       String? type,
       String? name,
-      IconData? icon}) {
+      IconData? icon,
+      String? timestamp}) {
     this.name = name;
     this.type = type;
     this.icon = icon;
     this.duration = duration;
-    this.totalCal = totalCal;
+    this.timestamp = timestamp;
     _createActivityCard();
-  }
-
-  Align _align(
-      {required AlignmentDirectional alignment,
-      required EdgeInsetsDirectional padding,
-      Widget? child}) {
-    return Align(
-      alignment: alignment,
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
-    );
   }
 
   void _createActivityCard() {
@@ -48,53 +37,81 @@ class ActivityCard {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-            child: Stack(
-              children: [
-                _align(
-                    alignment: AlignmentDirectional(-1.13, 0.04),
-                    padding: EdgeInsetsDirectional.all(0),
-                    child: Icon(
-                      icon,
-                      color: Color(0xFF54585A),
-                      size: 80,
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(103.56, -0.17),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 20, 0, 0),
-                    child: Text(
-                      '$duration                       $totalCal cals',
-                      style: FlutterFlowTheme.bodyText1,
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(-0.21, 0.31),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 30, 0, 0),
-                    child: Text(
-                      '$type',
-                      style: FlutterFlowTheme.bodyText1,
-                    )),
-                _align(
-                    alignment: AlignmentDirectional(0, -0.58),
-                    padding: EdgeInsetsDirectional.fromSTEB(100, 0, 0, 0),
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(icon, color: Color(0xFF54585A), size: 80),
+          ]),
+          SizedBox(width: 15),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(children: [
+                Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQueryData.fromWindow(
+                                    WidgetsBinding.instance!.window)
+                                .size
+                                .width *
+                            0.6),
                     child: Text(
                       '$name',
-                      style: FlutterFlowTheme.subtitle1,
+                      style: FlutterFlowTheme.title1,
+                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      softWrap: false,
                     ))
-              ],
-            ),
-          )
+              ]),
+              SizedBox(height: 15),
+              Row(children: [
+                AutoSizeText.rich(TextSpan(
+                    text: 'Type:',
+                    style: FlutterFlowTheme.title3Red,
+                    children: [
+                      TextSpan(
+                        text: ' $type',
+                        style: FlutterFlowTheme.bodyText1,
+                      )
+                    ])),
+              ]),
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  AutoSizeText.rich(TextSpan(
+                      text: 'Duration:',
+                      style: FlutterFlowTheme.title3Red,
+                      children: [
+                        TextSpan(
+                          text: ' $duration',
+                          style: FlutterFlowTheme.bodyText1,
+                        )
+                      ])),
+                ],
+              ),
+              SizedBox(width: 5),
+              AutoSizeText.rich(TextSpan(
+                  text: 'Logged at ',
+                  style: FlutterFlowTheme.bodyText1,
+                  children: [
+                    TextSpan(
+                      text: DateFormat.jm().format(DateTime.parse(timestamp!)),
+                      style: FlutterFlowTheme.title3Red,
+                    )
+                  ]))
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Padding paddedActivityCard() {
+  Padding paddedActivityCard(BuildContext context) {
     return Padding(
+      key: Key('$timestamp $name $type $duration'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,
-        height: 120,
+        height: 130,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(color: Color(0xFF54585A)),
           color: Colors.transparent,

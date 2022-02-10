@@ -48,15 +48,6 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
 
-  
-  /// If the user uses the system back button or gesture, _onWillPop()
-  /// is called, which calls _lockPortait() before going back.
-  Future<bool> _onWillPop() async {
-    _lockPortait();
-    Navigator.pop(context, true);
-    return false;
-  }
-
   InkWell _goBackToAllVideos() {
     return InkWell(
         onTap: () async {
@@ -97,7 +88,11 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: () async {
+        _lockPortait();
+        Navigator.pop(context, true);
+        return false;
+      },
       child: Scaffold(
           key: scaffoldKey,
           backgroundColor: Colors.white,

@@ -1,30 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStore {
-  static Future<QuerySnapshot> getPlaylistIDs() {
+  static Stream<QuerySnapshot> getYTPlaylistIDs() {
     return FirebaseFirestore.instance
-        .collection('youtube playlists')
+        .collection('youtube-playlists')
         .orderBy("Title")
-        .get();
+        .snapshots();
   }
 
-  static Future<QuerySnapshot> getVideoUrls() {
+  static Stream<QuerySnapshot> getYTVideoUrls() {
     return FirebaseFirestore.instance
-        .collection('youtube videos')
+        .collection('youtube-videos')
         .orderBy("Title")
-        .get();
+        .snapshots();
   }
 
   static void storeUID(String docId, String uid) {
     FirebaseFirestore.instance
-        .collection('registered users')
+        .collection('registered-users')
         .doc(docId)
         .update({"UID": uid});
   }
 
   static Future<QuerySnapshot> getRegisteredUser(String email) {
     return FirebaseFirestore.instance
-        .collection('registered users')
+        .collection('registered-users')
         .where('email', isEqualTo: email)
         .get();
   }
@@ -40,5 +41,27 @@ class FireStore {
         .orderBy("id", descending: true)
         .limit(limit)
         .snapshots();
+  }
+
+  static DocumentReference<Map<String, dynamic>> getUserActivityDocument() {
+    return FirebaseFirestore.instance
+        .collection('activity')
+        .doc(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>>
+      createUserActivityStream() {
+    return getUserActivityDocument().snapshots();
+  }
+
+  static Future<void> updateWorkoutData(Map<String, dynamic> data) {
+    return getUserActivityDocument().set(data);
+  }
+
+  static void createUserActivityDocument() async {
+    await FirebaseFirestore.instance
+        .collection('activity')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .set(new Map());
   }
 }
