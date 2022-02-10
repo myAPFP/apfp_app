@@ -19,6 +19,7 @@ import '../log_in_page/log_in_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '/main.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -176,6 +177,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
             height: 25,
           )
         ],
+
       ),
     );
   }
