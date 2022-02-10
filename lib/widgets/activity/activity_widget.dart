@@ -3,7 +3,6 @@ import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
-import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
@@ -207,12 +206,10 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     onPressed: () {
                                       List<String> cardInfo =
                                           e.key.toString().split(' ');
-                                      // final cardInfo =
-                                      //     Validator.cardInfoToList(e)!;
                                       share(
                                           subject: "New Activity Completed!",
                                           body: 'I completed a new activity!\n\n' +
-                                              'Activity: ${cardInfo[1]}\n' +
+                                              'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                                               'Exercise Type: ${cardInfo[2]}\n' +
                                               'Duration: ${cardInfo[3] + ' ' + cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
                                               '\nSent from the APFP App.');
