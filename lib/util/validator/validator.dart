@@ -1,8 +1,9 @@
-import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 
 class Validator {
+  static final filter = ProfanityFilter();
+  
   /// Extracts activity data from a paddedActivityCard
   static RegExp _cardToStrRegex = new RegExp(r'\[<(.*?)\>]');
 
@@ -67,7 +68,6 @@ class Validator {
   }
 
   static bool hasProfanity(String input) {
-    final filter = ProfanityFilter();
     return filter.hasProfanity(input);
   }
 }
