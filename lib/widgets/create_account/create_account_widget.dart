@@ -350,9 +350,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 if (!Validator.isValidEmail(value)) {
                   return "Please provide a valid email address";
                 }
-                if (Validator.hasProfanity(value)) {
-                  return 'Profanity is not allowed.';
-                }
                 return null;
               },
               keyboardType: TextInputType.emailAddress,

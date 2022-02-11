@@ -177,9 +177,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (double.parse(value) > 99) {
               return '99 is max limit';
             }
-            if (Validator.hasProfanity(value)) {
-              return 'Profanity is not allowed.';
-            }
             return null;
           },
           controller: durationTextController,
