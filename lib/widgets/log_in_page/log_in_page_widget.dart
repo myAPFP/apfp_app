@@ -4,7 +4,6 @@ import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/email_not_confirmed/email_not_confirmed_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -103,6 +102,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                 if (!Validator.isValidEmail(value)) {
                   return "Please provide a valid email address";
                 }
+                if (Validator.hasProfanity(value)) {
+                  return 'Profanity is not allowed.';
+                }
                 return null;
               },
               keyboardType: TextInputType.emailAddress,
@@ -137,6 +139,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
+                }
+                if (Validator.hasProfanity(value)) {
+                  return 'Profanity is not allowed.';
                 }
                 return null;
               },
@@ -291,8 +296,11 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                         '\n\nYou will recieve a link to reset your password.',
                 onSubmitTap: () {
                   if (Validator.isValidEmail(_getDialogEmail())) {
-                    FireAuth.sendResetPasswordLink(email: _getDialogEmail());
-                    Navigator.pop(context);
+                    if (!Validator.hasProfanity(_getDialogEmail())) {
+                      FireAuth.sendResetPasswordLink(email: _getDialogEmail());
+                      Navigator.pop(context);
+                    } else
+                      Toasted.showToast('Profanity is not allowed.');
                   } else
                     Toasted.showToast('Please provide a valid email address');
                 }),

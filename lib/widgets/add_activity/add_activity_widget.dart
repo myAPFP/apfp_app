@@ -130,6 +130,9 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (!Validator.isValidActivity(value)) {
               return 'Alphabet letters only';
             }
+            if (Validator.hasProfanity(value)) {
+              return 'Profanity is not allowed.';
+            }
             return null;
           },
           controller: activityNameTextController,
@@ -171,11 +174,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (!Validator.isValidDuration(value) || double.parse(value) < 1) {
               return 'Positive numbers (1+) only';
             }
-
             if (double.parse(value) > 99) {
               return '99 is max limit';
             }
-
+            if (Validator.hasProfanity(value)) {
+              return 'Profanity is not allowed.';
+            }
             return null;
           },
           controller: durationTextController,

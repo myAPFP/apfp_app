@@ -1,6 +1,7 @@
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -288,7 +289,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 context: context,
                                 title: Text('Enter your password to confirm.'),
                                 content: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     _emailTextField(),
@@ -311,11 +313,17 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 },
                                 onSubmitTap: () {
                                   if (_getPassword().isNotEmpty) {
-                                    FocusManager.instance.primaryFocus?.unfocus();
-                                    // Firebase requires a user to be recently
-                                    // signed in before deleting their account
-                                    FireAuth.signOut();
-                                    _signInAndDelete();
+                                    if (!Validator.hasProfanity(
+                                        _getPassword())) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      // Firebase requires a user to be recently
+                                      // signed in before deleting their account
+                                      FireAuth.signOut();
+                                      _signInAndDelete();
+                                    } else
+                                      Toasted.showToast(
+                                          'Profanity is not allowed.');
                                   } else
                                     Toasted.showToast(
                                         'Please provide a password.');
@@ -331,4 +339,3 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 }
-

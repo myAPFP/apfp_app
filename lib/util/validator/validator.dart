@@ -68,9 +68,6 @@ class Validator {
 
   static bool hasProfanity(String input) {
     final filter = ProfanityFilter();
-    if (filter.hasProfanity(input)) {
-      Toasted.showToast('Profanity is not allowed.');
-    }
     return filter.hasProfanity(input);
   }
 }

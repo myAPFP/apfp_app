@@ -170,6 +170,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             } else if (value.substring(0, 1) != firstUpperCase) {
               return "Please capitalize your name";
             }
+            if (Validator.hasProfanity(value)) {
+              return 'Profanity is not allowed.';
+            }
             return null;
           },
           keyboardType: TextInputType.name,
@@ -241,6 +244,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             return "Please provide a valid last name";
           } else if (value.substring(0, 1) != firstUpperCase) {
             return "Please capitalize your name";
+          }
+          if (Validator.hasProfanity(value)) {
+            return 'Profanity is not allowed.';
           }
           return null;
         },
@@ -344,6 +350,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 if (!Validator.isValidEmail(value)) {
                   return "Please provide a valid email address";
                 }
+                if (Validator.hasProfanity(value)) {
+                  return 'Profanity is not allowed.';
+                }
                 return null;
               },
               keyboardType: TextInputType.emailAddress,
@@ -423,6 +432,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 }
                 if (!Validator.isValidPassword(value)) {
                   return "Please provide a valid password";
+                }
+                if (Validator.hasProfanity(value)) {
+                  return 'Profanity is not allowed.';
                 }
                 return null;
               },
@@ -526,6 +538,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 }
                 if (value != _getPassword()) {
                   return "Passwords must match";
+                }
+                if (Validator.hasProfanity(value)) {
+                  return 'Profanity is not allowed.';
                 }
                 return null;
               },
