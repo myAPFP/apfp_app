@@ -214,6 +214,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   void _updateVideoList() {
     videoList.clear();
+    _isVideosLoaded = false;
     if (playlistBackup.isNotEmpty && videoBackup.isNotEmpty) {
       for (String id in playlistBackup) {
         _preloadPlaylist(id);
@@ -222,6 +223,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
         _preloadVideo(url);
       }
     }
+    _isVideosLoaded = true;
   }
 
   void _preloadVideos() {

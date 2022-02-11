@@ -51,6 +51,7 @@ dependencies:
   connectivity_plus: ^2.2.0
   share_plus: ^3.0.4
   image_picker: ^0.8.4+6
+  profanity_filter: ^2.0.0
 
 
 dev_dependencies:
