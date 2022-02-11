@@ -1,4 +1,6 @@
+import 'package:apfp/util/toasted/toasted.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 class Validator {
   /// Extracts activity data from a paddedActivityCard
@@ -62,5 +64,13 @@ class Validator {
 
   static bool textFieldHasValue(TextEditingController controller) {
     return controller.text.isNotEmpty;
+  }
+
+  static bool hasProfanity(String input) {
+    final filter = ProfanityFilter();
+    if (filter.hasProfanity(input)) {
+      Toasted.showToast('Profanity is not allowed.');
+    }
+    return filter.hasProfanity(input);
   }
 }
