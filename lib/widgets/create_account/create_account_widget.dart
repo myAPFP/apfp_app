@@ -171,7 +171,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               return "Please capitalize your name";
             }
             if (Validator.hasProfanity(value)) {
-              return 'Profanity is not allowed.';
+              // We want to allow the use of this word 
+              // here as it is a valid name
+              if (value.trim() != 'Dick') {
+                return 'Profanity is not allowed.';
+              }
             }
             return null;
           },
@@ -246,7 +250,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             return "Please capitalize your name";
           }
           if (Validator.hasProfanity(value)) {
-            return 'Profanity is not allowed.';
+            // We want to allow the use of this word 
+            // here as it is a valid name
+            if (value.trim() != 'Dick') {
+              return 'Profanity is not allowed.';
+            }
           }
           return null;
         },
@@ -430,9 +438,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 if (!Validator.isValidPassword(value)) {
                   return "Please provide a valid password";
                 }
-                if (Validator.hasProfanity(value)) {
-                  return 'Profanity is not allowed.';
-                }
                 return null;
               },
               controller: _passwordController,
@@ -535,9 +540,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 }
                 if (value != _getPassword()) {
                   return "Passwords must match";
-                }
-                if (Validator.hasProfanity(value)) {
-                  return 'Profanity is not allowed.';
                 }
                 return null;
               },
