@@ -3,7 +3,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeWidget extends StatefulWidget {
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
@@ -150,12 +152,145 @@ class _HomeWidgetState extends State<HomeWidget> {
             width: 2,
           ),
         ),
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-          child: Text(
-            'This is placeholder text for the graphical activity interface that has yet to be created. ',
-            style: FlutterFlowTheme.bodyText1,
+        child: ContainedTabBarView(
+          tabs: [
+            Text('Calories'),
+            Text('Steps'),
+            Text('Miles'),
+            Text('Exercise Time')
+          ],
+          tabBarProperties: TabBarProperties(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: 32,
+            background: Container(
+              decoration: BoxDecoration(
+                color: FlutterFlowTheme.secondaryColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.4),
+                    spreadRadius: 0.5,
+                    blurRadius: 2,
+                    offset: Offset(1, -1),
+                  ),
+                ],
+              ),
+            ),
+            position: TabBarPosition.top,
+            alignment: TabBarAlignment.center,
+            indicatorColor: Colors.transparent,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.grey[400],
           ),
+          views: [
+            Container(
+                child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(height: 25),
+                  CircularPercentIndicator(
+                    radius: MediaQuery.of(context).size.width / 2.0,
+                    animation: true,
+                    animationDuration: 1200,
+                    lineWidth: 15.0,
+                    percent: 0.65,
+                    center: new Text(
+                      "225\nCals Burned",
+                      style: new TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                    circularStrokeCap: CircularStrokeCap.square,
+                    backgroundColor: FlutterFlowTheme.secondaryColor,
+                    progressColor: Colors.green,
+                  ),
+                  SizedBox(height: 25),
+                  Text("You've completed 65% of your goal.",
+                      style: TextStyle(fontSize: 20))
+                ],
+              ),
+            )),
+            Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                  SizedBox(height: 25),
+                  CircularPercentIndicator(
+                    radius: MediaQuery.of(context).size.width / 2.0,
+                    animation: true,
+                    animationDuration: 1200,
+                    lineWidth: 15.0,
+                    percent: 0.87,
+                    center: new Text(
+                      "2225\nSteps Taken",
+                      style: new TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                    circularStrokeCap: CircularStrokeCap.square,
+                    backgroundColor: FlutterFlowTheme.secondaryColor,
+                    progressColor: Colors.green,
+                  ),
+                  SizedBox(height: 25),
+                  Text("You've completed 87% of your goal.",
+                      style: TextStyle(fontSize: 20))
+                              ],
+                            ),
+                )),
+            Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                  SizedBox(height: 25),
+                  CircularPercentIndicator(
+                    radius: MediaQuery.of(context).size.width / 2.0,
+                    animation: true,
+                    animationDuration: 1200,
+                    lineWidth: 15.0,
+                    percent: 0.50,
+                    center: new Text(
+                      "3 Miles\nWalked / Ran",
+                      style: new TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                    circularStrokeCap: CircularStrokeCap.square,
+                    backgroundColor: FlutterFlowTheme.secondaryColor,
+                    progressColor: Colors.green,
+                  ),
+                  SizedBox(height: 25),
+                  Text("You've completed 50% of your goal.",
+                      style: TextStyle(fontSize: 20))
+                              ],
+                            ),
+                )),
+            Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                  SizedBox(height: 25),
+                  CircularPercentIndicator(
+                    radius: MediaQuery.of(context).size.width / 2.0,
+                    animation: true,
+                    animationDuration: 1200,
+                    lineWidth: 15.0,
+                    percent: 1.0,
+                    center: new Text(
+                      "3 Total\nHours of\nExercise",
+                      style: new TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                    circularStrokeCap: CircularStrokeCap.square,
+                    backgroundColor: FlutterFlowTheme.secondaryColor,
+                    progressColor: Colors.green,
+                  ),
+                  SizedBox(height: 25),
+                  Text("You've completed 100% of your goal.\nGreat Job!",
+                      style: TextStyle(fontSize: 20))
+                              ],
+                            ),
+                ))
+          ],
         ),
       ),
     );
