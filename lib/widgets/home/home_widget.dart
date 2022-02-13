@@ -1,4 +1,4 @@
-import 'package:apfp/util/home_page_graphic/hp_graphic.dart';
+import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
