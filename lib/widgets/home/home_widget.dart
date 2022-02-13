@@ -4,9 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeWidget extends StatefulWidget {
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
