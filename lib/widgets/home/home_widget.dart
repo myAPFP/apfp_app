@@ -195,7 +195,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     lineWidth: 15.0,
                     percent: 0.65,
                     center: new Text(
-                      "225\nCals Burned",
+                      "146 of 225\nCals Burned",
                       style: new TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
@@ -220,9 +220,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                     animation: true,
                     animationDuration: 1200,
                     lineWidth: 15.0,
-                    percent: 0.87,
+                    percent: 0.26,
                     center: new Text(
-                      "2225\nSteps Taken",
+                      "520 of 2000\nSteps Taken",
                       style: new TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
@@ -231,7 +231,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     progressColor: Colors.green,
                   ),
                   SizedBox(height: 25),
-                  Text("You've completed 87% of your goal.",
+                  Text("You've completed 26% of your goal.",
                       style: TextStyle(fontSize: 20))
                               ],
                             ),
@@ -249,7 +249,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     lineWidth: 15.0,
                     percent: 0.50,
                     center: new Text(
-                      "3 Miles\nWalked / Ran",
+                      "3 of 6 Miles\nWalked / Ran",
                       style: new TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
@@ -276,7 +276,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     lineWidth: 15.0,
                     percent: 1.0,
                     center: new Text(
-                      "3 Total\nHours of\nExercise",
+                      "3 of 3\nTotal Hours\nof Exercise",
                       style: new TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
