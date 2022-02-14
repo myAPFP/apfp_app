@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -15,12 +18,14 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  late final String _platformHealthName;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late FirebaseMessaging messaging;
 
   @override
   void initState() {
     super.initState();
+    _getPlatformHealthName();
   }
 
   Row _recentAnnouncementsLabel() {
@@ -156,6 +161,35 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
+  void _getPlatformHealthName() {
+    if (Platform.isIOS) {
+      _platformHealthName = "Apple Health";
+    } else if (Platform.isAndroid) {
+      _platformHealthName = "Google Fit";
+    }
+  }
+
+  Padding _syncHealthDataButton() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
+      child: FFButtonWidget(
+        onPressed: () {},
+        text: 'Sync ${_platformHealthName} Data',
+        options: FFButtonOptions(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 50,
+          color: FlutterFlowTheme.secondaryColor,
+          textStyle: FlutterFlowTheme.title2,
+          elevation: 2,
+          borderSide: BorderSide(
+            color: FlutterFlowTheme.secondaryColor,
+          ),
+          borderRadius: 8,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -189,8 +223,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               _activityLabel(),
               _activityGUI(),
               SizedBox(
-                height: 30,
-              )
+                height: 5,
+              ),
+              _syncHealthDataButton()
             ],
           ),
         )),
