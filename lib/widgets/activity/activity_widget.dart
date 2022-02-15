@@ -120,16 +120,16 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         context: context,
         title: Text('Share Activity?'),
         content: Text(
-            'The image you just added will be included with your ${cardInfo[0]} activity.' +
+            'The image you just added will be included with your ${cardInfo[1]} activity.' +
                 '\n\nIf you chose no, the image will be deleted.',
             style: TextStyle(fontSize: 20)),
         onSubmitTap: () async {
           share(
               subject: "New Activity Completed!",
               body: 'I completed a new activity! \n\n' +
-                  'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
-                  'Exercise Type: ${cardInfo[1]}\n' +
-                  'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                  'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
+                  'Exercise Type: ${cardInfo[2]}\n' +
+                  'Duration: ${cardInfo[3]} ${cardInfo[4]}\n' +
                   '\nSent from the APFP App.');
           imagepick = null;
           Navigator.pop(context);
