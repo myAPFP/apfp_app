@@ -46,28 +46,32 @@ class HPGraphic {
     return InkWell(
       onDoubleTap: () => onDoubleTap(),
       child: Container(
-          child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(height: 25),
-            CircularPercentIndicator(
-              radius: MediaQuery.of(context).size.width / 2.0,
-              animation: true,
-              animationDuration: 1200,
-              lineWidth: 15.0,
-              percent: percent,
-              center: new Text(
-                innerCircleText,
-                style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          child: Scrollbar(
+            isAlwaysShown: true,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(height: 25),
+              CircularPercentIndicator(
+                radius: MediaQuery.of(context).size.width / 2.0,
+                animation: true,
+                animationDuration: 1200,
+                lineWidth: 15.0,
+                percent: percent,
+                center: new Text(
+                  innerCircleText,
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20.0),
+                ),
+                circularStrokeCap: CircularStrokeCap.square,
+                backgroundColor: FlutterFlowTheme.secondaryColor,
+                progressColor: Colors.green,
               ),
-              circularStrokeCap: CircularStrokeCap.square,
-              backgroundColor: FlutterFlowTheme.secondaryColor,
-              progressColor: Colors.green,
-            ),
-            SizedBox(height: 25),
-            Text(goalProgress, style: TextStyle(fontSize: 20))
-          ],
+              SizedBox(height: 25),
+              Text(goalProgress, style: TextStyle(fontSize: 20))
+            ],
+          ),
         ),
       )),
     );
