@@ -39,7 +39,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   /// Serves as key for the [Form] found in [build].
-  /// 
+  ///
   /// Used to validate the current state of the [Form].
   final _formKey = GlobalKey<FormState>();
 
@@ -75,8 +75,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     return _passwordController!.text.trim();
   }
 
-  /// Adds leftToRight [PageTransition] animation between this route
-  /// ([LogInPageWidget]) and another route.
+  /// Adds leftToRight [PageTransition] animation between this route,
+  /// [LogInPageWidget], and another route.
   PageTransition _transitionTo(Widget child) {
     return PageTransition(
       type: PageTransitionType.leftToRight,
@@ -86,11 +86,10 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-
   /// Returns a [Padding] widget who's child is a [InkWell].
   ///
   /// [InkWell]'s [onTap] parameter is used to go back to [WelcomeWidget].
-  /// 
+  ///
   /// [InkWell]'s [child] parameter holds a [Text] which serves as the button title.
   Padding _backButton() {
     return Padding(
@@ -166,7 +165,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// Returns a [TextFormField] which is used for password input.
-  /// 
+  ///
   /// This [Widget] uses [_passwordController] as its [TextEditingController].
   Row _passwordTextFormField() {
     return Row(
@@ -231,6 +230,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  /// Returns a [Row] whose only child is a [Text] widget wrapped in a [Padding].
+  ///
+  /// The string passed to this method will be displayed as a label.
   Row _label(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -252,8 +254,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// If the user is not connected to the Internet before
   /// this method is called, a relevant warning toast will be displayed.
   ///
-  /// Otherwise, if connected to the Internet, an attempt to validate (ensures all submitted data is
-  /// valid) the [Form] is made, and if successful, the user is signed in.
+  /// Otherwise, if connected to the Internet, an attempt to validate
+  /// the [Form] is made, and if successful, the user is signed in.
   ///
   /// - If the user has verified their email address, they are finally taken to
   /// Home. Otherwise, the user will be taken to the [EmailNotConfirmedWidget] route.
@@ -368,7 +370,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// their password.
   ///
   /// If a user submits an invalid email address, a relevant warning toast is displayed.
-   Padding _forgotPasswordLabel() {
+  Padding _forgotPasswordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
       child: Row(
@@ -396,20 +398,16 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  void _returnToWelcome() async {
-    await Navigator.push(
-      context,
-      _transitionTo(WelcomeWidget()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: WillPopScope(
         onWillPop: () async {
-          _returnToWelcome();
+          await Navigator.push(
+            context,
+            _transitionTo(WelcomeWidget()),
+          );
           return false;
         },
         child: Scaffold(
