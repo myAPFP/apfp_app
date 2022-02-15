@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:apfp/util/toasted/toasted.dart';
+
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
@@ -156,7 +158,38 @@ class _HomeWidgetState extends State<HomeWidget> {
             width: 2,
           ),
         ),
-        child: HPGraphic.tabbedContainer(context),
+        child: HPGraphic.tabbedContainer(context: context, tabs: [
+          Text('Calories'),
+          Text('Steps'),
+          Text('Miles'),
+          Text('Exercise Time')
+        ], views: [
+          HPGraphic.createView(
+              onDoubleTap: () => Toasted.showToast("Cals"),
+              context: context,
+              innerCircleText: "146 of 225\nCals Burned",
+              goalProgress: "You've completed 65% of your goal.",
+              percent: 0.65),
+          HPGraphic.createView(
+              onDoubleTap: () => Toasted.showToast("Steps"),
+              context: context,
+              innerCircleText: "520 of 2000\nSteps Taken",
+              goalProgress: "You've completed 26% of your goal.",
+              percent: 0.26),
+          HPGraphic.createView(
+              onDoubleTap: () => Toasted.showToast("Miles"),
+              context: context,
+              innerCircleText: "N/A",
+              goalProgress:
+                  "You do not have an active Miles goal.\nDouble tap here to set one.",
+              percent: 0.0),
+          HPGraphic.createView(
+              onDoubleTap: () => Toasted.showToast("Total Hours"),
+              context: context,
+              innerCircleText: "3 of 3\nTotal Hours\nof Exercise",
+              goalProgress: "You've completed 100% of your goal.\nGreat Job!",
+              percent: 1.0),
+        ]),
       ),
     );
   }
