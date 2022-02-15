@@ -32,10 +32,10 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// Controls visisbility of characters in [_passwordTextFormField].
   late bool passwordVisibility;
 
-  /// Sets the [CircularProgressIndicator] loading animation of a button.
+  /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  /// Serves as key for the [Scaffold] found in [build].
+  
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   /// Serves as key for the [Form] found in [build].
