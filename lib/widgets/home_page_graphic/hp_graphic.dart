@@ -42,14 +42,16 @@ class HPGraphic {
       required String innerCircleText,
       required String goalProgress,
       required double percent,
-      required Function onDoubleTap}) {
+      required Function onDoubleTap,
+      required ScrollController scrollController}) {
     return InkWell(
       onDoubleTap: () => onDoubleTap(),
       child: Container(
           child: Scrollbar(
-            controller: ScrollController(),
+            controller: scrollController,
             isAlwaysShown: true,
         child: SingleChildScrollView(
+          controller: scrollController,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

@@ -165,18 +165,21 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Exercise Time')
         ], views: [
           HPGraphic.createView(
+              scrollController: ScrollController(),
               onDoubleTap: () => Toasted.showToast("Cals"),
               context: context,
               innerCircleText: "146 of 225\nCals Burned",
               goalProgress: "You've completed 65% of your goal.",
               percent: 0.65),
           HPGraphic.createView(
+              scrollController: ScrollController(),
               onDoubleTap: () => Toasted.showToast("Steps"),
               context: context,
               innerCircleText: "520 of 2000\nSteps Taken",
               goalProgress: "You've completed 26% of your goal.",
               percent: 0.26),
           HPGraphic.createView(
+              scrollController: ScrollController(),
               onDoubleTap: () => Toasted.showToast("Miles"),
               context: context,
               innerCircleText: "N/A",
@@ -184,6 +187,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   "You do not have an active Miles goal.\nDouble tap here to set one.",
               percent: 0.0),
           HPGraphic.createView(
+              scrollController: ScrollController(),
               onDoubleTap: () => Toasted.showToast("Total Hours"),
               context: context,
               innerCircleText: "3 of 3\nTotal Hours\nof Exercise",
