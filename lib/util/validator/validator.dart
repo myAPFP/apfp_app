@@ -3,9 +3,7 @@ import 'package:profanity_filter/profanity_filter.dart';
 
 class Validator {
   static final filter = ProfanityFilter();
-  
-  /// Extracts activity data from a paddedActivityCard
-  static RegExp _cardToStrRegex = new RegExp(r'\[<(.*?)\>]');
+
 
   /// Matches any string containing only letters (lowercase & uppercase)
   static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
@@ -32,11 +30,6 @@ class Validator {
   ///    - One special character
   static RegExp validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
-
-  static List<String>? cardInfoToList(Padding paddedActivityCard) {
-    final match = _cardToStrRegex.firstMatch(paddedActivityCard.toString());
-    return match!.group(0)!.substring(3, match.group(0)!.length - 3).split(' ');
-  }
 
   static bool isValidDuration(String duration) {
     return _numericRegex.hasMatch(duration);
