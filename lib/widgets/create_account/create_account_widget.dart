@@ -47,17 +47,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  
+
   /// Serves as key for the [Form] found in [build].
   ///
   /// Used to validate the current state of the [Form].
   final _formKey = GlobalKey<FormState>();
 
-  /// Stores the id of the document associated with the user in the 
+  /// Stores the id of the document associated with the user in the
   /// 'registered-users' Firestore collection.
-  /// 
+  ///
   /// This variable will be assigned a value if a user provides valid APFP credentials
-  /// and is later used to add a user's uid to their associated document 
+  /// and is later used to add a user's uid to their associated document
   /// within the 'registered-users' collection upon successful account creation.
   late String _docID;
 
@@ -83,19 +83,32 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     _confirmPasswordController!.dispose();
   }
 
+  /// Returns trimmed, lowercased text taken from [_emailController].
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
 
+  /// Returns trimmed text taken from [_firstNameController]
+  /// and [_lastNameController] and returns a string including
+  /// the first and last name.
+  /// 
+  /// Ex: John Doe
   String _getFullName() {
-    return "${_firstNameController!.text.trim()}" +
-        " ${_lastNameController!.text.trim()}";
+    final first = _firstNameController!.text.trim();
+    final last = _lastNameController!.text.trim();
+    return "${first} ${last}";
   }
 
+  /// Returns trimmed text taken from [_passwordController].
   String _getPassword() {
     return _passwordController!.text.trim();
   }
 
+
+  /// Returns a [Row] in which an inner [InkWell], wrapped in a [Padding] and [Container],
+  /// serves as the back button.
+  /// 
+  /// When [InkWell]'s [onTap] is called, a call to [_returnToWelcome] is made.
   Row _backButtonRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
