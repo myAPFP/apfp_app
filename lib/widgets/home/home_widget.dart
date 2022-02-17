@@ -29,8 +29,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   final _milesViewSC = ScrollController();
   final _exerciseViewSC = ScrollController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  double _totalExerciseTimeInHrs = 0.00;
-  double _exerciseTimeGoal = 2.00;
+  double _totalExerciseTimeInHrs = 0;
+  double _exerciseTimeGoalInHrs = 2;
 
   @override
   void initState() {
@@ -56,7 +56,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       if (element.data() != null) {
         _currentSnapshotBackup = element.data()!;
       }
-      _totalExerciseTimeInHrs = 0;
       _findExcerciseTimeInHours(_currentSnapshotBackup);
     });
   }
@@ -66,6 +65,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     map.forEach((key, value) => sum += _convertToDuration(value[2]));
     String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
     List<String> HHmmssSplit = HHmmss.split(':');
+    _totalExerciseTimeInHrs = 0;
     setState(() => _totalExerciseTimeInHrs = double.parse(HHmmssSplit[0]) +
         double.parse(HHmmssSplit[1]) / 60 +
         double.parse(HHmmssSplit[2]) / 3600);
@@ -249,13 +249,13 @@ class _HomeWidgetState extends State<HomeWidget> {
               onDoubleTap: () => Toasted.showToast("Total Hours"),
               context: context,
               innerCircleText:
-                  "${_totalExerciseTimeInHrs.toStringAsFixed(2)} / ${_exerciseTimeGoal.toStringAsFixed(2)}\nTotal Hours\nof Exercise",
+                  "${_totalExerciseTimeInHrs.toStringAsFixed(2)} / ${_exerciseTimeGoalInHrs.toStringAsFixed(2)}\nTotal Hours\nof Exercise",
               goalProgress: "You've completed " +
-                  "${((_totalExerciseTimeInHrs / _exerciseTimeGoal) * 100) > 100 ? 100 : ((_totalExerciseTimeInHrs / _exerciseTimeGoal) * 100).toStringAsFixed(2)}" +
+                  "${((_totalExerciseTimeInHrs / _exerciseTimeGoalInHrs) * 100) > 100 ? 100 : ((_totalExerciseTimeInHrs / _exerciseTimeGoalInHrs) * 100).toStringAsFixed(2)}" +
                   "% of your goal.",
-              percent: (_totalExerciseTimeInHrs / _exerciseTimeGoal) > 1.0
+              percent: (_totalExerciseTimeInHrs / _exerciseTimeGoalInHrs) > 1.0
                   ? 1.0
-                  : _totalExerciseTimeInHrs / _exerciseTimeGoal),
+                  : _totalExerciseTimeInHrs / _exerciseTimeGoalInHrs),
         ]),
       ),
     );
