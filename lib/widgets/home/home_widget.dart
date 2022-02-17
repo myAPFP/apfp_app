@@ -71,7 +71,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
   }
 
-  void findExcerciseTimeInHours(Map<dynamic, dynamic> map) {
+  void findExcerciseTimeInHours(Map map) {
     Duration sum = Duration.zero;
     map.forEach((key, value) {
       sum += convertToDuration(value[2]);
