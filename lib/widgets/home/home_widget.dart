@@ -42,6 +42,9 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
     _getPlatformHealthName();
+    widget.activityStream.first.then((firstElement) {
+      currentSnapshotBackup = firstElement.data()!;
+    });
     _collectActivityDuration();
   }
 
@@ -64,10 +67,8 @@ class _HomeWidgetState extends State<HomeWidget> {
       }
       sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
-      sortedMap.forEach((key, value) {
-        _totalExerciseTime = 0;
-        findExcerciseTimeInHours(sortedMap);
-      });
+      _totalExerciseTime = 0;
+      findExcerciseTimeInHours(sortedMap);
     });
   }
 
@@ -240,14 +241,14 @@ class _HomeWidgetState extends State<HomeWidget> {
               scrollController: _calViewSC,
               onDoubleTap: () => Toasted.showToast("Cals"),
               context: context,
-              innerCircleText: "146 of 225\nCals Burned",
+              innerCircleText: "146 / 225\nCals Burned",
               goalProgress: "You've completed 65% of your goal.",
               percent: 0.65),
           HPGraphic.createView(
               scrollController: _stepsViewSC,
               onDoubleTap: () => Toasted.showToast("Steps"),
               context: context,
-              innerCircleText: "520 of 2000\nSteps Taken",
+              innerCircleText: "520 / 2000\nSteps Taken",
               goalProgress: "You've completed 26% of your goal.",
               percent: 0.26),
           HPGraphic.createView(
@@ -263,7 +264,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               onDoubleTap: () => Toasted.showToast("Total Hours"),
               context: context,
               innerCircleText:
-                  "${_totalExerciseTime.toStringAsFixed(2)} of ${_exerciseTimeGoal.toStringAsFixed(2)}\nTotal Hours\nof Exercise",
+                  "${_totalExerciseTime.toStringAsFixed(2)} / ${_exerciseTimeGoal.toStringAsFixed(2)}\nTotal Hours\nof Exercise",
               goalProgress: "You've completed " +
                   "${((_totalExerciseTime / _exerciseTimeGoal) * 100) > 100 ? 100 : ((_totalExerciseTime / _exerciseTimeGoal) * 100).toStringAsFixed(2)}" +
                   "% of your goal.",
