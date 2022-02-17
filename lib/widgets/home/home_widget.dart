@@ -7,7 +7,6 @@ import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +25,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   late final String _platformHealthName;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  late FirebaseMessaging messaging;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _calViewSC = ScrollController();
   final _stepsViewSC = ScrollController();
@@ -36,14 +34,14 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   double _totalExerciseTimeInHrs = 0.00;
   double _exerciseTimeGoal = 2.00;
-  late Map<String, dynamic> currentSnapshotBackup;
+  late Map<String, dynamic> _currentSnapshotBackup;
 
   @override
   void initState() {
     super.initState();
     _getPlatformHealthName();
     widget.activityStream.first.then((firstElement) {
-      currentSnapshotBackup = firstElement.data()!;
+      _currentSnapshotBackup = firstElement.data()!;
     });
     _collectActivityDuration();
   }
@@ -61,20 +59,20 @@ class _HomeWidgetState extends State<HomeWidget> {
     widget.activityStream.forEach((element) {
       Map sortedMap = new Map();
       if (element.data() == null) {
-        currentSnapshotBackup = new Map();
+        _currentSnapshotBackup = new Map();
       } else {
-        currentSnapshotBackup = element.data()!;
+        _currentSnapshotBackup = element.data()!;
       }
-      sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
+      sortedMap = Map.fromEntries(_currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
       _totalExerciseTimeInHrs = 0;
-      findExcerciseTimeInHours(sortedMap);
+      _findExcerciseTimeInHours(sortedMap);
     });
   }
 
-  void findExcerciseTimeInHours(Map map) {
+  void _findExcerciseTimeInHours(Map map) {
     Duration sum = Duration.zero;
-    map.forEach((key, value) => sum += convertToDuration(value[2]));
+    map.forEach((key, value) => sum += _convertToDuration(value[2]));
     String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
     List<String> HHmmssSplit = HHmmss.split(':');
     setState(() => _totalExerciseTimeInHrs = double.parse(HHmmssSplit[0]) +
@@ -82,7 +80,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         double.parse(HHmmssSplit[2]) / 3600);
   }
 
-  Duration convertToDuration(String activityDurationStr) {
+  Duration _convertToDuration(String activityDurationStr) {
     Duration duration = Duration.zero;
     String value = activityDurationStr.split(' ')[0];
     String unitOfTime = activityDurationStr.split(' ')[1];
@@ -309,7 +307,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         return false;
       },
       child: Scaffold(
-        key: scaffoldKey,
+        key: _scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
             child: SingleChildScrollView(
