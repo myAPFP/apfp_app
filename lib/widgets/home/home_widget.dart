@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:apfp/util/toasted/toasted.dart';
-
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
@@ -38,9 +36,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
     _getPlatformHealthName();
-    widget.activityStream.first.then((firstElement) {
-      _currentSnapshotBackup = firstElement.data()!;
-    });
+    widget.activityStream.first
+        .then((firstElement) => _currentSnapshotBackup = firstElement.data()!);
     _collectActivityDuration();
   }
 
@@ -55,16 +52,12 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   void _collectActivityDuration() {
     widget.activityStream.forEach((element) {
-      Map sortedMap = new Map();
-      if (element.data() == null) {
-        _currentSnapshotBackup = new Map();
-      } else {
+      _currentSnapshotBackup = new Map();
+      if (element.data() != null) {
         _currentSnapshotBackup = element.data()!;
       }
-      sortedMap = Map.fromEntries(_currentSnapshotBackup.entries.toList()
-        ..sort((e1, e2) => e2.key.compareTo(e1.key)));
       _totalExerciseTimeInHrs = 0;
-      _findExcerciseTimeInHours(sortedMap);
+      _findExcerciseTimeInHours(_currentSnapshotBackup);
     });
   }
 
