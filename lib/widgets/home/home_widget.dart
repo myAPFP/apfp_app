@@ -74,16 +74,12 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   void findExcerciseTimeInHours(Map map) {
     Duration sum = Duration.zero;
-    map.forEach((key, value) {
-      sum += convertToDuration(value[2]);
-    });
+    map.forEach((key, value) => sum += convertToDuration(value[2]));
     String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
     List<String> HHmmssSplit = HHmmss.split(':');
-    setState(() {
-      _totalExerciseTimeInHrs = double.parse(HHmmssSplit[0]) +
-          double.parse(HHmmssSplit[1]) / 60 +
-          double.parse(HHmmssSplit[2]) / 3600;
-    });
+    setState(() => _totalExerciseTimeInHrs = double.parse(HHmmssSplit[0]) +
+        double.parse(HHmmssSplit[1]) / 60 +
+        double.parse(HHmmssSplit[2]) / 3600);
   }
 
   Duration convertToDuration(String activityDurationStr) {
