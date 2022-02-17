@@ -24,17 +24,15 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  late final String _platformHealthName;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  late String _platformHealthName;
+  late Map<String, dynamic> _currentSnapshotBackup;
   final _calViewSC = ScrollController();
   final _stepsViewSC = ScrollController();
   final _milesViewSC = ScrollController();
   final _exerciseViewSC = ScrollController();
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   double _totalExerciseTimeInHrs = 0.00;
   double _exerciseTimeGoal = 2.00;
-  late Map<String, dynamic> _currentSnapshotBackup;
 
   @override
   void initState() {
