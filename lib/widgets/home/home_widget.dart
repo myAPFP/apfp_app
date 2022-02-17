@@ -34,8 +34,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   final _milesViewSC = ScrollController();
   final _exerciseViewSC = ScrollController();
 
-  double _totalExerciseTime = 0;
-  double _exerciseTimeGoal = 1;
+  double _totalExerciseTime = 0.00;
+  double _exerciseTimeGoal = 2.00;
   late Map<String, dynamic> currentSnapshotBackup;
 
   @override
@@ -263,7 +263,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               onDoubleTap: () => Toasted.showToast("Total Hours"),
               context: context,
               innerCircleText:
-                  "${_totalExerciseTime.toStringAsFixed(2)} of $_exerciseTimeGoal\nTotal Hours\nof Exercise",
+                  "${_totalExerciseTime.toStringAsFixed(2)} of ${_exerciseTimeGoal.toStringAsFixed(2)}\nTotal Hours\nof Exercise",
               goalProgress: "You've completed " +
                   "${((_totalExerciseTime / _exerciseTimeGoal) * 100) > 100 ? 100 : ((_totalExerciseTime / _exerciseTimeGoal) * 100).toStringAsFixed(2)}" +
                   "% of your goal.",
