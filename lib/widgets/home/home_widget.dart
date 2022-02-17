@@ -13,7 +13,12 @@ import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
-  HomeWidget({Key? key, required this.announcementsStream}) : super(key: key);
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
+  HomeWidget(
+      {Key? key,
+      required this.announcementsStream,
+      required this.activityStream})
+      : super(key: key);
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -29,10 +34,15 @@ class _HomeWidgetState extends State<HomeWidget> {
   final _milesViewSC = ScrollController();
   final _exerciseViewSC = ScrollController();
 
+  double _totalExerciseTime = 0;
+  double _exerciseTimeGoal = 1;
+  late Map<String, dynamic> currentSnapshotBackup;
+
   @override
   void initState() {
     super.initState();
     _getPlatformHealthName();
+    _collectActivityDuration();
   }
 
   @override
@@ -42,6 +52,58 @@ class _HomeWidgetState extends State<HomeWidget> {
     _stepsViewSC.dispose();
     _milesViewSC.dispose();
     _exerciseViewSC.dispose();
+  }
+
+  void _collectActivityDuration() {
+    widget.activityStream.forEach((element) {
+      Map sortedMap = new Map();
+      if (element.data() == null) {
+        currentSnapshotBackup = new Map();
+      } else {
+        currentSnapshotBackup = element.data()!;
+      }
+      sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
+        ..sort((e1, e2) => e2.key.compareTo(e1.key)));
+      sortedMap.forEach((key, value) {
+        _totalExerciseTime = 0;
+        findExcerciseTimeInHours(sortedMap);
+      });
+    });
+  }
+
+  void findExcerciseTimeInHours(Map<dynamic, dynamic> map) {
+    Duration sum = Duration.zero;
+
+    map.forEach((key, value) {
+      sum += convertToDuration(value[2]);
+    });
+
+    String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
+    List<String> HHmmssSplit = HHmmss.split(':');
+
+    setState(() {
+      _totalExerciseTime = double.parse(HHmmssSplit[0]) +
+          double.parse(HHmmssSplit[1]) / 60 +
+          double.parse(HHmmssSplit[2]) / 3600;
+    });
+  }
+
+  Duration convertToDuration(String activityDurationStr) {
+    Duration duration = Duration.zero;
+    String value = activityDurationStr.split(' ')[0];
+    String unitOfTime = activityDurationStr.split(' ')[1];
+    switch (unitOfTime) {
+      case 'Min':
+        duration = Duration(minutes: int.parse(value));
+        break;
+      case 'Sec':
+        duration = Duration(seconds: int.parse(value));
+        break;
+      case 'Hr':
+        duration = Duration(hours: int.parse(value));
+        break;
+    }
+    return duration;
   }
 
   Row _recentAnnouncementsLabel() {
@@ -157,7 +219,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Padding _activityGUI() {
-    // This widget will be modified soon. Placeholder.
     return Padding(
       key: Key('Home.activityGUI'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
@@ -204,9 +265,14 @@ class _HomeWidgetState extends State<HomeWidget> {
               scrollController: _exerciseViewSC,
               onDoubleTap: () => Toasted.showToast("Total Hours"),
               context: context,
-              innerCircleText: "3 of 3\nTotal Hours\nof Exercise",
-              goalProgress: "You've completed 100% of your goal.\nGreat Job!",
-              percent: 1.0),
+              innerCircleText:
+                  "${_totalExerciseTime.toStringAsFixed(2)} of $_exerciseTimeGoal\nTotal Hours\nof Exercise",
+              goalProgress: "You've completed " +
+                  "${((_totalExerciseTime / _exerciseTimeGoal) * 100) > 100 ? 100 : ((_totalExerciseTime / _exerciseTimeGoal) * 100).toStringAsFixed(2)}" +
+                  "% of your goal.",
+              percent: (_totalExerciseTime / _exerciseTimeGoal) > 1.0
+                  ? 1.0
+                  : _totalExerciseTime / _exerciseTimeGoal),
         ]),
       ),
     );
