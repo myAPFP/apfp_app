@@ -14,7 +14,7 @@ class AddActivityWidget extends StatefulWidget {
 
 class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? duration;
-  String? unitOfTime = 'Min';
+  String? unitOfTime = 'Minutes';
   String? exercisetype = 'Cardio';
 
   TextEditingController? activityNameTextController;
@@ -125,13 +125,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
               return "Please provide a value";
             }
             if (value.length > 15) {
-              return "15 character max limit.  Current count: ${value.length}";
+              return "15 character max limit. Current count: ${value.length}";
             }
             if (!Validator.isValidActivity(value)) {
               return 'Alphabet letters only';
             }
             if (Validator.hasProfanity(value)) {
-              return 'Profanity is not allowed.';
+              return 'Profanity is not allowed';
             }
             return null;
           },
@@ -171,10 +171,10 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isValidDuration(value) || double.parse(value) < 1) {
-              return 'Positive numbers (1+) only';
+            if (!Validator.isValidDuration(value) || int.parse(value) < 1) {
+              return 'Whole numbers (1+) only';
             }
-            if (double.parse(value) > 99) {
+            if (int.parse(value) > 99) {
               return '99 is max limit';
             }
             return null;
@@ -268,8 +268,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                       children: [
                         _durationTextField(),
                         FlutterFlowDropDown(
-                          initialOption: 'Min',
-                          options: ['Sec', 'Min', 'Hr'],
+                          initialOption: 'Minutes',
+                          options: ['Seconds', 'Minutes'],
                           onChanged: (val) => setState(() => unitOfTime = val),
                           width: MediaQuery.of(context).size.width * .55,
                           height: 50,

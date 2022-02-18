@@ -155,6 +155,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  contained_tab_bar_view:
+    dependency: "direct main"
+    description:
+      name: contained_tab_bar_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.0"
+  container_tab_indicator:
+    dependency: transitive
+    description:
+      name: container_tab_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   cross_file:
     dependency: transitive
     description:
@@ -582,6 +596,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.4.0"
   petitparser:
     dependency: transitive
     description:

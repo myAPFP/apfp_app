@@ -105,18 +105,18 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         children: [
           Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: 150,
+              height: 120,
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
               child: Text.rich(
                 TextSpan(
-                    text: 'Welcome to the Adult Physical Fitness App.' +
+                    text: 'Welcome to the myAPFP app.' +
                         ' Please enter the details below to create your account.',
                     style: FlutterFlowTheme.subtitle1,
                     children: <InlineSpan>[
                       TextSpan(
-                        text: 'You must be a member of the APFP to sign up.',
+                        text: '\nAPFP Membership is required to sign up.',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -174,7 +174,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               // We want to allow the use of this word 
               // here as it is a valid name
               if (value.trim() != 'Dick') {
-                return 'Profanity is not allowed.';
+                return 'Profanity is not allowed';
               }
             }
             return null;
@@ -253,7 +253,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             // We want to allow the use of this word 
             // here as it is a valid name
             if (value.trim() != 'Dick') {
-              return 'Profanity is not allowed.';
+              return 'Profanity is not allowed';
             }
           }
           return null;
