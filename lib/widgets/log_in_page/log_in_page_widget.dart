@@ -138,7 +138,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                   return "Please provide a value";
                 }
                 if (Validator.hasProfanity(value)) {
-                  return 'Profanity is not allowed.';
+                  return 'Profanity is not allowed';
                 }
                 return null;
               },
