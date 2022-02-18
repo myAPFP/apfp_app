@@ -226,9 +226,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
         child: AutoSizeText.rich(
           TextSpan(
-              text: 'This app is intended for members of the Adult Physical' +
-                  ' Fitness Program at Ball State University.' +
-                  ' If you do not have an account, you can contact an administrator by ',
+              text: 'This app is intended for members of the APFP at BSU.' +
+                  ' If you are not an active member, you can contact an administrator by ',
               style: FlutterFlowTheme.subtitle1,
               children: <InlineSpan>[
                 TextSpan(
