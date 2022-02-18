@@ -38,7 +38,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     _getPlatformHealthName();
     widget.activityStream.first
         .then((firstElement) => _currentSnapshotBackup = firstElement.data()!);
-    _collectActivityDuration();
+    _listenToActivityStream();
   }
 
   @override
@@ -50,7 +50,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     _exerciseViewSC.dispose();
   }
 
-  void _collectActivityDuration() {
+  void _listenToActivityStream() {
     widget.activityStream.forEach((element) {
       _currentSnapshotBackup = new Map();
       if (element.data() != null) {
@@ -70,7 +70,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         double.parse(HHmmssSplit[0]) * 60 +
             double.parse(HHmmssSplit[1]) +
             double.parse(HHmmssSplit[2]) / 60);
-    print(_totalExerciseTimeInMinutes);
   }
 
   Duration _convertToDuration(String activityDurationStr) {
