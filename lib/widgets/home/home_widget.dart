@@ -56,11 +56,11 @@ class _HomeWidgetState extends State<HomeWidget> {
       if (element.data() != null) {
         _currentSnapshotBackup = element.data()!;
       }
-      _findExcerciseTimeInHours(_currentSnapshotBackup);
+      _findExcerciseTimeInMinutes(_currentSnapshotBackup);
     });
   }
 
-  void _findExcerciseTimeInHours(Map map) {
+  void _findExcerciseTimeInMinutes(Map map) {
     Duration sum = Duration.zero;
     map.forEach((key, value) => sum += _convertToDuration(value[2]));
     String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
