@@ -67,7 +67,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     List<String> HHmmssSplit = HHmmss.split(':');
     _totalExerciseTimeInMinutes = 0;
     setState(() => _totalExerciseTimeInMinutes =
-        double.parse(HHmmssSplit[1]) + double.parse(HHmmssSplit[2]) / 60);
+        double.parse(HHmmssSplit[0]) * 60 +
+            double.parse(HHmmssSplit[1]) +
+            double.parse(HHmmssSplit[2]) / 60);
+    print(_totalExerciseTimeInMinutes);
   }
 
   Duration _convertToDuration(String activityDurationStr) {
@@ -80,6 +83,9 @@ class _HomeWidgetState extends State<HomeWidget> {
         break;
       case 'SECONDS':
         duration = Duration(seconds: int.parse(value));
+        break;
+      case 'HOURS':
+        duration = Duration(hours: int.parse(value));
         break;
     }
     return duration;
