@@ -66,24 +66,20 @@ class _HomeWidgetState extends State<HomeWidget> {
     String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
     List<String> HHmmssSplit = HHmmss.split(':');
     _totalExerciseTimeInMinutes = 0;
-    setState(() => _totalExerciseTimeInMinutes = double.parse(HHmmssSplit[0]) * 60 +
-        double.parse(HHmmssSplit[1]) +
-        double.parse(HHmmssSplit[2]) / 60);
+    setState(() => _totalExerciseTimeInMinutes =
+        double.parse(HHmmssSplit[1]) + double.parse(HHmmssSplit[2]) / 60);
   }
 
   Duration _convertToDuration(String activityDurationStr) {
     Duration duration = Duration.zero;
     String value = activityDurationStr.split(' ')[0];
     String unitOfTime = activityDurationStr.split(' ')[1];
-    switch (unitOfTime) {
-      case 'Min':
+    switch (unitOfTime.toUpperCase()) {
+      case 'MINUTES':
         duration = Duration(minutes: int.parse(value));
         break;
-      case 'Sec':
+      case 'SECONDS':
         duration = Duration(seconds: int.parse(value));
-        break;
-      case 'Hr':
-        duration = Duration(hours: int.parse(value));
         break;
     }
     return duration;
@@ -249,11 +245,13 @@ class _HomeWidgetState extends State<HomeWidget> {
               onDoubleTap: () => Toasted.showToast("Total Hours"),
               context: context,
               innerCircleText:
-                  "${_totalExerciseTimeInMinutes.toStringAsFixed(2)} / ${_exerciseTimeGoalInMinutes.toStringAsFixed(2)}\nTotal Minutes of\nDaily Exercise",
+                  "${_totalExerciseTimeInMinutes.toStringAsFixed(2)} / ${_exerciseTimeGoalInMinutes.toStringAsFixed(2)}\nTotal Minutes",
               goalProgress: "You've completed " +
                   "${((_totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes) * 100) > 100 ? 100 : ((_totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes) * 100).toStringAsFixed(2)}" +
                   "% of your goal.",
-              percent: (_totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes) > 1.0
+              percent: (_totalExerciseTimeInMinutes /
+                          _exerciseTimeGoalInMinutes) >
+                      1.0
                   ? 1.0
                   : _totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes),
         ]),
