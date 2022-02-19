@@ -40,6 +40,7 @@ class NavBarPage extends StatefulWidget {
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
   late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity;
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> healthTrackerPermision;
   late FirebaseMessaging messaging;
   Stream<QuerySnapshot> ytPlaylistStream = FireStore.getYTPlaylistIDs();
   Stream<QuerySnapshot> ytVideoStream = FireStore.getYTVideoUrls();
@@ -56,11 +57,14 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     userActivity = connectActivityDocument();
+    healthTrackerPermision = connectHealthTrackerDocument();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
     pageList.add(HomeWidget(
-        announcementsStream: announcements, activityStream: userActivity));
+        announcementsStream: announcements,
+        activityStream: userActivity,
+        healthStream: healthTrackerPermision));
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget(
         playlistStream: ytPlaylistStream, videoStream: ytVideoStream));
@@ -102,6 +106,21 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
       }
     });
     return FireStore.createUserActivityStream();
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>>
+      connectHealthTrackerDocument() {
+    Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
+        FirebaseFirestore.instance
+            .collection('health')
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .get();
+    userDocumentReference.then((value) {
+      if (!value.exists) {
+        FireStore.createActivityTrackerDocument();
+      }
+    });
+    return FireStore.createUserActivityTrackerStream();
   }
 
   Future<void> initConnectivity() async {

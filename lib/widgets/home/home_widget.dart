@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../../util/goals/exercise_time_goal.dart';
@@ -12,8 +13,10 @@ import 'package:flutter/material.dart';
 class HomeWidget extends StatefulWidget {
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> healthStream;
   HomeWidget(
       {Key? key,
+      required this.healthStream,
       required this.announcementsStream,
       required this.activityStream})
       : super(key: key);
@@ -25,6 +28,7 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   late String _platformHealthName;
   late Map<String, dynamic> _currentSnapshotBackup;
+  late Map<String, dynamic> _healthSnapshotBackup;
   final _calViewSC = ScrollController();
   final _stepsViewSC = ScrollController();
   final _milesViewSC = ScrollController();
@@ -33,13 +37,18 @@ class _HomeWidgetState extends State<HomeWidget> {
   double _totalExerciseTimeInMinutes = 0;
   double _exerciseTimeGoalInMinutes = 150;
 
+  late bool isHealthTrackerPermissionGranted = false;
+
   @override
   void initState() {
     super.initState();
     _getPlatformHealthName();
     widget.activityStream.first
         .then((firstElement) => _currentSnapshotBackup = firstElement.data()!);
+    widget.healthStream.first
+        .then((firstElement) => _healthSnapshotBackup = firstElement.data()!);
     _listenToActivityStream();
+    _listenToHealthTrackerStream();
   }
 
   @override
@@ -61,6 +70,19 @@ class _HomeWidgetState extends State<HomeWidget> {
       setState(() {
         _totalExerciseTimeInMinutes =
             ExerciseGoal.totalTimeInMinutes(_currentSnapshotBackup);
+      });
+    });
+  }
+
+  void _listenToHealthTrackerStream() {
+    widget.healthStream.forEach((element) {
+      _healthSnapshotBackup = new Map();
+      if (element.data() != null) {
+        _healthSnapshotBackup = element.data()!;
+      }
+      setState(() {
+        isHealthTrackerPermissionGranted =
+            _healthSnapshotBackup['healthTrackerPermissionGranted'];
       });
     });
   }
@@ -198,13 +220,23 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Miles'),
           Text('Exercise Time')
         ], views: [
-          HPGraphic.createView(
-              scrollController: _calViewSC,
-              onDoubleTap: () => Toasted.showToast("Cals"),
-              context: context,
-              innerCircleText: "146 / 225\nCals Burned",
-              goalProgress: "You've completed 65% of your goal.",
-              percent: 0.65),
+           // ! Demo Purposes ----------
+          isHealthTrackerPermissionGranted
+              ? HPGraphic.createView(
+                  scrollController: _calViewSC,
+                  onDoubleTap: () => Toasted.showToast("Cals"),
+                  context: context,
+                  innerCircleText: "146 / 225\nCals Burned",
+                  goalProgress: "You've completed 65% of your goal.",
+                  percent: 0.65)
+              : HPGraphic.createView(
+                  scrollController: _calViewSC,
+                  onDoubleTap: () => Toasted.showToast("Cals"),
+                  context: context,
+                  innerCircleText: "Tracker\nNot Found",
+                  goalProgress: "Connect an Activty Tracker to set this goal.",
+                  percent: 0.0),
+          // ! ------------------------        
           HPGraphic.createView(
               scrollController: _stepsViewSC,
               onDoubleTap: () => Toasted.showToast("Steps"),
@@ -251,7 +283,13 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
-        onPressed: () {},
+        onPressed: () {
+          // ! -- Demo Purposes --
+          isHealthTrackerPermissionGranted = !isHealthTrackerPermissionGranted;
+          FireStore.updateActivityTrackerPermission(
+              FireStore.permissionToMap(isHealthTrackerPermissionGranted));
+          // ! -------------------
+        },
         text: 'Sync ${_platformHealthName} Data',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -303,7 +341,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               SizedBox(
                 height: 5,
               ),
-              _syncHealthDataButton()
+              _syncHealthDataButton(),
             ],
           ),
         )),

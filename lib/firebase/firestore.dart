@@ -64,4 +64,34 @@ class FireStore {
         .doc(FirebaseAuth.instance.currentUser!.email)
         .set(new Map());
   }
+
+  static DocumentReference<Map<String, dynamic>>
+      getUserActivityTrackerDocument() {
+    return FirebaseFirestore.instance
+        .collection('health')
+        .doc(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>>
+      createUserActivityTrackerStream() {
+    return getUserActivityTrackerDocument().snapshots();
+  }
+
+  static Future<void> updateActivityTrackerPermission(
+      Map<String, dynamic> data) {
+    return getUserActivityTrackerDocument().set(data);
+  }
+
+  static void createActivityTrackerDocument() async {
+    await FirebaseFirestore.instance
+        .collection('health')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .set(new Map());
+  }
+
+  static Map<String, dynamic> permissionToMap(bool permission) {
+    return {
+      "healthTrackerPermissionGranted": permission,
+    };
+  }
 }
