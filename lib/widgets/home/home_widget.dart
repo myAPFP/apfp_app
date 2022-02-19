@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:apfp/util/toasted/toasted.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
+import '../../util/goals/exercise_time_goal.dart';
 import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -38,7 +39,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     _getPlatformHealthName();
     widget.activityStream.first
         .then((firstElement) => _currentSnapshotBackup = firstElement.data()!);
-    _collectActivityDuration();
+    _listenToActivityStream();
   }
 
   @override
@@ -50,39 +51,18 @@ class _HomeWidgetState extends State<HomeWidget> {
     _exerciseViewSC.dispose();
   }
 
-  void _collectActivityDuration() {
+  void _listenToActivityStream() {
     widget.activityStream.forEach((element) {
       _currentSnapshotBackup = new Map();
       if (element.data() != null) {
         _currentSnapshotBackup = element.data()!;
       }
-      _findExcerciseTimeInHours(_currentSnapshotBackup);
+      _totalExerciseTimeInMinutes = 0;
+      setState(() {
+        _totalExerciseTimeInMinutes =
+            ExerciseGoal.totalTimeInMinutes(_currentSnapshotBackup);
+      });
     });
-  }
-
-  void _findExcerciseTimeInHours(Map map) {
-    Duration sum = Duration.zero;
-    map.forEach((key, value) => sum += _convertToDuration(value[2]));
-    String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
-    List<String> HHmmssSplit = HHmmss.split(':');
-    _totalExerciseTimeInMinutes = 0;
-    setState(() => _totalExerciseTimeInMinutes =
-        double.parse(HHmmssSplit[1]) + double.parse(HHmmssSplit[2]) / 60);
-  }
-
-  Duration _convertToDuration(String activityDurationStr) {
-    Duration duration = Duration.zero;
-    String value = activityDurationStr.split(' ')[0];
-    String unitOfTime = activityDurationStr.split(' ')[1];
-    switch (unitOfTime.toUpperCase()) {
-      case 'MINUTES':
-        duration = Duration(minutes: int.parse(value));
-        break;
-      case 'SECONDS':
-        duration = Duration(seconds: int.parse(value));
-        break;
-    }
-    return duration;
   }
 
   Row _recentAnnouncementsLabel() {

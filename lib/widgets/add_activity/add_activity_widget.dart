@@ -174,8 +174,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (!Validator.isValidDuration(value) || int.parse(value) < 1) {
               return 'Whole numbers (1+) only';
             }
-            if (int.parse(value) > 99) {
-              return '99 is max limit';
+            if (int.parse(value) > 59) {
+              return '59 is max limit';
             }
             return null;
           },
