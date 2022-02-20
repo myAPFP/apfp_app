@@ -77,9 +77,8 @@ class FireStore {
     return getUserActivityTrackerDocument().snapshots();
   }
 
-  static Future<void> updateActivityTrackerPermission(
-      Map<String, dynamic> data) {
-    return getUserActivityTrackerDocument().set(data);
+  static Future<void> updateHealthData(Map<String, dynamic> data) {
+    return getUserActivityTrackerDocument().update(data);
   }
 
   static void createActivityTrackerDocument() async {
@@ -89,9 +88,27 @@ class FireStore {
         .set(new Map());
   }
 
-  static Map<String, dynamic> permissionToMap(bool permission) {
+  static Map<String, dynamic> healthPermissionToMap(bool permission) {
     return {
-      "healthTrackerPermissionGranted": permission,
+      "isHealthTrackerPermissionGranted": permission,
+    };
+  }
+
+  static Map<String, dynamic> calGoalToMap(bool isCalGoalSet) {
+    return {
+      "isCalGoalSet": isCalGoalSet,
+    };
+  }
+
+  static Map<String, dynamic> stepGoalToMap(bool isStepGoalSet) {
+    return {
+      "isStepGoalSet": isStepGoalSet,
+    };
+  }
+
+  static Map<String, dynamic> mileGoalToMap(bool isMileGoalSet) {
+    return {
+      "isMileGoalSet": isMileGoalSet,
     };
   }
 }
