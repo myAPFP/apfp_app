@@ -226,6 +226,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Steps'),
           Text('Miles'),
         ], views: [
+
           HPGraphic.createView(
               scrollController: _exerciseViewSC,
               onDoubleTap: () => Toasted.showToast("Total Hours"),
@@ -240,23 +241,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                       1.0
                   ? 1.0
                   : _totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes),
-          // ! Demo Purposes ----------
-          isHealthTrackerPermissionGranted
-              ? HPGraphic.createView(
-                  scrollController: _calViewSC,
-                  onDoubleTap: () => Toasted.showToast("Cals"),
-                  context: context,
-                  innerCircleText: "146 / 225\nCals Burned",
-                  goalProgress: "You've completed 65% of your goal.",
-                  percent: 0.65)
-              : HPGraphic.createView(
-                  scrollController: _calViewSC,
-                  onDoubleTap: () => Toasted.showToast("Cals"),
-                  context: context,
-                  innerCircleText: "Tracker\nNot Found",
-                  goalProgress: "Connect an Activity Tracker to set this goal.",
-                  percent: 0.0),
-          // ! ------------------------
+
+          HPGraphic.createView(
+              scrollController: _calViewSC,
+              onDoubleTap: () => Toasted.showToast("Cals"),
+              context: context,
+              innerCircleText: "146 / 225\nCals Burned",
+              goalProgress: "You've completed 65% of your goal.",
+              percent: 0.65),
+
           HPGraphic.createView(
               scrollController: _stepsViewSC,
               onDoubleTap: () => Toasted.showToast("Steps"),
@@ -264,31 +257,18 @@ class _HomeWidgetState extends State<HomeWidget> {
               innerCircleText: "520 / 2000\nSteps Taken",
               goalProgress: "You've completed 26% of your goal.",
               percent: 0.26),
-          // ? Move this to HPGraphic class
-          isMileGoalSet
-              ? HPGraphic.createView(
-                  scrollController: _milesViewSC,
-                  onDoubleTap: () {
-                    isMileGoalSet = !isMileGoalSet;
-                    FireStore.updateHealthData(
-                        FireStore.mileGoalToMap(isMileGoalSet));
-                  },
-                  context: context,
-                  innerCircleText: "3 of 5 Miles\nWalked / Ran",
-                  goalProgress: "You've completed 60% of your goal.",
-                  percent: 0.60)
-              : HPGraphic.createView(
-                  scrollController: _milesViewSC,
-                  onDoubleTap: () {
-                    isMileGoalSet = !isMileGoalSet;
-                    FireStore.updateHealthData(
-                        FireStore.mileGoalToMap(isMileGoalSet));
-                  },
-                  context: context,
-                  innerCircleText: "N/A",
-                  goalProgress:
-                      "You do not have an active Miles goal.\nDouble tap here to set one.",
-                  percent: 0.0)
+
+          HPGraphic.createView(
+              scrollController: _milesViewSC,
+              onDoubleTap: () {
+                // isMileGoalSet = !isMileGoalSet;
+                // FireStore.updateHealthData(
+                //     FireStore.mileGoalToMap(isMileGoalSet));
+              },
+              context: context,
+              innerCircleText: "3 of 5 Miles\nWalked / Ran",
+              goalProgress: "You've completed 60% of your goal.",
+              percent: 0.60)
         ]),
       ),
     );

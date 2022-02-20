@@ -48,8 +48,8 @@ class HPGraphic {
       onDoubleTap: () => onDoubleTap(),
       child: Container(
           child: Scrollbar(
-            controller: scrollController,
-            isAlwaysShown: true,
+        controller: scrollController,
+        isAlwaysShown: true,
         child: SingleChildScrollView(
           controller: scrollController,
           child: Column(
