@@ -27,7 +27,7 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   late String _platformHealthName;
   late Map<String, dynamic> _activitySnapshotBackup;
-  late Map<String, dynamic> _healthSnapshotBackup;
+  static late Map<String, dynamic> _healthSnapshotBackup;
 
   final _calViewSC = ScrollController();
   final _stepsViewSC = ScrollController();
@@ -36,13 +36,13 @@ class _HomeWidgetState extends State<HomeWidget> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double _userProgressCalGoal = 0;
-  double _userSetCalGoal = 0;
+  double _userCalEndGoal = 0;
   double _userProgressStepGoal = 0;
-  double _userSetStepGoal = 0;
+  double _userStepEndGoal = 0;
   double _userProgressMileGoal = 0;
-  double _userSetMileGoal = 0;
+  double _userMileEndGoal = 0;
   double _userProgressExerciseTime = 0;
-  double _userSetExerciseTimeGoal = 0;
+  double _userExerciseTimeEndGoal = 0;
 
   bool _isCalGoalSet = false;
   bool _isStepGoalSet = false;
@@ -102,14 +102,14 @@ class _HomeWidgetState extends State<HomeWidget> {
         _isExerciseTimeGoalSet = _healthSnapshotBackup['isExerciseTimeGoalSet'];
         _userProgressCalGoal =
             _healthSnapshotBackup['calGoalProgress'].toDouble();
-        _userSetCalGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
+        _userCalEndGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
         _userProgressStepGoal =
             _healthSnapshotBackup['stepGoalProgress'].toDouble();
-        _userSetStepGoal = _healthSnapshotBackup['stepEndGoal'].toDouble();
+        _userStepEndGoal = _healthSnapshotBackup['stepEndGoal'].toDouble();
         _userProgressMileGoal =
             _healthSnapshotBackup['mileGoalProgress'].toDouble();
-        _userSetMileGoal = _healthSnapshotBackup['mileEndGoal'].toDouble();
-        _userSetExerciseTimeGoal =
+        _userMileEndGoal = _healthSnapshotBackup['mileEndGoal'].toDouble();
+        _userExerciseTimeEndGoal =
             _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
       });
     });
@@ -248,6 +248,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Steps'),
           Text('Miles'),
         ], views: [
+          // Exercise Time Goal View 
           HPGraphic.createView(
               isGoalSet: _isExerciseTimeGoalSet,
               isHealthGranted: true,
@@ -259,14 +260,15 @@ class _HomeWidgetState extends State<HomeWidget> {
               },
               context: context,
               innerCircleText:
-                  "${_userProgressExerciseTime.toStringAsFixed(2)} / ${_userSetExerciseTimeGoal.toStringAsFixed(2)}\nTotal Minutes",
+                  "${_userProgressExerciseTime.toStringAsFixed(2)} / ${_userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes",
               goalProgressStr: "You've completed " +
-                  "${((_userProgressExerciseTime / _userSetExerciseTimeGoal) * 100) > 100 ? 100 : ((_userProgressExerciseTime / _userSetExerciseTimeGoal) * 100).toStringAsFixed(2)}" +
+                  "${((_userProgressExerciseTime / _userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((_userProgressExerciseTime / _userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
                   "% of your goal.",
               percent:
-                  (_userProgressExerciseTime / _userSetExerciseTimeGoal) > 1.0
+                  (_userProgressExerciseTime / _userExerciseTimeEndGoal) > 1.0
                       ? 1.0
-                      : _userProgressExerciseTime / _userSetExerciseTimeGoal),
+                      : _userProgressExerciseTime / _userExerciseTimeEndGoal),
+          // Calories Goal View 
           HPGraphic.createView(
               isGoalSet: _isCalGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
@@ -278,12 +280,13 @@ class _HomeWidgetState extends State<HomeWidget> {
               },
               context: context,
               innerCircleText:
-                  "${_userProgressCalGoal.toStringAsFixed(2)} / ${_userSetCalGoal.toStringAsFixed(2)}\nCals Burned",
+                  "${_userProgressCalGoal.toStringAsFixed(2)} / ${_userCalEndGoal.toStringAsFixed(2)}\nCals Burned",
               goalProgressStr:
-                  "You've completed ${((_userProgressCalGoal / _userSetCalGoal) * 100).toStringAsFixed(2)} % of your goal.",
-              percent: (_userProgressCalGoal / _userSetCalGoal) > 1.0
+                  "You've completed ${((_userProgressCalGoal / _userCalEndGoal) * 100).toStringAsFixed(2)} % of your goal.",
+              percent: (_userProgressCalGoal / _userCalEndGoal) > 1.0
                   ? 1.0
-                  : _userProgressCalGoal / _userSetCalGoal),
+                  : _userProgressCalGoal / _userCalEndGoal),
+          // Step Goal View         
           HPGraphic.createView(
               isGoalSet: _isStepGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
@@ -295,12 +298,13 @@ class _HomeWidgetState extends State<HomeWidget> {
               },
               context: context,
               innerCircleText:
-                  "${_userProgressStepGoal.toStringAsFixed(2)} / ${_userSetStepGoal.toStringAsFixed(2)}\nSteps Taken",
+                  "${_userProgressStepGoal.toStringAsFixed(2)} / ${_userStepEndGoal.toStringAsFixed(2)}\nSteps Taken",
               goalProgressStr:
-                  "You've completed ${((_userProgressStepGoal / _userSetStepGoal) * 100).toStringAsFixed(2)} % of your goal.",
-              percent: (_userProgressStepGoal / _userSetStepGoal) > 1.0
+                  "You've completed ${((_userProgressStepGoal / _userStepEndGoal) * 100).toStringAsFixed(2)} % of your goal.",
+              percent: (_userProgressStepGoal / _userStepEndGoal) > 1.0
                   ? 1.0
-                  : _userProgressStepGoal / _userSetStepGoal),
+                  : _userProgressStepGoal / _userStepEndGoal),
+          // Mile Goal View        
           HPGraphic.createView(
               isGoalSet: _isMileGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
@@ -312,12 +316,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               },
               context: context,
               innerCircleText:
-                  "${_userProgressMileGoal.toStringAsFixed(2)} of ${_userSetMileGoal.toStringAsFixed(2)}\nMi Walked / Ran",
+                  "${_userProgressMileGoal.toStringAsFixed(2)} of ${_userMileEndGoal.toStringAsFixed(2)}\nMi Walked / Ran",
               goalProgressStr:
-                  "You've completed ${((_userProgressMileGoal / _userSetMileGoal) * 100).toStringAsFixed(2)} % of your goal.",
-              percent: (_userProgressMileGoal / _userSetMileGoal) > 1.0
+                  "You've completed ${((_userProgressMileGoal / _userMileEndGoal) * 100).toStringAsFixed(2)} % of your goal.",
+              percent: (_userProgressMileGoal / _userMileEndGoal) > 1.0
                   ? 1.0
-                  : _userProgressMileGoal / _userSetMileGoal)
+                  : _userProgressMileGoal / _userMileEndGoal)
         ]),
       ),
     );
