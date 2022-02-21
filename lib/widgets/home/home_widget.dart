@@ -101,16 +101,16 @@ class _HomeWidgetState extends State<HomeWidget> {
             _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
         _isExerciseTimeGoalSet = _healthSnapshotBackup['isExerciseTimeGoalSet'];
         _userProgressCalGoal =
-            _healthSnapshotBackup['userProgressCalGoal'].toDouble();
-        _userSetCalGoal = _healthSnapshotBackup['userSetCalGoal'].toDouble();
+            _healthSnapshotBackup['calGoalProgress'].toDouble();
+        _userSetCalGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
         _userProgressStepGoal =
-            _healthSnapshotBackup['userProgressStepGoal'].toDouble();
-        _userSetStepGoal = _healthSnapshotBackup['userSetStepGoal'].toDouble();
+            _healthSnapshotBackup['stepGoalProgress'].toDouble();
+        _userSetStepGoal = _healthSnapshotBackup['stepEndGoal'].toDouble();
         _userProgressMileGoal =
-            _healthSnapshotBackup['userProgressMileGoal'].toDouble();
-        _userSetMileGoal = _healthSnapshotBackup['userSetMileGoal'].toDouble();
+            _healthSnapshotBackup['mileGoalProgress'].toDouble();
+        _userSetMileGoal = _healthSnapshotBackup['mileEndGoal'].toDouble();
         _userSetExerciseTimeGoal =
-            _healthSnapshotBackup['userSetExerciseTimeGoal'].toDouble();
+            _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
       });
     });
   }

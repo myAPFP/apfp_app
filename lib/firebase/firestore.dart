@@ -94,14 +94,14 @@ class FireStore {
       // ! Change these default values to
       // ! 0 once 'Add Goal' screen is implemented
       // ! Some are set to 10 to avoid 0/0 = NaN issues
-      "userProgressExerciseTime": 0,
-      "userSetExerciseTimeGoal": 10,
-      "userProgressCalGoal": 0,
-      "userSetCalGoal": 10,
-      "userProgressStepGoal": 0,
-      "userSetStepGoal": 10,
-      "userProgressMileGoal": 0,
-      "userSetMileGoal": 10
+      "exerciseTimeGoalProgress": 0,
+      "exerciseTimeEndGoal": 10,
+      "calGoalProgress": 0,
+      "calEndGoal": 10,
+      "stepGoalProgress": 0,
+      "stepEndGoal": 10,
+      "mileGoalProgress": 0,
+      "mileEndGoal": 10
     });
   }
 
@@ -137,49 +137,49 @@ class FireStore {
 
   static Map<String, dynamic> mileProgressToMap(double mileProgress) {
     return {
-      "userProgressMileGoal": mileProgress,
+      "mileGoalProgress": mileProgress,
     };
   }
 
   static Map<String, dynamic> mileSetToMap(double miles) {
     return {
-      "userSetMileGoal": miles,
+      "mileEndGoal": miles,
     };
   }
 
   static Map<String, dynamic> stepProgressToMap(double stepProgress) {
     return {
-      "userProgressStepGoal": stepProgress,
+      "stepGoalProgress": stepProgress,
     };
   }
 
   static Map<String, dynamic> stepSetToMap(double stepCount) {
     return {
-      "userSetStepGoal": stepCount,
+      "stepEndGoal": stepCount,
     };
   }
 
   static Map<String, dynamic> calProgressToMap(double calProgress) {
     return {
-      "userProgressCalGoal": calProgress,
+      "calGoalProgress": calProgress,
     };
   }
 
   static Map<String, dynamic> calSetToMap(double calsBurned) {
     return {
-      "userSetCalGoal": calsBurned,
+      "calEndGoal": calsBurned,
     };
   }
 
   static Map<String, dynamic> exerciseTimeProgressToMap(double exerciseTimeProgress) {
     return {
-      "userProgressExerciseTime": exerciseTimeProgress,
+      "exerciseTimeGoalProgress": exerciseTimeProgress,
     };
   }
 
   static Map<String, dynamic> exerciseTimeSetToMap(double minutes) {
     return {
-      "userSetExerciseTimeGoal": minutes,
+      "exerciseTimeEndGoal": minutes,
     };
   }
 }
