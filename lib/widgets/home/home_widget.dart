@@ -29,18 +29,21 @@ class _HomeWidgetState extends State<HomeWidget> {
   late String _platformHealthName;
   late Map<String, dynamic> _currentSnapshotBackup;
   late Map<String, dynamic> _healthSnapshotBackup;
+
   final _calViewSC = ScrollController();
   final _stepsViewSC = ScrollController();
   final _milesViewSC = ScrollController();
   final _exerciseViewSC = ScrollController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   double _totalExerciseTimeInMinutes = 0;
   double _exerciseTimeGoalInMinutes = 150;
 
-  late bool isCalGoalSet = false;
-  late bool isStepGoalSet = false;
-  late bool isMileGoalSet = false;
-  late bool isHealthTrackerPermissionGranted = false;
+  bool _isCalGoalSet = false;
+  bool _isStepGoalSet = false;
+  bool _isMileGoalSet = false;
+  bool _isExerciseTimeGoalSet = false;
+  bool _isHealthTrackerPermissionGranted = false;
 
   @override
   void initState() {
@@ -84,11 +87,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         _healthSnapshotBackup = element.data()!;
       }
       setState(() {
-        isHealthTrackerPermissionGranted =
+        _isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
+        _isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
+        _isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
+        _isHealthTrackerPermissionGranted =
             _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
-        isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
-        isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
-        isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
+        _isExerciseTimeGoalSet = _healthSnapshotBackup['isExerciseTimeGoalSet'];
       });
     });
   }
@@ -227,14 +231,18 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Miles'),
         ], views: [
           HPGraphic.createView(
-              isGoalSet: true,
+              isGoalSet: _isExerciseTimeGoalSet,
               isHealthGranted: true,
               scrollController: _exerciseViewSC,
-              onDoubleTap: () => Toasted.showToast("Total Hours"),
+              onDoubleTap: () {
+                _isExerciseTimeGoalSet = !_isExerciseTimeGoalSet;
+                FireStore.updateHealthData(
+                    FireStore.exerciseGoalToMap(_isExerciseTimeGoalSet));
+              },
               context: context,
               innerCircleText:
                   "${_totalExerciseTimeInMinutes.toStringAsFixed(2)} / ${_exerciseTimeGoalInMinutes.toStringAsFixed(2)}\nTotal Minutes",
-              goalProgress: "You've completed " +
+              goalProgressStr: "You've completed " +
                   "${((_totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes) * 100) > 100 ? 100 : ((_totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes) * 100).toStringAsFixed(2)}" +
                   "% of your goal.",
               percent: (_totalExerciseTimeInMinutes /
@@ -243,43 +251,43 @@ class _HomeWidgetState extends State<HomeWidget> {
                   ? 1.0
                   : _totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes),
           HPGraphic.createView(
-              isGoalSet: isCalGoalSet,
-              isHealthGranted: isHealthTrackerPermissionGranted,
+              isGoalSet: _isCalGoalSet,
+              isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _calViewSC,
               onDoubleTap: () {
-                isCalGoalSet = !isCalGoalSet;
+                _isCalGoalSet = !_isCalGoalSet;
                 FireStore.updateHealthData(
-                    FireStore.calGoalToMap(isCalGoalSet));
+                    FireStore.calGoalToMap(_isCalGoalSet));
               },
               context: context,
               innerCircleText: "146 / 225\nCals Burned",
-              goalProgress: "You've completed 65% of your goal.",
+              goalProgressStr: "You've completed 65% of your goal.",
               percent: 0.65),
           HPGraphic.createView(
-              isGoalSet: isStepGoalSet,
-              isHealthGranted: isHealthTrackerPermissionGranted,
+              isGoalSet: _isStepGoalSet,
+              isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _stepsViewSC,
               onDoubleTap: () {
-                isStepGoalSet = !isStepGoalSet;
+                _isStepGoalSet = !_isStepGoalSet;
                 FireStore.updateHealthData(
-                    FireStore.stepGoalToMap(isStepGoalSet));
+                    FireStore.stepGoalToMap(_isStepGoalSet));
               },
               context: context,
               innerCircleText: "520 / 2000\nSteps Taken",
-              goalProgress: "You've completed 26% of your goal.",
+              goalProgressStr: "You've completed 26% of your goal.",
               percent: 0.26),
           HPGraphic.createView(
-              isGoalSet: isMileGoalSet,
-              isHealthGranted: isHealthTrackerPermissionGranted,
+              isGoalSet: _isMileGoalSet,
+              isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _milesViewSC,
               onDoubleTap: () {
-                isMileGoalSet = !isMileGoalSet;
+                _isMileGoalSet = !_isMileGoalSet;
                 FireStore.updateHealthData(
-                    FireStore.mileGoalToMap(isMileGoalSet));
+                    FireStore.mileGoalToMap(_isMileGoalSet));
               },
               context: context,
               innerCircleText: "3 of 5 Miles\nWalked / Ran",
-              goalProgress: "You've completed 60% of your goal.",
+              goalProgressStr: "You've completed 60% of your goal.",
               percent: 0.60)
         ]),
       ),
@@ -288,7 +296,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   void _getPlatformHealthName() {
     if (Platform.isIOS) {
-      _platformHealthName = "Apple Health";
+      _platformHealthName = "Apple Health / Google Fit";
     } else if (Platform.isAndroid) {
       _platformHealthName = "Google Fit";
     }
@@ -300,17 +308,19 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: FFButtonWidget(
         onPressed: () {
           // ! -- Demo Purposes --
-          isHealthTrackerPermissionGranted = !isHealthTrackerPermissionGranted;
-          if (!isHealthTrackerPermissionGranted) {
+          _isHealthTrackerPermissionGranted =
+              !_isHealthTrackerPermissionGranted;
+          if (!_isHealthTrackerPermissionGranted) {
             FireStore.updateHealthData(FireStore.calGoalToMap(false));
             FireStore.updateHealthData(FireStore.stepGoalToMap(false));
             FireStore.updateHealthData(FireStore.mileGoalToMap(false));
+            FireStore.updateHealthData(FireStore.exerciseGoalToMap(false));
           }
           FireStore.updateHealthData(FireStore.healthPermissionToMap(
-              isHealthTrackerPermissionGranted));
+              _isHealthTrackerPermissionGranted));
           // ! -------------------
         },
-        text: 'Sync $_platformHealthName Data',
+        text: 'Sync $_platformHealthName',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.9,
           height: 50,
