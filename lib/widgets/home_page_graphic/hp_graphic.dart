@@ -40,19 +40,20 @@ class HPGraphic {
   static InkWell createView(
       {required BuildContext context,
       required String innerCircleText,
-      required String goalProgress,
+      required String goalProgressStr,
       required double percent,
       required Function onDoubleTap,
       required ScrollController scrollController,
       required bool isHealthGranted,
       required bool isGoalSet}) {
     if (!isHealthGranted) {
-      innerCircleText = "Tracker\nNot Found";
-      goalProgress = "Connect an Activity Tracker to set this goal.";
+      innerCircleText = "Health App\nNot Sync'd";
+      goalProgressStr =
+          "Sync your myAPFP App with\na Health App to set this goal.";
       percent = 0;
     } else if (!isGoalSet && isHealthGranted) {
       innerCircleText = "N/A";
-      goalProgress =
+      goalProgressStr =
           "You don't have an active goal.\nDouble click here to set one.";
       percent = 0;
     }
@@ -84,7 +85,7 @@ class HPGraphic {
                 progressColor: Colors.green,
               ),
               SizedBox(height: 25),
-              Text(goalProgress, style: TextStyle(fontSize: 20))
+              Text(goalProgressStr, style: TextStyle(fontSize: 20))
             ],
           ),
         ),
