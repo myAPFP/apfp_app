@@ -52,6 +52,11 @@ class HPGraphic {
           goalProgress = "Connect an Activity Tracker to set this goal.";
           percent = 0;
         }
+        if (isGoalSet) {
+          innerCircleText = "N/A";
+          goalProgress = "You don't have an active goal.\nDouble click here to set one.";
+          percent = 0;
+        }
     return InkWell(
       onDoubleTap: () => onDoubleTap(),
       child: Container(

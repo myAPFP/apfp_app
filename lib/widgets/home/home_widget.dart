@@ -248,7 +248,11 @@ class _HomeWidgetState extends State<HomeWidget> {
               isGoalSet: false,
               isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _calViewSC,
-              onDoubleTap: () => Toasted.showToast("Cals"),
+              onDoubleTap: () {
+                isCalGoalSet = !isCalGoalSet;
+                FireStore.updateHealthData(
+                FireStore.calGoalToMap(isCalGoalSet));
+              },
               context: context,
               innerCircleText: "146 / 225\nCals Burned",
               goalProgress: "You've completed 65% of your goal.",
@@ -258,7 +262,11 @@ class _HomeWidgetState extends State<HomeWidget> {
               isGoalSet: false,
               isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _stepsViewSC,
-              onDoubleTap: () => Toasted.showToast("Steps"),
+              onDoubleTap: () {
+                isStepGoalSet = !isStepGoalSet;
+                FireStore.updateHealthData(
+                FireStore.stepGoalToMap(isStepGoalSet));
+              },
               context: context,
               innerCircleText: "520 / 2000\nSteps Taken",
               goalProgress: "You've completed 26% of your goal.",
@@ -269,9 +277,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _milesViewSC,
               onDoubleTap: () {
-                // isMileGoalSet = !isMileGoalSet;
-                // FireStore.updateHealthData(
-                //     FireStore.mileGoalToMap(isMileGoalSet));
+                isMileGoalSet = !isMileGoalSet;
+                FireStore.updateHealthData(
+                FireStore.mileGoalToMap(isMileGoalSet));
               },
               context: context,
               innerCircleText: "3 of 5 Miles\nWalked / Ran",
