@@ -228,6 +228,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         ], views: [
 
           HPGraphic.createView(
+              isGoalSet: false,
+              isHealthGranted: true,
               scrollController: _exerciseViewSC,
               onDoubleTap: () => Toasted.showToast("Total Hours"),
               context: context,
@@ -243,6 +245,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                   : _totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes),
 
           HPGraphic.createView(
+              isGoalSet: false,
+              isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _calViewSC,
               onDoubleTap: () => Toasted.showToast("Cals"),
               context: context,
@@ -251,6 +255,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: 0.65),
 
           HPGraphic.createView(
+              isGoalSet: false,
+              isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _stepsViewSC,
               onDoubleTap: () => Toasted.showToast("Steps"),
               context: context,
@@ -259,6 +265,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: 0.26),
 
           HPGraphic.createView(
+              isGoalSet: false,
+              isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _milesViewSC,
               onDoubleTap: () {
                 // isMileGoalSet = !isMileGoalSet;
@@ -298,7 +306,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               isHealthTrackerPermissionGranted));
           // ! -------------------
         },
-        text: 'Sync ${_platformHealthName} Data',
+        text: 'Sync $_platformHealthName Data',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.9,
           height: 50,

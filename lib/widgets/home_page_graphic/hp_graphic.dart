@@ -43,7 +43,15 @@ class HPGraphic {
       required String goalProgress,
       required double percent,
       required Function onDoubleTap,
-      required ScrollController scrollController}) {
+      required ScrollController scrollController,
+      required bool isHealthGranted,
+      required bool isGoalSet    
+      }) {
+        if (!isHealthGranted) {
+          innerCircleText = "Tracker\nNot Found";
+          goalProgress = "Connect an Activity Tracker to set this goal.";
+          percent = 0;
+        }
     return InkWell(
       onDoubleTap: () => onDoubleTap(),
       child: Container(
