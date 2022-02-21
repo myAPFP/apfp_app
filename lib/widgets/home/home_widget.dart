@@ -226,9 +226,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Steps'),
           Text('Miles'),
         ], views: [
-
           HPGraphic.createView(
-              isGoalSet: false,
+              isGoalSet: true,
               isHealthGranted: true,
               scrollController: _exerciseViewSC,
               onDoubleTap: () => Toasted.showToast("Total Hours"),
@@ -243,7 +242,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                       1.0
                   ? 1.0
                   : _totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes),
-
           HPGraphic.createView(
               isGoalSet: isCalGoalSet,
               isHealthGranted: isHealthTrackerPermissionGranted,
@@ -251,13 +249,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               onDoubleTap: () {
                 isCalGoalSet = !isCalGoalSet;
                 FireStore.updateHealthData(
-                FireStore.calGoalToMap(isCalGoalSet));
+                    FireStore.calGoalToMap(isCalGoalSet));
               },
               context: context,
               innerCircleText: "146 / 225\nCals Burned",
               goalProgress: "You've completed 65% of your goal.",
               percent: 0.65),
-
           HPGraphic.createView(
               isGoalSet: isStepGoalSet,
               isHealthGranted: isHealthTrackerPermissionGranted,
@@ -265,13 +262,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               onDoubleTap: () {
                 isStepGoalSet = !isStepGoalSet;
                 FireStore.updateHealthData(
-                FireStore.stepGoalToMap(isStepGoalSet));
+                    FireStore.stepGoalToMap(isStepGoalSet));
               },
               context: context,
               innerCircleText: "520 / 2000\nSteps Taken",
               goalProgress: "You've completed 26% of your goal.",
               percent: 0.26),
-
           HPGraphic.createView(
               isGoalSet: isMileGoalSet,
               isHealthGranted: isHealthTrackerPermissionGranted,
@@ -279,7 +275,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               onDoubleTap: () {
                 isMileGoalSet = !isMileGoalSet;
                 FireStore.updateHealthData(
-                FireStore.mileGoalToMap(isMileGoalSet));
+                    FireStore.mileGoalToMap(isMileGoalSet));
               },
               context: context,
               innerCircleText: "3 of 5 Miles\nWalked / Ran",
