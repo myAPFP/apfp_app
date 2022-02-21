@@ -1,7 +1,7 @@
 class ExerciseGoal {
-  static double totalTimeInMinutes(Map map) {
+  static double totalTimeInMinutes(Map activitySnapshot) {
     Duration sum = Duration.zero;
-    map.forEach((key, value) => sum += _convertToDuration(value[2]));
+    activitySnapshot.forEach((key, value) => sum += _convertToDuration(value[2]));
     String HHmmss = sum.toString().split('.').first.padLeft(8, "0");
     List<String> HHmmssSplit = HHmmss.split(':');
     return double.parse(HHmmssSplit[0]) * 60 +
