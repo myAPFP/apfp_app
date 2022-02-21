@@ -245,7 +245,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   : _totalExerciseTimeInMinutes / _exerciseTimeGoalInMinutes),
 
           HPGraphic.createView(
-              isGoalSet: false,
+              isGoalSet: isCalGoalSet,
               isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _calViewSC,
               onDoubleTap: () {
@@ -259,7 +259,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: 0.65),
 
           HPGraphic.createView(
-              isGoalSet: false,
+              isGoalSet: isStepGoalSet,
               isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _stepsViewSC,
               onDoubleTap: () {
@@ -273,7 +273,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: 0.26),
 
           HPGraphic.createView(
-              isGoalSet: false,
+              isGoalSet: isMileGoalSet,
               isHealthGranted: isHealthTrackerPermissionGranted,
               scrollController: _milesViewSC,
               onDoubleTap: () {
