@@ -94,6 +94,12 @@ class FireStore {
     };
   }
 
+  static Map<String, dynamic> exerciseGoalToMap(bool isExerciseGoalSet) {
+    return {
+      "isExerciseTimeGoalSet": isExerciseGoalSet,
+    };
+  }
+
   static Map<String, dynamic> calGoalToMap(bool isCalGoalSet) {
     return {
       "isCalGoalSet": isCalGoalSet,
