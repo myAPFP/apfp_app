@@ -26,7 +26,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   late String _platformHealthName;
-  late Map<String, dynamic> _currentSnapshotBackup;
+  late Map<String, dynamic> _activitySnapshotBackup;
   late Map<String, dynamic> _healthSnapshotBackup;
 
   final _calViewSC = ScrollController();
@@ -55,7 +55,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     _getPlatformHealthName();
     widget.activityStream.first
-        .then((firstElement) => _currentSnapshotBackup = firstElement.data()!);
+        .then((firstElement) => _activitySnapshotBackup = firstElement.data()!);
     widget.healthStream.first
         .then((firstElement) => _healthSnapshotBackup = firstElement.data()!);
     _listenToActivityStream();
@@ -73,14 +73,16 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   void _listenToActivityStream() {
     widget.activityStream.forEach((element) {
-      _currentSnapshotBackup = new Map();
+      _activitySnapshotBackup = new Map();
       if (element.data() != null) {
-        _currentSnapshotBackup = element.data()!;
+        _activitySnapshotBackup = element.data()!;
       }
       _userProgressExerciseTime = 0;
       setState(() {
         _userProgressExerciseTime =
-            ExerciseGoal.totalTimeInMinutes(_currentSnapshotBackup);
+            ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        FireStore.updateHealthData(
+            FireStore.exerciseTimeProgressToMap(_userProgressExerciseTime));
       });
     });
   }
@@ -107,8 +109,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         _userProgressMileGoal =
             _healthSnapshotBackup['userProgressMileGoal'].toDouble();
         _userSetMileGoal = _healthSnapshotBackup['userSetMileGoal'].toDouble();
-        _userProgressExerciseTime =
-            _healthSnapshotBackup['userProgressExerciseTime'].toDouble();
         _userSetExerciseTimeGoal =
             _healthSnapshotBackup['userSetExerciseTimeGoal'].toDouble();
       });
@@ -343,7 +343,6 @@ class _HomeWidgetState extends State<HomeWidget> {
             FireStore.updateHealthData(FireStore.calGoalBoolToMap(false));
             FireStore.updateHealthData(FireStore.stepGoalBoolToMap(false));
             FireStore.updateHealthData(FireStore.mileGoalBoolToMap(false));
-            FireStore.updateHealthData(FireStore.exerciseGoalBoolToMap(false));
           }
           FireStore.updateHealthData(FireStore.healthPermissionToMap(
               _isHealthTrackerPermissionGranted));
