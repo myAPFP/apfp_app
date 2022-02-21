@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
@@ -19,6 +21,7 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
+  late String _platformHealthName;
   late FirebaseMessaging messaging;
   TextEditingController? _emailController;
   TextEditingController? _passwordController;
@@ -30,6 +33,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _getPlatformHealthName();
   }
 
   @override
@@ -189,6 +193,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
+  void _getPlatformHealthName() {
+    if (Platform.isIOS) {
+      _platformHealthName = "Apple Health / Google Fit";
+    } else if (Platform.isAndroid) {
+      _platformHealthName = "Google Fit";
+    }
+  }
+
   _signInAndDelete() async {
     if (await Internet.isConnected()) {
       await FireAuth.signInUsingEmailPassword(
@@ -237,9 +249,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 SizedBox(height: 15),
                 _settingsButton(
-                    title: "Add Activity Tracker",
+                    title: "Sync $_platformHealthName",
                     onTap: () {
-                      print("AAT Tapped!");
+                      print("SHA Tapped!");
                     }),
                 _settingsButton(
                     title: "Set Activity Goals",
