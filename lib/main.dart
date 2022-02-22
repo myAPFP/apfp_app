@@ -120,7 +120,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
         FireStore.createHealthDocument();
       }
     });
-    return FireStore.createUserActivityTrackerStream();
+    return FireStore.createHealthDocStream();
   }
 
   Future<void> initConnectivity() async {

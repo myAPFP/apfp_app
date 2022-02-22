@@ -171,7 +171,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isValidDuration(value) || int.parse(value) < 1) {
+            if (!Validator.isInt(value) || int.parse(value) < 1) {
               return 'Whole numbers (1+) only';
             }
             if (int.parse(value) > 59) {
