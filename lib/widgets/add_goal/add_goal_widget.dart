@@ -120,8 +120,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             if (double.parse(value) < 10) {
               return "Goal must be at least 10 min";
             }
-            if (double.parse(value) > 300) {
-              return "300 min is max limit";
+            if (double.parse(value) > 180) {
+              return "180 min is max limit";
             }
             return null;
           },

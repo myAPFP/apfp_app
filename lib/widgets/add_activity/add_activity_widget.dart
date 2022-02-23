@@ -171,11 +171,31 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isInt(value) || int.parse(value) < 1) {
+            if (!Validator.isInt(value)) {
               return 'Whole numbers (1+) only';
             }
-            if (int.parse(value) > 59) {
-              return '59 is max limit';
+            int minLimit = 0;
+            int maxLimit = 0;
+            switch (unitOfTime) {
+              case 'Seconds':
+                minLimit = 30;
+                maxLimit = 59;
+                break;
+              case 'Hours':
+                maxLimit = 3;
+                break;
+              default:
+                maxLimit = 59;
+                break;
+            }
+            if (int.parse(value) == 1) {
+              unitOfTime = unitOfTime!.substring(0, unitOfTime!.length - 1);
+            }
+            if (int.parse(value) < minLimit) {
+              return '$minLimit ${unitOfTime!.toLowerCase()} is min limit';
+            }
+            if (int.parse(value) > maxLimit) {
+              return '$maxLimit ${unitOfTime!.toLowerCase()} is max limit';
             }
             return null;
           },
@@ -269,7 +289,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         _durationTextField(),
                         FlutterFlowDropDown(
                           initialOption: 'Minutes',
-                          options: ['Seconds', 'Minutes'],
+                          options: ['Seconds', 'Minutes', 'Hours'],
                           onChanged: (val) => setState(() => unitOfTime = val),
                           width: MediaQuery.of(context).size.width * .55,
                           height: 50,
