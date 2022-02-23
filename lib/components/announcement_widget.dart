@@ -27,10 +27,10 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
             maxWidth: MediaQuery.of(context).size.width * 0.9,
           ),
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.tertiaryColor,
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: FlutterFlowTheme.primaryColor,
-              width: 2,
             ),
           ),
           child: Row(
