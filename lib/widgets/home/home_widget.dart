@@ -282,7 +282,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _calViewSC,
               onDoubleTap: () {
-                _goToAddGoal();
+                if (_isHealthTrackerPermissionGranted) {
+                  _goToAddGoal();
+                }
               },
               context: context,
               innerCircleText:
@@ -298,7 +300,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _stepsViewSC,
               onDoubleTap: () {
-                _goToAddGoal();
+                if (_isHealthTrackerPermissionGranted) {
+                  _goToAddGoal();
+                }
               },
               context: context,
               innerCircleText:
@@ -314,7 +318,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _milesViewSC,
               onDoubleTap: () {
-                _goToAddGoal();
+                if (_isHealthTrackerPermissionGranted) {
+                  _goToAddGoal();
+                }
               },
               context: context,
               innerCircleText:
