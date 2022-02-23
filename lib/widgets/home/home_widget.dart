@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:apfp/firebase/firestore.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../../util/goals/exercise_time_goal.dart';
+import '../add_goal/add_goal_widget.dart';
 import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -227,6 +228,15 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
+  void _goToAddGoal() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddGoalWidget(),
+      ),
+    );
+  }
+
   Padding _activityGUI() {
     return Padding(
       key: Key('Home.activityGUI'),
@@ -248,35 +258,31 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Steps'),
           Text('Miles'),
         ], views: [
-          // Exercise Time Goal View 
+          // Exercise Time Goal View
           HPGraphic.createView(
               isGoalSet: _isExerciseTimeGoalSet,
               isHealthGranted: true,
               scrollController: _exerciseViewSC,
               onDoubleTap: () {
-                _isExerciseTimeGoalSet = !_isExerciseTimeGoalSet;
-                FireStore.updateHealthData(
-                    FireStore.exerciseGoalBoolToMap(_isExerciseTimeGoalSet));
+                _goToAddGoal();
               },
               context: context,
               innerCircleText:
                   "${_userProgressExerciseTime.toStringAsFixed(2)} / ${_userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes",
               goalProgressStr: "You've completed " +
                   "${((_userProgressExerciseTime / _userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((_userProgressExerciseTime / _userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
-                  "% of your goal.",
+                  "% of your goal.\nDouble tap here to edit.",
               percent:
                   (_userProgressExerciseTime / _userExerciseTimeEndGoal) > 1.0
                       ? 1.0
                       : _userProgressExerciseTime / _userExerciseTimeEndGoal),
-          // Calories Goal View 
+          // Calories Goal View
           HPGraphic.createView(
               isGoalSet: _isCalGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _calViewSC,
               onDoubleTap: () {
-                _isCalGoalSet = !_isCalGoalSet;
-                FireStore.updateHealthData(
-                    FireStore.calGoalBoolToMap(_isCalGoalSet));
+                _goToAddGoal();
               },
               context: context,
               innerCircleText:
@@ -286,15 +292,13 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: (_userProgressCalGoal / _userCalEndGoal) > 1.0
                   ? 1.0
                   : _userProgressCalGoal / _userCalEndGoal),
-          // Step Goal View         
+          // Step Goal View
           HPGraphic.createView(
               isGoalSet: _isStepGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _stepsViewSC,
               onDoubleTap: () {
-                _isStepGoalSet = !_isStepGoalSet;
-                FireStore.updateHealthData(
-                    FireStore.stepGoalBoolToMap(_isStepGoalSet));
+                _goToAddGoal();
               },
               context: context,
               innerCircleText:
@@ -304,15 +308,13 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: (_userProgressStepGoal / _userStepEndGoal) > 1.0
                   ? 1.0
                   : _userProgressStepGoal / _userStepEndGoal),
-          // Mile Goal View        
+          // Mile Goal View
           HPGraphic.createView(
               isGoalSet: _isMileGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _milesViewSC,
               onDoubleTap: () {
-                _isMileGoalSet = !_isMileGoalSet;
-                FireStore.updateHealthData(
-                    FireStore.mileGoalBoolToMap(_isMileGoalSet));
+                _goToAddGoal();
               },
               context: context,
               innerCircleText:
