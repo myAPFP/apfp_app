@@ -10,6 +10,15 @@ class AddGoalWidget extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
+  static void launch(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddGoalWidget(),
+      ),
+    );
+  }
+
   @override
   _AddGoalWidgetState createState() => _AddGoalWidgetState();
 }
@@ -141,6 +150,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
       ),
     );
   }
+
+  
 
   @override
   Widget build(BuildContext context) {

@@ -222,17 +222,8 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          AutoSizeText('Today\'s Activity', style: FlutterFlowTheme.title1),
+          AutoSizeText('Daily Goals', style: FlutterFlowTheme.title1),
         ],
-      ),
-    );
-  }
-
-  void _goToAddGoal() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddGoalWidget(),
       ),
     );
   }
@@ -264,7 +255,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               isHealthGranted: true,
               scrollController: _exerciseViewSC,
               onDoubleTap: () {
-                _goToAddGoal();
+                AddGoalWidget.launch(context);
               },
               context: context,
               innerCircleText:
@@ -283,7 +274,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               scrollController: _calViewSC,
               onDoubleTap: () {
                 if (_isHealthTrackerPermissionGranted) {
-                  _goToAddGoal();
+                  AddGoalWidget.launch(context);
                 }
               },
               context: context,
@@ -301,7 +292,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               scrollController: _stepsViewSC,
               onDoubleTap: () {
                 if (_isHealthTrackerPermissionGranted) {
-                  _goToAddGoal();
+                  AddGoalWidget.launch(context);
                 }
               },
               context: context,
@@ -319,7 +310,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               scrollController: _milesViewSC,
               onDoubleTap: () {
                 if (_isHealthTrackerPermissionGranted) {
-                  _goToAddGoal();
+                  AddGoalWidget.launch(context);
                 }
               },
               context: context,

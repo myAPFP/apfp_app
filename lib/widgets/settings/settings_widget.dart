@@ -111,15 +111,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
-  void _goToAddGoal() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddGoalWidget(),
-      ),
-    );
-  }
-
   Row _dialogInfoRow(String text) {
     return Row(
       children: [
@@ -266,7 +257,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 _settingsButton(
                     title: "Set Activity Goals",
                     onTap: () {
-                      _goToAddGoal();
+                      AddGoalWidget.launch(context);
                     }),
                 _settingsButton(
                     title: "Notification Settings",
