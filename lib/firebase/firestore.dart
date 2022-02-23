@@ -65,20 +65,19 @@ class FireStore {
         .set(new Map());
   }
 
-  static DocumentReference<Map<String, dynamic>>
-      getUserActivityTrackerDocument() {
+  static DocumentReference<Map<String, dynamic>> getHealthDocument() {
     return FirebaseFirestore.instance
         .collection('health')
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
   static Stream<DocumentSnapshot<Map<String, dynamic>>>
-      createUserActivityTrackerStream() {
-    return getUserActivityTrackerDocument().snapshots();
+      createHealthDocStream() {
+    return getHealthDocument().snapshots();
   }
 
   static Future<void> updateHealthData(Map<String, dynamic> data) {
-    return getUserActivityTrackerDocument().update(data);
+    return getHealthDocument().update(data);
   }
 
   static void createHealthDocument() async {
@@ -171,7 +170,8 @@ class FireStore {
     };
   }
 
-  static Map<String, dynamic> exerciseTimeProgressToMap(double exerciseTimeProgress) {
+  static Map<String, dynamic> exerciseTimeProgressToMap(
+      double exerciseTimeProgress) {
     return {
       "exerciseTimeGoalProgress": exerciseTimeProgress,
     };
