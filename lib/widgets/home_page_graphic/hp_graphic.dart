@@ -54,7 +54,7 @@ class HPGraphic {
     } else if (!isGoalSet && isHealthGranted) {
       innerCircleText = "N/A";
       goalProgressStr =
-          "You don't have an active goal.\nDouble click here to set one.";
+          "You don't have an active goal.\nDouble tap here to set one.";
       percent = 0;
     }
     return InkWell(
