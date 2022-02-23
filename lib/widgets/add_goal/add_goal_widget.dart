@@ -63,7 +63,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             _loadingButton = true;
           });
           await FireStore.updateHealthData(
-                  FireStore.exerciseTimeSetToMap(_getExerciseEndGoal()))
+                  FireStore.exerciseTimeEndGoalToMap(_getExerciseEndGoal()))
               .then((value) {
             FireStore.updateHealthData(FireStore.exerciseGoalBoolToMap(true));
             Toasted.showToast("Goal has been set");
@@ -180,7 +180,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                             child: InkWell(
                                 onTap: () async {
                                   await FireStore.updateHealthData(
-                                          FireStore.exerciseTimeSetToMap(0.0))
+                                          FireStore.exerciseTimeEndGoalToMap(0.0))
                                       .then((value) {
                                     FireStore.updateHealthData(
                                         FireStore.exerciseGoalBoolToMap(false));

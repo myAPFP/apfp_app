@@ -140,7 +140,7 @@ class FireStore {
     };
   }
 
-  static Map<String, dynamic> mileSetToMap(double miles) {
+  static Map<String, dynamic> mileEndGoalToMap(double miles) {
     return {
       "mileEndGoal": miles,
     };
@@ -152,7 +152,7 @@ class FireStore {
     };
   }
 
-  static Map<String, dynamic> stepSetToMap(double stepCount) {
+  static Map<String, dynamic> stepEndGoalToMap(double stepCount) {
     return {
       "stepEndGoal": stepCount,
     };
@@ -164,7 +164,7 @@ class FireStore {
     };
   }
 
-  static Map<String, dynamic> calSetToMap(double calsBurned) {
+  static Map<String, dynamic> calEndGoalToMap(double calsBurned) {
     return {
       "calEndGoal": calsBurned,
     };
@@ -177,7 +177,7 @@ class FireStore {
     };
   }
 
-  static Map<String, dynamic> exerciseTimeSetToMap(double minutes) {
+  static Map<String, dynamic> exerciseTimeEndGoalToMap(double minutes) {
     return {
       "exerciseTimeEndGoal": minutes,
     };
