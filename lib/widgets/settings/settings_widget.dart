@@ -4,6 +4,7 @@ import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
+import 'package:apfp/widgets/add_goal/add_goal_widget.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -107,6 +108,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         builder: (context) => WelcomeWidget(),
       ),
       (r) => false,
+    );
+  }
+
+  void _goToAddGoal() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddGoalWidget(),
+      ),
     );
   }
 
@@ -256,7 +266,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 _settingsButton(
                     title: "Set Activity Goals",
                     onTap: () {
-                      print("SAG Tapped!");
+                      _goToAddGoal();
                     }),
                 _settingsButton(
                     title: "Notification Settings",
