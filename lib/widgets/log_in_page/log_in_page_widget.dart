@@ -67,7 +67,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   Text _backToHomeText() {
-    return Text('< Back to Home', style: FlutterFlowTheme.subtitle2);
+    return Text('< Back', style: FlutterFlowTheme.subtitle2);
   }
 
   Row _backButton() {
