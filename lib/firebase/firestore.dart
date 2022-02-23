@@ -94,7 +94,7 @@ class FireStore {
       // ! 0 once 'Add Goal' screen is implemented
       // ! Some are set to 10 to avoid 0/0 = NaN issues
       "exerciseTimeGoalProgress": 0,
-      "exerciseTimeEndGoal": 10,
+      "exerciseTimeEndGoal": 0.0,
       "calGoalProgress": 0,
       "calEndGoal": 10,
       "stepGoalProgress": 0,
