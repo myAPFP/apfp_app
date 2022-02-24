@@ -5,14 +5,13 @@ class FireStore {
   static Stream<QuerySnapshot> getYTPlaylistIDs() {
     return FirebaseFirestore.instance
         .collection('youtube-playlists')
-        .orderBy("Title")
         .snapshots();
   }
 
   static Stream<QuerySnapshot> getYTVideoUrls() {
     return FirebaseFirestore.instance
         .collection('youtube-videos')
-        .orderBy("Title")
+        .orderBy("id", descending: true)
         .snapshots();
   }
 
