@@ -1,6 +1,5 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/flutter_flow/flutter_flow_util.dart';
-import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -69,6 +68,25 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
+  FFButtonWidget _setGoalButton(GlobalKey<FormState> formKey, Function onTap) {
+    return FFButtonWidget(
+      onPressed: () async {
+        if (formKey.currentState!.validate()) {
+          FocusScope.of(context).unfocus();
+          setState(() {
+            _loadingButton = true;
+          });
+          onTap();
+          showSnackbar(context, "Goal has been set");
+          setState(() => _loadingButton = false);
+        }
+      },
+      text: 'Set Goal',
+      options: _ffButtonOptions(),
+      loading: _loadingButton,
+    );
+  }
+
   Expanded _deleteGoalIcon({required Function onDelete}) {
     return Expanded(
         child: InkWell(
@@ -91,25 +109,6 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               size: 45,
               color: FlutterFlowTheme.secondaryColor,
             )));
-  }
-
-  FFButtonWidget _setGoalButton(GlobalKey<FormState> formKey, Function onTap) {
-    return FFButtonWidget(
-      onPressed: () async {
-        if (formKey.currentState!.validate()) {
-          FocusScope.of(context).unfocus();
-          setState(() {
-            _loadingButton = true;
-          });
-          onTap();
-          showSnackbar(context, "Goal has been set");
-          setState(() => _loadingButton = false);
-        }
-      },
-      text: 'Set Goal',
-      options: _ffButtonOptions(),
-      loading: _loadingButton,
-    );
   }
 
   FFButtonOptions _ffButtonOptions() {
