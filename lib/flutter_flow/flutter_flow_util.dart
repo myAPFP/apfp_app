@@ -49,7 +49,7 @@ void showSnackbar(
   BuildContext context,
   String message, {
   bool loading = false,
-  int duration = 4,
+  Duration duration = const Duration(seconds: 3),
 }) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
@@ -70,7 +70,7 @@ void showSnackbar(
           Text(message),
         ],
       ),
-      duration: Duration(seconds: duration),
+      duration: duration,
     ),
   );
 }
