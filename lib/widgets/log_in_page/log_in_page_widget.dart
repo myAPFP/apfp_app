@@ -76,7 +76,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         padding: EdgeInsetsDirectional.fromSTEB(20, 25, 0, 50),
         child: InkWell(
           onTap: () async {
-            _returnToWelcome();
+            WelcomeWidget.returnToWelcome(context);
           },
           child: _backToHomeText(),
         ),
@@ -204,7 +204,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         }
       }
     } else
-      Toasted.showToast("Please connect to the Internet.");
+      showSnackbar(context, "Please check your Internet connection");
   }
 
   void _goHome() async {
@@ -307,20 +307,13 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  void _returnToWelcome() async {
-    await Navigator.push(
-      context,
-      _transitionTo(WelcomeWidget()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: WillPopScope(
         onWillPop: () async {
-          _returnToWelcome();
+          WelcomeWidget.returnToWelcome(context);
           return false;
         },
         child: Scaffold(

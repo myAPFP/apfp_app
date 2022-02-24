@@ -101,16 +101,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         contr: _passwordController);
   }
 
-  void _returnToWelcome() async {
-    await Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => WelcomeWidget(),
-      ),
-      (r) => false,
-    );
-  }
-
   Row _dialogInfoRow(String text) {
     return Row(
       children: [
@@ -137,7 +127,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               messaging.deleteToken();
               await FireAuth.signOut();
               Toasted.showToast("Logged out.");
-              _returnToWelcome();
+              WelcomeWidget.logOutToWelcome(context);
             }),
         text: 'Log Out',
         options: FFButtonOptions(
