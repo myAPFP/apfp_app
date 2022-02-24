@@ -1,7 +1,6 @@
 import 'package:apfp/widgets/settings/settings_widget.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'firebase/firestore.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
+import 'flutter_flow/flutter_flow_util.dart';
 import 'widgets/home/home_widget.dart';
 import 'widgets/alerts/alerts_widget.dart';
 import 'widgets/at_home_exercises/at_home_exercises_widget.dart';
@@ -108,8 +108,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     return FireStore.createUserActivityStream();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>>
-      connectHealthDocument() {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> connectHealthDocument() {
     Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
         FirebaseFirestore.instance
             .collection('health')
@@ -142,7 +141,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     if (_isInForeground) {
       if (_connectionStatus == ConnectivityResult.none) {
         _internetConnected = false;
-        Toasted.showToast("Please connect to the Internet.");
+        showSnackbar(context, "Please check your Internet connection", duration: Duration(days: 356));
       } else if (_connectionStatus == ConnectivityResult.wifi ||
           _connectionStatus == ConnectivityResult.mobile) {
         if (!_internetConnected) {
@@ -155,10 +154,10 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   Future<void> checkInternetConnection() async {
     if (await Internet.isConnected()) {
       _internetConnected = true;
-      Toasted.showToast("Connected to the Internet.");
+      showSnackbar(context, "Connected to the Internet");
     } else {
       _internetConnected = false;
-      Toasted.showToast("Please connect to the Internet.");
+      showSnackbar(context, "Please check your Internet connection", duration: Duration(days: 356));
     }
   }
 
