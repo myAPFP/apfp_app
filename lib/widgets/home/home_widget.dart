@@ -350,7 +350,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   void _getPlatformHealthName() {
     if (Platform.isIOS) {
-      _platformHealthName = "Apple Health / Google Fit";
+      _platformHealthName = "Health App";
     } else if (Platform.isAndroid) {
       _platformHealthName = "Google Fit";
     }
