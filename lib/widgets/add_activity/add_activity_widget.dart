@@ -188,11 +188,18 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                 maxLimit = 59;
                 break;
             }
-            if (int.parse(value) == 1) {
-              unitOfTime = unitOfTime!.substring(0, unitOfTime!.length - 1);
-            }
             if (int.parse(value) < minLimit) {
               return '$minLimit ${unitOfTime!.toLowerCase()} is min limit';
+            }
+            if (int.parse(value) == 1) {
+              switch (unitOfTime) {
+                case 'Minutes':
+                  unitOfTime = 'Minute';
+                  break;
+                case 'Hours':
+                  unitOfTime = 'Hour';
+                  break;
+              }
             }
             if (int.parse(value) > maxLimit) {
               return '$maxLimit ${unitOfTime!.toLowerCase()} is max limit';
