@@ -6,9 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AddGoalWidget extends StatefulWidget {
-  AddGoalWidget({
-    Key? key,
-  }) : super(key: key);
+  AddGoalWidget({Key? key}) : super(key: key);
 
   static void launch(BuildContext context) async {
     await Navigator.push(
@@ -150,8 +148,6 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
       ),
     );
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
