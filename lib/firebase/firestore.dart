@@ -90,17 +90,15 @@ class FireStore {
       "isCalGoalSet": false,
       "isStepGoalSet": false,
       "isMileGoalSet": false,
-      // ! Change these default values to
-      // ! 0 once 'Add Goal' screen is implemented
-      // ! Some are set to 10 to avoid 0/0 = NaN issues
       "exerciseTimeGoalProgress": 0,
-      "exerciseTimeEndGoal": 0.0,
+      "exerciseTimeEndGoal": 0,
       "calGoalProgress": 0,
-      "calEndGoal": 10,
+      "calEndGoal": 0,
       "stepGoalProgress": 0,
-      "stepEndGoal": 10,
+      "stepEndGoal": 0,
       "mileGoalProgress": 0,
-      "mileEndGoal": 10
+      "mileEndGoal": 0,
+      "dayOfMonth": DateTime.now().day
     });
   }
 

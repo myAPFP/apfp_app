@@ -36,6 +36,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   final _exerciseViewSC = ScrollController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  int _dayOfMonth = 0;
   double _userProgressCalGoal = 0;
   double _userCalEndGoal = 0;
   double _userProgressStepGoal = 0;
@@ -60,7 +61,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     widget.healthStream.first
         .then((firstElement) => _healthSnapshotBackup = firstElement.data()!);
     _listenToActivityStream();
-    _listenToHealthTrackerStream();
+    _listenToHealthStream();
   }
 
   @override
@@ -88,31 +89,52 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
   }
 
-  void _listenToHealthTrackerStream() {
+  void _listenToHealthStream() {
     widget.healthStream.forEach((element) {
       _healthSnapshotBackup = new Map();
       if (element.data() != null) {
         _healthSnapshotBackup = element.data()!;
+        setState(() {
+          _isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
+          _isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
+          _isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
+          _isHealthTrackerPermissionGranted =
+              _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
+          _isExerciseTimeGoalSet =
+              _healthSnapshotBackup['isExerciseTimeGoalSet'];
+          _userProgressCalGoal =
+              _healthSnapshotBackup['calGoalProgress'].toDouble();
+          _userCalEndGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
+          _userProgressStepGoal =
+              _healthSnapshotBackup['stepGoalProgress'].toDouble();
+          _userStepEndGoal = _healthSnapshotBackup['stepEndGoal'].toDouble();
+          _userProgressMileGoal =
+              _healthSnapshotBackup['mileGoalProgress'].toDouble();
+          _userMileEndGoal = _healthSnapshotBackup['mileEndGoal'].toDouble();
+          _userExerciseTimeEndGoal =
+              _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
+          _dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
+        });
+        if (_dayOfMonth != DateTime.now().day) {
+          FireStore.updateHealthData({
+            "isHealthTrackerPermissionGranted":
+                _isHealthTrackerPermissionGranted,
+            "isExerciseTimeGoalSet": false,
+            "isCalGoalSet": false,
+            "isStepGoalSet": false,
+            "isMileGoalSet": false,
+            "exerciseTimeGoalProgress": 0,
+            "exerciseTimeEndGoal": 0,
+            "calGoalProgress": 0,
+            "calEndGoal": 0,
+            "stepGoalProgress": 0,
+            "stepEndGoal": 0,
+            "mileGoalProgress": 0,
+            "mileEndGoal": 0,
+            "dayOfMonth": DateTime.now().day
+          });
+        }
       }
-      setState(() {
-        _isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
-        _isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
-        _isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
-        _isHealthTrackerPermissionGranted =
-            _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
-        _isExerciseTimeGoalSet = _healthSnapshotBackup['isExerciseTimeGoalSet'];
-        _userProgressCalGoal =
-            _healthSnapshotBackup['calGoalProgress'].toDouble();
-        _userCalEndGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
-        _userProgressStepGoal =
-            _healthSnapshotBackup['stepGoalProgress'].toDouble();
-        _userStepEndGoal = _healthSnapshotBackup['stepEndGoal'].toDouble();
-        _userProgressMileGoal =
-            _healthSnapshotBackup['mileGoalProgress'].toDouble();
-        _userMileEndGoal = _healthSnapshotBackup['mileEndGoal'].toDouble();
-        _userExerciseTimeEndGoal =
-            _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
-      });
     });
   }
 
