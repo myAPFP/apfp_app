@@ -141,7 +141,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     if (_isInForeground) {
       if (_connectionStatus == ConnectivityResult.none) {
         _internetConnected = false;
-        showSnackbar(context, "Please check your Internet connection", duration: Duration(days: 356));
+        showSnackbar(context, "Please check your Internet connection",
+            duration: Duration(days: 365));
       } else if (_connectionStatus == ConnectivityResult.wifi ||
           _connectionStatus == ConnectivityResult.mobile) {
         if (!_internetConnected) {
@@ -157,7 +158,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
       showSnackbar(context, "Connected to the Internet");
     } else {
       _internetConnected = false;
-      showSnackbar(context, "Please check your Internet connection", duration: Duration(days: 356));
+      showSnackbar(context, "Please check your Internet connection",
+          duration: Duration(days: 365));
     }
   }
 
