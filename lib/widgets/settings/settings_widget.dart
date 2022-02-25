@@ -22,19 +22,18 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
-  late String _platformHealthName;
   late FirebaseMessaging messaging;
   TextEditingController? _emailController;
   TextEditingController? _passwordController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final currentUser = FirebaseAuth.instance.currentUser;
+  String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _getPlatformHealthName();
   }
 
   @override
@@ -182,14 +181,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ),
       ),
     );
-  }
-
-  void _getPlatformHealthName() {
-    if (Platform.isIOS) {
-      _platformHealthName = "Health App";
-    } else if (Platform.isAndroid) {
-      _platformHealthName = "Google Fit";
-    }
   }
 
   _signInAndDelete() async {

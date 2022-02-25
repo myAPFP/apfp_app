@@ -26,7 +26,6 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  late String _platformHealthName;
   late Map<String, dynamic> _activitySnapshotBackup;
   static late Map<String, dynamic> _healthSnapshotBackup;
 
@@ -52,10 +51,12 @@ class _HomeWidgetState extends State<HomeWidget> {
   bool _isExerciseTimeGoalSet = false;
   bool _isHealthTrackerPermissionGranted = false;
 
+  String _platformHealthName =
+      Platform.isAndroid ? 'Google Fit' : 'Health App';
+
   @override
   void initState() {
     super.initState();
-    _getPlatformHealthName();
     widget.activityStream.first
         .then((firstElement) => _activitySnapshotBackup = firstElement.data()!);
     widget.healthStream.first
@@ -346,14 +347,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         ]),
       ),
     );
-  }
-
-  void _getPlatformHealthName() {
-    if (Platform.isIOS) {
-      _platformHealthName = "Health App";
-    } else if (Platform.isAndroid) {
-      _platformHealthName = "Google Fit";
-    }
   }
 
   Padding _syncHealthDataButton() {

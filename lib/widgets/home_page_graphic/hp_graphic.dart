@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -5,6 +7,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../../flutter_flow/flutter_flow_theme.dart';
 
 class HPGraphic {
+  static String _platformHealthName =
+      Platform.isAndroid ? 'Google Fit' : 'Health App';
   static ContainedTabBarView tabbedContainer(
       {required BuildContext context,
       required List<Widget> tabs,
@@ -47,9 +51,10 @@ class HPGraphic {
       required bool isHealthGranted,
       required bool isGoalSet}) {
     if (!isHealthGranted) {
-      innerCircleText = "Health App\nNot Sync'd";
-      goalProgressStr =
-          "Sync your myAPFP App with\na Health App to set this goal.";
+      innerCircleText = "$_platformHealthName\nNot Sync'd";
+      goalProgressStr = Platform.isIOS
+          ? "Sync your myAPFP App with\na $_platformHealthName to set this goal."
+          : "Sync your myAPFP App with\n$_platformHealthName to set this goal.";
       percent = 0;
     } else if (!isGoalSet && isHealthGranted) {
       innerCircleText = "N/A";
