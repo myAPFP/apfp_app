@@ -48,7 +48,7 @@ bool get isAndroid => !kIsWeb && Platform.isAndroid;
 void showSnackbar(
   BuildContext context,
   String message, {
-  bool loading = false,
+  bool noConnection = false,
   Duration duration = const Duration(seconds: 3),
 }) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -56,15 +56,14 @@ void showSnackbar(
     SnackBar(
       content: Row(
         children: [
-          if (loading)
             Padding(
               padding: EdgeInsetsDirectional.only(end: 10.0),
               child: Container(
                 height: 20,
                 width: 20,
-                child: const CircularProgressIndicator(
-                  color: Colors.white,
-                ),
+                child: noConnection ? Icon(Icons.signal_wifi_connected_no_internet_4,
+                    color: Colors.white, size: 15) : Icon(Icons.check,
+                    color: Colors.white, size: 15),
               ),
             ),
           Text(message),
