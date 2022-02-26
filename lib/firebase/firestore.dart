@@ -189,4 +189,16 @@ class FireStore {
       "exerciseTimeEndGoal": minutes,
     };
   }
+
+  static Map<String, dynamic> customGoalBoolToMap(String customGoalField, bool isGoalSet) {
+    return {
+      customGoalField: isGoalSet,
+    };
+  }
+
+  static Map<String, dynamic> customGoalToMap(String customGoalField, double isGoalSet) {
+    return {
+      customGoalField: isGoalSet,
+    };
+  }
 }
