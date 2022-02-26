@@ -41,12 +41,81 @@ class HPGraphic {
     );
   }
 
+  static InkWell createCustomView(
+      {required BuildContext context,
+      required String goal1Title,
+      required String goal2Title,
+      required String goal3Title,
+      required double percent1,
+      required double percent2,
+      required double percent3,
+      required Function onLongPress,
+      required ScrollController scrollController,
+      required bool isGoal1Set,
+      required bool isGoal2Set,
+      required bool isGoal3Set}) {
+    return InkWell(
+      onLongPress: () => onLongPress(),
+      child: Container(
+          child: Scrollbar(
+        controller: scrollController,
+        isAlwaysShown: true,
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(height: 25),
+                Text(isGoal1Set ? goal1Title : 'Cycling Goal Not Active',
+                    style: TextStyle(fontSize: 20)),
+                SizedBox(height: 5),
+                LinearPercentIndicator(
+                  linearStrokeCap: LinearStrokeCap.butt,
+                  lineHeight: 20,
+                  animation: true,
+                  animationDuration: 1200,
+                  percent: isGoal1Set ? percent1 : 0.0,
+                  backgroundColor: FlutterFlowTheme.secondaryColor,
+                  progressColor: Colors.green,
+                ),
+                SizedBox(height: 15),
+                Text(isGoal2Set ? goal2Title : 'Rowing Goal Not Active',
+                    style: TextStyle(fontSize: 20)),
+                SizedBox(height: 5),
+                LinearPercentIndicator(
+                  linearStrokeCap: LinearStrokeCap.butt,
+                  lineHeight: 20,
+                  animation: true,
+                  animationDuration: 1200,
+                  percent: isGoal2Set ? percent2 : 0.0,
+                  backgroundColor: FlutterFlowTheme.secondaryColor,
+                  progressColor: Colors.green,
+                ),
+                SizedBox(height: 15),
+                Text(isGoal3Set ? goal3Title : 'Step Mill Goal Not Active',
+                    style: TextStyle(fontSize: 20)),
+                SizedBox(height: 5),
+                LinearPercentIndicator(
+                  linearStrokeCap: LinearStrokeCap.butt,
+                  lineHeight: 20,
+                  animation: true,
+                  animationDuration: 1200,
+                  percent: isGoal3Set ? percent3 : 0.0,
+                  backgroundColor: FlutterFlowTheme.secondaryColor,
+                  progressColor: Colors.green,
+                ),
+              ]),
+        ),
+      )),
+    );
+  }
+
   static InkWell createView(
       {required BuildContext context,
       required String innerCircleText,
       required String goalProgressStr,
       required double percent,
-      required Function onDoubleTap,
+      required Function onLongPress,
       required ScrollController scrollController,
       required bool isHealthGranted,
       required bool isGoalSet}) {
@@ -57,13 +126,13 @@ class HPGraphic {
           : "Sync your myAPFP App with\n$_platformHealthName to set this goal.";
       percent = 0;
     } else if (!isGoalSet && isHealthGranted) {
-      innerCircleText = "N/A";
+      innerCircleText = "No\nActive\nGoal";
       goalProgressStr =
-          "You don't have an active goal.\nDouble tap here to set one.";
+          "Double Tap: toggle Daily/Weekly goals.\nLong Press: set, update or delete a goal.";
       percent = 0;
     }
     return InkWell(
-      onDoubleTap: () => onDoubleTap(),
+      onLongPress: () => onLongPress(),
       child: Container(
           child: Scrollbar(
         controller: scrollController,
