@@ -29,6 +29,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   late Map<String, dynamic> _activitySnapshotBackup;
   static late Map<String, dynamic> _healthSnapshotBackup;
 
+  final _otherSC = ScrollController();
   final _calViewSC = ScrollController();
   final _stepsViewSC = ScrollController();
   final _milesViewSC = ScrollController();
@@ -44,15 +45,24 @@ class _HomeWidgetState extends State<HomeWidget> {
   double _userMileEndGoal = 0;
   double _userProgressExerciseTime = 0;
   double _userExerciseTimeEndGoal = 0;
+  double _userProgresscycling = 0;
+  double _userCyclingEndGoal = 0;
+  double _userProgressRowing = 0;
+  double _userRowingEndGoal = 0;
+  double _userProgressStepMill = 0;
+  double _userStepMillEndGoal = 0;
 
   bool _isCalGoalSet = false;
   bool _isStepGoalSet = false;
   bool _isMileGoalSet = false;
+  bool _isCyclingGoalSet = false;
+  bool _isRowingGoalSet = false;
+  bool _isStepMillGoalSet = false;
   bool _isExerciseTimeGoalSet = false;
+  bool _isDailyDisplayed = false;
   bool _isHealthTrackerPermissionGranted = false;
 
-  String _platformHealthName =
-      Platform.isAndroid ? 'Google Fit' : 'Health App';
+  String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   @override
   void initState() {
@@ -68,6 +78,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void dispose() {
     super.dispose();
+    _otherSC.dispose();
     _calViewSC.dispose();
     _stepsViewSC.dispose();
     _milesViewSC.dispose();
@@ -99,6 +110,9 @@ class _HomeWidgetState extends State<HomeWidget> {
           _isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
           _isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
           _isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
+          _isCyclingGoalSet = _healthSnapshotBackup['isCyclingGoalSet'];
+          _isRowingGoalSet = _healthSnapshotBackup['isRowingGoalSet'];
+          _isStepMillGoalSet = _healthSnapshotBackup['isStepMillGoalSet'];
           _isHealthTrackerPermissionGranted =
               _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
           _isExerciseTimeGoalSet =
@@ -115,15 +129,20 @@ class _HomeWidgetState extends State<HomeWidget> {
           _userExerciseTimeEndGoal =
               _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
           _dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
+
         });
         if (_dayOfMonth != DateTime.now().day) {
           FireStore.updateHealthData({
             "isHealthTrackerPermissionGranted":
                 _isHealthTrackerPermissionGranted,
+            "isDailyDisplayed": _isDailyDisplayed,
             "isExerciseTimeGoalSet": false,
             "isCalGoalSet": false,
             "isStepGoalSet": false,
             "isMileGoalSet": false,
+            "isCyclingGoalSet": false,
+            "isRowingGoalSet": false,
+            "isStepMillGoalSet": false,
             "exerciseTimeGoalProgress": 0,
             "exerciseTimeEndGoal": 0,
             "calGoalProgress": 0,
@@ -132,6 +151,12 @@ class _HomeWidgetState extends State<HomeWidget> {
             "stepEndGoal": 0,
             "mileGoalProgress": 0,
             "mileEndGoal": 0,
+            "cyclingGoalProgress": 0,
+            "cyclingEndGoal": 0,
+            "rowingGoalProgress": 0,
+            "rowingEndGoal": 0,
+            "stepMillGoalProgress": 0,
+            "stepMillEndGoal": 0,
             "dayOfMonth": DateTime.now().day
           });
         }
@@ -267,17 +292,18 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
         ),
         child: HPGraphic.tabbedContainer(context: context, tabs: [
-          Text('Exercise Time'),
+          Text('Time'),
           Text('Calories'),
           Text('Steps'),
           Text('Miles'),
+          Text('Other'),
         ], views: [
           // Exercise Time Goal View
           HPGraphic.createView(
               isGoalSet: _isExerciseTimeGoalSet,
               isHealthGranted: true,
               scrollController: _exerciseViewSC,
-              onDoubleTap: () {
+              onLongPress: () {
                 AddGoalWidget.launch(context);
               },
               context: context,
@@ -295,7 +321,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               isGoalSet: _isCalGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _calViewSC,
-              onDoubleTap: () {
+              onLongPress: () {
                 if (_isHealthTrackerPermissionGranted) {
                   AddGoalWidget.launch(context);
                 }
@@ -313,7 +339,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               isGoalSet: _isStepGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _stepsViewSC,
-              onDoubleTap: () {
+              onLongPress: () {
                 if (_isHealthTrackerPermissionGranted) {
                   AddGoalWidget.launch(context);
                 }
@@ -331,7 +357,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               isGoalSet: _isMileGoalSet,
               isHealthGranted: _isHealthTrackerPermissionGranted,
               scrollController: _milesViewSC,
-              onDoubleTap: () {
+              onLongPress: () {
                 if (_isHealthTrackerPermissionGranted) {
                   AddGoalWidget.launch(context);
                 }
@@ -343,7 +369,22 @@ class _HomeWidgetState extends State<HomeWidget> {
                   "You've completed ${((_userProgressMileGoal / _userMileEndGoal) * 100).toStringAsFixed(2)} % of your goal.",
               percent: (_userProgressMileGoal / _userMileEndGoal) > 1.0
                   ? 1.0
-                  : _userProgressMileGoal / _userMileEndGoal)
+                  : _userProgressMileGoal / _userMileEndGoal),
+          HPGraphic.createCustomView(
+              context: context,
+              goal1Title: "Cycling - 23 / 100 min (23 %)",
+              goal2Title: "Rowing - 35 / 100 min (35 %)",
+              goal3Title: "Step Mill - 82 / 100 min (82 %)",
+              percent1: .23,
+              percent2: .35,
+              percent3: .82,
+              onLongPress: () {
+                AddGoalWidget.launch(context);
+              },
+              scrollController: _otherSC,
+              isGoal1Set: _isCyclingGoalSet,
+              isGoal2Set: _isRowingGoalSet,
+              isGoal3Set: _isStepMillGoalSet)
         ]),
       ),
     );
