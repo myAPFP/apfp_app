@@ -25,8 +25,14 @@ class AddGoalWidget extends StatefulWidget {
 class _AddGoalWidgetState extends State<AddGoalWidget> {
   bool _loadingButton = false;
   final _exerciseFormKey = GlobalKey<FormState>();
+  final _cyclingFormKey = GlobalKey<FormState>();
+  final _rowingFormKey = GlobalKey<FormState>();
+  final _stepMillFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController? exerciseGoalController = TextEditingController();
+  TextEditingController? cyclingGoalController = TextEditingController();
+  TextEditingController? rowingGoalController = TextEditingController();
+  TextEditingController? stepMillGoalController = TextEditingController();
 
   @override
   void initState() {
@@ -38,28 +44,35 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   void dispose() {
     super.dispose();
     exerciseGoalController!.dispose();
+    cyclingGoalController!.dispose();
+    rowingGoalController!.dispose();
+    stepMillGoalController!.dispose();
+  }
+
+  void setText(MapEntry<String, dynamic> element, String fieldName,
+      TextEditingController? controller) {
+    if (element.key == fieldName) {
+      if (element.value == 0.0) {
+        controller!.text = '';
+      } else {
+        controller!.text = element.value.round().toString();
+      }
+    }
   }
 
   void _getStoredEndGoals() async {
     var doc = await FireStore.getHealthDocument().get();
     var docEntries = doc.data()!.entries;
     docEntries.forEach((element) {
-      if (element.key == "exerciseTimeEndGoal") {
-        if (element.value == 0.0) {
-          exerciseGoalController!.text = '';
-        } else {
-          exerciseGoalController!.text = element.value.round().toString();
-        }
-      }
+      setText(element, 'exerciseTimeEndGoal', exerciseGoalController);
+      setText(element, 'cyclingEndGoal', cyclingGoalController);
+      setText(element, 'rowingEndGoal', rowingGoalController);
+      setText(element, 'stepMillEndGoal', stepMillGoalController);
     });
   }
 
   Text _header({required String text, TextStyle? style}) {
     return Text(text, style: style);
-  }
-
-  double _getExerciseEndGoal() {
-    return double.parse(exerciseGoalController!.text.toString());
   }
 
   InkWell _goBackButton() {
@@ -126,12 +139,12 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     );
   }
 
-  Padding _exerciseGoalTextField() {
+  Padding _goalTextField(String hintText, TextEditingController controller) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,
-        child: TextFormField(
+        child: new TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
@@ -147,10 +160,10 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             }
             return null;
           },
-          controller: exerciseGoalController,
+          controller: controller,
           obscureText: false,
           decoration: InputDecoration(
-            hintText: "Total Minutes",
+            hintText: hintText,
             isDense: true,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -203,11 +216,12 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                     key: _exerciseFormKey,
                     child: Row(
                       children: [
-                        _exerciseGoalTextField(),
+                        _goalTextField(
+                            "Total Minutes", exerciseGoalController!),
                         _setGoalButton(_exerciseFormKey, () async {
-                          await FireStore.updateHealthData(
-                                  FireStore.exerciseTimeEndGoalToMap(
-                                      _getExerciseEndGoal()))
+                          await FireStore.updateHealthData(FireStore
+                                  .exerciseTimeEndGoalToMap(double.parse(
+                                      exerciseGoalController!.text.toString())))
                               .then((value) {
                             FireStore.updateHealthData(
                                 FireStore.exerciseGoalBoolToMap(true));
@@ -220,6 +234,97 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                             FireStore.updateHealthData(
                                 FireStore.exerciseGoalBoolToMap(false));
                             exerciseGoalController!.text = '';
+                          });
+                        })
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+                    child: _header(
+                        text: 'Cycling Goal', style: FlutterFlowTheme.title3),
+                  ),
+                  Form(
+                    key: _cyclingFormKey,
+                    child: Row(
+                      children: [
+                        _goalTextField("Total Minutes", cyclingGoalController!),
+                        _setGoalButton(_cyclingFormKey, () async {
+                          await FireStore.updateHealthData({
+                            "cyclingEndGoal": double.parse(
+                                cyclingGoalController!.text.toString())
+                          }).then((value) {
+                            FireStore.updateHealthData(
+                                {"isCyclingGoalSet": true});
+                          });
+                        }),
+                        _deleteGoalIcon(onDelete: () async {
+                          await FireStore.updateHealthData(
+                              {"cyclingEndGoal": 0}).then((value) {
+                            FireStore.updateHealthData(
+                                {"isCyclingGoalSet": false});
+                            cyclingGoalController!.text = '';
+                          });
+                        })
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+                    child: _header(
+                        text: 'Rowing Goal', style: FlutterFlowTheme.title3),
+                  ),
+                  Form(
+                    key: _rowingFormKey,
+                    child: Row(
+                      children: [
+                        _goalTextField("Total Minutes", rowingGoalController!),
+                        _setGoalButton(_rowingFormKey, () async {
+                          await FireStore.updateHealthData({
+                            "rowingEndGoal": double.parse(
+                                rowingGoalController!.text.toString())
+                          }).then((value) {
+                            FireStore.updateHealthData(
+                                {"isRowingGoalSet": true});
+                          });
+                        }),
+                        _deleteGoalIcon(onDelete: () async {
+                          await FireStore.updateHealthData({"rowingEndGoal": 0})
+                              .then((value) {
+                            FireStore.updateHealthData(
+                                {"isRowingGoalSet": false});
+                            rowingGoalController!.text = '';
+                          });
+                        })
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+                    child: _header(
+                        text: 'Step Mill Goal', style: FlutterFlowTheme.title3),
+                  ),
+                  Form(
+                    key: _stepMillFormKey,
+                    child: Row(
+                      children: [
+                        _goalTextField(
+                            "Total Minutes", stepMillGoalController!),
+                        _setGoalButton(_stepMillFormKey, () async {
+                          await FireStore.updateHealthData({
+                            "stepMillEndGoal": double.parse(
+                                stepMillGoalController!.text.toString())
+                          }).then((value) {
+                            FireStore.updateHealthData(
+                                {"isStepMillGoalSet": true});
+                          });
+                        }),
+                        _deleteGoalIcon(onDelete: () async {
+                          await FireStore.updateHealthData(
+                              {"stepMillEndGoal": 0}).then((value) {
+                            FireStore.updateHealthData(
+                                {"isStepMillGoalSet": false});
+                            stepMillGoalController!.text = '';
                           });
                         })
                       ],
