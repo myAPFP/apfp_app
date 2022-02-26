@@ -45,11 +45,11 @@ class _HomeWidgetState extends State<HomeWidget> {
   double _userMileEndGoal = 0;
   double _userProgressExerciseTime = 0;
   double _userExerciseTimeEndGoal = 0;
-  double _userProgresscycling = 0;
+  double _userProgressCyclingGoal = 0;
   double _userCyclingEndGoal = 0;
-  double _userProgressRowing = 0;
+  double _userProgressRowingGoal = 0;
   double _userRowingEndGoal = 0;
-  double _userProgressStepMill = 0;
+  double _userProgressStepMillGoal = 0;
   double _userStepMillEndGoal = 0;
 
   bool _isCalGoalSet = false;
@@ -128,8 +128,14 @@ class _HomeWidgetState extends State<HomeWidget> {
           _userMileEndGoal = _healthSnapshotBackup['mileEndGoal'].toDouble();
           _userExerciseTimeEndGoal =
               _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
-          _dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
 
+          _userProgressCyclingGoal = _healthSnapshotBackup['cyclingGoalProgress'].toDouble(); 
+          _userCyclingEndGoal = _healthSnapshotBackup['cyclingEndGoal'].toDouble();
+          _userProgressRowingGoal = _healthSnapshotBackup['rowingGoalProgress'].toDouble();
+          _userRowingEndGoal = _healthSnapshotBackup['rowingEndGoal'].toDouble();
+          _userProgressStepMillGoal = _healthSnapshotBackup['stepMillGoalProgress'].toDouble();
+          _userStepMillEndGoal = _healthSnapshotBackup['stepMillEndGoal'].toDouble();
+          _dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
         });
         if (_dayOfMonth != DateTime.now().day) {
           FireStore.updateHealthData({
@@ -311,7 +317,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   "${_userProgressExerciseTime.toStringAsFixed(2)} / ${_userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes",
               goalProgressStr: "You've completed " +
                   "${((_userProgressExerciseTime / _userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((_userProgressExerciseTime / _userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
-                  "% of your goal.\nDouble tap here to edit.",
+                  "% of your goal.\nLong Press here to edit.",
               percent:
                   (_userProgressExerciseTime / _userExerciseTimeEndGoal) > 1.0
                       ? 1.0
@@ -372,12 +378,21 @@ class _HomeWidgetState extends State<HomeWidget> {
                   : _userProgressMileGoal / _userMileEndGoal),
           HPGraphic.createCustomView(
               context: context,
-              goal1Title: "Cycling - 23 / 100 min (23 %)",
-              goal2Title: "Rowing - 35 / 100 min (35 %)",
-              goal3Title: "Step Mill - 82 / 100 min (82 %)",
-              percent1: .23,
-              percent2: .35,
-              percent3: .82,
+              goal1Title:
+                  "Cycling - ${_userProgressCyclingGoal.toStringAsFixed(2)} / ${_userCyclingEndGoal.toStringAsFixed(2)} min (${((_userProgressCyclingGoal / _userCyclingEndGoal) * 100).toStringAsFixed(2)} %)",
+              goal2Title:
+                  "Rowing - ${_userProgressRowingGoal.toStringAsFixed(2)} / ${_userRowingEndGoal.toStringAsFixed(2)} min (${((_userProgressRowingGoal / _userRowingEndGoal) * 100).toStringAsFixed(2)} %)",
+              goal3Title:
+                  "Step Mill - ${_userProgressStepMillGoal.toStringAsFixed(2)} / ${_userStepMillEndGoal.toStringAsFixed(2)} min (${((_userProgressStepMillGoal / _userStepMillEndGoal) * 100).toStringAsFixed(2)} %)",
+              percent1: (_userProgressCyclingGoal / _userCyclingEndGoal) > 1.0
+                  ? 1.0
+                  : _userProgressCyclingGoal / _userCyclingEndGoal,
+              percent2: (_userProgressRowingGoal / _userRowingEndGoal) > 1.0
+                  ? 1.0
+                  : _userProgressRowingGoal / _userRowingEndGoal,
+              percent3: (_userProgressStepMillGoal / _userStepMillEndGoal) > 1.0
+                  ? 1.0
+                  : _userProgressStepMillGoal / _userStepMillEndGoal,
               onLongPress: () {
                 AddGoalWidget.launch(context);
               },
