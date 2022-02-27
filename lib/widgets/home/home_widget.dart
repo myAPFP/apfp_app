@@ -93,6 +93,9 @@ class _HomeWidgetState extends State<HomeWidget> {
         _activitySnapshotBackup = element.data()!;
       }
       _userProgressExerciseTime = 0;
+      _userProgressCyclingGoal = 0;
+      _userProgressRowingGoal = 0;
+      _userProgressStepMillGoal = 0;
       setState(() {
         _userProgressExerciseTime =
             ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
@@ -367,6 +370,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: (_userProgressMileGoal / _userMileEndGoal) > 1.0
                   ? 1.0
                   : _userProgressMileGoal / _userMileEndGoal),
+          // 'Other' Goal View        
           HPGraphic.createCustomView(
               context: context,
               goal1Title:
