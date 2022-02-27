@@ -48,6 +48,13 @@ class FireStore {
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
+  static CollectionReference<Map<String, dynamic>> getDailyGoalLogCollection() {
+    return FirebaseFirestore.instance
+        .collection('goal-logs')
+        .doc('daily')
+        .collection(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
   static Stream<DocumentSnapshot<Map<String, dynamic>>>
       createUserActivityStream() {
     return getUserActivityDocument().snapshots();
