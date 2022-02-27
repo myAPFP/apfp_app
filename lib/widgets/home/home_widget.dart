@@ -379,11 +379,11 @@ class _HomeWidgetState extends State<HomeWidget> {
           HPGraphic.createCustomView(
               context: context,
               goal1Title:
-                  "Cycling - ${_userProgressCyclingGoal.toStringAsFixed(2)} / ${_userCyclingEndGoal.toStringAsFixed(2)} min (${((_userProgressCyclingGoal / _userCyclingEndGoal) * 100).toStringAsFixed(2)} %)",
+                  "Cycling - ${_userProgressCyclingGoal.toStringAsFixed(2)} / ${_userCyclingEndGoal.toStringAsFixed(2)} min",
               goal2Title:
-                  "Rowing - ${_userProgressRowingGoal.toStringAsFixed(2)} / ${_userRowingEndGoal.toStringAsFixed(2)} min (${((_userProgressRowingGoal / _userRowingEndGoal) * 100).toStringAsFixed(2)} %)",
+                  "Rowing - ${_userProgressRowingGoal.toStringAsFixed(2)} / ${_userRowingEndGoal.toStringAsFixed(2)} min",
               goal3Title:
-                  "Step Mill - ${_userProgressStepMillGoal.toStringAsFixed(2)} / ${_userStepMillEndGoal.toStringAsFixed(2)} min (${((_userProgressStepMillGoal / _userStepMillEndGoal) * 100).toStringAsFixed(2)} %)",
+                  "Step Mill - ${_userProgressStepMillGoal.toStringAsFixed(2)} / ${_userStepMillEndGoal.toStringAsFixed(2)} min",
               percent1: (_userProgressCyclingGoal / _userCyclingEndGoal) > 1.0
                   ? 1.0
                   : _userProgressCyclingGoal / _userCyclingEndGoal,

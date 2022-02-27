@@ -71,9 +71,11 @@ class HPGraphic {
                 SizedBox(height: 5),
                 LinearPercentIndicator(
                   linearStrokeCap: LinearStrokeCap.butt,
-                  lineHeight: 20,
+                  lineHeight: 30,
                   animation: true,
                   animationDuration: 1200,
+                 center: isGoal1Set ? Text("${(percent1 * 100).toStringAsFixed(2)} %",
+                      style: TextStyle(color: Colors.white)) : Text(''),
                   percent: isGoal1Set ? percent1 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -84,9 +86,11 @@ class HPGraphic {
                 SizedBox(height: 5),
                 LinearPercentIndicator(
                   linearStrokeCap: LinearStrokeCap.butt,
-                  lineHeight: 20,
+                  lineHeight: 30,
                   animation: true,
                   animationDuration: 1200,
+                 center: isGoal2Set ? Text("${(percent2 * 100).toStringAsFixed(2)} %",
+                      style: TextStyle(color: Colors.white)) : Text(''),
                   percent: isGoal2Set ? percent2 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -97,9 +101,11 @@ class HPGraphic {
                 SizedBox(height: 5),
                 LinearPercentIndicator(
                   linearStrokeCap: LinearStrokeCap.butt,
-                  lineHeight: 20,
+                  lineHeight: 30,
                   animation: true,
                   animationDuration: 1200,
+                  center: isGoal3Set ? Text("${(percent3 * 100).toStringAsFixed(2)} %",
+                      style: TextStyle(color: Colors.white)) : Text(''),
                   percent: isGoal3Set ? percent3 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -127,8 +133,7 @@ class HPGraphic {
       percent = 0;
     } else if (!isGoalSet && isHealthGranted) {
       innerCircleText = "No\nActive\nGoal";
-      goalProgressStr =
-          "Double Tap: toggle Daily/Weekly goals.";
+      goalProgressStr = "Double Tap: toggle Daily/Weekly goals.";
       percent = 0;
     }
     return InkWell(
