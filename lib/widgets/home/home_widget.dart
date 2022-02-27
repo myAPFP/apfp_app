@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:apfp/firebase/firestore.dart';
+import 'package:apfp/util/goals/custom_goal.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../../util/goals/exercise_time_goal.dart';
 import '../add_goal/add_goal_widget.dart';
@@ -95,8 +96,18 @@ class _HomeWidgetState extends State<HomeWidget> {
       setState(() {
         _userProgressExerciseTime =
             ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
-        FireStore.updateHealthData(
-            FireStore.exerciseTimeProgressToMap(_userProgressExerciseTime));
+        _userProgressCyclingGoal =
+            CustomGoal.calcGoalSums(_activitySnapshotBackup)[0];
+        _userProgressRowingGoal =
+            CustomGoal.calcGoalSums(_activitySnapshotBackup)[1];
+        _userProgressStepMillGoal =
+            CustomGoal.calcGoalSums(_activitySnapshotBackup)[2];
+        FireStore.updateHealthData({
+          "exerciseTimeGoalProgress": _userProgressExerciseTime,
+          "cyclingGoalProgress": _userProgressCyclingGoal,
+          "rowingGoalProgress": _userProgressRowingGoal,
+          "stepMillGoalProgress": _userProgressStepMillGoal
+        });
       });
     });
   }
@@ -128,43 +139,23 @@ class _HomeWidgetState extends State<HomeWidget> {
           _userMileEndGoal = _healthSnapshotBackup['mileEndGoal'].toDouble();
           _userExerciseTimeEndGoal =
               _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
-
-          _userProgressCyclingGoal = _healthSnapshotBackup['cyclingGoalProgress'].toDouble(); 
-          _userCyclingEndGoal = _healthSnapshotBackup['cyclingEndGoal'].toDouble();
-          _userProgressRowingGoal = _healthSnapshotBackup['rowingGoalProgress'].toDouble();
-          _userRowingEndGoal = _healthSnapshotBackup['rowingEndGoal'].toDouble();
-          _userProgressStepMillGoal = _healthSnapshotBackup['stepMillGoalProgress'].toDouble();
-          _userStepMillEndGoal = _healthSnapshotBackup['stepMillEndGoal'].toDouble();
+          _userProgressCyclingGoal =
+              _healthSnapshotBackup['cyclingGoalProgress'].toDouble();
+          _userCyclingEndGoal =
+              _healthSnapshotBackup['cyclingEndGoal'].toDouble();
+          _userProgressRowingGoal =
+              _healthSnapshotBackup['rowingGoalProgress'].toDouble();
+          _userRowingEndGoal =
+              _healthSnapshotBackup['rowingEndGoal'].toDouble();
+          _userProgressStepMillGoal =
+              _healthSnapshotBackup['stepMillGoalProgress'].toDouble();
+          _userStepMillEndGoal =
+              _healthSnapshotBackup['stepMillEndGoal'].toDouble();
           _dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
         });
         if (_dayOfMonth != DateTime.now().day) {
-          FireStore.updateHealthData({
-            "isHealthTrackerPermissionGranted":
-                _isHealthTrackerPermissionGranted,
-            "isDailyDisplayed": _isDailyDisplayed,
-            "isExerciseTimeGoalSet": false,
-            "isCalGoalSet": false,
-            "isStepGoalSet": false,
-            "isMileGoalSet": false,
-            "isCyclingGoalSet": false,
-            "isRowingGoalSet": false,
-            "isStepMillGoalSet": false,
-            "exerciseTimeGoalProgress": 0,
-            "exerciseTimeEndGoal": 0,
-            "calGoalProgress": 0,
-            "calEndGoal": 0,
-            "stepGoalProgress": 0,
-            "stepEndGoal": 0,
-            "mileGoalProgress": 0,
-            "mileEndGoal": 0,
-            "cyclingGoalProgress": 0,
-            "cyclingEndGoal": 0,
-            "rowingGoalProgress": 0,
-            "rowingEndGoal": 0,
-            "stepMillGoalProgress": 0,
-            "stepMillEndGoal": 0,
-            "dayOfMonth": DateTime.now().day
-          });
+          FireStore.resetHealthDoc(
+              _isHealthTrackerPermissionGranted, _isDailyDisplayed);
         }
       }
     });
@@ -379,11 +370,11 @@ class _HomeWidgetState extends State<HomeWidget> {
           HPGraphic.createCustomView(
               context: context,
               goal1Title:
-                  "Cycling - ${_userProgressCyclingGoal.toStringAsFixed(2)} / ${_userCyclingEndGoal.toStringAsFixed(2)} min (${((_userProgressCyclingGoal / _userCyclingEndGoal) * 100).toStringAsFixed(2)} %)",
+                  "Cycling - ${_userProgressCyclingGoal.toStringAsFixed(2)} / ${_userCyclingEndGoal.toStringAsFixed(2)} min",
               goal2Title:
-                  "Rowing - ${_userProgressRowingGoal.toStringAsFixed(2)} / ${_userRowingEndGoal.toStringAsFixed(2)} min (${((_userProgressRowingGoal / _userRowingEndGoal) * 100).toStringAsFixed(2)} %)",
+                  "Rowing - ${_userProgressRowingGoal.toStringAsFixed(2)} / ${_userRowingEndGoal.toStringAsFixed(2)} min",
               goal3Title:
-                  "Step Mill - ${_userProgressStepMillGoal.toStringAsFixed(2)} / ${_userStepMillEndGoal.toStringAsFixed(2)} min (${((_userProgressStepMillGoal / _userStepMillEndGoal) * 100).toStringAsFixed(2)} %)",
+                  "Step Mill - ${_userProgressStepMillGoal.toStringAsFixed(2)} / ${_userStepMillEndGoal.toStringAsFixed(2)} min",
               percent1: (_userProgressCyclingGoal / _userCyclingEndGoal) > 1.0
                   ? 1.0
                   : _userProgressCyclingGoal / _userCyclingEndGoal,
