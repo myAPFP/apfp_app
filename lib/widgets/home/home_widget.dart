@@ -54,12 +54,19 @@ class _HomeWidgetState extends State<HomeWidget> {
   double _userStepMillEndGoal = 0;
 
   bool _isCalGoalSet = false;
+  bool _isCalGoalComplete = false;
   bool _isStepGoalSet = false;
+  bool _isStepGoalComplete = false;
   bool _isMileGoalSet = false;
+  bool _isMileGoalComplete = false;
   bool _isCyclingGoalSet = false;
+  bool _isCyclingGoalComplete = false;
   bool _isRowingGoalSet = false;
+  bool _isRowingGoalComplete = false;
   bool _isStepMillGoalSet = false;
+  bool _isStepMillGoalComplete = false;
   bool _isExerciseTimeGoalSet = false;
+  bool _isExerciseTimeGoalComplete = false;
   bool _isDailyDisplayed = false;
   bool _isHealthTrackerPermissionGranted = false;
 
@@ -156,7 +163,79 @@ class _HomeWidgetState extends State<HomeWidget> {
               _healthSnapshotBackup['stepMillEndGoal'].toDouble();
           _dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
         });
-        if (_dayOfMonth != DateTime.now().day) {
+        _isExerciseTimeGoalComplete = _isExerciseTimeGoalSet &&
+            (_userProgressExerciseTime / _userExerciseTimeEndGoal) * 100 >= 100;
+
+        _isCalGoalComplete = _isCalGoalSet &&
+            (_userProgressCalGoal / _userCalEndGoal) * 100 >= 100;
+
+        _isStepGoalComplete = _isStepGoalSet &&
+            (_userProgressStepGoal / _userStepEndGoal) * 100 >= 100;
+
+        _isMileGoalComplete = _isMileGoalSet &&
+            (_userProgressMileGoal / _userMileEndGoal) * 100 >= 100;
+
+        _isCyclingGoalComplete = _isCyclingGoalSet &&
+            (_userProgressCyclingGoal / _userCyclingEndGoal) * 100 >= 100;
+
+        _isRowingGoalComplete = _isRowingGoalSet &&
+            (_userProgressRowingGoal / _userRowingEndGoal) * 100 >= 100;
+
+        _isStepMillGoalComplete = _isStepMillGoalSet &&
+            (_userProgressStepMillGoal / _userStepMillEndGoal) * 100 >= 100;
+
+        DateTime date = DateTime.now();
+
+        if (_dayOfMonth != date.day) {
+          if (_isExerciseTimeGoalComplete) {
+            FireStore.getDailyGoalLogCollection().add({
+              "Date": "${date.month}/${date.day}/${date.year}",
+              "Completed Goal": 'Exercise Time',
+              "Duration": "$_userExerciseTimeEndGoal min"
+            });
+          }
+          if (_isCalGoalComplete) {
+            FireStore.getDailyGoalLogCollection().add({
+              "Date": "${date.month}/${date.day}/${date.year}",
+              "Completed Goal": 'Calories Burned',
+              "Calories Burned": "$_userCalEndGoal"
+            });
+          }
+          if (_isStepGoalComplete) {
+            FireStore.getDailyGoalLogCollection().add({
+              "Date": "${date.month}/${date.day}/${date.year}",
+              "Completed Goal": 'Steps',
+              "Step Count": "$_userStepEndGoal"
+            });
+          }
+          if (_isMileGoalComplete) {
+            FireStore.getDailyGoalLogCollection().add({
+              "Date": "${date.month}/${date.day}/${date.year}",
+              "Completed Goal": 'Miles',
+              "Miles Traveled": "$_userMileEndGoal"
+            });
+          }
+          if (_isCyclingGoalComplete) {
+            FireStore.getDailyGoalLogCollection().add({
+              "Date": "${date.month}/${date.day}/${date.year}",
+              "Completed Goal": 'Cycling',
+              "Duration": "$_userCyclingEndGoal min"
+            });
+          }
+          if (_isRowingGoalComplete) {
+            FireStore.getDailyGoalLogCollection().add({
+              "Date": "${date.month}/${date.day}/${date.year}",
+              "Completed Goal": 'Rowing',
+              "Duration": "$_userRowingEndGoal min"
+            });
+          }
+          if (_isStepMillGoalComplete) {
+            FireStore.getDailyGoalLogCollection().add({
+              "Date": "${date.month}/${date.day}/${date.year}",
+              "Completed Goal": 'Step Mill',
+              "Duration": "$_userStepMillEndGoal min"
+            });
+          }
           FireStore.resetHealthDoc(
               _isHealthTrackerPermissionGranted, _isDailyDisplayed);
         }
@@ -370,7 +449,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               percent: (_userProgressMileGoal / _userMileEndGoal) > 1.0
                   ? 1.0
                   : _userProgressMileGoal / _userMileEndGoal),
-          // 'Other' Goal View        
+          // 'Other' Goal View
           HPGraphic.createCustomView(
               context: context,
               goal1Title:
