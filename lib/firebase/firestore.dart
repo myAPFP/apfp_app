@@ -111,6 +111,35 @@ class FireStore {
     });
   }
 
+  static void resetHealthDoc(bool healthPermission, bool dailyDisplayed) {
+    updateHealthData({
+      "isHealthTrackerPermissionGranted": healthPermission,
+      "isDailyDisplayed": dailyDisplayed,
+      "isExerciseTimeGoalSet": false,
+      "isCalGoalSet": false,
+      "isStepGoalSet": false,
+      "isMileGoalSet": false,
+      "isCyclingGoalSet": false,
+      "isRowingGoalSet": false,
+      "isStepMillGoalSet": false,
+      "exerciseTimeGoalProgress": 0,
+      "exerciseTimeEndGoal": 0,
+      "calGoalProgress": 0,
+      "calEndGoal": 0,
+      "stepGoalProgress": 0,
+      "stepEndGoal": 0,
+      "mileGoalProgress": 0,
+      "mileEndGoal": 0,
+      "cyclingGoalProgress": 0,
+      "cyclingEndGoal": 0,
+      "rowingGoalProgress": 0,
+      "rowingEndGoal": 0,
+      "stepMillGoalProgress": 0,
+      "stepMillEndGoal": 0,
+      "dayOfMonth": DateTime.now().day
+    });
+  }
+
   static Map<String, dynamic> healthPermissionToMap(bool permission) {
     return {
       "isHealthTrackerPermissionGranted": permission,
@@ -189,5 +218,4 @@ class FireStore {
       "exerciseTimeEndGoal": minutes,
     };
   }
-  
 }
