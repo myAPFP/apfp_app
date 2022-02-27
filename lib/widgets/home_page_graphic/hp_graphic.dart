@@ -128,7 +128,7 @@ class HPGraphic {
     } else if (!isGoalSet && isHealthGranted) {
       innerCircleText = "No\nActive\nGoal";
       goalProgressStr =
-          "Double Tap: toggle Daily/Weekly goals.\nLong Press: set, update or delete a goal.";
+          "Double Tap: toggle Daily/Weekly goals.";
       percent = 0;
     }
     return InkWell(
