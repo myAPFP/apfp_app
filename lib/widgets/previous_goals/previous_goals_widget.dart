@@ -56,7 +56,8 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
       {required int index,
       required String goalName,
       required String goalStat,
-      required String dateOfCompletion}) {
+      required String dateOfCompletion,
+      required String goalType}) {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: Container(
@@ -94,10 +95,13 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
                         _titleRow(goalName),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
-                        _goalStatRow(goalStat),
+                        _goalAttributeRow("Info: ", goalStat),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
-                        _goalCompletedRow(dateOfCompletion),
+                        _goalAttributeRow("Completed: ", dateOfCompletion),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.005),
+                        _goalAttributeRow("Type: ", goalType),
                       ]),
                 ],
               ),
@@ -119,41 +123,17 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
     ]);
   }
 
-  Row _goalCompletedRow(String dateOfCompletion) {
-    return Row(children: [
-      Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
-        child: AutoSizeText.rich(
-          TextSpan(
-              text: 'Completed: ',
-              style: FlutterFlowTheme.title3Red,
-              children: [
-                TextSpan(
-                    text: '$dateOfCompletion',
-                    style: FlutterFlowTheme.bodyText1)
-              ]),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          minFontSize: 17,
-        ),
-      )
-    ]);
-  }
-
-  Row _goalStatRow(String goalStat) {
+  Row _goalAttributeRow(String text, String goalStat) {
     return Row(children: [
       Container(
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.75),
           child: AutoSizeText.rich(
-            TextSpan(
-                text: "Info: ",
-                style: FlutterFlowTheme.title3Red,
-                children: [
-                  TextSpan(text: goalStat, style: FlutterFlowTheme.bodyText1)
-                ]),
+            TextSpan(text: text, style: FlutterFlowTheme.title3Red, children: [
+              TextSpan(text: goalStat, style: FlutterFlowTheme.bodyText1)
+            ]),
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             minFontSize: 17,
           ))
     ]);
@@ -173,6 +153,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
         _index++;
         _addGoal(_goalCard(
             index: _index,
+            goalType: document.get("Type").toString(),
             goalName: document.get("Completed Goal").toString(),
             goalStat: document.get("Info").toString(),
             dateOfCompletion: document.get("Date").toString()));
@@ -195,15 +176,17 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
             child: Column(mainAxisSize: MainAxisSize.max, children: [
               Column(
                 mainAxisSize: MainAxisSize.max,
-                children: [_paddedHeaderText()],
-              ),
-              goals.length == 0
-                  ? Text("Goals from previous days will appear here.",
+                children: [
+                  _paddedHeaderText(),
+                  Text("Goals from previous days will appear here.",
                       style: TextStyle(fontSize: 20))
-                  : Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: goals,
-                    ),
+                ],
+              ),
+              SizedBox(height: 15),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: goals,
+              ),
               SizedBox(height: 10)
             ]),
           ))),

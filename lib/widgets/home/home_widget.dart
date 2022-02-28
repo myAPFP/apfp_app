@@ -186,62 +186,68 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         DateTime now = DateTime.now();
         DateTime yesterday = now.subtract(Duration(days: 1));
+        // final weekFromNow = now.add(const Duration(days: 7));
 
         if (_dayOfMonth != now.day) {
           if (_isExerciseTimeGoalComplete) {
             FireStore.getDailyGoalLogCollection().add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Exercise Time',
-              "Info": "$_userExerciseTimeEndGoal min"
+              "Info": "$_userExerciseTimeEndGoal min exercised",
+              "Type": "Daily Goal"
             });
           }
           if (_isCalGoalComplete) {
             FireStore.getDailyGoalLogCollection().add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Calories Burned',
-              "Info": "$_userCalEndGoal calories burned"
+              "Info": "$_userCalEndGoal calories burned",
+              "Type": "Daily Goal"
             });
           }
           if (_isStepGoalComplete) {
             FireStore.getDailyGoalLogCollection().add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Steps',
-              "Info": "$_userStepEndGoal steps taken"
+              "Info": "$_userStepEndGoal steps taken",
+              "Type": "Daily Goal"
             });
           }
           if (_isMileGoalComplete) {
             FireStore.getDailyGoalLogCollection().add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Miles',
-              "Info": "$_userMileEndGoal miles traveled"
+              "Info": "$_userMileEndGoal miles traveled",
+              "Type": "Daily Goal"
             });
           }
           if (_isCyclingGoalComplete) {
             FireStore.getDailyGoalLogCollection().add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Cycling',
-              "Info": "$_userCyclingEndGoal min"
+              "Info": "$_userCyclingEndGoal min of cycling",
+              "Type": "Daily Goal"
             });
           }
           if (_isRowingGoalComplete) {
             FireStore.getDailyGoalLogCollection().add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Rowing',
-              "Info": "$_userRowingEndGoal min"
+              "Info": "$_userRowingEndGoal min of rowing",
+              "Type": "Daily Goal"
             });
           }
           if (_isStepMillGoalComplete) {
             FireStore.getDailyGoalLogCollection().add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Step Mill',
-              "Info": "$_userStepMillEndGoal min"
+              "Info": "$_userStepMillEndGoal min of step mill use",
+              "Type": "Daily Goal"
             });
           }
           FireStore.resetHealthDoc(
               _isHealthTrackerPermissionGranted, _isDailyDisplayed);
         }
-        // final now = DateTime.now();
-        // final weekFromNow = now.add(const Duration(days: 7));
       }
     });
   }
