@@ -6,6 +6,7 @@ import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/add_goal/add_goal_widget.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
+import 'package:apfp/widgets/previous_goals/previous_goals_widget.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -239,6 +240,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     title: "Set Activity Goals",
                     onTap: () {
                       AddGoalWidget.launch(context);
+                    }),
+                _settingsButton(
+                    title: "View Completed Goals",
+                    onTap: () {
+                      PreviousGoalsWidget.launch(context);
                     }),
                 _settingsButton(
                     title: "Notification Settings",
