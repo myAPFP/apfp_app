@@ -19,15 +19,17 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? exercisetype = 'Cardio';
   String? customGoalName = "";
 
-  List<String> regularExerciseTypes = [
+  List<String> exerciseTypes = [
+    "Aerobic",
+    'Body-Composition',
     'Cardio',
     'Endurance',
-    'Strength',
     'Flexibility',
-    'Body-Composition',
+    'Kinesthetic',
     'Speed',
-    'Kinesthetic'
-  ].toList();
+    'Strength',
+    "Total-Body"
+  ];
 
   TextEditingController? activityNameTextController;
   TextEditingController? exerciseTextController;
@@ -336,7 +338,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         child: FlutterFlowDropDown(
                           initialOption: exercisetype,
                           options: _noRadioButtonSelected()
-                              ? regularExerciseTypes
+                              ? exerciseTypes
                               : [exercisetype!],
                           onChanged: (val) =>
                               setState(() => exercisetype = val),
