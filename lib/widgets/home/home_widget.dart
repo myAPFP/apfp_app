@@ -190,7 +190,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         if (_dayOfMonth != now.day) {
           if (_isExerciseTimeGoalComplete) {
-            FireStore.getDailyGoalLogCollection().add({
+            FireStore.getGoalLogCollection(goalType: "daily").add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Exercise Time',
               "Info": "$_userExerciseTimeEndGoal min exercised",
@@ -198,7 +198,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             });
           }
           if (_isCalGoalComplete) {
-            FireStore.getDailyGoalLogCollection().add({
+            FireStore.getGoalLogCollection(goalType: "daily").add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Calories Burned',
               "Info": "$_userCalEndGoal calories burned",
@@ -206,7 +206,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             });
           }
           if (_isStepGoalComplete) {
-            FireStore.getDailyGoalLogCollection().add({
+            FireStore.getGoalLogCollection(goalType: "daily").add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Steps',
               "Info": "$_userStepEndGoal steps taken",
@@ -214,7 +214,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             });
           }
           if (_isMileGoalComplete) {
-            FireStore.getDailyGoalLogCollection().add({
+            FireStore.getGoalLogCollection(goalType: "daily").add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Miles',
               "Info": "$_userMileEndGoal miles traveled",
@@ -222,7 +222,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             });
           }
           if (_isCyclingGoalComplete) {
-            FireStore.getDailyGoalLogCollection().add({
+            FireStore.getGoalLogCollection(goalType: "daily").add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Cycling',
               "Info": "$_userCyclingEndGoal min of cycling",
@@ -230,7 +230,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             });
           }
           if (_isRowingGoalComplete) {
-            FireStore.getDailyGoalLogCollection().add({
+            FireStore.getGoalLogCollection(goalType: "daily").add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Rowing',
               "Info": "$_userRowingEndGoal min of rowing",
@@ -238,7 +238,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             });
           }
           if (_isStepMillGoalComplete) {
-            FireStore.getDailyGoalLogCollection().add({
+            FireStore.getGoalLogCollection(goalType: "daily").add({
               "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
               "Completed Goal": 'Step Mill',
               "Info": "$_userStepMillEndGoal min of step mill use",

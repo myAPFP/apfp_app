@@ -22,8 +22,10 @@ class PreviousGoalsWidget extends StatefulWidget {
 
 class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  Stream<QuerySnapshot> goalsLogCollectionStream =
-      FireStore.getDailyGoalLogCollection().orderBy("Date", descending: true).snapshots();
+  Stream<QuerySnapshot> dailyGoalsLogStream =
+      FireStore.getGoalLogCollection(goalType: "daily")
+          .orderBy("Date", descending: true)
+          .snapshots();
 
   int _index = 0;
   List<Widget> goals = [];
@@ -146,7 +148,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
   }
 
   void _getPreviousGoals() {
-    goalsLogCollectionStream.forEach(((snapshot) {
+    dailyGoalsLogStream.forEach(((snapshot) {
       _index = 0;
       goals.clear();
       snapshot.docs.forEach((document) {
