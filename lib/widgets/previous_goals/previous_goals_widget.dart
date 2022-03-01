@@ -56,6 +56,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
 
   Padding _goalCard(
       {required int index,
+      required Color color,
       required String goalName,
       required String goalInfo,
       required String dateOfCompletion,
@@ -68,7 +69,8 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: FlutterFlowTheme.primaryColor,
+                width: 2,
+                color: color,
               ),
             ),
             child: Card(
@@ -153,8 +155,10 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
       goals.clear();
       snapshot.docs.forEach((document) {
         _index++;
+        var dayNum = document.get("Date").toString().split('/')[1];
         _addGoal(_goalCard(
             index: _index,
+            color: FlutterFlowTheme.dayToColor(dayNum),
             goalType: document.get("Type").toString(),
             goalName: document.get("Completed Goal").toString(),
             goalInfo: document.get("Info").toString(),

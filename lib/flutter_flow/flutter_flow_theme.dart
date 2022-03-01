@@ -59,4 +59,104 @@ class FlutterFlowTheme {
         fontWeight: FontWeight.normal,
         fontSize: 14,
       );
+
+  static Color dayToColor(String dayNum) {
+    var color = primaryColor;
+    switch (int.parse(dayNum)) {
+      case 1:
+        color = Colors.redAccent;
+        break;
+      case 2:
+        color = Colors.blueAccent;
+        break;
+      case 3:
+        color = Colors.green;
+        break;
+      case 4:
+        color = Colors.redAccent;
+        break;
+      case 5:
+        color = Colors.blueAccent;
+        break;
+      case 6:
+        color = Colors.green;
+        break;
+      case 7:
+        color = Colors.redAccent;
+        break;
+      case 8:
+        color = Colors.blueAccent;
+        break;
+      case 9:
+        color = Colors.green;
+        break;
+      case 10:
+        color = Colors.redAccent;
+        break;
+      case 11:
+        color = Colors.blueAccent;
+        break;
+      case 12:
+        color = Colors.green;
+        break;
+      case 13:
+        color = Colors.redAccent;
+        break;
+      case 14:
+        color = Colors.blueAccent;
+        break;
+      case 15:
+        color = Colors.green;
+        break;
+      case 16:
+        color = Colors.redAccent;
+        break;
+      case 17:
+        color = Colors.blueAccent;
+        break;
+      case 18:
+        color = Colors.green;
+        break;
+      case 19:
+        color = Colors.redAccent;
+        break;
+      case 20:
+        color = Colors.blueAccent;
+        break;
+      case 21:
+        color = Colors.green;
+        break;
+      case 22:
+        color = Colors.redAccent;
+        break;
+      case 23:
+        color = Colors.blueAccent;
+        break;
+      case 24:
+        color = Colors.green;
+        break;
+      case 25:
+        color = Colors.redAccent;
+        break;
+      case 26:
+        color = Colors.blueAccent;
+        break;
+      case 27:
+        color = Colors.green;
+        break;
+      case 28:
+        color = Colors.redAccent;
+        break;
+      case 29:
+        color = Colors.blueAccent;
+        break;
+      case 30:
+        color = Colors.green;
+        break;
+      case 31:
+        color = Colors.redAccent;
+        break;
+    }
+    return color;
+  }
 }
