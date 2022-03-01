@@ -100,8 +100,10 @@ class FireStore {
       "isCyclingGoalSet": false,
       "isRowingGoalSet": false,
       "isStepMillGoalSet": false,
+      "isExerciseTimeGoalSet_w": false,
       "exerciseTimeGoalProgress": 0,
       "exerciseTimeEndGoal": 0,
+      "exerciseTimeEndGoal_w" : 0,
       "calGoalProgress": 0,
       "calEndGoal": 0,
       "stepGoalProgress": 0,
@@ -120,7 +122,7 @@ class FireStore {
 
   static void resetHealthDoc(bool healthPermission, bool dailyDisplayed) {
     updateHealthData({
-      "isHealthTrackerPermissionGranted": healthPermission,
+     "isHealthTrackerPermissionGranted": healthPermission,
       "isDailyDisplayed": dailyDisplayed,
       "isExerciseTimeGoalSet": false,
       "isCalGoalSet": false,
@@ -129,8 +131,10 @@ class FireStore {
       "isCyclingGoalSet": false,
       "isRowingGoalSet": false,
       "isStepMillGoalSet": false,
+      "isExerciseTimeGoalSet_w": false,
       "exerciseTimeGoalProgress": 0,
       "exerciseTimeEndGoal": 0,
+      "exerciseTimeEndGoal_w" : 0,
       "calGoalProgress": 0,
       "calEndGoal": 0,
       "stepGoalProgress": 0,
