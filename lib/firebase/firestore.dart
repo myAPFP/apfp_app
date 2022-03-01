@@ -48,10 +48,10 @@ class FireStore {
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
-  static CollectionReference<Map<String, dynamic>> getDailyGoalLogCollection() {
+  static CollectionReference<Map<String, dynamic>> getGoalLogCollection({required String goalType}) {
     return FirebaseFirestore.instance
         .collection('goal-logs')
-        .doc('daily')
+        .doc(goalType)
         .collection(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
