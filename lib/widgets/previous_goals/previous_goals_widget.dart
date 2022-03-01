@@ -23,7 +23,7 @@ class PreviousGoalsWidget extends StatefulWidget {
 class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Stream<QuerySnapshot> goalsLogCollectionStream =
-      FireStore.getDailyGoalLogCollection().snapshots();
+      FireStore.getDailyGoalLogCollection().orderBy("Date", descending: true).snapshots();
 
   int _index = 0;
   List<Widget> goals = [];
@@ -55,7 +55,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
   Padding _goalCard(
       {required int index,
       required String goalName,
-      required String goalStat,
+      required String goalInfo,
       required String dateOfCompletion,
       required String goalType}) {
     return Padding(
@@ -95,7 +95,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
                         _titleRow(goalName),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
-                        _goalAttributeRow("Info: ", goalStat),
+                        _goalAttributeRow("Info: ", goalInfo),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
                         _goalAttributeRow("Completed: ", dateOfCompletion),
@@ -123,14 +123,14 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
     ]);
   }
 
-  Row _goalAttributeRow(String text, String goalStat) {
+  Row _goalAttributeRow(String label, String value) {
     return Row(children: [
       Container(
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.75),
           child: AutoSizeText.rich(
-            TextSpan(text: text, style: FlutterFlowTheme.title3Red, children: [
-              TextSpan(text: goalStat, style: FlutterFlowTheme.bodyText1)
+            TextSpan(text: label, style: FlutterFlowTheme.title3Red, children: [
+              TextSpan(text: value, style: FlutterFlowTheme.bodyText1)
             ]),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
@@ -155,7 +155,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
             index: _index,
             goalType: document.get("Type").toString(),
             goalName: document.get("Completed Goal").toString(),
-            goalStat: document.get("Info").toString(),
+            goalInfo: document.get("Info").toString(),
             dateOfCompletion: document.get("Date").toString()));
       });
     }));
