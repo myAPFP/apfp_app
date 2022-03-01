@@ -49,12 +49,14 @@ class HPGraphic {
       required double percent1,
       required double percent2,
       required double percent3,
+      required Function onDoubleTap,
       required Function onLongPress,
       required ScrollController scrollController,
       required bool isGoal1Set,
       required bool isGoal2Set,
       required bool isGoal3Set}) {
     return InkWell(
+      onDoubleTap: () => onDoubleTap(),
       onLongPress: () => onLongPress(),
       child: Container(
           child: Scrollbar(
@@ -74,8 +76,10 @@ class HPGraphic {
                   lineHeight: 30,
                   animation: true,
                   animationDuration: 1200,
-                 center: isGoal1Set ? Text("${(percent1 * 100).toStringAsFixed(2)} %",
-                      style: TextStyle(color: Colors.white)) : Text(''),
+                  center: isGoal1Set
+                      ? Text("${(percent1 * 100).toStringAsFixed(2)} %",
+                          style: TextStyle(color: Colors.white))
+                      : Text(''),
                   percent: isGoal1Set ? percent1 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -89,8 +93,10 @@ class HPGraphic {
                   lineHeight: 30,
                   animation: true,
                   animationDuration: 1200,
-                 center: isGoal2Set ? Text("${(percent2 * 100).toStringAsFixed(2)} %",
-                      style: TextStyle(color: Colors.white)) : Text(''),
+                  center: isGoal2Set
+                      ? Text("${(percent2 * 100).toStringAsFixed(2)} %",
+                          style: TextStyle(color: Colors.white))
+                      : Text(''),
                   percent: isGoal2Set ? percent2 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -104,8 +110,10 @@ class HPGraphic {
                   lineHeight: 30,
                   animation: true,
                   animationDuration: 1200,
-                  center: isGoal3Set ? Text("${(percent3 * 100).toStringAsFixed(2)} %",
-                      style: TextStyle(color: Colors.white)) : Text(''),
+                  center: isGoal3Set
+                      ? Text("${(percent3 * 100).toStringAsFixed(2)} %",
+                          style: TextStyle(color: Colors.white))
+                      : Text(''),
                   percent: isGoal3Set ? percent3 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -121,6 +129,7 @@ class HPGraphic {
       required String innerCircleText,
       required String goalProgressStr,
       required double percent,
+      required Function onDoubleTap,
       required Function onLongPress,
       required ScrollController scrollController,
       required bool isHealthGranted,
@@ -133,10 +142,11 @@ class HPGraphic {
       percent = 0;
     } else if (!isGoalSet && isHealthGranted) {
       innerCircleText = "No\nActive\nGoal";
-      goalProgressStr = "Double Tap: toggle Daily/Weekly goals.";
+      goalProgressStr = "Long Press here to set & edit goals.";
       percent = 0;
     }
     return InkWell(
+      onDoubleTap: () => onDoubleTap(),
       onLongPress: () => onLongPress(),
       child: Container(
           child: Scrollbar(
