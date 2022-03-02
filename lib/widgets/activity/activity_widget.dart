@@ -142,13 +142,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         backgroundColor: FlutterFlowTheme.secondaryColor,
         child: Icon(Icons.add),
         onPressed: () async {
-          try {
-            var result = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddActivityWidget()));
-            if (result != null) {
-              _addActivityToCloud(result);
-            }
-          } finally {}
+          var result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddActivityWidget()));
+          if (result != null) {
+            _addActivityToCloud(result);
+          }
         },
       ),
       backgroundColor: Colors.white,
