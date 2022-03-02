@@ -27,13 +27,22 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
           .orderBy("Date", descending: true)
           .snapshots();
 
-  int _index = 0;
-  List<Widget> goals = [];
+  Stream<QuerySnapshot> weeklyGoalsLogStream =
+      FireStore.getGoalLogCollection(goalType: "weekly")
+          .orderBy("Date", descending: true)
+          .snapshots();
+
+  int _dailyIndex = 0;
+  int _weeklyIndex = 0;
+  String mode = "Daily";
+  List<Widget> dailyGoals = [];
+  List<Widget> weeklyGoals = [];
 
   @override
   void initState() {
     super.initState();
-    _getPreviousGoals();
+    _getPreviousDailyGoals();
+    _getPreviousWeeklyGoals();
   }
 
   @override
@@ -87,14 +96,8 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                      Text("$_index",
-                          style: TextStyle(
-                            fontFamily: 'Open Sans',
-                            color: color,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          )),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.15),
+                      Icon(Icons.emoji_events_rounded, color: color, size: 35)
                     ],
                   ),
                   Column(
@@ -149,21 +152,45 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
     ]);
   }
 
-  void _addGoal(Padding goalCard) {
+  void _addDailyGoal(Padding goalCard) {
     setState(() {
-      goals.add(goalCard);
+      dailyGoals.add(goalCard);
     });
   }
 
-  void _getPreviousGoals() {
+  void _addWeeklyGoal(Padding goalCard) {
+    setState(() {
+      weeklyGoals.add(goalCard);
+    });
+  }
+
+  void _getPreviousDailyGoals() {
     dailyGoalsLogStream.forEach(((snapshot) {
-      _index = 0;
-      goals.clear();
+      _dailyIndex = 0;
+      dailyGoals.clear();
       snapshot.docs.forEach((document) {
-        _index++;
+        _dailyIndex++;
         var dayNum = document.get("Date").toString().split('/')[1];
-        _addGoal(_goalCard(
-            index: _index,
+        _addDailyGoal(_goalCard(
+            index: _dailyIndex,
+            color: FlutterFlowTheme.dayToColor(dayNum),
+            goalType: document.get("Type").toString(),
+            goalName: document.get("Completed Goal").toString(),
+            goalInfo: document.get("Info").toString(),
+            dateOfCompletion: document.get("Date").toString()));
+      });
+    }));
+  }
+
+  void _getPreviousWeeklyGoals() {
+    weeklyGoalsLogStream.forEach(((snapshot) {
+      _weeklyIndex = 0;
+      weeklyGoals.clear();
+      snapshot.docs.forEach((document) {
+        _weeklyIndex++;
+        var dayNum = document.get("Date").toString().split('/')[1];
+        _addWeeklyGoal(_goalCard(
+            index: _weeklyIndex,
             color: FlutterFlowTheme.dayToColor(dayNum),
             goalType: document.get("Type").toString(),
             goalName: document.get("Completed Goal").toString(),
@@ -182,6 +209,20 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
       },
       child: Scaffold(
           key: scaffoldKey,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: FlutterFlowTheme.secondaryColor,
+            child: Icon(Icons.code),
+            onPressed: () async {
+              switch (mode) {
+                case "Daily":
+                  setState(() => mode = "Weekly");
+                  break;
+                case "Weekly":
+                  setState(() => mode = "Daily");
+                  break;
+              }
+            },
+          ),
           backgroundColor: Colors.white,
           body: SafeArea(
               child: SingleChildScrollView(
@@ -190,14 +231,14 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   _paddedHeaderText(),
-                  Text("Goals from previous days will appear here.",
+                  Text("$mode Goals from previous days will appear here.",
                       style: TextStyle(fontSize: 20))
                 ],
               ),
               SizedBox(height: 15),
               Column(
                 mainAxisSize: MainAxisSize.max,
-                children: goals,
+                children: mode == "Daily" ? dailyGoals : weeklyGoals,
               ),
               SizedBox(height: 10)
             ]),
