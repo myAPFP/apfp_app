@@ -69,11 +69,15 @@ class _HomeWidgetState extends State<HomeWidget> {
         _activitySnapshotBackup = element.data()!;
       }
       Goal.userProgressExerciseTime = 0;
+      Goal.userProgressExerciseTimeWeekly = 0;
       Goal.userProgressCyclingGoal = 0;
       Goal.userProgressRowingGoal = 0;
       Goal.userProgressStepMillGoal = 0;
       setState(() {
         Goal.userProgressExerciseTime =
+            ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        // ! Needs to read total exercise time for multiple days
+        Goal.userProgressExerciseTimeWeekly =
             ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
         Goal.userProgressCyclingGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[0];
@@ -83,6 +87,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[2];
         FireStore.updateHealthData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
+          "exerciseTimeGoalProgressWeekly": Goal.userProgressExerciseTimeWeekly,
           "cyclingGoalProgress": Goal.userProgressCyclingGoal,
           "rowingGoalProgress": Goal.userProgressRowingGoal,
           "stepMillGoalProgress": Goal.userProgressStepMillGoal
@@ -281,7 +286,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         ], views: [
           // Exercise Time Goal View
           HPGraphic.createView(
-              isGoalSet: Goal.isExerciseTimeGoalSet,
+              isGoalSet: (Goal.isExerciseTimeGoalSet ||
+                  Goal.isExerciseTimeWeeklyGoalSet),
               isHealthGranted: true,
               scrollController: _exerciseViewSC,
               onDoubleTap: () {
@@ -294,15 +300,15 @@ class _HomeWidgetState extends State<HomeWidget> {
               },
               context: context,
               innerCircleText: Goal.isDailyDisplayed
-                  ? "${Goal.userProgressExerciseTime.toStringAsFixed(2)} / ${Goal.userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes"
-                  : "${Goal.isExerciseTimeWeeklyGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userExerciseTimeWeeklyEndGoal.toStringAsFixed(2)}\nTotal Minutes",
+                  ? "${Goal.isExerciseTimeGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) :  0.toStringAsFixed(2)} / ${Goal.userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes"
+                  : "${Goal.isExerciseTimeWeeklyGoalSet ? Goal.userProgressExerciseTimeWeekly.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userExerciseTimeWeeklyEndGoal.toStringAsFixed(2)}\nTotal Minutes",
               goalProgressStr: Goal.isDailyDisplayed
-                  ? "Your Daily goal is " +
+                  ? Goal.isExerciseTimeGoalSet ?  "Your Daily goal is " +
                       "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
-                      "% complete.\n"
+                      "% complete." : "Daily Goal not active."
                   : Goal.isExerciseTimeWeeklyGoalSet
                       ? "Your Weekly goal is " +
-                          "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
+                          "${((Goal.userProgressExerciseTimeWeekly / Goal.userExerciseTimeWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTimeWeekly / Goal.userExerciseTimeWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
                           "% complete."
                       : "Weekly Goal not active.",
               percent: Goal.isDailyDisplayed
@@ -312,11 +318,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ? 1.0
                       : Goal.userProgressExerciseTime /
                           Goal.userExerciseTimeEndGoal
-                  : (Goal.userProgressExerciseTime /
+                  : (Goal.userProgressExerciseTimeWeekly /
                               Goal.userExerciseTimeWeeklyEndGoal) >
                           1.0
                       ? 1.0
-                      : Goal.userProgressExerciseTime /
+                      : Goal.userProgressExerciseTimeWeekly /
                           Goal.userExerciseTimeWeeklyEndGoal),
           // Calories Goal View
           HPGraphic.createView(
