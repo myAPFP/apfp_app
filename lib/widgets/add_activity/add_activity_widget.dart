@@ -1,4 +1,3 @@
-import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/validator/validator.dart';
 import '../../flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
