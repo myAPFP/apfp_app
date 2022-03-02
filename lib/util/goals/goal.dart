@@ -95,12 +95,12 @@ class Goal {
   static void uploadCompletedGoals() {
     _calculateCompletedGoals();
     DateTime now = DateTime.now();
-    DateTime yesterday = now.subtract(Duration(days: 1));
+    DateTime yester = now.subtract(Duration(days: 1));
     // final weekFromNow = now.add(const Duration(days: 7));
     if (dayOfMonth != now.day) {
       if (isExerciseTimeGoalComplete) {
         FireStore.getGoalLogCollection(goalType: "daily").add({
-          "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
+          "Date": "${yester.month}/${yester.day}/${yester.year}",
           "Completed Goal": 'Exercise Time',
           "Info": "$userExerciseTimeEndGoal min exercised",
           "Type": "Daily Goal"
@@ -108,7 +108,7 @@ class Goal {
       }
       if (isCalGoalComplete) {
         FireStore.getGoalLogCollection(goalType: "daily").add({
-          "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
+          "Date": "${yester.month}/${yester.day}/${yester.year}",
           "Completed Goal": 'Calories Burned',
           "Info": "$userCalEndGoal calories burned",
           "Type": "Daily Goal"
@@ -116,7 +116,7 @@ class Goal {
       }
       if (isStepGoalComplete) {
         FireStore.getGoalLogCollection(goalType: "daily").add({
-          "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
+          "Date": "${yester.month}/${yester.day}/${yester.year}",
           "Completed Goal": 'Steps',
           "Info": "$userStepEndGoal steps taken",
           "Type": "Daily Goal"
@@ -124,7 +124,7 @@ class Goal {
       }
       if (isMileGoalComplete) {
         FireStore.getGoalLogCollection(goalType: "daily").add({
-          "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
+          "Date": "${yester.month}/${yester.day}/${yester.year}",
           "Completed Goal": 'Miles',
           "Info": "$userMileEndGoal miles traveled",
           "Type": "Daily Goal"
@@ -132,7 +132,7 @@ class Goal {
       }
       if (isCyclingGoalComplete) {
         FireStore.getGoalLogCollection(goalType: "daily").add({
-          "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
+          "Date": "${yester.month}/${yester.day}/${yester.year}",
           "Completed Goal": 'Cycling',
           "Info": "$userCyclingEndGoal min of cycling",
           "Type": "Daily Goal"
@@ -140,7 +140,7 @@ class Goal {
       }
       if (isRowingGoalComplete) {
         FireStore.getGoalLogCollection(goalType: "daily").add({
-          "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
+          "Date": "${yester.month}/${yester.day}/${yester.year}",
           "Completed Goal": 'Rowing',
           "Info": "$userRowingEndGoal min of rowing",
           "Type": "Daily Goal"
@@ -148,7 +148,7 @@ class Goal {
       }
       if (isStepMillGoalComplete) {
         FireStore.getGoalLogCollection(goalType: "daily").add({
-          "Date": "${yesterday.month}/${yesterday.day}/${yesterday.year}",
+          "Date": "${yester.month}/${yester.day}/${yester.year}",
           "Completed Goal": 'Step Mill',
           "Info": "$userStepMillEndGoal min of step mill use",
           "Type": "Daily Goal"
