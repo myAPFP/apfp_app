@@ -38,6 +38,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   final _exerciseViewSC = ScrollController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  String _goalTypeLabel = "Daily";
   String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   @override
@@ -137,6 +138,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               _healthSnapshotBackup['stepMillEndGoal'].toDouble();
           Goal.dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
           Goal.isDailyDisplayed = _healthSnapshotBackup['isDailyDisplayed'];
+          _goalTypeLabel = Goal.isDailyDisplayed ? "Daily" : "Weekly";
         });
         Goal.uploadCompletedGoals();
       }
@@ -249,7 +251,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          AutoSizeText('Daily Goals', style: FlutterFlowTheme.title1),
+          AutoSizeText('$_goalTypeLabel Goals', style: FlutterFlowTheme.title1),
         ],
       ),
     );
@@ -293,14 +295,16 @@ class _HomeWidgetState extends State<HomeWidget> {
               context: context,
               innerCircleText: Goal.isDailyDisplayed
                   ? "${Goal.userProgressExerciseTime.toStringAsFixed(2)} / ${Goal.userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes"
-                  : "${ Goal.isExerciseTimeWeeklyGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userExerciseTimeWeeklyEndGoal.toStringAsFixed(2)}\nTotal Minutes",
+                  : "${Goal.isExerciseTimeWeeklyGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userExerciseTimeWeeklyEndGoal.toStringAsFixed(2)}\nTotal Minutes",
               goalProgressStr: Goal.isDailyDisplayed
                   ? "Your Daily goal is " +
                       "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
                       "% complete.\n"
-                  : Goal.isExerciseTimeWeeklyGoalSet ? "Your Weekly goal is " +
-                      "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
-                      "% complete." : "Weekly Goal not active.",
+                  : Goal.isExerciseTimeWeeklyGoalSet
+                      ? "Your Weekly goal is " +
+                          "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
+                          "% complete."
+                      : "Weekly Goal not active.",
               percent: Goal.isDailyDisplayed
                   ? (Goal.userProgressExerciseTime /
                               Goal.userExerciseTimeEndGoal) >
