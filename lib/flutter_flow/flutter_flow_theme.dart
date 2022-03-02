@@ -154,7 +154,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 31:
-        color = Colors.purple;
+        color = Colors.blueAccent;
         break;
     }
     return color;
