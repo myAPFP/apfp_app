@@ -69,8 +69,8 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                width: 2,
-                color: color,
+                width: 1,
+                color: FlutterFlowTheme.primaryColor,
               ),
             ),
             child: Card(
@@ -88,7 +88,13 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                      Text("$_index", style: FlutterFlowTheme.title3),
+                      Text("$_index",
+                          style: TextStyle(
+                            fontFamily: 'Open Sans',
+                            color: color,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          )),
                     ],
                   ),
                   Column(

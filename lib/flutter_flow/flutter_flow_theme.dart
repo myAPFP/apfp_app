@@ -64,7 +64,7 @@ class FlutterFlowTheme {
     var color = primaryColor;
     switch (int.parse(dayNum)) {
       case 1:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 2:
         color = Colors.blueAccent;
@@ -73,7 +73,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 4:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 5:
         color = Colors.blueAccent;
@@ -82,7 +82,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 7:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 8:
         color = Colors.blueAccent;
@@ -91,7 +91,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 10:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 11:
         color = Colors.blueAccent;
@@ -100,7 +100,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 13:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 14:
         color = Colors.blueAccent;
@@ -109,7 +109,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 16:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 17:
         color = Colors.blueAccent;
@@ -118,7 +118,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 19:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 20:
         color = Colors.blueAccent;
@@ -127,7 +127,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 22:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 23:
         color = Colors.blueAccent;
@@ -136,7 +136,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 25:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 26:
         color = Colors.blueAccent;
@@ -145,7 +145,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 28:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
       case 29:
         color = Colors.blueAccent;
@@ -154,7 +154,7 @@ class FlutterFlowTheme {
         color = Colors.green;
         break;
       case 31:
-        color = Colors.redAccent;
+        color = Colors.purple;
         break;
     }
     return color;
