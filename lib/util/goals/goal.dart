@@ -3,6 +3,10 @@ import '../../firebase/firestore.dart';
 class Goal {
   static int dayOfMonth = 0;
 
+  static bool isDailyDisplayed = false;
+
+  static bool isHealthTrackerPermissionGranted = false;
+
   static double userProgressExerciseTime = 0;
   static double userProgressExerciseTimeWeekly = 0;
   static double userExerciseTimeEndGoal = 0;
@@ -13,44 +17,58 @@ class Goal {
   static bool isExerciseTimeWeeklyGoalComplete = false;
 
   static double userProgressCalGoal = 0;
+  static double userProgressCalGoalWeekly = 0;
   static double userCalEndGoal = 0;
+  static double userCalWeeklyEndGoal = 0;
+  static bool isCalGoalSet = false;
+  static bool isCalWeeklyGoalSet = false;
+  static bool isCalGoalComplete = false;
+  static bool isCalWeeklyGoalComplete = false;
 
   static double userProgressStepGoal = 0;
+  static double userProgressStepGoalWeekly = 0;
   static double userStepEndGoal = 0;
+  static double userStepWeeklyEndGoal = 0;
+  static bool isStepGoalSet = false;
+  static bool isStepWeeklyGoalSet = false;
+  static bool isStepGoalComplete = false;
+  static bool isStepWeeklyGoalComplete = false;
 
   static double userProgressMileGoal = 0;
+  static double userProgressMileGoalWeekly = 0;
   static double userMileEndGoal = 0;
+  static double userMileWeeklyEndGoal = 0;
+  static bool isMileGoalSet = false;
+  static bool isMileWeeklyGoalSet = false;
+  static bool isMileGoalComplete = false;
+  static bool isMileWeeklyGoalComplete = false;
 
   static double userProgressCyclingGoal = 0;
+  static double userProgressCyclingGoalWeekly = 0;
   static double userCyclingEndGoal = 0;
+  static double userCyclingWeeklyEndGoal = 0;
+  static bool isCyclingGoalSet = false;
+  static bool isCyclingWeeklyGoalSet = false;
+  static bool isCyclingGoalComplete = false;
+  static bool isCyclingWeeklyGoalComplete = false;
 
   static double userProgressRowingGoal = 0;
+  static double userProgressRowingGoalWeekly = 0;
   static double userRowingEndGoal = 0;
+  static double userRowingWeeklyEndGoal = 0;
+  static bool isRowingGoalSet = false;
+  static bool isRowingWeeklyGoalSet = false;
+  static bool isRowingGoalComplete = false;
+  static bool isRowingWeeklyGoalComplete = false;
 
   static double userProgressStepMillGoal = 0;
+  static double userProgressStepMillGoalWeekly = 0;
   static double userStepMillEndGoal = 0;
-
-  static bool isCalGoalSet = false;
-  static bool isCalGoalComplete = false;
-
-  static bool isStepGoalSet = false;
-  static bool isStepGoalComplete = false;
-
-  static bool isMileGoalSet = false;
-  static bool isMileGoalComplete = false;
-
-  static bool isCyclingGoalSet = false;
-  static bool isCyclingGoalComplete = false;
-
-  static bool isRowingGoalSet = false;
-  static bool isRowingGoalComplete = false;
-
+  static double userStepMillWeeklyEndGoal = 0;
   static bool isStepMillGoalSet = false;
+  static bool isStepMillWeeklyGoalSet = false;
   static bool isStepMillGoalComplete = false;
-
-  static bool isHealthTrackerPermissionGranted = false;
-
-  static bool isDailyDisplayed = false;
+  static bool isStepMillWeeklyGoalComplete = false;
 
   static Duration convertToDuration(String activityDurationStr) {
     Duration duration = Duration.zero;
@@ -75,22 +93,39 @@ class Goal {
   static void _calculateCompletedGoals() {
     isExerciseTimeGoalComplete = isExerciseTimeGoalSet &&
         (userProgressExerciseTime / userExerciseTimeEndGoal) * 100 >= 100;
+
     isExerciseTimeWeeklyGoalComplete = isExerciseTimeWeeklyGoalSet &&
         (userProgressExerciseTimeWeekly / userExerciseTimeWeeklyEndGoal) *
                 100 >=
             100;
+
     isCalGoalComplete =
         isCalGoalSet && (userProgressCalGoal / userCalEndGoal) * 100 >= 100;
+
     isStepGoalComplete =
         isStepGoalSet && (userProgressStepGoal / userStepEndGoal) * 100 >= 100;
+
     isMileGoalComplete =
         isMileGoalSet && (userProgressMileGoal / userMileEndGoal) * 100 >= 100;
+
     isCyclingGoalComplete = isCyclingGoalSet &&
         (userProgressCyclingGoal / userCyclingEndGoal) * 100 >= 100;
+
+    isCyclingWeeklyGoalComplete = isCyclingWeeklyGoalSet &&
+        (userProgressCyclingGoalWeekly / userCyclingWeeklyEndGoal) * 100 >= 100;
+
     isRowingGoalComplete = isRowingGoalSet &&
         (userProgressRowingGoal / userRowingEndGoal) * 100 >= 100;
+
+    isRowingWeeklyGoalComplete = isRowingWeeklyGoalSet &&
+        (userProgressRowingGoalWeekly / userRowingWeeklyEndGoal) * 100 >= 100;
+
     isStepMillGoalComplete = isStepMillGoalSet &&
         (userProgressStepMillGoal / userStepMillEndGoal) * 100 >= 100;
+
+    isStepMillWeeklyGoalComplete = isStepMillWeeklyGoalSet &&
+        (userProgressStepMillGoalWeekly / userStepMillWeeklyEndGoal) * 100 >=
+            100;
   }
 
   static void _uploadCompletedDailyGoals() {
@@ -169,6 +204,33 @@ class Goal {
         "Type": "Weekly Goal"
       });
     }
+    if (isCyclingWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${yester.month}/${yester.day}/${yester.year}",
+        "Completed Goal": 'Cycling',
+        "Info": "$userCyclingWeeklyEndGoal min of cycling",
+        "Type": "Weekly Goal"
+      });
+    }
+    if (isRowingWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${yester.month}/${yester.day}/${yester.year}",
+        "Completed Goal": 'Rowing',
+        "Info": "$userRowingWeeklyEndGoal min of rowing",
+        "Type": "Weekly Goal"
+      });
+    }
+    if (isStepMillWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${yester.month}/${yester.day}/${yester.year}",
+        "Completed Goal": 'Step Mill',
+        "Info": "$userStepMillWeeklyEndGoal min of step mill use",
+        "Type": "Weekly Goal"
+      });
+    }
+    // Resets Goals
+    FireStore.resetHealthDoc(
+        isHealthTrackerPermissionGranted, isDailyDisplayed);
   }
 
   static void uploadCompletedGoals() {
