@@ -48,7 +48,8 @@ class FireStore {
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
-  static CollectionReference<Map<String, dynamic>> getGoalLogCollection({required String goalType}) {
+  static CollectionReference<Map<String, dynamic>> getGoalLogCollection(
+      {required String goalType}) {
     return FirebaseFirestore.instance
         .collection('goal-logs')
         .doc(goalType)
@@ -98,13 +99,16 @@ class FireStore {
       "isStepGoalSet": false,
       "isMileGoalSet": false,
       "isCyclingGoalSet": false,
+      'isCyclingGoalSet_w': false,
       "isRowingGoalSet": false,
+      "isRowingGoalSet_w": false,
       "isStepMillGoalSet": false,
+      "isStepMillGoalSet_w": false,
       "isExerciseTimeGoalSet_w": false,
+      "exerciseTimeGoalProgressWeekly": 0,
       "exerciseTimeGoalProgress": 0,
-      "exerciseTimeGoalProgress_w": 0,
       "exerciseTimeEndGoal": 0,
-      "exerciseTimeEndGoal_w" : 0,
+      "exerciseTimeEndGoal_w": 0,
       "calGoalProgress": 0,
       "calEndGoal": 0,
       "stepGoalProgress": 0,
@@ -112,31 +116,40 @@ class FireStore {
       "mileGoalProgress": 0,
       "mileEndGoal": 0,
       "cyclingGoalProgress": 0,
+      "cyclingGoalProgressWeekly": 0,
       "cyclingEndGoal": 0,
+      "cyclingWeeklyEndGoal": 0,
       "rowingGoalProgress": 0,
+      "rowingGoalProgressWeekly": 0,
       "rowingEndGoal": 0,
+      "rowingWeeklyEndGoal": 0,
       "stepMillGoalProgress": 0,
+      "stepMillGoalProgressWeekly": 0,
       "stepMillEndGoal": 0,
+      "stepMillWeeklyEndGoal": 0,
       "dayOfMonth": DateTime.now().day
     });
   }
 
   static void resetHealthDoc(bool healthPermission, bool dailyDisplayed) {
     updateHealthData({
-     "isHealthTrackerPermissionGranted": healthPermission,
+      "isHealthTrackerPermissionGranted": healthPermission,
       "isDailyDisplayed": dailyDisplayed,
       "isExerciseTimeGoalSet": false,
       "isCalGoalSet": false,
       "isStepGoalSet": false,
       "isMileGoalSet": false,
       "isCyclingGoalSet": false,
+      'isCyclingGoalSet_w': false,
       "isRowingGoalSet": false,
+      "isRowingGoalSet_w": false,
       "isStepMillGoalSet": false,
+      "isStepMillGoalSet_w": false,
       "isExerciseTimeGoalSet_w": false,
+      "exerciseTimeGoalProgressWeekly": 0,
       "exerciseTimeGoalProgress": 0,
-      "exerciseTimeGoalProgress_w": 0,
       "exerciseTimeEndGoal": 0,
-      "exerciseTimeEndGoal_w" : 0,
+      "exerciseTimeEndGoal_w": 0,
       "calGoalProgress": 0,
       "calEndGoal": 0,
       "stepGoalProgress": 0,
@@ -144,91 +157,18 @@ class FireStore {
       "mileGoalProgress": 0,
       "mileEndGoal": 0,
       "cyclingGoalProgress": 0,
+      "cyclingGoalProgressWeekly": 0,
       "cyclingEndGoal": 0,
+      "cyclingWeeklyEndGoal": 0,
       "rowingGoalProgress": 0,
+      "rowingGoalProgressWeekly": 0,
       "rowingEndGoal": 0,
+      "rowingWeeklyEndGoal": 0,
       "stepMillGoalProgress": 0,
+      "stepMillGoalProgressWeekly": 0,
       "stepMillEndGoal": 0,
+      "stepMillWeeklyEndGoal": 0,
       "dayOfMonth": DateTime.now().day
     });
-  }
-
-  static Map<String, dynamic> healthPermissionToMap(bool permission) {
-    return {
-      "isHealthTrackerPermissionGranted": permission,
-    };
-  }
-
-  static Map<String, dynamic> exerciseGoalBoolToMap(bool isExerciseGoalSet) {
-    return {
-      "isExerciseTimeGoalSet": isExerciseGoalSet,
-    };
-  }
-
-  static Map<String, dynamic> calGoalBoolToMap(bool isCalGoalSet) {
-    return {
-      "isCalGoalSet": isCalGoalSet,
-    };
-  }
-
-  static Map<String, dynamic> stepGoalBoolToMap(bool isStepGoalSet) {
-    return {
-      "isStepGoalSet": isStepGoalSet,
-    };
-  }
-
-  static Map<String, dynamic> mileGoalBoolToMap(bool isMileGoalSet) {
-    return {
-      "isMileGoalSet": isMileGoalSet,
-    };
-  }
-
-  static Map<String, dynamic> mileProgressToMap(double mileProgress) {
-    return {
-      "mileGoalProgress": mileProgress,
-    };
-  }
-
-  static Map<String, dynamic> mileEndGoalToMap(double miles) {
-    return {
-      "mileEndGoal": miles,
-    };
-  }
-
-  static Map<String, dynamic> stepProgressToMap(double stepProgress) {
-    return {
-      "stepGoalProgress": stepProgress,
-    };
-  }
-
-  static Map<String, dynamic> stepEndGoalToMap(double stepCount) {
-    return {
-      "stepEndGoal": stepCount,
-    };
-  }
-
-  static Map<String, dynamic> calProgressToMap(double calProgress) {
-    return {
-      "calGoalProgress": calProgress,
-    };
-  }
-
-  static Map<String, dynamic> calEndGoalToMap(double calsBurned) {
-    return {
-      "calEndGoal": calsBurned,
-    };
-  }
-
-  static Map<String, dynamic> exerciseTimeProgressToMap(
-      double exerciseTimeProgress) {
-    return {
-      "exerciseTimeGoalProgress": exerciseTimeProgress,
-    };
-  }
-
-  static Map<String, dynamic> exerciseTimeEndGoalToMap(double minutes) {
-    return {
-      "exerciseTimeEndGoal": minutes,
-    };
   }
 }
