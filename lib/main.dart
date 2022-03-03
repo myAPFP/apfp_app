@@ -142,6 +142,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     if (await Internet.isConnected()) {
       _internetConnected = true;
       showSnackbar(context, "Connected to the Internet");
+      WidgetsBinding.instance!.removeObserver(this);
+      _connectivitySubscription.cancel();
       initState();
     } else {
       _internetConnected = false;
