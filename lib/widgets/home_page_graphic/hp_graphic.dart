@@ -79,7 +79,7 @@ class HPGraphic {
                   center: isGoal1Set
                       ? Text("${(percent1 * 100).toStringAsFixed(2)} %",
                           style: TextStyle(color: Colors.white))
-                      : Text(''),
+                      : Text('0.00 %', style: TextStyle(color: Colors.white)),
                   percent: isGoal1Set ? percent1 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -96,7 +96,7 @@ class HPGraphic {
                   center: isGoal2Set
                       ? Text("${(percent2 * 100).toStringAsFixed(2)} %",
                           style: TextStyle(color: Colors.white))
-                      : Text(''),
+                      : Text('0.00 %', style: TextStyle(color: Colors.white)),
                   percent: isGoal2Set ? percent2 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
@@ -113,7 +113,7 @@ class HPGraphic {
                   center: isGoal3Set
                       ? Text("${(percent3 * 100).toStringAsFixed(2)} %",
                           style: TextStyle(color: Colors.white))
-                      : Text(''),
+                      : Text('0.00 %', style: TextStyle(color: Colors.white)),
                   percent: isGoal3Set ? percent3 : 0.0,
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
