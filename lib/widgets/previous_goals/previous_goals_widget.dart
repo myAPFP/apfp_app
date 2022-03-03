@@ -32,11 +32,9 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
           .orderBy("Date", descending: true)
           .snapshots();
 
-  int _dailyIndex = 0;
-  int _weeklyIndex = 0;
-  String mode = "Daily";
-  List<Widget> dailyGoals = [];
-  List<Widget> weeklyGoals = [];
+  String _mode = "Daily";
+  List<Widget> _dailyGoals = [];
+  List<Widget> _weeklyGoals = [];
 
   @override
   void initState() {
@@ -64,7 +62,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
   }
 
   Padding _goalCard(
-      {required int index,
+      {
       required Color color,
       required String goalName,
       required String goalInfo,
@@ -154,25 +152,22 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
 
   void _addDailyGoal(Padding goalCard) {
     setState(() {
-      dailyGoals.add(goalCard);
+      _dailyGoals.add(goalCard);
     });
   }
 
   void _addWeeklyGoal(Padding goalCard) {
     setState(() {
-      weeklyGoals.add(goalCard);
+      _weeklyGoals.add(goalCard);
     });
   }
 
   void _getPreviousDailyGoals() {
     dailyGoalsLogStream.forEach(((snapshot) {
-      _dailyIndex = 0;
-      dailyGoals.clear();
+      _dailyGoals.clear();
       snapshot.docs.forEach((document) {
-        _dailyIndex++;
         var dayNum = document.get("Date").toString().split('/')[1];
         _addDailyGoal(_goalCard(
-            index: _dailyIndex,
             color: FlutterFlowTheme.dayToColor(dayNum),
             goalType: document.get("Type").toString(),
             goalName: document.get("Completed Goal").toString(),
@@ -184,13 +179,10 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
 
   void _getPreviousWeeklyGoals() {
     weeklyGoalsLogStream.forEach(((snapshot) {
-      _weeklyIndex = 0;
-      weeklyGoals.clear();
+      _weeklyGoals.clear();
       snapshot.docs.forEach((document) {
-        _weeklyIndex++;
         var dayNum = document.get("Date").toString().split('/')[1];
         _addWeeklyGoal(_goalCard(
-            index: _weeklyIndex,
             color: FlutterFlowTheme.dayToColor(dayNum),
             goalType: document.get("Type").toString(),
             goalName: document.get("Completed Goal").toString(),
@@ -213,12 +205,12 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
             backgroundColor: FlutterFlowTheme.secondaryColor,
             child: Icon(Icons.code),
             onPressed: () async {
-              switch (mode) {
+              switch (_mode) {
                 case "Daily":
-                  setState(() => mode = "Weekly");
+                  setState(() => _mode = "Weekly");
                   break;
                 case "Weekly":
-                  setState(() => mode = "Daily");
+                  setState(() => _mode = "Daily");
                   break;
               }
             },
@@ -231,14 +223,14 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   _paddedHeaderText(),
-                  Text("$mode Goals from previous days will appear here.",
+                  Text("$_mode Goals from previous days will appear here.",
                       style: TextStyle(fontSize: 20))
                 ],
               ),
               SizedBox(height: 15),
               Column(
                 mainAxisSize: MainAxisSize.max,
-                children: mode == "Daily" ? dailyGoals : weeklyGoals,
+                children: _mode == "Daily" ? _dailyGoals : _weeklyGoals,
               ),
               SizedBox(height: 10)
             ]),
