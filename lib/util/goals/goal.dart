@@ -7,6 +7,14 @@ class Goal {
 
   static bool isHealthTrackerPermissionGranted = false;
 
+  static String exerciseWeekDeadline = "0/00/0000";
+  static String calWeekDeadline = "0/00/0000";
+  static String stepWeekDeadline = "0/00/0000";
+  static String mileWeekDeadline = "0/00/0000";
+  static String cyclingWeekDeadline = "0/00/0000";
+  static String rowingWeekDeadline = "0/00/0000";
+  static String stepMillWeekDeadline = "0/00/0000";
+
   static double userProgressExerciseTime = 0;
   static double userProgressExerciseTimeWeekly = 0;
   static double userExerciseTimeEndGoal = 0;
@@ -128,120 +136,190 @@ class Goal {
             100;
   }
 
-  static void _uploadCompletedDailyGoals() {
+  static void _uploadCompletedDailyGoals(String dailyGoalName) {
     DateTime now = DateTime.now();
     DateTime yester = now.subtract(Duration(days: 1));
-    if (isExerciseTimeGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "daily").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Exercise Time',
-        "Info": "$userExerciseTimeEndGoal min exercised",
-        "Type": "Daily Goal"
-      });
+    switch (dailyGoalName) {
+      case "exercise":
+        if (isExerciseTimeGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "daily").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Exercise Time',
+            "Info": "$userExerciseTimeEndGoal min exercised",
+            "Type": "Daily Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "exerciseTimeGoalProgress": 0,
+          "exerciseTimeEndGoal": 0,
+          "isExerciseTimeGoalSet": false,
+        });
+        break;
+      case "cycling":
+        if (isCyclingGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "daily").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Cycling',
+            "Info": "$userCyclingEndGoal min of cycling",
+            "Type": "Daily Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "cyclingGoalProgress": 0,
+          "cyclingEndGoal": 0,
+          "isCyclingGoalSet": false,
+        });
+        break;
+      case "rowing":
+        if (isRowingGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "daily").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Rowing',
+            "Info": "$userRowingEndGoal min of rowing",
+            "Type": "Daily Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "rowingGoalProgress": 0,
+          "rowingEndGoal": 0,
+          "isRowingGoalSet": false,
+        });
+        break;
+      case "stepMill":
+        if (isStepMillGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "daily").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Step Mill',
+            "Info": "$userStepMillEndGoal min of step mill use",
+            "Type": "Daily Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "stepMillGoalProgress": 0,
+          "stepMillEndGoal": 0,
+          "isStepMillGoalSet": false,
+        });
+        break;
     }
-    if (isCalGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "daily").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Calories Burned',
-        "Info": "$userCalEndGoal calories burned",
-        "Type": "Daily Goal"
-      });
-    }
-    if (isStepGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "daily").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Steps',
-        "Info": "$userStepEndGoal steps taken",
-        "Type": "Daily Goal"
-      });
-    }
-    if (isMileGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "daily").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Miles',
-        "Info": "$userMileEndGoal miles traveled",
-        "Type": "Daily Goal"
-      });
-    }
-    if (isCyclingGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "daily").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Cycling',
-        "Info": "$userCyclingEndGoal min of cycling",
-        "Type": "Daily Goal"
-      });
-    }
-    if (isRowingGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "daily").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Rowing',
-        "Info": "$userRowingEndGoal min of rowing",
-        "Type": "Daily Goal"
-      });
-    }
-    if (isStepMillGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "daily").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Step Mill',
-        "Info": "$userStepMillEndGoal min of step mill use",
-        "Type": "Daily Goal"
-      });
-    }
-    // Resets Goals
-    // ! Add code to preserve weekly progress
-    FireStore.resetHealthDoc(
-        isHealthTrackerPermissionGranted, isDailyDisplayed);
+
+    // if (isCalGoalComplete) {
+    //   FireStore.getGoalLogCollection(goalType: "daily").add({
+    //     "Date": "${yester.month}/${yester.day}/${yester.year}",
+    //     "Completed Goal": 'Calories Burned',
+    //     "Info": "$userCalEndGoal calories burned",
+    //     "Type": "Daily Goal"
+    //   });
+    // }
+
+    // if (isStepGoalComplete) {
+    //   FireStore.getGoalLogCollection(goalType: "daily").add({
+    //     "Date": "${yester.month}/${yester.day}/${yester.year}",
+    //     "Completed Goal": 'Steps',
+    //     "Info": "$userStepEndGoal steps taken",
+    //     "Type": "Daily Goal"
+    //   });
+    // }
+    // if (isMileGoalComplete) {
+    //   FireStore.getGoalLogCollection(goalType: "daily").add({
+    //     "Date": "${yester.month}/${yester.day}/${yester.year}",
+    //     "Completed Goal": 'Miles',
+    //     "Info": "$userMileEndGoal miles traveled",
+    //     "Type": "Daily Goal"
+    //   });
+    // }
   }
 
-  static void _uploadCompletedWeeklyGoals() {
+  static void _uploadCompletedWeeklyGoals(String weeklyGoalName) {
     DateTime now = DateTime.now();
     DateTime yester = now.subtract(Duration(days: 1));
-    if (isExerciseTimeWeeklyGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "weekly").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Exercise Time',
-        "Info": "$userExerciseTimeEndGoal min exercised",
-        "Type": "Weekly Goal"
-      });
+    switch (weeklyGoalName) {
+      case "exercise":
+        if (isExerciseTimeWeeklyGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "weekly").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Exercise Time',
+            "Info": "$userExerciseTimeEndGoal min exercised",
+            "Type": "Weekly Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "exerciseWeekDeadline": "0/00/0000",
+          "exerciseTimeGoalProgressWeekly": 0,
+          "exerciseTimeEndGoal_w": 0,
+          "isExerciseTimeGoalSet_w": false,
+        });
+        break;
+      case "cycling":
+        if (isCyclingWeeklyGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "weekly").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Cycling',
+            "Info": "$userCyclingWeeklyEndGoal min of cycling",
+            "Type": "Weekly Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "cyclingWeekDeadline": "0/00/0000",
+          "cyclingGoalProgressWeekly": 0,
+          "cyclingWeeklyEndGoal": 0,
+          "isCyclingGoalSet_w": false,
+        });
+        break;
+      case "rowing":
+        if (isRowingWeeklyGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "weekly").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Rowing',
+            "Info": "$userRowingWeeklyEndGoal min of rowing",
+            "Type": "Weekly Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "rowingWeekDeadline": "0/00/0000",
+          "rowingGoalProgressWeekly": 0,
+          "rowingWeeklyEndGoal": 0,
+          "isRowingGoalSet_w": false,
+        });
+        break;
+      case "stepMill":
+        if (isStepMillWeeklyGoalComplete) {
+          FireStore.getGoalLogCollection(goalType: "weekly").add({
+            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Completed Goal": 'Step Mill',
+            "Info": "$userStepMillWeeklyEndGoal min of step mill use",
+            "Type": "Weekly Goal"
+          });
+        }
+        FireStore.updateHealthData({
+          "stepMillWeekDeadline": "0/00/0000",
+          "stepMillGoalProgressWeekly": 0,
+          "stepMillWeeklyEndGoal": 0,
+          "isStepMillGoalSet_w": false,
+        });
+        break;
     }
-    if (isCyclingWeeklyGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "weekly").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Cycling',
-        "Info": "$userCyclingWeeklyEndGoal min of cycling",
-        "Type": "Weekly Goal"
-      });
-    }
-    if (isRowingWeeklyGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "weekly").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Rowing',
-        "Info": "$userRowingWeeklyEndGoal min of rowing",
-        "Type": "Weekly Goal"
-      });
-    }
-    if (isStepMillWeeklyGoalComplete) {
-      FireStore.getGoalLogCollection(goalType: "weekly").add({
-        "Date": "${yester.month}/${yester.day}/${yester.year}",
-        "Completed Goal": 'Step Mill',
-        "Info": "$userStepMillWeeklyEndGoal min of step mill use",
-        "Type": "Weekly Goal"
-      });
-    }
-    // Resets Goals
-    FireStore.resetHealthDoc(
-        isHealthTrackerPermissionGranted, isDailyDisplayed);
   }
 
   static void uploadCompletedGoals() {
     _calculateCompletedGoals();
     final now = DateTime.now();
-    final weekFromNow = now.add(const Duration(days: 7));
     if (dayOfMonth != now.day) {
-      _uploadCompletedDailyGoals();
+      _uploadCompletedDailyGoals("exercise");
+      _uploadCompletedDailyGoals("cycling");
+      _uploadCompletedDailyGoals("rowing");
+      _uploadCompletedDailyGoals("stepMill");
     }
-    if (now == weekFromNow) {
-      _uploadCompletedWeeklyGoals();
+    if (exerciseWeekDeadline == "${now.month}/${now.day}/${now.year}") {
+      _uploadCompletedWeeklyGoals("exercise");
+    }
+    if (cyclingWeekDeadline == "${now.month}/${now.day}/${now.year}") {
+      _uploadCompletedWeeklyGoals("cycling");
+    }
+    if (rowingWeekDeadline == "${now.month}/${now.day}/${now.year}") {
+      _uploadCompletedWeeklyGoals("rowing");
+    }
+    if (stepMillWeekDeadline == "${now.month}/${now.day}/${now.year}") {
+      _uploadCompletedWeeklyGoals("stepMill");
     }
   }
 }

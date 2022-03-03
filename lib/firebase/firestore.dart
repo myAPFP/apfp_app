@@ -127,6 +127,13 @@ class FireStore {
       "stepMillGoalProgressWeekly": 0,
       "stepMillEndGoal": 0,
       "stepMillWeeklyEndGoal": 0,
+      "exerciseWeekDeadline": "0/00/0000",
+      "calWeekDeadline": "0/00/0000",
+      "stepWeekDeadline": "0/00/0000",
+      "mileWeekDeadline": "0/00/0000",
+      "cyclingWeekDeadline": "0/00/0000",
+      "rowingWeekDeadline": "0/00/0000",
+      "stepMillWeekDeadline": "0/00/0000",
       "dayOfMonth": DateTime.now().day
     });
   }
@@ -168,6 +175,13 @@ class FireStore {
       "stepMillGoalProgressWeekly": 0,
       "stepMillEndGoal": 0,
       "stepMillWeeklyEndGoal": 0,
+      "exerciseWeekDeadline": "0/00/0000",
+      "calWeekDeadline": "0/00/0000",
+      "stepWeekDeadline": "0/00/0000",
+      "mileWeekDeadline": "0/00/0000",
+      "cyclingWeekDeadline": "0/00/0000",
+      "rowingWeekDeadline": "0/00/0000",
+      "stepMillWeekDeadline": "0/00/0000",
       "dayOfMonth": DateTime.now().day
     });
   }
