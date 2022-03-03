@@ -62,8 +62,7 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
   }
 
   Padding _goalCard(
-      {
-      required Color color,
+      {required Color color,
       required String goalName,
       required String goalInfo,
       required String dateOfCompletion,
