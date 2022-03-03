@@ -220,20 +220,17 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             _goalTextField(
                 hintText: "Total Minutes", contr: _exerciseGoalController!),
             _setGoalButton(_exerciseFormKey, () async {
-              await FireStore.updateHealthData(
-                      FireStore.exerciseTimeEndGoalToMap(double.parse(
-                          _exerciseGoalController!.text.toString())))
-                  .then((value) {
-                FireStore.updateHealthData(
-                    FireStore.exerciseGoalBoolToMap(true));
+              await FireStore.updateHealthData({
+                "exerciseTimeEndGoal":
+                    double.parse(_exerciseGoalController!.text.toString())
+              }).then((value) {
+                FireStore.updateHealthData({"isExerciseTimeGoalSet": true});
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData(
-                      FireStore.exerciseTimeEndGoalToMap(0.0))
+              await FireStore.updateHealthData({"exerciseTimeEndGoal": 0.0})
                   .then((value) {
-                FireStore.updateHealthData(
-                    FireStore.exerciseGoalBoolToMap(false));
+                FireStore.updateHealthData({"isExerciseTimeGoalSet": false});
                 _exerciseGoalController!.text = '';
               });
             })
@@ -415,8 +412,6 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
           ],
         ),
       ),
-
-
       Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
         child: _header(text: 'Step Mill Goal', style: FlutterFlowTheme.title3),
@@ -426,7 +421,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         child: Row(
           children: [
             _goalTextField(
-                hintText: "Total Minutes", contr: _stepMillWeeklyGoalController!),
+                hintText: "Total Minutes",
+                contr: _stepMillWeeklyGoalController!),
             _setGoalButton(_stepMillWeeklyFormKey, () async {
               await FireStore.updateHealthData({
                 "stepMillEndGoal_w":
