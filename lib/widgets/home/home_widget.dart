@@ -172,6 +172,14 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
           Goal.isDailyDisplayed = _healthSnapshotBackup['isDailyDisplayed'];
           _goalTypeLabel = Goal.isDailyDisplayed ? "Daily" : "Weekly";
+
+          Goal.exerciseWeekDeadline = _healthSnapshotBackup['exerciseWeekDeadline'];
+          Goal.calWeekDeadline = _healthSnapshotBackup['calWeekDeadline'];
+          Goal.stepWeekDeadline = _healthSnapshotBackup['stepWeekDeadline'];
+          Goal.mileWeekDeadline = _healthSnapshotBackup['mileWeekDeadline'];
+          Goal.cyclingWeekDeadline = _healthSnapshotBackup['cyclingWeekDeadline'];
+          Goal.rowingWeekDeadline = _healthSnapshotBackup['rowingWeekDeadline'];
+          Goal.stepMillWeekDeadline = _healthSnapshotBackup['stepMillWeekDeadline'];
         });
         Goal.uploadCompletedGoals();
       }
