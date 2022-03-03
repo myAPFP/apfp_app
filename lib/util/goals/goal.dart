@@ -136,6 +136,9 @@ class Goal {
             100;
   }
 
+  // ! Todo: write method that uploads total daily progress for each day
+  // ! to be used for weekly progress
+
   static void _uploadCompletedDailyGoals(String dailyGoalName) {
     DateTime now = DateTime.now();
     DateTime yester = now.subtract(Duration(days: 1));
@@ -238,7 +241,7 @@ class Goal {
           FireStore.getGoalLogCollection(goalType: "weekly").add({
             "Date": "${yester.month}/${yester.day}/${yester.year}",
             "Completed Goal": 'Exercise Time',
-            "Info": "$userExerciseTimeEndGoal min exercised",
+            "Info": "$userExerciseTimeWeeklyEndGoal min exercised",
             "Type": "Weekly Goal"
           });
         }
