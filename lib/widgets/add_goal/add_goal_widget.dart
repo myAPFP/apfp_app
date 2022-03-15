@@ -1,12 +1,15 @@
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
+import '../../util/goals/goal.dart';
 import '../../util/toasted/toasted.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AddGoalWidget extends StatefulWidget {
+
+  
   AddGoalWidget({Key? key}) : super(key: key);
 
   static void launch(BuildContext context) async {
@@ -18,14 +21,14 @@ class AddGoalWidget extends StatefulWidget {
     );
   }
 
+
   @override
   _AddGoalWidgetState createState() => _AddGoalWidgetState();
 }
 
 class _AddGoalWidgetState extends State<AddGoalWidget> {
-  String mode = "Daily";
+  String _mode = Goal.isDailyDisplayed ? "Daily" : "Weekly";
   final weekFromNow = DateTime.now().add(const Duration(days: 7));
-
   bool _loadingButton = false;
   final _exerciseFormKey = GlobalKey<FormState>();
   final _exerciseWeeklyFormKey = GlobalKey<FormState>();
@@ -223,15 +226,15 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             _setGoalButton(_exerciseFormKey, () async {
               await FireStore.updateHealthData({
                 "exerciseTimeEndGoal":
-                    double.parse(_exerciseGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isExerciseTimeGoalSet": true});
+                    double.parse(_exerciseGoalController!.text.toString()),
+                "isExerciseTimeGoalSet": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData({"exerciseTimeEndGoal": 0.0})
-                  .then((value) {
-                FireStore.updateHealthData({"isExerciseTimeGoalSet": false});
+              await FireStore.updateHealthData({
+                "exerciseTimeEndGoal": 0.0,
+                "isExerciseTimeGoalSet": false
+              }).then((value) {
                 _exerciseGoalController!.text = '';
               });
             })
@@ -251,15 +254,14 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             _setGoalButton(_cyclingFormKey, () async {
               await FireStore.updateHealthData({
                 "cyclingEndGoal":
-                    double.parse(_cyclingGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isCyclingGoalSet": true});
+                    double.parse(_cyclingGoalController!.text.toString()),
+                "isCyclingGoalSet": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData({"cyclingEndGoal": 0})
+              await FireStore.updateHealthData(
+                      {"cyclingEndGoal": 0, "isCyclingGoalSet": false})
                   .then((value) {
-                FireStore.updateHealthData({"isCyclingGoalSet": false});
                 _cyclingGoalController!.text = '';
               });
             })
@@ -279,15 +281,13 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             _setGoalButton(_rowingFormKey, () async {
               await FireStore.updateHealthData({
                 "rowingEndGoal":
-                    double.parse(_rowingGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isRowingGoalSet": true});
+                    double.parse(_rowingGoalController!.text.toString()),
+                "isRowingGoalSet": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData({"rowingEndGoal": 0})
-                  .then((value) {
-                FireStore.updateHealthData({"isRowingGoalSet": false});
+              await FireStore.updateHealthData(
+                  {"rowingEndGoal": 0, "isRowingGoalSet": false}).then((value) {
                 _rowingGoalController!.text = '';
               });
             })
@@ -307,15 +307,14 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             _setGoalButton(_stepMillFormKey, () async {
               await FireStore.updateHealthData({
                 "stepMillEndGoal":
-                    double.parse(_stepMillGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isStepMillGoalSet": true});
+                    double.parse(_stepMillGoalController!.text.toString()),
+                "isStepMillGoalSet": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData({"stepMillEndGoal": 0})
+              await FireStore.updateHealthData(
+                      {"stepMillEndGoal": 0, "isStepMillGoalSet": false})
                   .then((value) {
-                FireStore.updateHealthData({"isStepMillGoalSet": false});
                 _stepMillGoalController!.text = '';
               });
             })
@@ -325,7 +324,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     ];
   }
 
-  List<Widget> _weeklyGoalUI() {
+  List<Widget> _weeklyGoalsUI() {
     return [
       Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
@@ -340,19 +339,19 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                 contr: _exerciseWeeklyGoalController!),
             _setGoalButton(_exerciseWeeklyFormKey, () async {
               await FireStore.updateHealthData({
-                "exerciseWeekDeadline": "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
-                "exerciseTimeEndGoal_w":
-                    double.parse(_exerciseWeeklyGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isExerciseTimeGoalSet_w": true});
+                "exerciseWeekDeadline":
+                    "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
+                "exerciseTimeEndGoal_w": double.parse(
+                    _exerciseWeeklyGoalController!.text.toString()),
+                "isExerciseTimeGoalSet_w": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
               await FireStore.updateHealthData({
                 "exerciseWeekDeadline": "0/00/0000",
-                "exerciseTimeEndGoal_w": 0
+                "exerciseTimeEndGoal_w": 0,
+                "isExerciseTimeGoalSet_w": false
               }).then((value) {
-                FireStore.updateHealthData({"isExerciseTimeGoalSet_w": false});
                 _exerciseWeeklyGoalController!.text = '';
               });
             })
@@ -372,19 +371,19 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                 contr: _cyclingWeeklyGoalController!),
             _setGoalButton(_cyclingWeeklyFormKey, () async {
               await FireStore.updateHealthData({
-                "cyclingWeekDeadline": "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
+                "cyclingWeekDeadline":
+                    "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
                 "cyclingEndGoal_w":
-                    double.parse(_cyclingWeeklyGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isCyclingGoalSet_w": true});
+                    double.parse(_cyclingWeeklyGoalController!.text.toString()),
+                "isCyclingGoalSet_w": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
               await FireStore.updateHealthData({
                 "cyclingWeekDeadline": "0/00/0000",
-                "cyclingEndGoal_w": 0
+                "cyclingEndGoal_w": 0,
+                "isCyclingGoalSet_w": false
               }).then((value) {
-                FireStore.updateHealthData({"isCyclingGoalSet_w": false});
                 _cyclingWeeklyGoalController!.text = '';
               });
             })
@@ -403,18 +402,19 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                 hintText: "Total Minutes", contr: _rowingWeeklyGoalController!),
             _setGoalButton(_rowingWeeklyFormKey, () async {
               await FireStore.updateHealthData({
-                "rowingWeekDeadline": "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
+                "rowingWeekDeadline":
+                    "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
                 "rowingEndGoal_w":
-                    double.parse(_rowingWeeklyGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isRowingGoalSet_w": true});
+                    double.parse(_rowingWeeklyGoalController!.text.toString()),
+                "isRowingGoalSet_w": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData(
-                      {"rowingWeekDeadline": "0/00/0000", "rowingEndGoal_w": 0})
-                  .then((value) {
-                FireStore.updateHealthData({"isRowingGoalSet_w": false});
+              await FireStore.updateHealthData({
+                "rowingWeekDeadline": "0/00/0000",
+                "rowingEndGoal_w": 0,
+                "isRowingGoalSet_w": false
+              }).then((value) {
                 _rowingWeeklyGoalController!.text = '';
               });
             })
@@ -434,19 +434,19 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                 contr: _stepMillWeeklyGoalController!),
             _setGoalButton(_stepMillWeeklyFormKey, () async {
               await FireStore.updateHealthData({
-                "stepMillWeekDeadline": "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
-                "stepMillEndGoal_w":
-                    double.parse(_stepMillWeeklyGoalController!.text.toString())
-              }).then((value) {
-                FireStore.updateHealthData({"isStepMillGoalSet_w": true});
+                "stepMillWeekDeadline":
+                    "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
+                "stepMillEndGoal_w": double.parse(
+                    _stepMillWeeklyGoalController!.text.toString()),
+                "isStepMillGoalSet_w": true
               });
             }),
             _deleteGoalIcon(onDelete: () async {
               await FireStore.updateHealthData({
                 "stepMillWeekDeadline": "0/00/0000",
-                "stepMillEndGoal_w": 0
+                "stepMillEndGoal_w": 0,
+                "isStepMillGoalSet_w": false
               }).then((value) {
-                FireStore.updateHealthData({"isStepMillGoalSet_w": false});
                 _stepMillWeeklyGoalController!.text = '';
               });
             })
@@ -464,14 +464,16 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
           key: scaffoldKey,
           floatingActionButton: FloatingActionButton(
             backgroundColor: FlutterFlowTheme.secondaryColor,
-            child: Icon(Icons.code),
+            child: _mode == "Daily"
+                ? Text("W", style: TextStyle(fontSize: 25))
+                : Text("D", style: TextStyle(fontSize: 25)),
             onPressed: () async {
-              switch (mode) {
+              switch (_mode) {
                 case "Daily":
-                  setState(() => mode = "Weekly");
+                  setState(() => _mode = "Weekly");
                   break;
                 case "Weekly":
-                  setState(() => mode = "Daily");
+                  setState(() => _mode = "Daily");
                   break;
               }
             },
@@ -490,10 +492,11 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
                       child: _header(
-                          text: '$mode Goals', style: FlutterFlowTheme.title1)),
+                          text: '$_mode Goals',
+                          style: FlutterFlowTheme.title1)),
                   Column(
                     children:
-                        mode == "Daily" ? _dailyGoalsUI() : _weeklyGoalUI(),
+                        _mode == "Daily" ? _dailyGoalsUI() : _weeklyGoalsUI(),
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                   )
