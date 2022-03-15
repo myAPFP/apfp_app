@@ -1,3 +1,4 @@
+import 'package:apfp/util/toasted/toasted.dart';
 import '../../firebase/firestore.dart';
 
 class Goal {
@@ -139,69 +140,69 @@ class Goal {
   // ! Todo: write method that uploads total daily progress for each day
   // ! to be used for weekly progress
 
-  static void _uploadCompletedDailyGoals(String dailyGoalName) {
+  static void _uploadCompletedDailyGoal(String dailyGoalName) {
     DateTime now = DateTime.now();
-    DateTime yester = now.subtract(Duration(days: 1));
     switch (dailyGoalName) {
       case "exercise":
         if (isExerciseTimeGoalComplete) {
           FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Exercise Time',
-            "Info": "$userExerciseTimeEndGoal min exercised",
+            "Info": "$userExerciseTimeEndGoal min of activity",
             "Type": "Daily Goal"
           });
+          FireStore.updateHealthData(
+              {"exerciseTimeEndGoal": 0.0, "isExerciseTimeGoalSet": false});
+          Toasted.showToast("Exercise Goal Completed!");
         }
-        FireStore.updateHealthData({
-          "exerciseTimeGoalProgress": 0,
-          "exerciseTimeEndGoal": 0,
-          "isExerciseTimeGoalSet": false,
-        });
         break;
       case "cycling":
         if (isCyclingGoalComplete) {
           FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Cycling',
-            "Info": "$userCyclingEndGoal min of cycling",
+            "Info": "$userCyclingEndGoal min of activity",
             "Type": "Daily Goal"
           });
+          FireStore.updateHealthData({
+            "cyclingGoalProgress": 0,
+            "cyclingEndGoal": 0,
+            "isCyclingGoalSet": false,
+          });
+          Toasted.showToast("Cycling Goal Completed!");
         }
-        FireStore.updateHealthData({
-          "cyclingGoalProgress": 0,
-          "cyclingEndGoal": 0,
-          "isCyclingGoalSet": false,
-        });
         break;
       case "rowing":
         if (isRowingGoalComplete) {
           FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Rowing',
-            "Info": "$userRowingEndGoal min of rowing",
+            "Info": "$userRowingEndGoal min of activity",
             "Type": "Daily Goal"
           });
+          FireStore.updateHealthData({
+            "rowingGoalProgress": 0,
+            "rowingEndGoal": 0,
+            "isRowingGoalSet": false,
+          });
+          Toasted.showToast("Rowing Goal Completed!");
         }
-        FireStore.updateHealthData({
-          "rowingGoalProgress": 0,
-          "rowingEndGoal": 0,
-          "isRowingGoalSet": false,
-        });
         break;
       case "stepMill":
         if (isStepMillGoalComplete) {
           FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${yester.month}/${yester.day}/${yester.year}",
+            "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Step Mill',
-            "Info": "$userStepMillEndGoal min of step mill use",
+            "Info": "$userStepMillEndGoal min of activity",
             "Type": "Daily Goal"
           });
+          FireStore.updateHealthData({
+            "stepMillGoalProgress": 0,
+            "stepMillEndGoal": 0,
+            "isStepMillGoalSet": false,
+          });
+          Toasted.showToast("Step Mill Goal Completed!");
         }
-        FireStore.updateHealthData({
-          "stepMillGoalProgress": 0,
-          "stepMillEndGoal": 0,
-          "isStepMillGoalSet": false,
-        });
         break;
     }
 
@@ -303,14 +304,44 @@ class Goal {
     }
   }
 
+  static void _updateWeeklyProgress() {
+    userProgressExerciseTimeWeekly =
+        userProgressExerciseTimeWeekly - userProgressExerciseTime > 0
+            ? userProgressExerciseTimeWeekly - userProgressExerciseTime
+            : userProgressExerciseTime;
+
+    userProgressCyclingGoalWeekly =
+        userProgressCyclingGoal + userProgressCyclingGoalWeekly;
+
+    userProgressRowingGoalWeekly =
+        userProgressRowingGoal + userProgressRowingGoalWeekly;
+
+    userProgressStepMillGoalWeekly =
+        userProgressStepMillGoal + userProgressStepMillGoalWeekly;
+
+    userProgressExerciseTime = 0;
+    userProgressCyclingGoal = 0;
+    userProgressRowingGoal = 0;
+    userProgressStepMillGoal = 0;
+
+    FireStore.updateHealthData({
+      "exerciseTimeGoalProgressWeekly": userProgressExerciseTimeWeekly,
+      "cyclingGoalProgressWeekly": userProgressCyclingGoalWeekly,
+      "rowingGoalProgressWeekly": userProgressRowingGoalWeekly,
+      "stepMillGoalProgressWeekly": userProgressStepMillGoalWeekly,
+    });
+  }
+
   static void uploadCompletedGoals() {
     _calculateCompletedGoals();
+    _uploadCompletedDailyGoal("exercise");
+    _uploadCompletedDailyGoal("cycling");
+    _uploadCompletedDailyGoal("rowing");
+    _uploadCompletedDailyGoal("stepMill");
     final now = DateTime.now();
     if (dayOfMonth != now.day) {
-      _uploadCompletedDailyGoals("exercise");
-      _uploadCompletedDailyGoals("cycling");
-      _uploadCompletedDailyGoals("rowing");
-      _uploadCompletedDailyGoals("stepMill");
+      FireStore.updateHealthData({"dayOfMonth": now.day});
+      _updateWeeklyProgress();
     }
     if (exerciseWeekDeadline == "${now.month}/${now.day}/${now.year}") {
       _uploadCompletedWeeklyGoals("exercise");
