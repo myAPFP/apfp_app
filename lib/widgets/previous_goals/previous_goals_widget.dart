@@ -51,14 +51,42 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
   Padding _paddedHeaderText() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 15),
-      child: Row(mainAxisSize: MainAxisSize.max, children: [
-        AutoSizeText(
-          'Previously Completed Goals',
-          style: FlutterFlowTheme.title1,
-          overflow: TextOverflow.fade,
-        )
-      ]),
+      child: Column(
+        children: [
+          Row(mainAxisSize: MainAxisSize.max, children: [
+            AutoSizeText(
+              'Completed $_mode Goals',
+              style: FlutterFlowTheme.title1,
+              overflow: TextOverflow.fade,
+            )
+          ]),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                  "from previous ${_mode == "Daily" ? "days" : "weeks"} will appear here.",
+                  style: TextStyle(fontSize: 20)),
+            ],
+          )
+        ],
+      ),
     );
+  }
+
+  Column _noGoalsText() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Text("No Completed Goals!", style: TextStyle(fontSize: 30))],
+    );
+  }
+
+  Padding _goBackButton() {
+    return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
+        child: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Text('< Go Back', style: FlutterFlowTheme.subtitle2)));
   }
 
   Padding _goalCard(
@@ -105,13 +133,13 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
                         _titleRow(goalName),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
+                        _goalAttributeRow("Type: ", goalType),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.005),
                         _goalAttributeRow("Info: ", goalInfo),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
                         _goalAttributeRow("Completed: ", dateOfCompletion),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.005),
-                        _goalAttributeRow("Type: ", goalType),
                       ]),
                 ],
               ),
@@ -202,7 +230,9 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
           key: scaffoldKey,
           floatingActionButton: FloatingActionButton(
             backgroundColor: FlutterFlowTheme.secondaryColor,
-            child: Icon(Icons.code),
+            child: _mode == "Daily"
+                ? Text("W", style: TextStyle(fontSize: 25))
+                : Text("D", style: TextStyle(fontSize: 25)),
             onPressed: () async {
               switch (_mode) {
                 case "Daily":
@@ -221,15 +251,25 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
               Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      _goBackButton(),
+                    ],
+                  ),
                   _paddedHeaderText(),
-                  Text("$_mode Goals from previous days will appear here.",
-                      style: TextStyle(fontSize: 20))
                 ],
               ),
               SizedBox(height: 15),
               Column(
                 mainAxisSize: MainAxisSize.max,
-                children: _mode == "Daily" ? _dailyGoals : _weeklyGoals,
+                children: _mode == "Daily"
+                    ? _dailyGoals.isEmpty
+                        ? [_noGoalsText()]
+                        : _dailyGoals
+                    : _weeklyGoals.isEmpty
+                        ? [_noGoalsText()]
+                        : _weeklyGoals,
               ),
               SizedBox(height: 10)
             ]),
