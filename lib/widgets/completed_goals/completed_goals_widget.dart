@@ -4,23 +4,23 @@ import '../../firebase/firestore.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
-class PreviousGoalsWidget extends StatefulWidget {
-  PreviousGoalsWidget({Key? key}) : super(key: key);
+class CompletedGoalsWidget extends StatefulWidget {
+  CompletedGoalsWidget({Key? key}) : super(key: key);
 
   static void launch(BuildContext context) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PreviousGoalsWidget(),
+        builder: (context) => CompletedGoalsWidget(),
       ),
     );
   }
 
   @override
-  _PreviousGoalsWidgetState createState() => _PreviousGoalsWidgetState();
+  _CompletedGoalsWidgetState createState() => _CompletedGoalsWidgetState();
 }
 
-class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
+class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Stream<QuerySnapshot> dailyGoalsLogStream =
       FireStore.getGoalLogCollection(goalType: "daily")
@@ -60,14 +60,6 @@ class _PreviousGoalsWidgetState extends State<PreviousGoalsWidget> {
               overflow: TextOverflow.fade,
             )
           ]),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Text(
-                  "from previous ${_mode == "Daily" ? "days" : "weeks"} will appear here.",
-                  style: TextStyle(fontSize: 20)),
-            ],
-          )
         ],
       ),
     );

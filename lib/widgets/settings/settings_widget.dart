@@ -1,16 +1,15 @@
 import 'dart:io';
-
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/add_goal/add_goal_widget.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:apfp/widgets/previous_goals/previous_goals_widget.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import '../completed_goals/completed_goals_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -244,7 +243,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 _settingsButton(
                     title: "View Completed Goals",
                     onTap: () {
-                      PreviousGoalsWidget.launch(context);
+                      CompletedGoalsWidget.launch(context);
                     }),
                 _settingsButton(
                     title: "Notification Settings",
