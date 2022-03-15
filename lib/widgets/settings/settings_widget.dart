@@ -246,11 +246,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       CompletedGoalsWidget.launch(context);
                     }),
                 _settingsButton(
-                    title: "Notification Settings",
-                    onTap: () {
-                      print("NS Tapped!");
-                    }),
-                _settingsButton(
                     title: "Change Password",
                     onTap: () {
                       ConfirmationDialog.showConfirmationDialog(
