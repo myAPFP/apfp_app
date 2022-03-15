@@ -247,11 +247,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       print("SAG Tapped!");
                     }),
                 _settingsButton(
-                    title: "Notification Settings",
-                    onTap: () {
-                      print("NS Tapped!");
-                    }),
-                _settingsButton(
                     title: "Change Password",
                     onTap: () {
                       ConfirmationDialog.showConfirmationDialog(
