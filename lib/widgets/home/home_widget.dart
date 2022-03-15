@@ -48,8 +48,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         .then((firstElement) => _activitySnapshotBackup = firstElement.data()!);
     widget.healthStream.first
         .then((firstElement) => _healthSnapshotBackup = firstElement.data()!);
-    _listenToActivityStream();
     _listenToHealthStream();
+    _listenToActivityStream();
   }
 
   @override
@@ -68,29 +68,37 @@ class _HomeWidgetState extends State<HomeWidget> {
       if (element.data() != null) {
         _activitySnapshotBackup = element.data()!;
       }
-      Goal.userProgressExerciseTime = 0;
-      Goal.userProgressExerciseTimeWeekly = 0;
-      Goal.userProgressCyclingGoal = 0;
-      Goal.userProgressRowingGoal = 0;
-      Goal.userProgressStepMillGoal = 0;
+      // Goal.userProgressExerciseTime = 0;
+      // Goal.userProgressExerciseTimeWeekly = 0;
+      // Goal.userProgressCyclingGoal = 0;
+      // Goal.userProgressRowingGoal = 0;
+      // Goal.userProgressStepMillGoal = 0;
       setState(() {
         Goal.userProgressExerciseTime =
             ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
-        // ! Needs to read total exercise time for multiple days
         Goal.userProgressExerciseTimeWeekly =
-            ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+            Goal.userProgressExerciseTimeWeekly -
+                        Goal.userProgressExerciseTime >
+                    0
+                ? Goal.userProgressExerciseTimeWeekly -
+                    Goal.userProgressExerciseTime
+                : Goal.userProgressExerciseTime;
+
         Goal.userProgressCyclingGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[0];
         Goal.userProgressCyclingGoalWeekly =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[0];
+            Goal.userProgressCyclingGoal + Goal.userProgressCyclingGoalWeekly;
+
         Goal.userProgressRowingGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[1];
         Goal.userProgressRowingGoalWeekly =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[1];
+            Goal.userProgressRowingGoal + Goal.userProgressRowingGoalWeekly;
+
         Goal.userProgressStepMillGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[2];
         Goal.userProgressStepMillGoalWeekly =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[2];
+            Goal.userProgressStepMillGoal + Goal.userProgressStepMillGoalWeekly;
+
         FireStore.updateHealthData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
           "exerciseTimeGoalProgressWeekly": Goal.userProgressExerciseTimeWeekly,
@@ -111,6 +119,10 @@ class _HomeWidgetState extends State<HomeWidget> {
       if (element.data() != null) {
         _healthSnapshotBackup = element.data()!;
         setState(() {
+          Goal.dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
+          Goal.isDailyDisplayed = _healthSnapshotBackup['isDailyDisplayed'];
+          _goalTypeLabel = Goal.isDailyDisplayed ? "Daily" : "Weekly";
+
           Goal.isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
           Goal.isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
           Goal.isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
@@ -151,35 +163,43 @@ class _HomeWidgetState extends State<HomeWidget> {
 
           Goal.userExerciseTimeEndGoal =
               _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
+          Goal.userProgressExerciseTimeWeekly =
+              _healthSnapshotBackup['exerciseTimeGoalProgressWeekly']
+                  .toDouble();
           Goal.userExerciseTimeWeeklyEndGoal =
               _healthSnapshotBackup['exerciseTimeEndGoal_w'].toDouble();
 
           Goal.userCyclingEndGoal =
               _healthSnapshotBackup['cyclingEndGoal'].toDouble();
+          Goal.userProgressCyclingGoalWeekly =
+              _healthSnapshotBackup['cyclingGoalProgressWeekly'].toDouble();
           Goal.userCyclingWeeklyEndGoal =
               _healthSnapshotBackup['cyclingEndGoal_w'].toDouble();
 
           Goal.userRowingEndGoal =
               _healthSnapshotBackup['rowingEndGoal'].toDouble();
+          Goal.userProgressRowingGoalWeekly =
+              _healthSnapshotBackup['rowingGoalProgressWeekly'].toDouble();
           Goal.userRowingWeeklyEndGoal =
               _healthSnapshotBackup['rowingEndGoal_w'].toDouble();
 
           Goal.userStepMillEndGoal =
               _healthSnapshotBackup['stepMillEndGoal'].toDouble();
+          Goal.userProgressStepMillGoalWeekly =
+              _healthSnapshotBackup['stepMillGoalProgressWeekly'].toDouble();
           Goal.userStepMillWeeklyEndGoal =
               _healthSnapshotBackup['stepMillEndGoal_w'].toDouble();
 
-          Goal.dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
-          Goal.isDailyDisplayed = _healthSnapshotBackup['isDailyDisplayed'];
-          _goalTypeLabel = Goal.isDailyDisplayed ? "Daily" : "Weekly";
-
-          Goal.exerciseWeekDeadline = _healthSnapshotBackup['exerciseWeekDeadline'];
+          Goal.exerciseWeekDeadline =
+              _healthSnapshotBackup['exerciseWeekDeadline'];
           Goal.calWeekDeadline = _healthSnapshotBackup['calWeekDeadline'];
           Goal.stepWeekDeadline = _healthSnapshotBackup['stepWeekDeadline'];
           Goal.mileWeekDeadline = _healthSnapshotBackup['mileWeekDeadline'];
-          Goal.cyclingWeekDeadline = _healthSnapshotBackup['cyclingWeekDeadline'];
+          Goal.cyclingWeekDeadline =
+              _healthSnapshotBackup['cyclingWeekDeadline'];
           Goal.rowingWeekDeadline = _healthSnapshotBackup['rowingWeekDeadline'];
-          Goal.stepMillWeekDeadline = _healthSnapshotBackup['stepMillWeekDeadline'];
+          Goal.stepMillWeekDeadline =
+              _healthSnapshotBackup['stepMillWeekDeadline'];
         });
         Goal.uploadCompletedGoals();
       }
