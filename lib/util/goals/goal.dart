@@ -1,4 +1,4 @@
-import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/service/notification_service.dart';
 import '../../firebase/firestore.dart';
 
 class Goal {
@@ -140,7 +140,8 @@ class Goal {
   // ! Todo: write method that uploads total daily progress for each day
   // ! to be used for weekly progress
 
-  static void _uploadCompletedDailyGoal(String dailyGoalName) {
+  static void _uploadCompletedDailyGoal(
+      String dailyGoalName) {
     DateTime now = DateTime.now();
     switch (dailyGoalName) {
       case "exercise":
@@ -153,7 +154,8 @@ class Goal {
           });
           FireStore.updateHealthData(
               {"exerciseTimeEndGoal": 0.0, "isExerciseTimeGoalSet": false});
-          Toasted.showToast("Exercise Goal Completed!");
+          NotificationService.showNotification("Goal Completed!",
+              "Exercise Time - $userExerciseTimeEndGoal min of activity");
         }
         break;
       case "cycling":
@@ -169,7 +171,8 @@ class Goal {
             "cyclingEndGoal": 0,
             "isCyclingGoalSet": false,
           });
-          Toasted.showToast("Cycling Goal Completed!");
+          NotificationService.showNotification("Goal Completed!",
+              "Cycling - $userCyclingEndGoal min of activity");
         }
         break;
       case "rowing":
@@ -185,7 +188,8 @@ class Goal {
             "rowingEndGoal": 0,
             "isRowingGoalSet": false,
           });
-          Toasted.showToast("Rowing Goal Completed!");
+          NotificationService.showNotification(
+              "Goal Completed!", "Rowing - $userRowingEndGoal min of activity");
         }
         break;
       case "stepMill":
@@ -201,7 +205,8 @@ class Goal {
             "stepMillEndGoal": 0,
             "isStepMillGoalSet": false,
           });
-          Toasted.showToast("Step Mill Goal Completed!");
+          NotificationService.showNotification("Goal Completed!",
+              "Step Mill - $userStepMillEndGoal min of activity");
         }
         break;
     }

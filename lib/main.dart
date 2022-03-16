@@ -1,3 +1,5 @@
+import 'package:apfp/service/notification_service.dart';
+import 'package:apfp/widgets/completed_goals/completed_goals_widget.dart';
 import 'package:apfp/widgets/settings/settings_widget.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
@@ -18,13 +20,14 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
     statusBarColor: Colors.transparent,
   ));
+  NotificationService.init();
   runApp(MyApp());
 }
 
@@ -73,6 +76,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     WidgetsBinding.instance!.addObserver(this);
+    listenToNotifications();
   }
 
   @override
@@ -80,6 +84,14 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     super.dispose();
     WidgetsBinding.instance!.removeObserver(this);
     _connectivitySubscription.cancel();
+  }
+
+  void listenToNotifications() {
+    NotificationService.onNotifications.stream.listen(onClickNotification);
+  }
+
+  void onClickNotification(String? payload) {
+    CompletedGoalsWidget.launch(context);
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> connectActivityDocument() {
@@ -126,16 +138,16 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus = result;
-      if (_connectionStatus == ConnectivityResult.none) {
-        _internetConnected = false;
-        showSnackbar(context, "Please check your Internet connection",
-            duration: Duration(days: 365), noConnection: true);
-      } else if (_connectionStatus == ConnectivityResult.wifi ||
-          _connectionStatus == ConnectivityResult.mobile) {
-        if (!_internetConnected) {
-          await checkInternetConnection();
-        }
+    if (_connectionStatus == ConnectivityResult.none) {
+      _internetConnected = false;
+      showSnackbar(context, "Please check your Internet connection",
+          duration: Duration(days: 365), noConnection: true);
+    } else if (_connectionStatus == ConnectivityResult.wifi ||
+        _connectionStatus == ConnectivityResult.mobile) {
+      if (!_internetConnected) {
+        await checkInternetConnection();
       }
+    }
   }
 
   Future<void> checkInternetConnection() async {
