@@ -174,21 +174,21 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.userProgressCyclingGoalWeekly =
               _healthSnapshotBackup['cyclingGoalProgressWeekly'].toDouble();
           Goal.userCyclingWeeklyEndGoal =
-              _healthSnapshotBackup['cyclingEndGoal_w'].toDouble();
+              _healthSnapshotBackup['cyclingWeeklyEndGoal'].toDouble();
 
           Goal.userRowingEndGoal =
               _healthSnapshotBackup['rowingEndGoal'].toDouble();
           Goal.userProgressRowingGoalWeekly =
               _healthSnapshotBackup['rowingGoalProgressWeekly'].toDouble();
           Goal.userRowingWeeklyEndGoal =
-              _healthSnapshotBackup['rowingEndGoal_w'].toDouble();
+              _healthSnapshotBackup['rowingWeeklyEndGoal'].toDouble();
 
           Goal.userStepMillEndGoal =
               _healthSnapshotBackup['stepMillEndGoal'].toDouble();
           Goal.userProgressStepMillGoalWeekly =
               _healthSnapshotBackup['stepMillGoalProgressWeekly'].toDouble();
           Goal.userStepMillWeeklyEndGoal =
-              _healthSnapshotBackup['stepMillEndGoal_w'].toDouble();
+              _healthSnapshotBackup['stepMillWeeklyEndGoal'].toDouble();
 
           Goal.exerciseWeekDeadline =
               _healthSnapshotBackup['exerciseWeekDeadline'];
