@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:developer' as developer;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/flutter_flow/flutter_flow_util.dart';
-import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
