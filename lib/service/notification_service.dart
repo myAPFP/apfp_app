@@ -3,39 +3,39 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NotificationService {
-  static FlutterLocalNotificationsPlugin notifications =
+  static FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
   static final onNotifications = BehaviorSubject<String?>();
 
-  static AndroidNotificationChannel channel = AndroidNotificationChannel(
+  static AndroidNotificationChannel _channel = AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
       description:
-          'This channel is used for important notifications.', // description
+          'This channel is used for important _notifications.', // description
       importance: Importance.high,
       playSound: true);
 
   static Future init() async {
     final iOS = IOSInitializationSettings();
-    final android = AndroidInitializationSettings("@mipmap/ic_launcher");
+    final android = AndroidInitializationSettings("app_icon");
     final settings = InitializationSettings(android: android, iOS: iOS);
-    await notifications
+    await _notifications
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-    notifications.initialize(settings, onSelectNotification: (payload) async {
+        ?.createNotificationChannel(_channel);
+    _notifications.initialize(settings, onSelectNotification: (payload) async {
       onNotifications.add(payload);
     });
   }
 
   static void showNotification(String title, String body) {
-    notifications.show(
+    _notifications.show(
         0,
         title,
         body,
         NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
-                channelDescription: channel.description,
+            android: AndroidNotificationDetails(_channel.id, _channel.name,
+                channelDescription: _channel.description,
                 importance: Importance.high,
                 color: FlutterFlowTheme.secondaryColor,
                 playSound: true,
