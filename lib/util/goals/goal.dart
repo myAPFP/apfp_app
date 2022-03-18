@@ -137,77 +137,64 @@ class Goal {
             100;
   }
 
-  // ! Todo: write method that uploads total daily progress for each day
-  // ! to be used for weekly progress
-
-  static void _uploadCompletedDailyGoal(String dailyGoalName) {
+  static void _uploadCompletedDailyGoals() {
     DateTime now = DateTime.now();
-    switch (dailyGoalName) {
-      case "exercise":
-        if (isExerciseTimeGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Exercise Time',
-            "Info": "$userExerciseTimeEndGoal min of activity",
-            "Type": "Daily Goal"
-          });
-          FireStore.updateHealthData(
-              {"exerciseTimeEndGoal": 0.0, "isExerciseTimeGoalSet": false});
-          NotificationService.showGoalNotification("Daily Goal Completed!",
-              "Exercise Time - $userExerciseTimeEndGoal min of activity");
-        }
-        break;
-      case "cycling":
-        if (isCyclingGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Cycling',
-            "Info": "$userCyclingEndGoal min of activity",
-            "Type": "Daily Goal"
-          });
-          FireStore.updateHealthData({
-            "cyclingGoalProgress": 0,
-            "cyclingEndGoal": 0,
-            "isCyclingGoalSet": false,
-          });
-          NotificationService.showGoalNotification("Daily Goal Completed!",
-              "Cycling - $userCyclingEndGoal min of activity");
-        }
-        break;
-      case "rowing":
-        if (isRowingGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Rowing',
-            "Info": "$userRowingEndGoal min of activity",
-            "Type": "Daily Goal"
-          });
-          FireStore.updateHealthData({
-            "rowingGoalProgress": 0,
-            "rowingEndGoal": 0,
-            "isRowingGoalSet": false,
-          });
-          NotificationService.showGoalNotification("Daily Goal Completed!",
-              "Rowing - $userRowingEndGoal min of activity");
-        }
-        break;
-      case "stepMill":
-        if (isStepMillGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "daily").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Step Mill',
-            "Info": "$userStepMillEndGoal min of activity",
-            "Type": "Daily Goal"
-          });
-          FireStore.updateHealthData({
-            "stepMillGoalProgress": 0,
-            "stepMillEndGoal": 0,
-            "isStepMillGoalSet": false,
-          });
-          NotificationService.showGoalNotification("Daily Goal Completed!",
-              "Step Mill - $userStepMillEndGoal min of activity");
-        }
-        break;
+    if (isExerciseTimeGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Exercise Time',
+        "Info": "$userExerciseTimeEndGoal min of activity",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateHealthData(
+          {"exerciseTimeEndGoal": 0.0, "isExerciseTimeGoalSet": false});
+      NotificationService.showGoalNotification("Daily Goal Completed!",
+          "Exercise Time - $userExerciseTimeEndGoal min of activity");
+    }
+    if (isCyclingGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Cycling',
+        "Info": "$userCyclingEndGoal min of activity",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateHealthData({
+        "cyclingGoalProgress": 0,
+        "cyclingEndGoal": 0,
+        "isCyclingGoalSet": false,
+      });
+      NotificationService.showGoalNotification("Daily Goal Completed!",
+          "Cycling - $userCyclingEndGoal min of activity");
+    }
+    if (isRowingGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Rowing',
+        "Info": "$userRowingEndGoal min of activity",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateHealthData({
+        "rowingGoalProgress": 0,
+        "rowingEndGoal": 0,
+        "isRowingGoalSet": false,
+      });
+      NotificationService.showGoalNotification("Daily Goal Completed!",
+          "Rowing - $userRowingEndGoal min of activity");
+    }
+    if (isStepMillGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Step Mill',
+        "Info": "$userStepMillEndGoal min of activity",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateHealthData({
+        "stepMillGoalProgress": 0,
+        "stepMillEndGoal": 0,
+        "isStepMillGoalSet": false,
+      });
+      NotificationService.showGoalNotification("Daily Goal Completed!",
+          "Step Mill - $userStepMillEndGoal min of activity");
     }
 
     // if (isCalGoalComplete) {
@@ -237,95 +224,78 @@ class Goal {
     // }
   }
 
-  static void _uploadCompletedWeeklyGoals(String weeklyGoalName) {
+  static void _uploadCompletedWeeklyGoals() {
     DateTime now = DateTime.now();
-    switch (weeklyGoalName) {
-      case "exercise":
-        if (isExerciseTimeWeeklyGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "weekly").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Exercise Time',
-            "Info": "$userExerciseTimeWeeklyEndGoal min of activity",
-            "Type": "Weekly Goal"
-          });
-          FireStore.updateHealthData(
-              {"exerciseTimeEndGoal_w": 0.0, "isExerciseTimeGoalSet_w": false});
-          NotificationService.showGoalNotification("Weekly Goal Completed!",
-              "Exercise Time - $userExerciseTimeWeeklyEndGoal min of activity",
-              id: 1, type: "Weekly");
-        }
-        break;
-      case "cycling":
-        if (isCyclingWeeklyGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "weekly").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Cycling',
-            "Info": "$userCyclingWeeklyEndGoal min of activity",
-            "Type": "Weekly Goal"
-          });
-          FireStore.updateHealthData({
-            "cyclingWeekDeadline": "0/00/0000",
-            "cyclingGoalProgressWeekly": 0,
-            "cyclingEndGoal_w": 0,
-            "isCyclingGoalSet_w": false,
-          });
-          NotificationService.showGoalNotification("Weekly Goal Completed!",
-              "Cycling - $userCyclingWeeklyEndGoal min of activity",
-              id: 1, type: "Weekly");
-        }
-        break;
-      case "rowing":
-        if (isRowingWeeklyGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "weekly").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Rowing',
-            "Info": "$userRowingWeeklyEndGoal min of activity",
-            "Type": "Weekly Goal"
-          });
-          FireStore.updateHealthData({
-            "rowingWeekDeadline": "0/00/0000",
-            "rowingGoalProgressWeekly": 0,
-            "rowingEndGoal_w": 0,
-            "isRowingGoalSet_w": false,
-          });
-          NotificationService.showGoalNotification("Weekly Goal Completed!",
-              "Rowing - $userRowingWeeklyEndGoal min of activity",
-              id: 1, type: "Weekly");
-        }
-        break;
-      case "stepMill":
-        if (isStepMillWeeklyGoalComplete) {
-          FireStore.getGoalLogCollection(goalType: "weekly").add({
-            "Date": "${now.month}/${now.day}/${now.year}",
-            "Completed Goal": 'Step Mill',
-            "Info": "$userStepMillWeeklyEndGoal min of activity",
-            "Type": "Weekly Goal"
-          });
-          FireStore.updateHealthData({
-            "stepMillWeekDeadline": "0/00/0000",
-            "stepMillGoalProgressWeekly": 0,
-            "stepMillEndGoal_w": 0,
-            "isStepMillGoalSet_w": false,
-          });
-          NotificationService.showGoalNotification("Weekly Goal Completed!",
-              "Step Mill - $userStepMillWeeklyEndGoal min of activity",
-              id: 1, type: "Weekly");
-        }
-        break;
+    if (isExerciseTimeWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Exercise Time',
+        "Info": "$userExerciseTimeWeeklyEndGoal min of activity",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateHealthData(
+          {"exerciseTimeEndGoal_w": 0.0, "isExerciseTimeGoalSet_w": false});
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Exercise Time - $userExerciseTimeWeeklyEndGoal min of activity",
+          id: 1, type: "Weekly");
+    }
+    if (isCyclingWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Cycling',
+        "Info": "$userCyclingWeeklyEndGoal min of activity",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateHealthData({
+        "cyclingWeekDeadline": "0/00/0000",
+        "cyclingGoalProgressWeekly": 0,
+        "cyclingEndGoal_w": 0,
+        "isCyclingGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Cycling - $userCyclingWeeklyEndGoal min of activity",
+          id: 1, type: "Weekly");
+    }
+    if (isRowingWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Rowing',
+        "Info": "$userRowingWeeklyEndGoal min of activity",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateHealthData({
+        "rowingWeekDeadline": "0/00/0000",
+        "rowingGoalProgressWeekly": 0,
+        "rowingEndGoal_w": 0,
+        "isRowingGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Rowing - $userRowingWeeklyEndGoal min of activity",
+          id: 1, type: "Weekly");
+    }
+    if (isStepMillWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Step Mill',
+        "Info": "$userStepMillWeeklyEndGoal min of activity",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateHealthData({
+        "stepMillWeekDeadline": "0/00/0000",
+        "stepMillGoalProgressWeekly": 0,
+        "stepMillEndGoal_w": 0,
+        "isStepMillGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Step Mill - $userStepMillWeeklyEndGoal min of activity",
+          id: 1, type: "Weekly");
     }
   }
 
   static void uploadCompletedGoals() {
     _calculateCompletedGoals();
-    _uploadCompletedDailyGoal("exercise");
-    _uploadCompletedDailyGoal("cycling");
-    _uploadCompletedDailyGoal("rowing");
-    _uploadCompletedDailyGoal("stepMill");
-
-    _uploadCompletedWeeklyGoals("exercise");
-    _uploadCompletedWeeklyGoals("cycling");
-    _uploadCompletedWeeklyGoals("rowing");
-    _uploadCompletedWeeklyGoals("stepMill");
+    _uploadCompletedDailyGoals();
+    _uploadCompletedWeeklyGoals();
     final now = DateTime.now();
     if (dayOfMonth != now.day) {
       FireStore.updateHealthData({"dayOfMonth": now.day});
