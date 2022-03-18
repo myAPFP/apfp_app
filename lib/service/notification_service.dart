@@ -17,7 +17,7 @@ class NotificationService {
 
   static Future init() async {
     final iOS = IOSInitializationSettings();
-    final android = AndroidInitializationSettings("app_icon");
+    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
     final settings = InitializationSettings(android: android, iOS: iOS);
     await _notifications
         .resolvePlatformSpecificImplementation<
@@ -28,9 +28,9 @@ class NotificationService {
     });
   }
 
-  static void showNotification(String title, String body) {
+  static void showNotification(String title, String body, {int id = 0}) {
     _notifications.show(
-        0,
+        id,
         title,
         body,
         NotificationDetails(
