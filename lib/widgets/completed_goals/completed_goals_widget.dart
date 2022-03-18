@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
 import '../../firebase/firestore.dart';
+import '../confimation_dialog/confirmation_dialog.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -217,6 +220,58 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     }));
   }
 
+  FocusedMenuHolder focusedMenu(List<Widget> goals, Widget e) {
+    return FocusedMenuHolder(
+        menuWidth: MediaQuery.of(context).size.width * 0.50,
+        blurSize: 5.0,
+        menuItemExtent: 45,
+        menuBoxDecoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        duration: Duration(milliseconds: 100),
+        animateMenuItems: true,
+        blurBackgroundColor: Colors.black54,
+        bottomOffsetHeight: 100,
+        openWithTap: true,
+        menuItems: <FocusedMenuItem>[
+          FocusedMenuItem(
+              title: Text("Delete", style: TextStyle(color: Colors.redAccent)),
+              trailingIcon: Icon(Icons.delete, color: Colors.redAccent),
+              onPressed: () {
+                ConfirmationDialog.showConfirmationDialog(
+                    title: Text("Remove Goal?"),
+                    context: context,
+                    content: Text(
+                        "Do you want to remove your this goal from your log?" +
+                            "\n\nThis can't be undone.",
+                        style: TextStyle(fontSize: 20)),
+                    cancelText: 'Back',
+                    submitText: "Remove",
+                    onCancelTap: () {
+                      Navigator.pop(context);
+                    },
+                    onSubmitTap: () {
+                      // setState(() {
+                      //   _removeActivityFromCloud(e.key
+                      //       .toString()
+                      //       .substring(
+                      //           e.key
+                      //                   .toString()
+                      //                   .indexOf("'") +
+                      //               1,
+                      //           e.key
+                      //               .toString()
+                      //               .lastIndexOf("'")));
+                      //   goals.remove(e);
+                      // });
+                      Navigator.pop(context);
+                    });
+              })
+        ],
+        onPressed: () {},
+        child: e);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -265,9 +320,13 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                     ? _dailyGoals.isEmpty
                         ? [_noGoalsText()]
                         : _dailyGoals
+                            .map((e) => focusedMenu(_dailyGoals, e))
+                            .toList()
                     : _weeklyGoals.isEmpty
                         ? [_noGoalsText()]
-                        : _weeklyGoals,
+                        : _weeklyGoals
+                            .map((e) => focusedMenu(_weeklyGoals, e))
+                            .toList(),
               ),
               SizedBox(height: 10)
             ]),
