@@ -153,7 +153,7 @@ class Goal {
           });
           FireStore.updateHealthData(
               {"exerciseTimeEndGoal": 0.0, "isExerciseTimeGoalSet": false});
-          NotificationService.showNotification("Daily Goal Completed!",
+          NotificationService.showGoalNotification("Daily Goal Completed!",
               "Exercise Time - $userExerciseTimeEndGoal min of activity");
         }
         break;
@@ -170,7 +170,7 @@ class Goal {
             "cyclingEndGoal": 0,
             "isCyclingGoalSet": false,
           });
-          NotificationService.showNotification("Daily Goal Completed!",
+          NotificationService.showGoalNotification("Daily Goal Completed!",
               "Cycling - $userCyclingEndGoal min of activity");
         }
         break;
@@ -187,7 +187,7 @@ class Goal {
             "rowingEndGoal": 0,
             "isRowingGoalSet": false,
           });
-          NotificationService.showNotification("Daily Goal Completed!",
+          NotificationService.showGoalNotification("Daily Goal Completed!",
               "Rowing - $userRowingEndGoal min of activity");
         }
         break;
@@ -204,7 +204,7 @@ class Goal {
             "stepMillEndGoal": 0,
             "isStepMillGoalSet": false,
           });
-          NotificationService.showNotification("Daily Goal Completed!",
+          NotificationService.showGoalNotification("Daily Goal Completed!",
               "Step Mill - $userStepMillEndGoal min of activity");
         }
         break;
@@ -250,8 +250,9 @@ class Goal {
           });
           FireStore.updateHealthData(
               {"exerciseTimeEndGoal_w": 0.0, "isExerciseTimeGoalSet_w": false});
-          NotificationService.showNotification("Weekly Goal Completed!",
-              "Exercise Time - $userExerciseTimeWeeklyEndGoal min of activity", id: 1);
+          NotificationService.showGoalNotification("Weekly Goal Completed!",
+              "Exercise Time - $userExerciseTimeWeeklyEndGoal min of activity",
+              id: 1, type: "Weekly");
         }
         break;
       case "cycling":
@@ -268,8 +269,9 @@ class Goal {
             "cyclingEndGoal_w": 0,
             "isCyclingGoalSet_w": false,
           });
-          NotificationService.showNotification("Weekly Goal Completed!",
-              "Cycling - $userCyclingWeeklyEndGoal min of activity", id: 1);
+          NotificationService.showGoalNotification("Weekly Goal Completed!",
+              "Cycling - $userCyclingWeeklyEndGoal min of activity",
+              id: 1, type: "Weekly");
         }
         break;
       case "rowing":
@@ -286,8 +288,9 @@ class Goal {
             "rowingEndGoal_w": 0,
             "isRowingGoalSet_w": false,
           });
-          NotificationService.showNotification("Weekly Goal Completed!",
-              "Rowing - $userRowingWeeklyEndGoal min of activity", id: 1);
+          NotificationService.showGoalNotification("Weekly Goal Completed!",
+              "Rowing - $userRowingWeeklyEndGoal min of activity",
+              id: 1, type: "Weekly");
         }
         break;
       case "stepMill":
@@ -304,8 +307,9 @@ class Goal {
             "stepMillEndGoal_w": 0,
             "isStepMillGoalSet_w": false,
           });
-          NotificationService.showNotification("Weekly Goal Completed!",
-              "Step Mill - $userStepMillWeeklyEndGoal min of activity", id: 1);
+          NotificationService.showGoalNotification("Weekly Goal Completed!",
+              "Step Mill - $userStepMillWeeklyEndGoal min of activity",
+              id: 1, type: "Weekly");
         }
         break;
     }
