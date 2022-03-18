@@ -245,7 +245,7 @@ class Goal {
           FireStore.getGoalLogCollection(goalType: "weekly").add({
             "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Exercise Time',
-            "Info": "$userExerciseTimeWeeklyEndGoal min exercised",
+            "Info": "$userExerciseTimeWeeklyEndGoal min of activity",
             "Type": "Weekly Goal"
           });
           FireStore.updateHealthData(
@@ -260,7 +260,7 @@ class Goal {
           FireStore.getGoalLogCollection(goalType: "weekly").add({
             "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Cycling',
-            "Info": "$userCyclingWeeklyEndGoal min of cycling",
+            "Info": "$userCyclingWeeklyEndGoal min of activity",
             "Type": "Weekly Goal"
           });
           FireStore.updateHealthData({
@@ -279,7 +279,7 @@ class Goal {
           FireStore.getGoalLogCollection(goalType: "weekly").add({
             "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Rowing',
-            "Info": "$userRowingWeeklyEndGoal min of rowing",
+            "Info": "$userRowingWeeklyEndGoal min of activity",
             "Type": "Weekly Goal"
           });
           FireStore.updateHealthData({
@@ -298,7 +298,7 @@ class Goal {
           FireStore.getGoalLogCollection(goalType: "weekly").add({
             "Date": "${now.month}/${now.day}/${now.year}",
             "Completed Goal": 'Step Mill',
-            "Info": "$userStepMillWeeklyEndGoal min of step mill use",
+            "Info": "$userStepMillWeeklyEndGoal min of activity",
             "Type": "Weekly Goal"
           });
           FireStore.updateHealthData({
