@@ -28,7 +28,7 @@ class NotificationService {
     });
   }
 
-  static void showNotification(String title, String body, {int id = 0}) {
+  static void showGoalNotification(String title, String body, {int id = 0, String type = "Daily"}) {
     _notifications.show(
         id,
         title,
@@ -39,6 +39,6 @@ class NotificationService {
                 importance: Importance.high,
                 color: FlutterFlowTheme.secondaryColor,
                 playSound: true,
-                icon: '@mipmap/ic_launcher')));
+                icon: '@mipmap/ic_launcher')), payload: type);
   }
 }

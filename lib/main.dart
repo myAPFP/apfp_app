@@ -91,7 +91,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   }
 
   void onClickNotification(String? payload) {
-    CompletedGoalsWidget.launch(context);
+    CompletedGoalsWidget.launch(context, mode: payload!);
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> connectActivityDocument() {

@@ -5,13 +5,14 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class CompletedGoalsWidget extends StatefulWidget {
-  CompletedGoalsWidget({Key? key}) : super(key: key);
+  final String? mode;
+  CompletedGoalsWidget({Key? key, this.mode}) : super(key: key);
 
-  static void launch(BuildContext context) async {
+  static void launch(BuildContext context, {String mode = "Daily"}) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CompletedGoalsWidget(),
+        builder: (context) => CompletedGoalsWidget(mode: mode),
       ),
     );
   }
@@ -32,13 +33,18 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
           .orderBy("Date", descending: true)
           .snapshots();
 
-  String _mode = "Daily";
+  String _mode = "";
   List<Widget> _dailyGoals = [];
   List<Widget> _weeklyGoals = [];
 
   @override
   void initState() {
     super.initState();
+    if (widget.mode == "Daily" || widget.mode == null) {
+      _mode = "Daily";
+    } else {
+      _mode = "Weekly";
+    }
     _getPreviousDailyGoals();
     _getPreviousWeeklyGoals();
   }
