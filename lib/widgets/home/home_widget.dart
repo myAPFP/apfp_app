@@ -68,36 +68,30 @@ class _HomeWidgetState extends State<HomeWidget> {
       if (element.data() != null) {
         _activitySnapshotBackup = element.data()!;
       }
-      // Goal.userProgressExerciseTime = 0;
-      // Goal.userProgressExerciseTimeWeekly = 0;
-      // Goal.userProgressCyclingGoal = 0;
-      // Goal.userProgressRowingGoal = 0;
-      // Goal.userProgressStepMillGoal = 0;
       setState(() {
         Goal.userProgressExerciseTime =
             ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
         Goal.userProgressExerciseTimeWeekly =
-            Goal.userProgressExerciseTimeWeekly -
-                        Goal.userProgressExerciseTime >
-                    0
-                ? Goal.userProgressExerciseTimeWeekly -
-                    Goal.userProgressExerciseTime
-                : Goal.userProgressExerciseTime;
+            ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
+                Goal.userProgressExerciseTimeWeekly;
 
         Goal.userProgressCyclingGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[0];
         Goal.userProgressCyclingGoalWeekly =
-            Goal.userProgressCyclingGoal + Goal.userProgressCyclingGoalWeekly;
+            CustomGoal.calcGoalSums(_activitySnapshotBackup)[0] +
+                Goal.userProgressCyclingGoalWeekly;
 
         Goal.userProgressRowingGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[1];
         Goal.userProgressRowingGoalWeekly =
-            Goal.userProgressRowingGoal + Goal.userProgressRowingGoalWeekly;
+            CustomGoal.calcGoalSums(_activitySnapshotBackup)[1] +
+                Goal.userProgressRowingGoalWeekly;
 
         Goal.userProgressStepMillGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[2];
         Goal.userProgressStepMillGoalWeekly =
-            Goal.userProgressStepMillGoal + Goal.userProgressStepMillGoalWeekly;
+            CustomGoal.calcGoalSums(_activitySnapshotBackup)[2] +
+                Goal.userProgressStepMillGoalWeekly;
 
         FireStore.updateHealthData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
@@ -174,21 +168,21 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.userProgressCyclingGoalWeekly =
               _healthSnapshotBackup['cyclingGoalProgressWeekly'].toDouble();
           Goal.userCyclingWeeklyEndGoal =
-              _healthSnapshotBackup['cyclingWeeklyEndGoal'].toDouble();
+              _healthSnapshotBackup['cyclingEndGoal_w'].toDouble();
 
           Goal.userRowingEndGoal =
               _healthSnapshotBackup['rowingEndGoal'].toDouble();
           Goal.userProgressRowingGoalWeekly =
               _healthSnapshotBackup['rowingGoalProgressWeekly'].toDouble();
           Goal.userRowingWeeklyEndGoal =
-              _healthSnapshotBackup['rowingWeeklyEndGoal'].toDouble();
+              _healthSnapshotBackup['rowingEndGoal_w'].toDouble();
 
           Goal.userStepMillEndGoal =
               _healthSnapshotBackup['stepMillEndGoal'].toDouble();
           Goal.userProgressStepMillGoalWeekly =
               _healthSnapshotBackup['stepMillGoalProgressWeekly'].toDouble();
           Goal.userStepMillWeeklyEndGoal =
-              _healthSnapshotBackup['stepMillWeeklyEndGoal'].toDouble();
+              _healthSnapshotBackup['stepMillEndGoal_w'].toDouble();
 
           Goal.exerciseWeekDeadline =
               _healthSnapshotBackup['exerciseWeekDeadline'];
@@ -367,7 +361,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   : Goal.isExerciseTimeWeeklyGoalSet
                       ? "Your Weekly goal is " +
                           "${((Goal.userProgressExerciseTimeWeekly / Goal.userExerciseTimeWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTimeWeekly / Goal.userExerciseTimeWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
-                          "% complete."
+                          "% complete.\nYou have ${int.parse(Goal.exerciseWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left."
                       : "Weekly Goal not active.",
               percent: Goal.isDailyDisplayed
                   ? (Goal.userProgressExerciseTime /
@@ -459,21 +453,24 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ? "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(2)} / ${Goal.userCyclingEndGoal.toStringAsFixed(2)} min"
                       : "Cycling Goal Not Active"
                   : Goal.isCyclingWeeklyGoalSet
-                      ? "Cycling - ${Goal.userProgressCyclingGoalWeekly.toStringAsFixed(2)} / ${Goal.userCyclingWeeklyEndGoal.toStringAsFixed(2)} min"
+                      ? "Cycling - ${Goal.userProgressCyclingGoalWeekly.toStringAsFixed(2)} / ${Goal.userCyclingWeeklyEndGoal.toStringAsFixed(2)} min" +
+                          " | ${int.parse(Goal.cyclingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s)"
                       : "Cycling Goal Not Active",
               goal2Title: Goal.isDailyDisplayed
                   ? Goal.isRowingGoalSet
                       ? "Rowing - ${Goal.userProgressRowingGoal.toStringAsFixed(2)} / ${Goal.userRowingEndGoal.toStringAsFixed(2)} min"
                       : "Rowing Goal Not Active"
                   : Goal.isRowingWeeklyGoalSet
-                      ? "Rowing - ${Goal.userProgressRowingGoalWeekly.toStringAsFixed(2)} / ${Goal.userRowingWeeklyEndGoal.toStringAsFixed(2)} min"
+                      ? "Rowing - ${Goal.userProgressRowingGoalWeekly.toStringAsFixed(2)} / ${Goal.userRowingWeeklyEndGoal.toStringAsFixed(2)} min" +
+                          " | ${int.parse(Goal.rowingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s)"
                       : "Rowing Goal Not Active",
               goal3Title: Goal.isDailyDisplayed
                   ? Goal.isStepMillGoalSet
                       ? "Step Mill - ${Goal.userProgressStepMillGoal.toStringAsFixed(2)} / ${Goal.userStepMillEndGoal.toStringAsFixed(2)} min"
                       : "Step Mill Goal Not Active"
                   : Goal.isStepMillWeeklyGoalSet
-                      ? "Step Mill - ${Goal.userProgressStepMillGoalWeekly.toStringAsFixed(2)} / ${Goal.userStepMillWeeklyEndGoal.toStringAsFixed(2)} min"
+                      ? "Step Mill - ${Goal.userProgressStepMillGoalWeekly.toStringAsFixed(2)} / ${Goal.userStepMillWeeklyEndGoal.toStringAsFixed(2)} min" +
+                          " | ${int.parse(Goal.stepMillWeekDeadline.split("/")[1]) - DateTime.now().day} day(s)"
                       : "Step Mill Goal Not Active",
               percent1: Goal.isDailyDisplayed
                   ? Goal.isCyclingGoalSet
