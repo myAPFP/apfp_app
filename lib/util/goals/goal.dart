@@ -233,8 +233,11 @@ class Goal {
         "Info": "$userExerciseTimeWeeklyEndGoal min of activity",
         "Type": "Weekly Goal"
       });
-      FireStore.updateHealthData(
-          {"exerciseTimeEndGoal_w": 0.0, "isExerciseTimeGoalSet_w": false});
+      FireStore.updateHealthData({
+        "exerciseTimeGoalProgressWeekly": 0.0,
+        "exerciseTimeEndGoal_w": 0.0,
+        "isExerciseTimeGoalSet_w": false
+      });
       NotificationService.showGoalNotification("Weekly Goal Completed!",
           "Exercise Time - $userExerciseTimeWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
