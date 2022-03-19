@@ -39,6 +39,10 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   final _stepMillFormKey = GlobalKey<FormState>();
   final _stepMillWeeklyFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _caloriesFormKey = GlobalKey<FormState>();
+  final _milesFormKey = GlobalKey<FormState>();
+  final _stepFormKey = GlobalKey<FormState>();
+  
   TextEditingController? _exerciseGoalController = TextEditingController();
   TextEditingController? _exerciseWeeklyGoalController =
       TextEditingController();
@@ -49,6 +53,10 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   TextEditingController? _stepMillGoalController = TextEditingController();
   TextEditingController? _stepMillWeeklyGoalController =
       TextEditingController();
+  TextEditingController? _caloriesGoalController = TextEditingController();
+  TextEditingController? _milesGoalController = TextEditingController();
+  TextEditingController? _stepGoalController = TextEditingController();
+  
 
   @override
   void initState() {
@@ -67,6 +75,9 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     _cyclingWeeklyGoalController!.dispose();
     _rowingWeeklyGoalController!.dispose();
     _stepMillWeeklyGoalController!.dispose();
+    _caloriesGoalController!.dispose();
+    _milesGoalController!.dispose();
+    _stepGoalController!.dispose();
   }
 
   void setText(MapEntry<String, dynamic> element, String fieldName,
@@ -88,6 +99,10 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
       setText(element, 'cyclingEndGoal', _cyclingGoalController);
       setText(element, 'rowingEndGoal', _rowingGoalController);
       setText(element, 'stepMillEndGoal', _stepMillGoalController);
+      setText(element, "calEndGoal", _caloriesGoalController);
+      setText(element, "milesEndGoal", _milesGoalController);
+      setText(element, "stepEndGoal", _stepGoalController);
+
       setText(element, "exerciseTimeEndGoal_w", _exerciseWeeklyGoalController);
       setText(element, "cyclingEndGoal_w", _cyclingWeeklyGoalController);
       setText(element, "rowingEndGoal_w", _rowingWeeklyGoalController);
@@ -241,6 +256,94 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
           ],
         ),
       ),
+
+       Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+        child: _header(text: 'Calories Goal', style: FlutterFlowTheme.title3),
+      ),
+      Form(
+        key: _caloriesFormKey,
+        child: Row(
+          children: [
+            _goalTextField(
+                hintText: "Calories", contr: _caloriesGoalController!),
+            _setGoalButton(_caloriesFormKey, () async {
+              await FireStore.updateHealthData({
+                "calEndGoal":
+                    double.parse(_caloriesGoalController!.text.toString()),
+                "isCalGoalSet": true
+              });
+            }),
+            _deleteGoalIcon(onDelete: () async {
+              await FireStore.updateHealthData({
+                "calEndGoal": 0.0,
+                "isCalGoalSet": false
+              }).then((value) {
+                _caloriesGoalController!.text = '';
+              });
+            })
+          ],
+        ),
+      ),
+
+       Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+        child: _header(text: 'Miles Goal', style: FlutterFlowTheme.title3),
+      ),
+      Form(
+        key: _milesFormKey,
+        child: Row(
+          children: [
+            _goalTextField(
+                hintText: "Miles", contr: _milesGoalController!),
+            _setGoalButton(_milesFormKey, () async {
+              await FireStore.updateHealthData({
+                "mileEndGoal":
+                    double.parse(_milesGoalController!.text.toString()),
+                "isMileGoalSet": true
+              });
+            }),
+            _deleteGoalIcon(onDelete: () async {
+              await FireStore.updateHealthData({
+                "mileEndGoal": 0.0,
+                "isMileGoalSet": false
+              }).then((value) {
+                _milesGoalController!.text = '';
+              });
+            })
+          ],
+        ),
+      ),
+
+       Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+        child: _header(text: 'Steps Goal', style: FlutterFlowTheme.title3),
+      ),
+      Form(
+        key: _stepFormKey,
+        child: Row(
+          children: [
+            _goalTextField(
+                hintText: "Steps", contr: _stepGoalController!),
+            _setGoalButton(_stepFormKey, () async {
+              await FireStore.updateHealthData({
+                "stepEndGoal":
+                    double.parse(_stepGoalController!.text.toString()),
+                "isStepGoalSet": true
+              });
+            }),
+            _deleteGoalIcon(onDelete: () async {
+              await FireStore.updateHealthData({
+                "stepEndGoal": 0.0,
+                "isStepGoalSet": false
+              }).then((value) {
+                _stepGoalController!.text = '';
+              });
+            })
+          ],
+        ),
+      ),
+
       Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
         child: _header(text: 'Cycling Goal', style: FlutterFlowTheme.title3),
