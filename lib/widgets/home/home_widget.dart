@@ -75,6 +75,29 @@ class _HomeWidgetState extends State<HomeWidget> {
             ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
                 Goal.userProgressExerciseTimeWeekly;
 
+        // ! Update once health app is integrated        
+
+        // Goal.userProgressCalGoal =
+        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        // Goal.userProgressCalGoalWeekly =
+        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
+        //         Goal.userProgressExerciseTimeWeekly;
+
+        // Goal.userProgressMileGoal =
+        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        // Goal.userProgressMileGoalWeekly =
+        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
+        //         Goal.userProgressExerciseTimeWeekly;
+
+
+        // Goal.userProgressStepGoal =
+        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        // Goal.userProgressStepGoalWeekly =
+        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
+        //         Goal.userProgressExerciseTimeWeekly;
+
+        // ! Update once health app is integrated  
+
         Goal.userProgressCyclingGoal =
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[0];
         Goal.userProgressCyclingGoalWeekly =
@@ -96,6 +119,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         FireStore.updateHealthData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
           "exerciseTimeGoalProgressWeekly": Goal.userProgressExerciseTimeWeekly,
+          "calGoalProgress": Goal.userProgressCalGoal,
+          "calGoalProgressWeekly": Goal.userProgressCalGoalWeekly,
+          "stepGoalProgress": Goal.userProgressStepGoal,
+          "stepGoalProgressWeekly": Goal.userProgressStepGoalWeekly,
+          "mileGoalProgress": Goal.userProgressMileGoal,
+          "mileGoalProgressWeekly": Goal.userProgressMileGoalWeekly,
           "cyclingGoalProgress": Goal.userProgressCyclingGoal,
           "cyclingGoalProgressWeekly": Goal.userProgressCyclingGoalWeekly,
           "rowingGoalProgress": Goal.userProgressRowingGoal,
@@ -118,8 +147,13 @@ class _HomeWidgetState extends State<HomeWidget> {
           _goalTypeLabel = Goal.isDailyDisplayed ? "Daily" : "Weekly";
 
           Goal.isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
+          Goal.isCalWeeklyGoalSet = _healthSnapshotBackup['isCalGoalSet'];
+
           Goal.isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
+          Goal.isStepWeeklyGoalSet = _healthSnapshotBackup['isStepGoalSet'];
+
           Goal.isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
+          Goal.isMileWeeklyGoalSet = _healthSnapshotBackup['isMileGoalSet'];
 
           Goal.isExerciseTimeGoalSet =
               _healthSnapshotBackup['isExerciseTimeGoalSet'];
@@ -141,19 +175,25 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.isHealthTrackerPermissionGranted =
               _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
 
-          Goal.userProgressCalGoal =
-              _healthSnapshotBackup['calGoalProgress'].toDouble();
           Goal.userCalEndGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
+          Goal.userProgressCalGoalWeekly =
+              _healthSnapshotBackup['calGoalProgressWeekly'].toDouble();
+          Goal.userCalWeeklyEndGoal =
+              _healthSnapshotBackup['calEndGoal_w'].toDouble();
 
-          Goal.userProgressStepGoal =
-              _healthSnapshotBackup['stepGoalProgress'].toDouble();
           Goal.userStepEndGoal =
               _healthSnapshotBackup['stepEndGoal'].toDouble();
+          Goal.userProgressStepGoalWeekly =
+              _healthSnapshotBackup['stepGoalProgressWeekly'].toDouble();
+          Goal.userStepWeeklyEndGoal =
+              _healthSnapshotBackup['stepEndGoal_w'].toDouble();
 
-          Goal.userProgressMileGoal =
-              _healthSnapshotBackup['mileGoalProgress'].toDouble();
           Goal.userMileEndGoal =
               _healthSnapshotBackup['mileEndGoal'].toDouble();
+          Goal.userProgressMileGoalWeekly =
+              _healthSnapshotBackup['mileGoalProgressWeekly'].toDouble();
+          Goal.userMileWeeklyEndGoal =
+              _healthSnapshotBackup['mileEndGoal_w'].toDouble();
 
           Goal.userExerciseTimeEndGoal =
               _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
