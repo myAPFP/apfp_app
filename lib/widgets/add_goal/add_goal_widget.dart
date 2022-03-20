@@ -124,7 +124,9 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         onPressed: () => setState(() {
           _isCustomGoalsDisplayed = !_isCustomGoalsDisplayed;
         }),
-        text: _isCustomGoalsDisplayed ?  'View Regular Goals' : 'View Custom Goals',
+        text: _isCustomGoalsDisplayed
+            ? 'View Regular Goals'
+            : 'View Custom Goals',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.5,
           height: 50,
