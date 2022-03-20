@@ -8,8 +8,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AddGoalWidget extends StatefulWidget {
-
-  
   AddGoalWidget({Key? key}) : super(key: key);
 
   static void launch(BuildContext context) async {
@@ -20,7 +18,6 @@ class AddGoalWidget extends StatefulWidget {
       ),
     );
   }
-
 
   @override
   _AddGoalWidgetState createState() => _AddGoalWidgetState();
@@ -42,7 +39,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   final _caloriesFormKey = GlobalKey<FormState>();
   final _milesFormKey = GlobalKey<FormState>();
   final _stepFormKey = GlobalKey<FormState>();
-  
+
   TextEditingController? _exerciseGoalController = TextEditingController();
   TextEditingController? _exerciseWeeklyGoalController =
       TextEditingController();
@@ -56,7 +53,6 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   TextEditingController? _caloriesGoalController = TextEditingController();
   TextEditingController? _milesGoalController = TextEditingController();
   TextEditingController? _stepGoalController = TextEditingController();
-  
 
   @override
   void initState() {
@@ -179,7 +175,9 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   }
 
   Padding _goalTextField(
-      {required String hintText, required TextEditingController contr}) {
+      {required String hintText,
+      required TextEditingController contr,
+      String unitOfMeasure = "min"}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: Container(
@@ -192,11 +190,30 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             if (!Validator.isInt(value)) {
               return "Integers (1+) only";
             }
-            if (double.parse(value) < 10) {
-              return "Goal must be at least 10 min";
+            int minimum;
+            int maximum;
+            switch (unitOfMeasure) {
+              case "calories":
+                minimum = 100;
+                maximum = 15000;
+                break;
+                case "steps":
+                minimum = 100;
+                maximum = 15000;
+                break;
+                case "miles":
+                minimum = 1;
+                maximum = 30;
+                break;
+              default:
+                minimum = 10;
+                maximum = 180;
             }
-            if (double.parse(value) > 180) {
-              return "180 min is max limit";
+            if (double.parse(value) < minimum) {
+              return "$minimum $unitOfMeasure is minimum";
+            }
+            if (double.parse(value) > maximum) {
+              return "$maximum $unitOfMeasure is max limit";
             }
             return null;
           },
@@ -256,8 +273,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
           ],
         ),
       ),
-
-       Padding(
+      Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
         child: _header(text: 'Calories Goal', style: FlutterFlowTheme.title3),
       ),
@@ -266,7 +282,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         child: Row(
           children: [
             _goalTextField(
-                hintText: "Calories", contr: _caloriesGoalController!),
+                hintText: "Calories", contr: _caloriesGoalController!, unitOfMeasure: "calories"),
             _setGoalButton(_caloriesFormKey, () async {
               await FireStore.updateHealthData({
                 "calEndGoal":
@@ -275,18 +291,15 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData({
-                "calEndGoal": 0.0,
-                "isCalGoalSet": false
-              }).then((value) {
+              await FireStore.updateHealthData(
+                  {"calEndGoal": 0.0, "isCalGoalSet": false}).then((value) {
                 _caloriesGoalController!.text = '';
               });
             })
           ],
         ),
       ),
-
-       Padding(
+      Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
         child: _header(text: 'Miles Goal', style: FlutterFlowTheme.title3),
       ),
@@ -294,8 +307,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         key: _milesFormKey,
         child: Row(
           children: [
-            _goalTextField(
-                hintText: "Miles", contr: _milesGoalController!),
+            _goalTextField(hintText: "Miles", contr: _milesGoalController!, unitOfMeasure: "miles"),
             _setGoalButton(_milesFormKey, () async {
               await FireStore.updateHealthData({
                 "mileEndGoal":
@@ -304,18 +316,15 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData({
-                "mileEndGoal": 0.0,
-                "isMileGoalSet": false
-              }).then((value) {
+              await FireStore.updateHealthData(
+                  {"mileEndGoal": 0.0, "isMileGoalSet": false}).then((value) {
                 _milesGoalController!.text = '';
               });
             })
           ],
         ),
       ),
-
-       Padding(
+      Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
         child: _header(text: 'Steps Goal', style: FlutterFlowTheme.title3),
       ),
@@ -323,8 +332,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         key: _stepFormKey,
         child: Row(
           children: [
-            _goalTextField(
-                hintText: "Steps", contr: _stepGoalController!),
+            _goalTextField(hintText: "Steps", contr: _stepGoalController!, unitOfMeasure: "steps"),
             _setGoalButton(_stepFormKey, () async {
               await FireStore.updateHealthData({
                 "stepEndGoal":
@@ -333,17 +341,14 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               });
             }),
             _deleteGoalIcon(onDelete: () async {
-              await FireStore.updateHealthData({
-                "stepEndGoal": 0.0,
-                "isStepGoalSet": false
-              }).then((value) {
+              await FireStore.updateHealthData(
+                  {"stepEndGoal": 0.0, "isStepGoalSet": false}).then((value) {
                 _stepGoalController!.text = '';
               });
             })
           ],
         ),
       ),
-
       Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
         child: _header(text: 'Cycling Goal', style: FlutterFlowTheme.title3),
@@ -423,7 +428,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             })
           ],
         ),
-      )
+      ),
+      SizedBox(height: 20)
     ];
   }
 
