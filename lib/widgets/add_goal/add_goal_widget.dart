@@ -109,7 +109,6 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
       setText(element, "calEndGoal", _caloriesGoalController);
       setText(element, "mileEndGoal", _milesGoalController);
       setText(element, "stepEndGoal", _stepGoalController);
-
       setText(element, "exerciseTimeEndGoal_w", _exerciseWeeklyGoalController);
       setText(element, "cyclingEndGoal_w", _cyclingWeeklyGoalController);
       setText(element, "rowingEndGoal_w", _rowingWeeklyGoalController);
@@ -139,7 +138,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         }),
         text: _isCustomGoalsDisplayed
             ? 'View Regular Goals'
-            : 'View Custom Goals',
+            : 'View Other Goals',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.5,
           height: 50,
