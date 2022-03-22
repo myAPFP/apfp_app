@@ -111,11 +111,20 @@ class Goal {
     isCalGoalComplete =
         isCalGoalSet && (userProgressCalGoal / userCalEndGoal) * 100 >= 100;
 
+    isCalWeeklyGoalComplete = isCalWeeklyGoalSet &&
+        (userProgressCalGoalWeekly / userCalWeeklyEndGoal) * 100 >= 100;
+
     isStepGoalComplete =
         isStepGoalSet && (userProgressStepGoal / userStepEndGoal) * 100 >= 100;
 
+    isStepWeeklyGoalComplete = isStepWeeklyGoalSet &&
+        (userProgressStepGoalWeekly / userStepWeeklyEndGoal) * 100 >= 100;
+
     isMileGoalComplete =
         isMileGoalSet && (userProgressMileGoal / userMileEndGoal) * 100 >= 100;
+
+    isMileWeeklyGoalComplete = isMileWeeklyGoalSet &&
+        (userProgressMileGoalWeekly / userMileWeeklyEndGoal) * 100 >= 100;
 
     isCyclingGoalComplete = isCyclingGoalSet &&
         (userProgressCyclingGoal / userCyclingEndGoal) * 100 >= 100;
@@ -196,32 +205,51 @@ class Goal {
       NotificationService.showGoalNotification("Daily Goal Completed!",
           "Step Mill - $userStepMillEndGoal min of activity");
     }
-
-    // if (isCalGoalComplete) {
-    //   FireStore.getGoalLogCollection(goalType: "daily").add({
-    //     "Date": "${now.month}/${now.day}/${now.year}",
-    //     "Completed Goal": 'Calories Burned',
-    //     "Info": "$userCalEndGoal calories burned",
-    //     "Type": "Daily Goal"
-    //   });
-    // }
-
-    // if (isStepGoalComplete) {
-    //   FireStore.getGoalLogCollection(goalType: "daily").add({
-    //     "Date": "${now.month}/${now.day}/${now.year}",
-    //     "Completed Goal": 'Steps',
-    //     "Info": "$userStepEndGoal steps taken",
-    //     "Type": "Daily Goal"
-    //   });
-    // }
-    // if (isMileGoalComplete) {
-    //   FireStore.getGoalLogCollection(goalType: "daily").add({
-    //     "Date": "${now.month}/${now.day}/${now.year}",
-    //     "Completed Goal": 'Miles',
-    //     "Info": "$userMileEndGoal miles traveled",
-    //     "Type": "Daily Goal"
-    //   });
-    // }
+    if (isCalGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Calories Burned',
+        "Info": "$userCalEndGoal calories burned",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateHealthData({
+        "calGoalProgress": 0,
+        "calEndGoal": 0,
+        "isCalGoalSet": false,
+      });
+      NotificationService.showGoalNotification(
+          "Daily Goal Completed!", "Calories - $userCalEndGoal cals burned");
+    }
+    if (isStepGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Steps',
+        "Info": "$userStepEndGoal steps taken",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateHealthData({
+        "stepGoalProgress": 0,
+        "stepEndGoal": 0,
+        "isStepGoalSet": false,
+      });
+      NotificationService.showGoalNotification(
+          "Daily Goal Completed!", "Steps - $userStepEndGoal steps taken");
+    }
+    if (isMileGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Miles',
+        "Info": "$userMileEndGoal miles traveled",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateHealthData({
+        "mileGoalProgress": 0,
+        "mileEndGoal": 0,
+        "isMileGoalSet": false,
+      });
+      NotificationService.showGoalNotification(
+          "Daily Goal Completed!", "Miles - $userMileEndGoal miles traveled");
+    }
   }
 
   static void _uploadCompletedWeeklyGoals() {
@@ -293,6 +321,57 @@ class Goal {
           "Step Mill - $userStepMillWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
     }
+    if (isCalWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Calories',
+        "Info": "$userCalWeeklyEndGoal cals burned",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateHealthData({
+        "calWeekDeadline": "0/00/0000",
+        "calGoalProgressWeekly": 0,
+        "calEndGoal_w": 0,
+        "isCalGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Calories - $userCalWeeklyEndGoal cals burned",
+          id: 1, type: "Weekly");
+    }
+    if (isStepWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Steps',
+        "Info": "$userStepWeeklyEndGoal steps taken",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateHealthData({
+        "stepWeekDeadline": "0/00/0000",
+        "stepGoalProgressWeekly": 0,
+        "stepEndGoal_w": 0,
+        "isStepGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Steps - $userStepWeeklyEndGoal steps taken",
+          id: 1, type: "Weekly");
+    }
+    if (isMileWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${now.month}/${now.day}/${now.year}",
+        "Completed Goal": 'Miles',
+        "Info": "$userMileWeeklyEndGoal miles traveled",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateHealthData({
+        "mileWeekDeadline": "0/00/0000",
+        "mileGoalProgressWeekly": 0,
+        "mileEndGoal_w": 0,
+        "isMileGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Miles - $userMileWeeklyEndGoal miles traveled",
+          id: 1, type: "Weekly");
+    }
   }
 
   static void uploadCompletedGoals() {
@@ -334,6 +413,30 @@ class Goal {
         "stepMillEndGoal_w": 0,
         "isStepMillGoalSet_w": false,
       });
+    }
+    if (calWeekDeadline == "${now.month}/${now.day}/${now.year}") {
+      FireStore.updateHealthData({
+        "calWeekDeadline": "0/00/0000",
+        "calGoalProgressWeekly": 0,
+        "calEndGoal_w": 0,
+        "isCalGoalSet_w": false,
+      });
+      if (stepWeekDeadline == "${now.month}/${now.day}/${now.year}") {
+      FireStore.updateHealthData({
+        "stepWeekDeadline": "0/00/0000",
+        "stepGoalProgressWeekly": 0,
+        "stepEndGoal_w": 0,
+        "isStepGoalSet_w": false,
+      });
+    }
+    if (mileWeekDeadline == "${now.month}/${now.day}/${now.year}") {
+      FireStore.updateHealthData({
+        "mileWeekDeadline": "0/00/0000",
+        "mileGoalProgressWeekly": 0,
+        "mileEndGoal_w": 0,
+        "isMileGoalSet_w": false,
+      });
+    }
     }
   }
 }
