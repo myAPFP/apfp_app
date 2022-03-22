@@ -26,10 +26,10 @@ class CustomGoal {
   }
 
   static double _toMinutes(Duration goalSum) {
-    String HHmmss = goalSum.toString().split('.').first.padLeft(8, "0");
-    List<String> HHmmssSplit = HHmmss.split(':');
-    return double.parse(HHmmssSplit[0]) * 60 +
-        double.parse(HHmmssSplit[1]) +
-        double.parse(HHmmssSplit[2]) / 60;
+    String hhmmss = goalSum.toString().split('.').first.padLeft(8, "0");
+    List<String> hhmmssSplit = hhmmss.split(':');
+    return double.parse(hhmmssSplit[0]) * 60 +
+        double.parse(hhmmssSplit[1]) +
+        double.parse(hhmmssSplit[2]) / 60;
   }
 }
