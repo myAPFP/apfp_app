@@ -136,9 +136,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         onPressed: () => setState(() {
           _isCustomGoalsDisplayed = !_isCustomGoalsDisplayed;
         }),
-        text: _isCustomGoalsDisplayed
-            ? 'Set Regular Goals'
-            : 'Set Other Goals',
+        text: _isCustomGoalsDisplayed ? 'Set Regular Goals' : 'Set Other Goals',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.5,
           height: 50,
@@ -215,7 +213,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   Padding _goalTextField(
       {required String hintText,
       required TextEditingController contr,
-      String unitOfMeasure = "min"}) {
+      String unitOfMeasure = "min",
+      String goalType = "Daily"}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: Container(
@@ -230,22 +229,42 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             }
             int minimum;
             int maximum;
-            switch (unitOfMeasure) {
-              case "calories":
-                minimum = 100;
-                maximum = 15000;
+            switch ("$goalType $unitOfMeasure") {
+              case "Daily calories":
+                minimum = 1800;
+                maximum = 6000;
                 break;
-              case "steps":
+              case "Daily steps":
                 minimum = 100;
-                maximum = 15000;
+                maximum = 10000;
                 break;
-              case "miles":
+              case "Daily miles":
                 minimum = 1;
                 maximum = 30;
                 break;
-              default:
+              case "Weekly calories":
+                minimum = 13000;
+                maximum = 42000;
+                break;
+              case "Weekly steps":
+                minimum = 700;
+                maximum = 70000;
+                break;
+              case "Weekly miles":
+                minimum = 7;
+                maximum = 250;
+                break;
+              case "Daily min":
                 minimum = 10;
                 maximum = 180;
+                break;
+              case "Weekly min":
+                minimum = 70;
+                maximum = 1300;
+                break;
+              default:
+                minimum = 1;
+                maximum = 100000;
             }
             if (double.parse(value) < minimum) {
               return "$minimum $unitOfMeasure is minimum";
@@ -326,7 +345,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Calories",
                       contr: _caloriesGoalController!,
-                      unitOfMeasure: "calories"),
+                      unitOfMeasure: "calories",
+                      goalType: "Daily"),
                   _setGoalButton(_caloriesFormKey, () async {
                     await FireStore.updateHealthData({
                       "calEndGoal": double.parse(
@@ -356,7 +376,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Miles",
                       contr: _milesGoalController!,
-                      unitOfMeasure: "miles"),
+                      unitOfMeasure: "miles", goalType: "Daily"),
                   _setGoalButton(_milesFormKey, () async {
                     await FireStore.updateHealthData({
                       "mileEndGoal":
@@ -386,7 +406,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Steps",
                       contr: _stepGoalController!,
-                      unitOfMeasure: "steps"),
+                      unitOfMeasure: "steps", goalType: "Daily"),
                   _setGoalButton(_stepFormKey, () async {
                     await FireStore.updateHealthData({
                       "stepEndGoal":
@@ -543,7 +563,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                 children: [
                   _goalTextField(
                       hintText: "Calories",
-                      contr: _caloriesWeeklyGoalController!, unitOfMeasure: "calories"),
+                      contr: _caloriesWeeklyGoalController!,
+                      unitOfMeasure: "calories", goalType: "Weekly"),
                   _setGoalButton(_caloriesWeeklyFormKey, () async {
                     await FireStore.updateHealthData({
                       "calWeekDeadline":
@@ -576,7 +597,9 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               child: Row(
                 children: [
                   _goalTextField(
-                      hintText: "Miles", contr: _milesWeeklyGoalController!, unitOfMeasure: "miles"),
+                      hintText: "Miles",
+                      contr: _milesWeeklyGoalController!,
+                      unitOfMeasure: "miles", goalType: "Weekly"),
                   _setGoalButton(_milesWeeklyFormKey, () async {
                     await FireStore.updateHealthData({
                       "mileWeekDeadline":
@@ -609,7 +632,9 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               child: Row(
                 children: [
                   _goalTextField(
-                      hintText: "Steps", contr: _stepWeeklyGoalController!, unitOfMeasure: "steps"),
+                      hintText: "Steps",
+                      contr: _stepWeeklyGoalController!,
+                      unitOfMeasure: "steps", goalType: "Weekly"),
                   _setGoalButton(_stepWeeklyFormKey, () async {
                     await FireStore.updateHealthData({
                       "stepWeekDeadline":
