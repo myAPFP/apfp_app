@@ -140,7 +140,7 @@ class HPGraphic {
           ? "Sync your myAPFP App with\na $_platformHealthName to set this goal."
           : "Sync your myAPFP App with\n$_platformHealthName to set this goal.";
       percent = 0;
-    } else if (isGoalSet == false && isHealthGranted) {
+    } else if (!isGoalSet && isHealthGranted) {
       innerCircleText = "No\nActive\nGoal";
       goalProgressStr = "Long Press here to set & edit goals.";
       percent = 0;
