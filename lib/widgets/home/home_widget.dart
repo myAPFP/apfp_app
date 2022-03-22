@@ -147,13 +147,13 @@ class _HomeWidgetState extends State<HomeWidget> {
           _goalTypeLabel = Goal.isDailyDisplayed ? "Daily" : "Weekly";
 
           Goal.isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
-          Goal.isCalWeeklyGoalSet = _healthSnapshotBackup['isCalGoalSet'];
+          Goal.isCalWeeklyGoalSet = _healthSnapshotBackup['isCalGoalSet_w'];
 
           Goal.isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
-          Goal.isStepWeeklyGoalSet = _healthSnapshotBackup['isStepGoalSet'];
+          Goal.isStepWeeklyGoalSet = _healthSnapshotBackup['isStepGoalSet_w'];
 
           Goal.isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
-          Goal.isMileWeeklyGoalSet = _healthSnapshotBackup['isMileGoalSet'];
+          Goal.isMileWeeklyGoalSet = _healthSnapshotBackup['isMileGoalSet_w'];
 
           Goal.isExerciseTimeGoalSet =
               _healthSnapshotBackup['isExerciseTimeGoalSet'];
