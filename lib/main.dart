@@ -50,6 +50,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
       FireStore.getAnnouncements();
   List<Widget> pageList = List<Widget>.empty(growable: true);
+  bool _isInForeground = true;
   bool _internetConnected = true;
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
@@ -84,6 +85,17 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     super.dispose();
     WidgetsBinding.instance!.removeObserver(this);
     _connectivitySubscription.cancel();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _isInForeground = true;
+      initConnectivity();
+    } else if (state == AppLifecycleState.paused) {
+      _isInForeground = false;
+    }
   }
 
   void listenToNotifications() {
@@ -136,16 +148,18 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     return _updateConnectionStatus(result);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus = result;
-    if (_connectionStatus == ConnectivityResult.none) {
-      _internetConnected = false;
-      showSnackbar(context, "Please check your Internet connection",
+    if (_isInForeground) {
+      if (_connectionStatus == ConnectivityResult.none) {
+        _internetConnected = false;
+        showSnackbar(context, "Please check your Internet connection",
           duration: Duration(days: 365), noConnection: true);
-    } else if (_connectionStatus == ConnectivityResult.wifi ||
-        _connectionStatus == ConnectivityResult.mobile) {
-      if (!_internetConnected) {
-        await checkInternetConnection();
+      } else if (_connectionStatus == ConnectivityResult.wifi ||
+          _connectionStatus == ConnectivityResult.mobile) {
+        if (!_internetConnected) {
+          await checkInternetConnection();
+        }
       }
     }
   }
