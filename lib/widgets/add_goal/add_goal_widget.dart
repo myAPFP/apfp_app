@@ -543,7 +543,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                 children: [
                   _goalTextField(
                       hintText: "Calories",
-                      contr: _caloriesWeeklyGoalController!),
+                      contr: _caloriesWeeklyGoalController!, unitOfMeasure: "calories"),
                   _setGoalButton(_caloriesWeeklyFormKey, () async {
                     await FireStore.updateHealthData({
                       "calWeekDeadline":
@@ -576,7 +576,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               child: Row(
                 children: [
                   _goalTextField(
-                      hintText: "Miles", contr: _milesWeeklyGoalController!),
+                      hintText: "Miles", contr: _milesWeeklyGoalController!, unitOfMeasure: "miles"),
                   _setGoalButton(_milesWeeklyFormKey, () async {
                     await FireStore.updateHealthData({
                       "mileWeekDeadline":
@@ -609,7 +609,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
               child: Row(
                 children: [
                   _goalTextField(
-                      hintText: "Steps", contr: _stepWeeklyGoalController!),
+                      hintText: "Steps", contr: _stepWeeklyGoalController!, unitOfMeasure: "steps"),
                   _setGoalButton(_stepWeeklyFormKey, () async {
                     await FireStore.updateHealthData({
                       "stepWeekDeadline":
