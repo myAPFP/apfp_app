@@ -110,8 +110,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.12),
-                          Icon(Icons.live_tv),
+                              width: MediaQuery.of(context).size.width * 0.07),
+                          // Icon(Icons.live_tv),
                         ],
                       ),
                       Column(
@@ -138,7 +138,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Row(children: [
       Container(
           constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.75),
+              maxWidth: MediaQuery.of(context).size.width * 0.85),
           child: AutoSizeText(
             title,
             maxLines: 1,
@@ -153,7 +153,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Row(children: [
       Container(
         constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.85),
         child: AutoSizeText.rich(
           TextSpan(
               text: 'Source: ',
@@ -173,7 +173,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Row(children: [
       Container(
           constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.75),
+              maxWidth: MediaQuery.of(context).size.width * 0.85),
           child: AutoSizeText.rich(
             TextSpan(
                 text: 'Video Length: ',
