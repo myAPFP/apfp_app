@@ -212,14 +212,12 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   void _populateVideos() {
     widget.videoStream.forEach((snapshot) {
-      setState(() {
-        for (Widget element in videoBackup) {
-          if (videoList.contains(element)) {
-            videoList.remove(element);
-          }
+      for (Widget element in videoBackup) {
+        if (videoList.contains(element)) {
+          videoList.remove(element);
         }
-        videoBackup.clear();
-      });
+      }
+      videoBackup.clear();
       snapshot.docs.forEach((document) {
         _preloadVideo(document["url"]);
       });
@@ -228,14 +226,12 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   void _populatePlaylists() {
     widget.playlistStream.forEach((snapshot) {
-      setState(() {
-        for (Widget element in playlistBackup) {
-          if (videoList.contains(element)) {
-            videoList.remove(element);
-          }
+      for (Widget element in playlistBackup) {
+        if (videoList.contains(element)) {
+          videoList.remove(element);
         }
-        playlistBackup.clear();
-      });
+      }
+      playlistBackup.clear();
       snapshot.docs.forEach((document) {
         _preloadPlaylist(document["id"]);
       });
