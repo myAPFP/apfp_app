@@ -689,10 +689,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                           snapshot) {
                     if (snapshot.hasData) {
+                      List<String> alertTexts =
+                          new List.filled(3, "No older announcements.");
+                      if (snapshot.data!.docs.length > 0) {
+                        alertTexts[0] = snapshot.data?.docs[0]['title'];
+                      }
+                      if (snapshot.data!.docs.length > 1) {
+                        alertTexts[1] = snapshot.data?.docs[1]['title'];
+                      }
+                      if (snapshot.data!.docs.length > 2) {
+                        alertTexts[2] = snapshot.data?.docs[2]['title'];
+                      }
                       return _announcements(
-                          snapshot.data?.docs[0]['title'],
-                          snapshot.data?.docs[1]['title'],
-                          snapshot.data?.docs[2]['title']);
+                          alertTexts[0], alertTexts[1], alertTexts[2]);
                     } else {
                       return Text("No announcements available.");
                     }
