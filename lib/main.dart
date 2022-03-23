@@ -123,7 +123,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   Stream<DocumentSnapshot<Map<String, dynamic>>> connectHealthDocument() {
     Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
         FirebaseFirestore.instance
-            .collection('health')
+            .collection('goals')
             .doc(FirebaseAuth.instance.currentUser!.email)
             .get();
     userDocumentReference.then((value) {

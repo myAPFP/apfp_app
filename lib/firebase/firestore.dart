@@ -74,7 +74,7 @@ class FireStore {
 
   static DocumentReference<Map<String, dynamic>> getHealthDocument() {
     return FirebaseFirestore.instance
-        .collection('health')
+        .collection('goals')
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
@@ -89,7 +89,7 @@ class FireStore {
 
   static void createHealthDocument() async {
     await FirebaseFirestore.instance
-        .collection('health')
+        .collection('goals')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .set({
       "isHealthTrackerPermissionGranted": false,
