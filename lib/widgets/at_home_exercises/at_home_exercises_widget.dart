@@ -196,7 +196,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   void preloadAllVideos() async {
-    await (Internet.isConnected()).then((value) => {
+    await (Internet.isConnected()).then((value) async => {
           if (value)
             {
               setState(() {
@@ -205,7 +205,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
               })
             }
           else
-            {preloadAllVideos()}
+            {Timer(Duration(milliseconds: 25), preloadAllVideos)}
         });
     _isVideosLoaded = true;
   }
