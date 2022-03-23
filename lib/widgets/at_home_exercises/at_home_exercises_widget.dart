@@ -205,7 +205,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
               })
             }
           else
-            {Timer(Duration(milliseconds: 200), preloadAllVideos)}
+            {Timer(Duration(seconds: 1), preloadAllVideos)}
         });
     _isVideosLoaded = true;
   }
