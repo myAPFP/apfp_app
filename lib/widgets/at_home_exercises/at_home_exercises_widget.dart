@@ -110,8 +110,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.1),
-                          Text("$_index", style: FlutterFlowTheme.title3),
+                              width: MediaQuery.of(context).size.width * 0.12),
+                          Icon(Icons.live_tv),
                         ],
                       ),
                       Column(
