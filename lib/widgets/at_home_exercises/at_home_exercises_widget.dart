@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import '../../util/internet_connection/internet.dart';
 import '../confimation_dialog/confirmation_dialog.dart';
 import '../exercise_video/exercise_video_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -28,8 +29,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   bool _isVideosLoaded = false;
   List<String> playlistIDs = [];
   List<String> videoURLs = [];
-  List<String> playlistBackup = [];
-  List<String> videoBackup = [];
+  List<Widget> playlistBackup = [];
+  List<Widget> videoBackup = [];
 
   @override
   void initState() {
@@ -109,8 +110,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.1),
-                          Text("$_index", style: FlutterFlowTheme.title3),
+                              width: MediaQuery.of(context).size.width * 0.07),
+                          // Icon(Icons.live_tv),
                         ],
                       ),
                       Column(
@@ -137,7 +138,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Row(children: [
       Container(
           constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.75),
+              maxWidth: MediaQuery.of(context).size.width * 0.85),
           child: AutoSizeText(
             title,
             maxLines: 1,
@@ -152,7 +153,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Row(children: [
       Container(
         constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.85),
         child: AutoSizeText.rich(
           TextSpan(
               text: 'Source: ',
@@ -172,7 +173,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     return Row(children: [
       Container(
           constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.75),
+              maxWidth: MediaQuery.of(context).size.width * 0.85),
           child: AutoSizeText.rich(
             TextSpan(
                 text: 'Video Length: ',
@@ -194,45 +195,50 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     ]);
   }
 
-  void preloadAllVideos() {
-    _preloadPlaylists();
-    _preloadVideos();
+  void preloadAllVideos() async {
+    await (Internet.isConnected()).then((value) async => {
+          if (value)
+            {
+              setState(() {
+                _populateVideos();
+                _populatePlaylists();
+              })
+            }
+          else
+            {Timer(Duration(seconds: 1), preloadAllVideos)}
+        });
     _isVideosLoaded = true;
   }
 
-  void _preloadPlaylists() {
-    widget.playlistStream.forEach(((snapshot) {
-      _index = 0;
-      snapshot.docs.forEach((document) {
-        playlistIDs.add(document["id"]);
-      });
-      playlistBackup = playlistIDs.toList();
-      _updateVideoList();
-      playlistIDs.clear();
-    }));
-  }
-
-  void _updateVideoList() {
-    videoList.clear();
-    if (playlistBackup.isNotEmpty && videoBackup.isNotEmpty) {
-      for (String id in playlistBackup) {
-        _preloadPlaylist(id);
-      }
-      for (String url in videoBackup) {
-        _preloadVideo(url);
-      }
-    }
-  }
-
-  void _preloadVideos() {
+  void _populateVideos() {
     widget.videoStream.forEach((snapshot) {
-      _index = 0;
-      snapshot.docs.forEach((document) {
-        videoURLs.add(document["url"]);
+      setState(() {
+        for (Widget element in videoBackup) {
+          if (videoList.contains(element)) {
+            videoList.remove(element);
+          }
+        }
+        videoBackup.clear();
       });
-      videoBackup = videoURLs.toList();
-      _updateVideoList();
-      videoURLs.clear();
+      snapshot.docs.forEach((document) {
+        _preloadVideo(document["url"]);
+      });
+    });
+  }
+
+  void _populatePlaylists() {
+    widget.playlistStream.forEach((snapshot) {
+      setState(() {
+        for (Widget element in playlistBackup) {
+          if (videoList.contains(element)) {
+            videoList.remove(element);
+          }
+        }
+        playlistBackup.clear();
+      });
+      snapshot.docs.forEach((document) {
+        _preloadPlaylist(document["id"]);
+      });
     });
   }
 
@@ -240,12 +246,14 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     YoutubeExplode yt = YoutubeExplode();
     Video video = await yt.videos.get(url);
     _index++;
-    _addVideoToList(_videoTrainingCard(
+    Padding videoCard = _videoTrainingCard(
         index: _index,
         author: video.author,
         url: video.url,
         title: video.title,
-        video: video));
+        video: video);
+    _addVideoToList(videoCard);
+    videoBackup.add(videoCard);
     yt.close();
   }
 
@@ -254,12 +262,14 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     Playlist playlist = await yt.playlists.get(id);
     await for (Video video in yt.playlists.getVideos(playlist.id)) {
       _index++;
-      _addVideoToList(_videoTrainingCard(
+      Padding videoCard = _videoTrainingCard(
           index: _index,
           author: video.author,
           url: video.url,
           title: video.title,
-          video: video));
+          video: video);
+      _addVideoToList(videoCard);
+      playlistBackup.add(videoCard);
     }
     yt.close();
   }
