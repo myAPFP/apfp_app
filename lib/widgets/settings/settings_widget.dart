@@ -9,8 +9,10 @@ import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../util/goals/goal.dart';
 import '../completed_goals/completed_goals_widget.dart';
+import '../health_app_info/health_app_info.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -233,8 +235,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 SizedBox(height: 15),
                 _settingsButton(
                     title: "Sync $_platformHealthName",
-                    onTap: () {
-                      print("SHA Tapped!");
+                    onTap: () async {
+                      if (await Permission.activityRecognition
+                          .request()
+                          .isGranted) {
+                        Toasted.showToast(
+                            "$_platformHealthName has been synchronized!");
+                      } else if (await Permission.activityRecognition
+                          .request()
+                          .isPermanentlyDenied) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HealthAppInfo()),
+                        );
+                      }
                     }),
                 _settingsButton(
                     title: "Set Activity Goals",
