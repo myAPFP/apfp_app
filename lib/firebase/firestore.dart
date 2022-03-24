@@ -9,10 +9,7 @@ class FireStore {
   }
 
   static Stream<QuerySnapshot> getYTVideoUrls() {
-    return FirebaseFirestore.instance
-        .collection('youtube-videos')
-        .orderBy("id", descending: true)
-        .snapshots();
+    return FirebaseFirestore.instance.collection('youtube-videos').snapshots();
   }
 
   static void storeUID(String docId, String uid) {
@@ -113,7 +110,7 @@ class FireStore {
       "exerciseTimeEndGoal": 0,
       "exerciseTimeEndGoal_w": 0,
       "calGoalProgress": 0,
-      "calGoalProgressWeekly" : 0,
+      "calGoalProgressWeekly": 0,
       "calEndGoal": 0,
       "calEndGoal_w": 0,
       "stepGoalProgress": 0,

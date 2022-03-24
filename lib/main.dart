@@ -148,13 +148,13 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     return _updateConnectionStatus(result);
   }
 
-   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus = result;
     if (_isInForeground) {
       if (_connectionStatus == ConnectivityResult.none) {
         _internetConnected = false;
         showSnackbar(context, "Please check your Internet connection",
-          duration: Duration(days: 365), noConnection: true);
+            duration: Duration(days: 365), noConnection: true);
       } else if (_connectionStatus == ConnectivityResult.wifi ||
           _connectionStatus == ConnectivityResult.mobile) {
         if (!_internetConnected) {
