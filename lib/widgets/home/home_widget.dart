@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/goals/custom_goal.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../../util/goals/exercise_time_goal.dart';
 import '../../util/goals/goal.dart';
 import '../add_goal/add_goal_widget.dart';
+import '../health_app_info/health_app_info.dart';
 import '../home_page_graphic/hp_graphic.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -636,20 +638,30 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
-        onPressed: () {
-          // ! -- Demo Purposes --
-          Goal.isHealthTrackerPermissionGranted =
-              !Goal.isHealthTrackerPermissionGranted;
-          if (!Goal.isHealthTrackerPermissionGranted) {
-            FireStore.updateHealthData({"isCalGoalSet": false});
-            FireStore.updateHealthData({"isStepGoalSet": false});
-            FireStore.updateHealthData({"isMileGoalSet": false});
+        onPressed: () async {
+          if (await Permission.activityRecognition.request().isGranted) {
+            Toasted.showToast("$_platformHealthName has been synchronized!");
+          } else if (await Permission.activityRecognition
+              .request()
+              .isPermanentlyDenied) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HealthAppInfo()),
+            );
           }
-          FireStore.updateHealthData({
-            "isHealthTrackerPermissionGranted":
-                Goal.isHealthTrackerPermissionGranted
-          });
-          // ! -------------------
+          // // ! -- Demo Purposes --
+          // Goal.isHealthTrackerPermissionGranted =
+          //     !Goal.isHealthTrackerPermissionGranted;
+          // if (!Goal.isHealthTrackerPermissionGranted) {
+          //   FireStore.updateHealthData({"isCalGoalSet": false});
+          //   FireStore.updateHealthData({"isStepGoalSet": false});
+          //   FireStore.updateHealthData({"isMileGoalSet": false});
+          // }
+          // FireStore.updateHealthData({
+          //   "isHealthTrackerPermissionGranted":
+          //       Goal.isHealthTrackerPermissionGranted
+          // });
+          // // ! -------------------
         },
         text: 'Sync $_platformHealthName',
         options: FFButtonOptions(
