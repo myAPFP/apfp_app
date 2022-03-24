@@ -51,7 +51,8 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
                 padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
                 child: Text(
                     '$_healthAppName can be synchronized to the app using your system settings.\n\n' +
-                    'To allow or remove access, go to:\n\nSettings ->  Privacy ->  Permission manager -> Physical activity ->  myAPFP\n',
+                        'This will allow you to connect an activity tracker, such as Fitbit, to the myAPFP app.\n\n' +
+                        'To allow or remove access, go to:\n\nSettings ->  Privacy ->  Permission manager -> Physical activity ->  myAPFP\n',
                     style: FlutterFlowTheme.bodyText1),
               ),
               Align(
@@ -65,7 +66,7 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
                 child: Text(
-                    'From here, choose whether you allow or  don\'t allow APFP to access your physical activity data.',
+                    'From here, choose whether you allow or  don\'t allow myAPFP to access your physical activity data.',
                     style: FlutterFlowTheme.bodyText1),
               ),
             ],
