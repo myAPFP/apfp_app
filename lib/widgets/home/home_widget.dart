@@ -640,6 +640,8 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: FFButtonWidget(
         onPressed: () async {
           if (await Permission.activityRecognition.request().isGranted) {
+            FireStore.updateHealthData(
+                {"isHealthTrackerPermissionGranted": true});
             Toasted.showToast("$_platformHealthName has been synchronized!");
           } else if (await Permission.activityRecognition
               .request()
