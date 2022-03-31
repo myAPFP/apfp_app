@@ -18,10 +18,10 @@ import 'package:flutter/material.dart';
 class HomeWidget extends StatefulWidget {
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
-  final Stream<DocumentSnapshot<Map<String, dynamic>>> healthStream;
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> goalStream;
   HomeWidget(
       {Key? key,
-      required this.healthStream,
+      required this.goalStream,
       required this.announcementsStream,
       required this.activityStream})
       : super(key: key);
@@ -49,9 +49,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     widget.activityStream.first
         .then((firstElement) => _activitySnapshotBackup = firstElement.data()!);
-    widget.healthStream.first
+    widget.goalStream.first
         .then((firstElement) => _healthSnapshotBackup = firstElement.data()!);
-    _listenToHealthStream();
+    _listenToGoalStream();
     _listenToActivityStream();
   }
 
@@ -118,7 +118,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             CustomGoal.calcGoalSums(_activitySnapshotBackup)[2] +
                 Goal.userProgressStepMillGoalWeekly;
 
-        FireStore.updateHealthData({
+        FireStore.updateGoalData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
           "exerciseTimeGoalProgressWeekly": Goal.userProgressExerciseTimeWeekly,
           "calGoalProgress": Goal.userProgressCalGoal,
@@ -138,8 +138,8 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
   }
 
-  void _listenToHealthStream() {
-    widget.healthStream.forEach((element) {
+  void _listenToGoalStream() {
+    widget.goalStream.forEach((element) {
       _healthSnapshotBackup = new Map();
       if (element.data() != null) {
         _healthSnapshotBackup = element.data()!;
@@ -362,7 +362,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _exerciseViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateHealthData(
+          FireStore.updateGoalData(
               {"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
@@ -403,7 +403,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _calViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateHealthData(
+          FireStore.updateGoalData(
               {"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
@@ -443,7 +443,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _stepsViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateHealthData(
+          FireStore.updateGoalData(
               {"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
@@ -484,7 +484,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _milesViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateHealthData(
+          FireStore.updateGoalData(
               {"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
@@ -590,7 +590,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : 0,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateHealthData(
+          FireStore.updateGoalData(
               {"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
@@ -640,7 +640,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: FFButtonWidget(
         onPressed: () async {
           if (await Permission.activityRecognition.request().isGranted) {
-            FireStore.updateHealthData(
+            FireStore.updateGoalData(
                 {"isHealthTrackerPermissionGranted": true});
             Toasted.showToast("$_platformHealthName has been synchronized!");
           } else if (await Permission.activityRecognition
@@ -655,11 +655,11 @@ class _HomeWidgetState extends State<HomeWidget> {
           // Goal.isHealthTrackerPermissionGranted =
           //     !Goal.isHealthTrackerPermissionGranted;
           // if (!Goal.isHealthTrackerPermissionGranted) {
-          //   FireStore.updateHealthData({"isCalGoalSet": false});
-          //   FireStore.updateHealthData({"isStepGoalSet": false});
-          //   FireStore.updateHealthData({"isMileGoalSet": false});
+          //   FireStore.updateGoalData({"isCalGoalSet": false});
+          //   FireStore.updateGoalData({"isStepGoalSet": false});
+          //   FireStore.updateGoalData({"isMileGoalSet": false});
           // }
-          // FireStore.updateHealthData({
+          // FireStore.updateGoalData({
           //   "isHealthTrackerPermissionGranted":
           //       Goal.isHealthTrackerPermissionGranted
           // });

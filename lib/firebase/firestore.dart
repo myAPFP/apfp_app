@@ -69,22 +69,22 @@ class FireStore {
         .set(new Map());
   }
 
-  static DocumentReference<Map<String, dynamic>> getHealthDocument() {
+  static DocumentReference<Map<String, dynamic>> getGoalDocument() {
     return FirebaseFirestore.instance
         .collection('goals')
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
   static Stream<DocumentSnapshot<Map<String, dynamic>>>
-      createHealthDocStream() {
-    return getHealthDocument().snapshots();
+      createGoalDocStream() {
+    return getGoalDocument().snapshots();
   }
 
-  static Future<void> updateHealthData(Map<String, dynamic> data) {
-    return getHealthDocument().update(data);
+  static Future<void> updateGoalData(Map<String, dynamic> data) {
+    return getGoalDocument().update(data);
   }
 
-  static void createHealthDocument() async {
+  static void createGoalDocument() async {
     await FirebaseFirestore.instance
         .collection('goals')
         .doc(FirebaseAuth.instance.currentUser!.email)

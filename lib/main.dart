@@ -43,7 +43,7 @@ class NavBarPage extends StatefulWidget {
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
   late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity;
-  late Stream<DocumentSnapshot<Map<String, dynamic>>> userHealth;
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> userGoals;
   late FirebaseMessaging messaging;
   Stream<QuerySnapshot> ytPlaylistStream = FireStore.getYTPlaylistIDs();
   Stream<QuerySnapshot> ytVideoStream = FireStore.getYTVideoUrls();
@@ -60,14 +60,14 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     userActivity = connectActivityDocument();
-    userHealth = connectHealthDocument();
+    userGoals = connectGoalDocument();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
     pageList.add(HomeWidget(
         announcementsStream: announcements,
         activityStream: userActivity,
-        healthStream: userHealth));
+        goalStream: userGoals));
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget(
         playlistStream: ytPlaylistStream, videoStream: ytVideoStream));
@@ -120,7 +120,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     return FireStore.createUserActivityStream();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> connectHealthDocument() {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> connectGoalDocument() {
     Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
         FirebaseFirestore.instance
             .collection('goals')
@@ -128,10 +128,10 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
             .get();
     userDocumentReference.then((value) {
       if (!value.exists) {
-        FireStore.createHealthDocument();
+        FireStore.createGoalDocument();
       }
     });
-    return FireStore.createHealthDocStream();
+    return FireStore.createGoalDocStream();
   }
 
   Future<void> initConnectivity() async {
