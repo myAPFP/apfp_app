@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:developer' as developer;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/flutter_flow/flutter_flow_util.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:page_transition/page_transition.dart';
 import '../create_account/create_account_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -40,6 +38,28 @@ class MyApp extends StatelessWidget {
 class WelcomeWidget extends StatefulWidget {
   WelcomeWidget({Key? key}) : super(key: key);
 
+  static void returnToWelcome(BuildContext context) async {
+    await Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.leftToRight,
+        duration: Duration(milliseconds: 125),
+        reverseDuration: Duration(milliseconds: 125),
+        child: WelcomeWidget(),
+      ),
+    );
+  }
+
+  static void logOutToWelcome(BuildContext context) async {
+    await Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WelcomeWidget(),
+      ),
+      (r) => false,
+    );
+  }
+
   @override
   _WelcomeWidgetState createState() => _WelcomeWidgetState();
 }
@@ -56,12 +76,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     ),
   };
 
-  bool _isInForeground = true;
-  bool _internetConnected = true;
-  ConnectivityResult _connectionStatus = ConnectivityResult.none;
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
   List<String>? adminEmails = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -73,69 +87,15 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
       this,
     );
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    _connectivitySubscription.cancel();
     super.dispose();
   }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      _isInForeground = true;
-      initConnectivity();
-    } else if (state == AppLifecycleState.paused) {
-      _isInForeground = false;
-    }
-  }
-
-  Future<void> initConnectivity() async {
-    late ConnectivityResult result;
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      developer.log('Couldn\'t check connectivity status', error: e);
-      return;
-    }
-    if (!mounted) {
-      return Future.value(null);
-    }
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    _connectionStatus = result;
-    if (_isInForeground) {
-      if (_connectionStatus == ConnectivityResult.none) {
-        _internetConnected = false;
-        Toasted.showToast("Please connect to the Internet.");
-      } else if (_connectionStatus == ConnectivityResult.wifi ||
-          _connectionStatus == ConnectivityResult.mobile) {
-        if (!_internetConnected) {
-          await checkInternetConnection();
-        }
-      }
-    }
-  }
-
-  Future<void> checkInternetConnection() async {
-    if (await Internet.isConnected()) {
-      _internetConnected = true;
-      Toasted.showToast("Connected to the Internet.");
-    } else {
-      _internetConnected = false;
-      Toasted.showToast("Please connect to the Internet.");
-    }
-  }
-
+    
   Future<FirebaseApp> _initFirebaseApp() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;

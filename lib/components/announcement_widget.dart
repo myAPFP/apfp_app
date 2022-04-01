@@ -96,7 +96,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                           ),
                           child: AutoSizeText(
                             widget.description,
-                            minFontSize: 16,
+                            minFontSize: 18,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
