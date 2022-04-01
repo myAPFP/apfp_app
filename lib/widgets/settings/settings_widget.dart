@@ -1,11 +1,18 @@
+import 'dart:io';
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:apfp/util/validator/validator.dart';
+import 'package:apfp/widgets/add_goal/add_goal_widget.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../../util/goals/goal.dart';
+import '../completed_goals/completed_goals_widget.dart';
+import '../health_app_info/health_app_info.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +30,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   TextEditingController? _passwordController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final currentUser = FirebaseAuth.instance.currentUser;
+  String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   @override
   void initState() {
@@ -95,16 +103,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         contr: _passwordController);
   }
 
-  void _returnToWelcome() async {
-    await Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => WelcomeWidget(),
-      ),
-      (r) => false,
-    );
-  }
-
   Row _dialogInfoRow(String text) {
     return Row(
       children: [
@@ -131,7 +129,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               messaging.deleteToken();
               await FireAuth.signOut();
               Toasted.showToast("Logged out.");
-              _returnToWelcome();
+              WelcomeWidget.logOutToWelcome(context);
             }),
         text: 'Log Out',
         options: FFButtonOptions(
@@ -236,19 +234,33 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 SizedBox(height: 15),
                 _settingsButton(
-                    title: "Add Activity Tracker",
-                    onTap: () {
-                      print("AAT Tapped!");
+                    title: "Sync $_platformHealthName",
+                    onTap: () async {
+                      if (await Permission.activityRecognition
+                          .request()
+                          .isGranted) {
+                        Toasted.showToast(
+                            "$_platformHealthName has been synchronized!");
+                      } else if (await Permission.activityRecognition
+                          .request()
+                          .isPermanentlyDenied) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HealthAppInfo()),
+                        );
+                      }
                     }),
                 _settingsButton(
                     title: "Set Activity Goals",
                     onTap: () {
-                      print("SAG Tapped!");
+                      AddGoalWidget.launch(context);
                     }),
                 _settingsButton(
-                    title: "Notification Settings",
+                    title: "View Completed Goals",
                     onTap: () {
-                      print("NS Tapped!");
+                      CompletedGoalsWidget.launch(context,
+                          mode: Goal.isDailyDisplayed ? "Daily" : "Weekly");
                     }),
                 _settingsButton(
                     title: "Change Password",
@@ -288,7 +300,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 context: context,
                                 title: Text('Enter your password to confirm.'),
                                 content: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     _emailTextField(),
@@ -311,11 +324,17 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 },
                                 onSubmitTap: () {
                                   if (_getPassword().isNotEmpty) {
-                                    FocusManager.instance.primaryFocus?.unfocus();
-                                    // Firebase requires a user to be recently
-                                    // signed in before deleting their account
-                                    FireAuth.signOut();
-                                    _signInAndDelete();
+                                    if (!Validator.hasProfanity(
+                                        _getPassword())) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      // Firebase requires a user to be recently
+                                      // signed in before deleting their account
+                                      FireAuth.signOut();
+                                      _signInAndDelete();
+                                    } else
+                                      Toasted.showToast(
+                                          'Profanity is not allowed.');
                                   } else
                                     Toasted.showToast(
                                         'Please provide a password.');
@@ -331,4 +350,3 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 }
-

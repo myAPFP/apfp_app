@@ -1,7 +1,8 @@
+import 'package:apfp/service/notification_service.dart';
+import 'package:apfp/widgets/completed_goals/completed_goals_widget.dart';
 import 'package:apfp/widgets/settings/settings_widget.dart';
 import 'package:apfp/widgets/welcome/welcome_widget.dart';
 import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'firebase/firestore.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
+import 'flutter_flow/flutter_flow_util.dart';
 import 'widgets/home/home_widget.dart';
 import 'widgets/alerts/alerts_widget.dart';
 import 'widgets/at_home_exercises/at_home_exercises_widget.dart';
@@ -18,13 +20,14 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
     statusBarColor: Colors.transparent,
   ));
+  NotificationService.init();
   runApp(MyApp());
 }
 
@@ -40,6 +43,7 @@ class NavBarPage extends StatefulWidget {
 class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   int _currentPage = 0;
   late Stream<DocumentSnapshot<Map<String, dynamic>>> userActivity;
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> userGoals;
   late FirebaseMessaging messaging;
   Stream<QuerySnapshot> ytPlaylistStream = FireStore.getYTPlaylistIDs();
   Stream<QuerySnapshot> ytVideoStream = FireStore.getYTVideoUrls();
@@ -56,10 +60,14 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     userActivity = connectActivityDocument();
+    userGoals = connectGoalDocument();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
-    pageList.add(HomeWidget(announcementsStream: announcements));
+    pageList.add(HomeWidget(
+        announcementsStream: announcements,
+        activityStream: userActivity,
+        goalStream: userGoals));
     pageList.add(AlertsWidget(announcementsStream: announcements));
     pageList.add(AtHomeExercisesWidget(
         playlistStream: ytPlaylistStream, videoStream: ytVideoStream));
@@ -69,6 +77,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     WidgetsBinding.instance!.addObserver(this);
+    listenToNotifications();
   }
 
   @override
@@ -89,6 +98,14 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     }
   }
 
+  void listenToNotifications() {
+    NotificationService.onNotifications.stream.listen(onClickNotification);
+  }
+
+  void onClickNotification(String? payload) {
+    CompletedGoalsWidget.launch(context, mode: payload!);
+  }
+
   Stream<DocumentSnapshot<Map<String, dynamic>>> connectActivityDocument() {
     Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
         FirebaseFirestore.instance
@@ -101,6 +118,20 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
       }
     });
     return FireStore.createUserActivityStream();
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> connectGoalDocument() {
+    Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
+        FirebaseFirestore.instance
+            .collection('goals')
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .get();
+    userDocumentReference.then((value) {
+      if (!value.exists) {
+        FireStore.createGoalDocument();
+      }
+    });
+    return FireStore.createGoalDocStream();
   }
 
   Future<void> initConnectivity() async {
@@ -122,7 +153,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     if (_isInForeground) {
       if (_connectionStatus == ConnectivityResult.none) {
         _internetConnected = false;
-        Toasted.showToast("Please connect to the Internet.");
+        showSnackbar(context, "Please check your Internet connection",
+            duration: Duration(days: 365), noConnection: true);
       } else if (_connectionStatus == ConnectivityResult.wifi ||
           _connectionStatus == ConnectivityResult.mobile) {
         if (!_internetConnected) {
@@ -135,10 +167,11 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   Future<void> checkInternetConnection() async {
     if (await Internet.isConnected()) {
       _internetConnected = true;
-      Toasted.showToast("Connected to the Internet.");
+      showSnackbar(context, "Connected to the Internet");
     } else {
       _internetConnected = false;
-      Toasted.showToast("Please connect to the Internet.");
+      showSnackbar(context, "Please check your Internet connection",
+          duration: Duration(days: 365), noConnection: true);
     }
   }
 

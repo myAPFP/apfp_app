@@ -5,15 +5,11 @@ class FireStore {
   static Stream<QuerySnapshot> getYTPlaylistIDs() {
     return FirebaseFirestore.instance
         .collection('youtube-playlists')
-        .orderBy("Title")
         .snapshots();
   }
 
   static Stream<QuerySnapshot> getYTVideoUrls() {
-    return FirebaseFirestore.instance
-        .collection('youtube-videos')
-        .orderBy("Title")
-        .snapshots();
+    return FirebaseFirestore.instance.collection('youtube-videos').snapshots();
   }
 
   static void storeUID(String docId, String uid) {
@@ -49,6 +45,14 @@ class FireStore {
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
+  static CollectionReference<Map<String, dynamic>> getGoalLogCollection(
+      {required String goalType}) {
+    return FirebaseFirestore.instance
+        .collection('goal-logs')
+        .doc(goalType)
+        .collection(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
   static Stream<DocumentSnapshot<Map<String, dynamic>>>
       createUserActivityStream() {
     return getUserActivityDocument().snapshots();
@@ -63,5 +67,80 @@ class FireStore {
         .collection('activity')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .set(new Map());
+  }
+
+  static DocumentReference<Map<String, dynamic>> getGoalDocument() {
+    return FirebaseFirestore.instance
+        .collection('goals')
+        .doc(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>>
+      createGoalDocStream() {
+    return getGoalDocument().snapshots();
+  }
+
+  static Future<void> updateGoalData(Map<String, dynamic> data) {
+    return getGoalDocument().update(data);
+  }
+
+  static void createGoalDocument() async {
+    await FirebaseFirestore.instance
+        .collection('goals')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .set({
+      "isHealthTrackerPermissionGranted": false,
+      "isDailyDisplayed": true,
+      "isExerciseTimeGoalSet": false,
+      "isExerciseTimeGoalSet_w": false,
+      "isCalGoalSet": false,
+      "isCalGoalSet_w": false,
+      "isStepGoalSet": false,
+      "isStepGoalSet_w": false,
+      "isMileGoalSet": false,
+      "isMileGoalSet_w": false,
+      "isCyclingGoalSet": false,
+      'isCyclingGoalSet_w': false,
+      "isRowingGoalSet": false,
+      "isRowingGoalSet_w": false,
+      "isStepMillGoalSet": false,
+      "isStepMillGoalSet_w": false,
+      "exerciseTimeGoalProgressWeekly": 0,
+      "exerciseTimeGoalProgress": 0,
+      "exerciseTimeEndGoal": 0,
+      "exerciseTimeEndGoal_w": 0,
+      "calGoalProgress": 0,
+      "calGoalProgressWeekly": 0,
+      "calEndGoal": 0,
+      "calEndGoal_w": 0,
+      "stepGoalProgress": 0,
+      "stepGoalProgressWeekly": 0,
+      "stepEndGoal": 0,
+      "stepEndGoal_w": 0,
+      "mileGoalProgress": 0,
+      "mileGoalProgressWeekly": 0,
+      "mileEndGoal": 0,
+      "mileEndGoal_w": 0,
+      "cyclingGoalProgress": 0,
+      "cyclingGoalProgressWeekly": 0,
+      "cyclingEndGoal": 0,
+      "cyclingEndGoal_w": 0,
+      "rowingGoalProgress": 0,
+      "rowingGoalProgressWeekly": 0,
+      "rowingEndGoal": 0,
+      "rowingEndGoal_w": 0,
+      "stepMillGoalProgress": 0,
+      "stepMillGoalProgressWeekly": 0,
+      "stepMillEndGoal": 0,
+      "stepMillEndGoal_w": 0,
+      "exerciseWeekDeadline": "0/00/0000",
+      "calWeekDeadline": "0/00/0000",
+      "stepWeekDeadline": "0/00/0000",
+      "mileWeekDeadline": "0/00/0000",
+      "cyclingWeekDeadline": "0/00/0000",
+      "rowingWeekDeadline": "0/00/0000",
+      "stepMillWeekDeadline": "0/00/0000",
+      "dayOfMonth": DateTime.now().day
+    });
   }
 }

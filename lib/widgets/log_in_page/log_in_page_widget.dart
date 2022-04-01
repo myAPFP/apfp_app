@@ -86,24 +86,27 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  Text _backToHomeText() {
+    return Text('< Back', style: FlutterFlowTheme.subtitle2);
+  }
+  
   /// Returns a [Padding] widget who's child is a [InkWell].
   ///
   /// [InkWell]'s [onTap] parameter is used to go back to [WelcomeWidget].
   ///
   /// [InkWell]'s [child] parameter holds a [Text] which serves as the button title.
-  Padding _backButton() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-      child: InkWell(
-        onTap: () async {
-          await Navigator.push(
-            context,
-            _transitionTo(WelcomeWidget()),
-          );
-        },
-        child: Text('< Back to Home', style: FlutterFlowTheme.subtitle2),
-      ),
-    );
+  Row _backButton() {
+    return Row(children: [
+      Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(20, 25, 0, 50),
+        child: InkWell(
+          onTap: () async {
+            WelcomeWidget.returnToWelcome(context);
+          },
+          child: _backToHomeText(),
+        ),
+      )
+    ]);
   }
 
   /// Returns a [TextFormField] which is used for email address input.
@@ -181,6 +184,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide a value";
+                }
+                if (Validator.hasProfanity(value)) {
+                  return 'Profanity is not allowed';
                 }
                 return null;
               },
@@ -276,7 +282,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         }
       }
     } else
-      Toasted.showToast("Please connect to the Internet.");
+      showSnackbar(context, "Please check your Internet connection");
   }
 
   /// This method is called when a user attempts to login with the correct
@@ -387,8 +393,11 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                         '\n\nYou will recieve a link to reset your password.',
                 onSubmitTap: () {
                   if (Validator.isValidEmail(_getDialogEmail())) {
-                    FireAuth.sendResetPasswordLink(email: _getDialogEmail());
-                    Navigator.pop(context);
+                    if (!Validator.hasProfanity(_getDialogEmail())) {
+                      FireAuth.sendResetPasswordLink(email: _getDialogEmail());
+                      Navigator.pop(context);
+                    } else
+                      Toasted.showToast('Profanity is not allowed.');
                   } else
                     Toasted.showToast('Please provide a valid email address');
                 }),
@@ -404,10 +413,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: WillPopScope(
         onWillPop: () async {
-          await Navigator.push(
-            context,
-            _transitionTo(WelcomeWidget()),
-          );
+          WelcomeWidget.returnToWelcome(context);
           return false;
         },
         child: Scaffold(

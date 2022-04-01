@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/util/validator/validator.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:health/health.dart';
+import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../util/toasted/toasted.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
@@ -23,25 +28,94 @@ class ActivityWidget extends StatefulWidget {
 
 class _ActivityWidgetState extends State<ActivityWidget> {
   List<Padding> cards = [];
-  XFile? imagepick = null;
+  XFile? imagepick;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late Map<String, dynamic> currentSnapshotBackup;
 
   @override
   void initState() {
     super.initState();
-    widget.activityStream.first.then((firstElement) {
-      currentSnapshotBackup = firstElement.data()!;
-    });
+    widget.activityStream.first
+        .then((firstElement) => currentSnapshotBackup = firstElement.data()!);
+    _syncHealthAppData();
     _collectActivity();
+  }
+
+  void _syncIOSHealthData(HealthFactory health) async {
+    await health
+        .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
+      if (value) {
+        DateTime now = DateTime.now();
+        await health.getHealthDataFromTypes(
+            DateTime(now.year, now.month, now.day),
+            now,
+            [HealthDataType.WORKOUT]).then((value) {
+          for (HealthDataPoint dataPoint in value) {
+            _addActivityToCloud(
+              ActivityCard(
+                  icon: Icons.emoji_events_rounded,
+                  duration: dataPoint.dateTo
+                          .difference(dataPoint.dateFrom)
+                          .inMinutes
+                          .toString() +
+                      " minutes",
+                  name: "Imported Activity",
+                  type: "Exercise",
+                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
+            );
+          }
+        });
+      }
+    });
+  }
+
+  void _syncAndroidHealthData(HealthFactory health) async {
+    bool requested;
+    List<HealthDataType> types = List.empty(growable: true);
+    types.addAll([
+      HealthDataType.MOVE_MINUTES,
+      HealthDataType.ACTIVE_ENERGY_BURNED,
+      HealthDataType.STEPS,
+      HealthDataType.DISTANCE_DELTA
+    ]);
+    if (await Permission.activityRecognition.status.isGranted) {
+      requested = await health.requestAuthorization(types);
+      if (requested) {
+        try {
+          DateTime now = DateTime.now();
+          List<HealthDataPoint> healthData =
+              await health.getHealthDataFromTypes(
+                  DateTime(now.year, now.month, now.day), now, types);
+          for (HealthDataPoint dataPoint in healthData) {
+            _addActivityToCloud(
+              ActivityCard(
+                  icon: Icons.emoji_events_rounded,
+                  duration: dataPoint.value.toString() + " minutes",
+                  name: "Imported Activity",
+                  type: "Exercise",
+                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
+            );
+          }
+        } catch (error) {
+          Toasted.showToast("Activity data could not be retreived: $error ");
+        }
+      }
+    }
+  }
+
+  void _syncHealthAppData() async {
+    if (Platform.isIOS) {
+      _syncIOSHealthData(new HealthFactory());
+    } else if (Platform.isAndroid) {
+      _syncAndroidHealthData(new HealthFactory());
+    }
   }
 
   void _collectActivity() {
     widget.activityStream.forEach((element) {
       Map sortedMap = new Map();
-      if (element.data() == null) {
-        currentSnapshotBackup = new Map();
-      } else {
+      currentSnapshotBackup = new Map();
+      if (element.data() != null) {
         currentSnapshotBackup = element.data()!;
         currentSnapshotBackup.forEach((key, value) {
           if (DateTime.parse(key).day != DateTime.now().day) {
@@ -51,22 +125,18 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           }
         });
       }
-      setState(() {
-        cards.clear();
-      });
+      setState(() => cards.clear());
       sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
-      sortedMap.forEach((key, value) {
-        addCard(ActivityCard(
-                icon: Icons.emoji_events_rounded,
-                duration: value[2],
-                name: value[0],
-                type: value[1],
-                timestamp: key != null
-                    ? DateTime.parse(key).toIso8601String()
-                    : DateTime.now().toIso8601String())
-            .paddedActivityCard(context));
-      });
+      sortedMap.forEach((key, value) => addCard(ActivityCard(
+              icon: Icons.emoji_events_rounded,
+              duration: value[2],
+              name: value[0],
+              type: value[1],
+              timestamp: key != null
+                  ? DateTime.parse(key).toIso8601String()
+                  : DateTime.now().toIso8601String())
+          .paddedActivityCard(context)));
     });
   }
 
@@ -98,9 +168,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   void addCard(Padding card) {
-    setState(() {
-      cards.add(card);
-    });
+    setState(() => cards.add(card));
   }
 
   share({String? body, String? subject}) async {
@@ -115,21 +183,22 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
 
-  void _showShareWithImageDialog(List<String> cardInfo) async {
+  void _showShareWithImageDialog(Padding paddedActivityCard) async {
+    final cardInfo = paddedActivityCard.key.toString().split(' ');
     ConfirmationDialog.showConfirmationDialog(
         context: context,
         title: Text('Share Activity?'),
         content: Text(
-            'The image you just added will be included with your ${cardInfo[0]} activity.' +
+            'The image you just added will be included with your ${cardInfo[1]} activity.' +
                 '\n\nIf you chose no, the image will be deleted.',
             style: TextStyle(fontSize: 20)),
         onSubmitTap: () async {
           share(
               subject: "New Activity Completed!",
               body: 'I completed a new activity! \n\n' +
-                  'Activity: ${cardInfo[0].replaceAll(RegExp('-'), ' ')}\n' +
-                  'Exercise Type: ${cardInfo[1]}\n' +
-                  'Duration: ${cardInfo[2]} ${cardInfo[3]}\n' +
+                  'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
+                  'Exercise Type: ${cardInfo[2]}\n' +
+                  'Duration: ${cardInfo[3]} ${cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
                   '\nSent from the APFP App.');
           imagepick = null;
           Navigator.pop(context);
@@ -150,13 +219,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         backgroundColor: FlutterFlowTheme.secondaryColor,
         child: Icon(Icons.add),
         onPressed: () async {
-          try {
-            var result = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddActivityWidget()));
-            if (result != null) {
-              _addActivityToCloud(result);
-            }
-          } finally {}
+          var result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddActivityWidget()));
+          if (result != null) {
+            _addActivityToCloud(result);
+          }
         },
       ),
       backgroundColor: Colors.white,
@@ -189,15 +256,13 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     title: Text("+ Image/Share"),
                                     trailingIcon: Icon(Icons.image),
                                     onPressed: () async {
-                                      final cardInfo =
-                                          Validator.cardInfoToList(e)!;
                                       imagepick = null;
                                       imagepick = await ImagePicker().pickImage(
                                           source: ImageSource.camera);
                                       if (imagepick == null) {
                                         return;
                                       } else {
-                                        _showShareWithImageDialog(cardInfo);
+                                        _showShareWithImageDialog(e);
                                       }
                                     }),
                                 FocusedMenuItem(
@@ -222,7 +287,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                         color: Colors.redAccent),
                                     onPressed: () {
                                       final cardInfo =
-                                          Validator.cardInfoToList(e)!;
+                                          e.key.toString().split(' ');
                                       ConfirmationDialog.showConfirmationDialog(
                                           title: Text("Remove Activity?"),
                                           context: context,

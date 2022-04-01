@@ -6,8 +6,8 @@ import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:apfp/flutter_flow/flutter_flow_util.dart';
 import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
+import '../../flutter_flow/flutter_flow_util.dart';
 import '../successful_registration/successful_registration_widget.dart';
 import '../welcome/welcome_widget.dart';
 import 'package:flutter/material.dart';
@@ -124,7 +124,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             child: InkWell(
               key: Key("Create.backButton"),
               onTap: () async {
-                _returnToWelcome();
+                WelcomeWidget.returnToWelcome(context);
               },
               child: Text(
                 '< Back',
@@ -146,18 +146,18 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         children: [
           Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: 150,
+              height: 120,
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
               child: Text.rich(
                 TextSpan(
-                    text: 'Welcome to the Adult Physical Fitness App.' +
+                    text: 'Welcome to the myAPFP app.' +
                         ' Please enter the details below to create your account.',
                     style: FlutterFlowTheme.subtitle1,
                     children: <InlineSpan>[
                       TextSpan(
-                        text: 'You must be a member of the APFP to sign up.',
+                        text: '\nAPFP Membership is required to sign up.',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -210,6 +210,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               return "Please provide a valid first name";
             } else if (value.substring(0, 1) != firstUpperCase) {
               return "Please capitalize your name";
+            }
+            if (Validator.hasProfanity(value)) {
+              // We want to allow the use of this word 
+              // here as it is a valid name
+              if (value.trim() != 'Dick') {
+                return 'Profanity is not allowed';
+              }
             }
             return null;
           },
@@ -282,6 +289,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             return "Please provide a valid last name";
           } else if (value.substring(0, 1) != firstUpperCase) {
             return "Please capitalize your name";
+          }
+          if (Validator.hasProfanity(value)) {
+            // We want to allow the use of this word 
+            // here as it is a valid name
+            if (value.trim() != 'Dick') {
+              return 'Profanity is not allowed';
+            }
           }
           return null;
         },
@@ -693,7 +707,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         });
       }
     } else
-      Toasted.showToast("Please connect to the Internet.");
+      showSnackbar(context, "Please check your Internet connection");
   }
 
   void _createAccount() async {
@@ -758,25 +772,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  void _returnToWelcome() async {
-    await Navigator.push(
-      context,
-      PageTransition(
-        type: PageTransitionType.leftToRight,
-        duration: Duration(milliseconds: 125),
-        reverseDuration: Duration(milliseconds: 125),
-        child: WelcomeWidget(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: WillPopScope(
         onWillPop: () async {
-          _returnToWelcome();
+          WelcomeWidget.returnToWelcome(context);
           return false;
         },
         child: Scaffold(

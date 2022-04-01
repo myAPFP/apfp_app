@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 class Validator {
-  /// Extracts activity data from a paddedActivityCard
-  static RegExp _cardToStrRegex = new RegExp(r'\[<(.*?)\>]');
+  static final filter = ProfanityFilter();
 
   /// Matches any string containing only letters (lowercase & uppercase)
   static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
 
-  /// Matches positive double, int, and float values >= 0
-  static RegExp _numericRegex =
-      new RegExp(r'^[+]?([0-9]|[0-9][0-9]|100)*\.?[0-9]+$');
+  /// Matches positive integers >= 0
+  static RegExp _integerRegex = new RegExp(r'^[1-9]\d*$');
+
+  /// Matches postive ints, doubles
+  static RegExp _numRegex = new RegExp(
+      r'^[+]?\d+([.]\d+)?$');
 
   /// Matches most names, including those that contains spaces
   static RegExp _validNameRegex =
@@ -30,13 +33,12 @@ class Validator {
   static RegExp validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
-  static List<String>? cardInfoToList(Padding paddedActivityCard) {
-    final match = _cardToStrRegex.firstMatch(paddedActivityCard.toString());
-    return match!.group(0)!.substring(3, match.group(0)!.length - 3).split(' ');
+  static bool isInt(String num) {
+    return _integerRegex.hasMatch(num);
   }
 
-  static bool isValidDuration(String duration) {
-    return _numericRegex.hasMatch(duration);
+  static bool isNumeric(String num) {
+    return _numRegex.hasMatch(num);
   }
 
   static bool isValidActivity(String activityName) {
@@ -62,5 +64,9 @@ class Validator {
 
   static bool textFieldHasValue(TextEditingController controller) {
     return controller.text.isNotEmpty;
+  }
+
+  static bool hasProfanity(String input) {
+    return filter.hasProfanity(input);
   }
 }
