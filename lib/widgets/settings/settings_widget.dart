@@ -257,6 +257,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       AddGoalWidget.launch(context);
                     }),
                 _settingsButton(
+
                     title: "View Completed Goals",
                     onTap: () {
                       CompletedGoalsWidget.launch(context,
