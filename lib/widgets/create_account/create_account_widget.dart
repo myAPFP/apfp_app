@@ -21,17 +21,45 @@ class CreateAccountWidget extends StatefulWidget {
 }
 
 class _CreateAccountWidgetState extends State<CreateAccountWidget> {
+  /// [TextEditingController] for [_firstNameTextFormField].
   TextEditingController? _firstNameController;
+
+  /// [TextEditingController] for [_lastNameTextFormField].
   TextEditingController? _lastNameController;
+
+  /// [TextEditingController] for [_emailTextFormField].
   TextEditingController? _emailController;
+
+  /// [TextEditingController] for [_passwordTextFormField].
   TextEditingController? _passwordController;
-  late bool _passwordVisibility;
+
+  /// [TextEditingController] for [_confirmPasswordTextFormField].
   TextEditingController? _confirmPasswordController;
-  late bool _confirmPasswordVisibility;
+
+  /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
-  final _formKey = GlobalKey<FormState>();
+
+  /// Controls visisbility of characters in [_passwordTextFormField].
+  late bool _passwordVisibility;
+
+  /// Controls visisbility of characters in [_confirmPasswordTextFormField].
+  late bool _confirmPasswordVisibility;
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  late var _docID;
+
+  /// Serves as key for the [Form] found in [build].
+  ///
+  /// Used to validate the current state of the [Form].
+  final _formKey = GlobalKey<FormState>();
+
+  /// Stores the id of the document associated with the user in the
+  /// 'registered-users' Firestore collection.
+  ///
+  /// This variable will be assigned a value if a user provides valid APFP credentials
+  /// and is later used to add a user's uid to their associated document
+  /// within the 'registered-users' collection upon successful account creation.
+  late String _docID;
 
   @override
   void initState() {
@@ -55,19 +83,32 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     _confirmPasswordController!.dispose();
   }
 
+  /// Returns trimmed, lowercased text taken from [_emailController].
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
 
+  /// Returns trimmed text taken from [_firstNameController]
+  /// and [_lastNameController] and returns a string including
+  /// the first and last name.
+  /// 
+  /// Ex: John Doe
   String _getFullName() {
-    return "${_firstNameController!.text.trim()}" +
-        " ${_lastNameController!.text.trim()}";
+    final first = _firstNameController!.text.trim();
+    final last = _lastNameController!.text.trim();
+    return "${first} ${last}";
   }
 
+  /// Returns trimmed text taken from [_passwordController].
   String _getPassword() {
     return _passwordController!.text.trim();
   }
 
+
+  /// Returns a [Row] in which an inner [InkWell], wrapped in a [Padding] and [Container],
+  /// serves as the back button.
+  /// 
+  /// When [InkWell]'s [onTap] is called, a call to [_returnToWelcome] is made.
   Row _backButtonRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -149,7 +190,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Padding _firstNameTextField() {
+  Padding _firstNameTextFormField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
       child: Container(
@@ -231,7 +272,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Container _lastNameTextField() {
+  Container _lastNameTextFormField() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(),
@@ -302,13 +343,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_firstNameLabel(), _firstNameTextField()],
+              children: [_firstNameLabel(), _firstNameTextFormField()],
             ),
           ),
           Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_lastNameLabel(), _lastNameTextField()])
+              children: [_lastNameLabel(), _lastNameTextFormField()])
         ],
       ),
     );
@@ -340,7 +381,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _emailTextField() {
+  Row _emailTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -421,7 +462,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _passwordTextField() {
+  Row _passwordTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -524,7 +565,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
-  Row _confirmPasswordTextField() {
+  Row _confirmPasswordTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -656,7 +697,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             .then((QuerySnapshot querySnapshot) {
           if (querySnapshot.size != 0) {
             // Only works if there is unqiueness amongst
-            // all email fields in firestore db
+            // all email fields in 'registered users' firestore collection
             _docID = querySnapshot.docs.first.id;
             _createAccount();
           } else {
@@ -755,11 +796,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     _headerText(),
                     _nameRow(),
                     _emailLabel(),
-                    _emailTextField(),
+                    _emailTextFormField(),
                     _passwordLabel(),
-                    _passwordTextField(),
+                    _passwordTextFormField(),
                     _confirmPasswordLabel(),
-                    _confirmPasswordTextField(),
+                    _confirmPasswordTextFormField(),
                     _createAccountButton(),
                     SizedBox(height: 25)
                   ],

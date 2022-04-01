@@ -20,12 +20,27 @@ class LogInPageWidget extends StatefulWidget {
 }
 
 class _LogInPageWidgetState extends State<LogInPageWidget> {
+  /// [TextEditingController] for [_emailTextFormField].
   TextEditingController? _emailController;
+
+  /// [TextEditingController] for [_passwordTextFormField].
   TextEditingController? _passwordController;
+
+  /// [TextEditingController] for the [_emailDialogTextField] within [_showEmailDialog].
   TextEditingController? _dialogEmailController;
+
+  /// Controls visisbility of characters in [_passwordTextFormField].
   late bool passwordVisibility;
+
+  /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
+
+  
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// Serves as key for the [Form] found in [build].
+  ///
+  /// Used to validate the current state of the [Form].
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -45,18 +60,23 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     _dialogEmailController!.dispose();
   }
 
+  /// Returns trimmed, lowercased text taken from [_emailController].
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
 
+  /// Returns trimmed, lowercased text taken from [_dialogEmailController] within [_showEmailDialog].
   String _getDialogEmail() {
     return _dialogEmailController!.text.trim().toLowerCase();
   }
 
+  /// Returns trimmed text taken from [_passwordController].
   String _getPassword() {
     return _passwordController!.text.trim();
   }
 
+  /// Adds leftToRight [PageTransition] animation between this route,
+  /// [LogInPageWidget], and another route.
   PageTransition _transitionTo(Widget child) {
     return PageTransition(
       type: PageTransitionType.leftToRight,
@@ -69,7 +89,12 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   Text _backToHomeText() {
     return Text('< Back', style: FlutterFlowTheme.subtitle2);
   }
-
+  
+  /// Returns a [Padding] widget who's child is a [InkWell].
+  ///
+  /// [InkWell]'s [onTap] parameter is used to go back to [WelcomeWidget].
+  ///
+  /// [InkWell]'s [child] parameter holds a [Text] which serves as the button title.
   Row _backButton() {
     return Row(children: [
       Padding(
@@ -84,16 +109,18 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     ]);
   }
 
+  /// Returns a [TextFormField] which is used for email address input.
+  ///
+  /// This [Widget] uses [_emailController] as its [TextEditingController].
   Row _emailTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
               key: Key("Login.emailTextField"),
-              autofillHints: [AutofillHints.email],
               cursorColor: FlutterFlowTheme.secondaryColor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -106,14 +133,31 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               },
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
+              obscureText: false,
               decoration: InputDecoration(
-                  hintText: 'example@bsu.edu',
-                  hintStyle: FlutterFlowTheme.bodyText1,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
+                hintText: 'example@bsu.edu',
+                hintStyle: FlutterFlowTheme.bodyText1,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
                   ),
-                  focusedBorder:
-                      OutlineInputBorder(borderSide: BorderSide(width: 2))),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
+              ),
               style: FlutterFlowTheme.bodyText1,
               textAlign: TextAlign.start,
             ),
@@ -123,13 +167,17 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  /// Returns a [TextFormField] which is used for password input.
+  ///
+  /// This [Widget] uses [_passwordController] as its [TextEditingController].
   Row _passwordTextFormField() {
     return Row(
+      key: Key('LogIn.passwordTextBox'),
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 25, 0),
             child: TextFormField(
               key: Key("Login.passwordTextField"),
               cursorColor: FlutterFlowTheme.secondaryColor,
@@ -145,9 +193,26 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               controller: _passwordController,
               obscureText: !passwordVisibility,
               decoration: InputDecoration(
-                border: OutlineInputBorder(borderSide: BorderSide(width: 2.0)),
-                focusedBorder:
-                    OutlineInputBorder(borderSide: BorderSide(width: 2)),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
                 suffixIcon: InkWell(
                   key: Key("Login.passwordVisibiltyIcon"),
                   onTap: () => setState(
@@ -171,6 +236,9 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  /// Returns a [Row] whose only child is a [Text] widget wrapped in a [Padding].
+  ///
+  /// The string passed to this method will be displayed as a label.
   Row _label(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -187,6 +255,16 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  /// This method is called when a user presses the 'Log In' button.
+  ///
+  /// If the user is not connected to the Internet before
+  /// this method is called, a relevant warning toast will be displayed.
+  ///
+  /// Otherwise, if connected to the Internet, an attempt to validate
+  /// the [Form] is made, and if successful, the user is signed in.
+  ///
+  /// - If the user has verified their email address, they are finally taken to
+  /// Home. Otherwise, the user will be taken to the [EmailNotConfirmedWidget] route.
   void _login() async {
     if (await Internet.isConnected()) {
       if (_formKey.currentState!.validate()) {
@@ -207,6 +285,11 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
       showSnackbar(context, "Please check your Internet connection");
   }
 
+  /// This method is called when a user attempts to login with the correct
+  /// credentials AND has their email address verified.
+  ///
+  /// When called a [CircularProgressIndicator] loading animation starts until
+  /// the user is successfully taken to Home.
   void _goHome() async {
     setState(() => _loadingButton = true);
     try {
@@ -219,6 +302,8 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     }
   }
 
+  /// Returns a [Padding] which creates the 'Log In' button which appears on screen.
+  /// When pressed, [_login] is called.
   Padding _logInButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
@@ -252,6 +337,15 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
+  /// When called, this method shows a dialog which has a title, content text
+  /// and a [TextField] allowing users to enter their email address.
+  ///
+  /// The [title] will be displayed on the top of the dialog in bold font.
+  ///
+  /// The [contentText] will be displayed above the [TextField].
+  ///
+  /// The [onSubmitTap] parameter holds the method to be called when the user
+  /// presses the dialog's submit ('SEND') button.
   void _showEmailDialog(
       {String? title, String? contentText, Function()? onSubmitTap}) {
     ConfirmationDialog.showConfirmationDialog(
@@ -276,6 +370,12 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         submitText: "Send");
   }
 
+  // Returns a [Padding] which creates the 'Forgot Your Password?' label which appears on screen.
+  /// When pressed, [_showEmailDialog] is called, showing a dialog which prompts
+  /// a user to enter their email address to receive instructions on how to reset
+  /// their password.
+  ///
+  /// If a user submits an invalid email address, a relevant warning toast is displayed.
   Padding _forgotPasswordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),

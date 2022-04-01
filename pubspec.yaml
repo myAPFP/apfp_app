@@ -56,7 +56,6 @@ dependencies:
   health: ^3.4.3
   permission_handler: ^8.3.0
 
-
 dev_dependencies:
   flutter_launcher_icons: ^0.9.1
 
