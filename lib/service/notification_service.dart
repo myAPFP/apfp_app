@@ -1,6 +1,7 @@
-import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 class NotificationService {
   static FlutterLocalNotificationsPlugin _notifications =
@@ -39,7 +40,7 @@ class NotificationService {
           _channel.name,
           channelDescription: _channel.description,
           importance: Importance.high,
-          color: FlutterFlowTheme.secondaryColor,
+          color: Colors.white,
           playSound: true
         )),
         payload: type);
