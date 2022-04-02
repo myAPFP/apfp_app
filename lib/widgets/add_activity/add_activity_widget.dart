@@ -16,6 +16,19 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? duration;
   String? unitOfTime = 'Minutes';
   String? exercisetype = 'Cardio';
+  String? customGoalName = "";
+
+  List<String> exerciseTypes = [
+    "Aerobic",
+    'Body-Composition',
+    'Cardio',
+    'Endurance',
+    'Flexibility',
+    'Kinesthetic',
+    'Speed',
+    'Strength',
+    "Total-Body"
+  ];
 
   TextEditingController? activityNameTextController;
   TextEditingController? exerciseTextController;
@@ -46,24 +59,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     return Text(text, style: style);
   }
 
-  String _getName() {
-    return activityNameTextController!.text.toString().trim();
-  }
-
   String _getDuration() {
     return durationTextController!.text.toString().trim();
-  }
-
-  List<String> _exerciseTypes() {
-    return const [
-      'Cardio',
-      'Endurance',
-      'Strength',
-      'Flexibility',
-      'Body-Composition',
-      'Speed',
-      'Kinesthetic'
-    ].toList();
   }
 
   FFButtonOptions _ffButtonOptions() {
@@ -93,7 +90,10 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                 ActivityCard(
                     icon: Icons.info,
                     duration: '${_getDuration()} $unitOfTime',
-                    name: _getName().replaceAll(RegExp(' +'), '-'),
+                    name: activityNameTextController!.text
+                        .toString()
+                        .trim()
+                        .replaceAll(RegExp(' +'), '-'),
                     type: exercisetype,
                     timestamp: DateTime.now().toIso8601String()));
           }
@@ -113,25 +113,34 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
+  bool _noRadioButtonSelected() {
+    return (customGoalName != "Cycling" &&
+        customGoalName != "Rowing" &&
+        customGoalName != "Step Mill");
+  }
+
   Padding _activityNameTextField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: TextFormField(
+          enabled: _noRadioButtonSelected(),
           key: Key("AddActivity.activityNameTextField"),
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please provide a value";
-            }
-            if (value.length > 15) {
-              return "15 character max limit. Current count: ${value.length}";
-            }
-            if (!Validator.isValidActivity(value)) {
-              return 'Alphabet letters only';
-            }
-            if (Validator.hasProfanity(value)) {
-              return 'Profanity is not allowed';
+            if (_noRadioButtonSelected()) {
+              if (value == null || value.isEmpty) {
+                return "Please provide a value";
+              }
+              if (value.length > 15) {
+                return "15 character max limit. Current count: ${value.length}";
+              }
+              if (!Validator.isValidActivity(value)) {
+                return 'Alphabet letters only';
+              }
+              if (Validator.hasProfanity(value)) {
+                return 'Profanity is not allowed';
+              }
             }
             return null;
           },
@@ -171,11 +180,38 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isValidDuration(value) || int.parse(value) < 1) {
+            if (!Validator.isInt(value)) {
               return 'Whole numbers (1+) only';
             }
-            if (int.parse(value) > 59) {
-              return '59 is max limit';
+            int minLimit = 0;
+            int maxLimit = 0;
+            switch (unitOfTime) {
+              case 'Seconds':
+                minLimit = 30;
+                maxLimit = 59;
+                break;
+              case 'Hours':
+                maxLimit = 3;
+                break;
+              default:
+                maxLimit = 59;
+                break;
+            }
+            if (int.parse(value) < minLimit) {
+              return '$minLimit ${unitOfTime!.toLowerCase()} is min limit';
+            }
+            if (int.parse(value) == 1) {
+              switch (unitOfTime) {
+                case 'Minutes':
+                  unitOfTime = 'Minute';
+                  break;
+                case 'Hours':
+                  unitOfTime = 'Hour';
+                  break;
+              }
+            }
+            if (int.parse(value) > maxLimit) {
+              return '$maxLimit ${unitOfTime!.toLowerCase()} is max limit';
             }
             return null;
           },
@@ -201,6 +237,61 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           style: FlutterFlowTheme.bodyText1,
         ),
       ),
+    );
+  }
+
+  Column _customGoalRadioButtons() {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          title: const Text('Cycling'),
+          leading: Radio(
+            toggleable: true,
+            value: 'Cycling',
+            groupValue: customGoalName,
+            onChanged: (value) {
+              setState(() {
+                customGoalName = value.toString();
+                activityNameTextController!.text =
+                    customGoalName != "null" ? customGoalName! : "";
+                exercisetype = 'Aerobic';
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text('Rowing'),
+          leading: Radio(
+            toggleable: true,
+            value: 'Rowing',
+            groupValue: customGoalName,
+            onChanged: (value) {
+              setState(() {
+                customGoalName = value.toString();
+                activityNameTextController!.text =
+                    customGoalName != "null" ? customGoalName! : "";
+                exercisetype = 'Total-Body';
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text('Step Mill'),
+          leading: Radio(
+            toggleable: true,
+            value: 'Step Mill',
+            groupValue: customGoalName,
+            onChanged: (value) {
+              setState(() {
+                customGoalName = value.toString();
+                activityNameTextController!.text =
+                    customGoalName != "null" ? customGoalName! : "";
+                exercisetype = 'Aerobic';
+              });
+            },
+          ),
+        )
+      ],
     );
   }
 
@@ -244,8 +335,10 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                         child: FlutterFlowDropDown(
-                          initialOption: 'Cardio',
-                          options: _exerciseTypes(),
+                          initialOption: exercisetype,
+                          options: _noRadioButtonSelected()
+                              ? exerciseTypes
+                              : [exercisetype!],
                           onChanged: (val) =>
                               setState(() => exercisetype = val),
                           width: MediaQuery.of(context).size.width,
@@ -269,7 +362,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         _durationTextField(),
                         FlutterFlowDropDown(
                           initialOption: 'Minutes',
-                          options: ['Seconds', 'Minutes'],
+                          options: ['Seconds', 'Minutes', 'Hours'],
                           onChanged: (val) => setState(() => unitOfTime = val),
                           width: MediaQuery.of(context).size.width * .55,
                           height: 50,
@@ -284,6 +377,13 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                         )
                       ],
                     ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
+                      child: _header(
+                          text: 'Other Activities',
+                          style: FlutterFlowTheme.title3),
+                    ),
+                    _customGoalRadioButtons(),
                     Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(

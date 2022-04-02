@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:health/health.dart';
+import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../util/toasted/toasted.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
@@ -31,7 +37,78 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     super.initState();
     widget.activityStream.first
         .then((firstElement) => currentSnapshotBackup = firstElement.data()!);
+    _syncHealthAppData();
     _collectActivity();
+  }
+
+  void _syncIOSHealthData(HealthFactory health) async {
+    await health
+        .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
+      if (value) {
+        DateTime now = DateTime.now();
+        await health.getHealthDataFromTypes(
+            DateTime(now.year, now.month, now.day),
+            now,
+            [HealthDataType.WORKOUT]).then((value) {
+          for (HealthDataPoint dataPoint in value) {
+            _addActivityToCloud(
+              ActivityCard(
+                  icon: Icons.emoji_events_rounded,
+                  duration: dataPoint.dateTo
+                          .difference(dataPoint.dateFrom)
+                          .inMinutes
+                          .toString() +
+                      " minutes",
+                  name: "Imported Activity",
+                  type: "Exercise",
+                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
+            );
+          }
+        });
+      }
+    });
+  }
+
+  void _syncAndroidHealthData(HealthFactory health) async {
+    bool requested;
+    List<HealthDataType> types = List.empty(growable: true);
+    types.addAll([
+      HealthDataType.MOVE_MINUTES,
+      HealthDataType.ACTIVE_ENERGY_BURNED,
+      HealthDataType.STEPS,
+      HealthDataType.DISTANCE_DELTA
+    ]);
+    if (await Permission.activityRecognition.status.isGranted) {
+      requested = await health.requestAuthorization(types);
+      if (requested) {
+        try {
+          DateTime now = DateTime.now();
+          List<HealthDataPoint> healthData =
+              await health.getHealthDataFromTypes(
+                  DateTime(now.year, now.month, now.day), now, types);
+          for (HealthDataPoint dataPoint in healthData) {
+            _addActivityToCloud(
+              ActivityCard(
+                  icon: Icons.emoji_events_rounded,
+                  duration: dataPoint.value.toString() + " minutes",
+                  name: "Imported Activity",
+                  type: "Exercise",
+                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
+            );
+          }
+        } catch (error) {
+          Toasted.showToast("Activity data could not be retreived: $error ");
+        }
+      }
+    }
+  }
+
+  void _syncHealthAppData() async {
+    if (Platform.isIOS) {
+      _syncIOSHealthData(new HealthFactory());
+    } else if (Platform.isAndroid) {
+      _syncAndroidHealthData(new HealthFactory());
+    }
   }
 
   void _collectActivity() {
@@ -142,13 +219,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         backgroundColor: FlutterFlowTheme.secondaryColor,
         child: Icon(Icons.add),
         onPressed: () async {
-          try {
-            var result = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddActivityWidget()));
-            if (result != null) {
-              _addActivityToCloud(result);
-            }
-          } finally {}
+          var result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddActivityWidget()));
+          if (result != null) {
+            _addActivityToCloud(result);
+          }
         },
       ),
       backgroundColor: Colors.white,

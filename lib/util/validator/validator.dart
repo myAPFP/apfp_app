@@ -4,13 +4,15 @@ import 'package:profanity_filter/profanity_filter.dart';
 class Validator {
   static final filter = ProfanityFilter();
 
-
   /// Matches any string containing only letters (lowercase & uppercase)
   static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
 
   /// Matches positive integers >= 0
-  static RegExp _numericRegex =
-      new RegExp(r'^[1-9]\d*$');
+  static RegExp _integerRegex = new RegExp(r'^[1-9]\d*$');
+
+  /// Matches postive ints, doubles
+  static RegExp _numRegex = new RegExp(
+      r'^[+]?\d+([.]\d+)?$');
 
   /// Matches most names, including those that contains spaces
   static RegExp _validNameRegex =
@@ -31,8 +33,12 @@ class Validator {
   static RegExp validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
-  static bool isValidDuration(String duration) {
-    return _numericRegex.hasMatch(duration);
+  static bool isInt(String num) {
+    return _integerRegex.hasMatch(num);
+  }
+
+  static bool isNumeric(String num) {
+    return _numRegex.hasMatch(num);
   }
 
   static bool isValidActivity(String activityName) {
