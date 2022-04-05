@@ -1,7 +1,7 @@
 import 'goal.dart';
 
 class CustomGoal {
-  static List<double> calcGoalSums(Map activitySnapshot) {
+  static double calcGoalSums(Map activitySnapshot, {required String goalType}) {
     Duration cyclingSum = Duration.zero;
     Duration rowingSum = Duration.zero;
     Duration stepMillSum = Duration.zero;
@@ -18,11 +18,19 @@ class CustomGoal {
           break;
       }
     });
-    return [
-      _toMinutes(cyclingSum),
-      _toMinutes(rowingSum),
-      _toMinutes(stepMillSum)
-    ];
+    double sum = 0.0;
+    switch (goalType) {
+      case "Cycling":
+        sum = _toMinutes(cyclingSum);
+        break;
+      case "Rowing":
+        sum = _toMinutes(rowingSum);
+        break;
+      case "Step-Mill":
+        sum = _toMinutes(stepMillSum);
+        break;
+    }
+    return sum;
   }
 
   static double _toMinutes(Duration goalSum) {

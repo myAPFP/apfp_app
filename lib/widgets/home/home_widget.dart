@@ -47,10 +47,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
-    widget.activityStream.first
-        .then((firstElement) => _activitySnapshotBackup = firstElement.data()!);
-    widget.goalStream.first
-        .then((firstElement) => _healthSnapshotBackup = firstElement.data()!);
     _listenToGoalStream();
     _listenToActivityStream();
   }
@@ -74,9 +70,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       setState(() {
         Goal.userProgressExerciseTime =
             ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
-        Goal.userProgressExerciseTimeWeekly =
-            ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
-                Goal.userProgressExerciseTimeWeekly;
 
         // ! Update once health app is integrated
 
@@ -101,22 +94,13 @@ class _HomeWidgetState extends State<HomeWidget> {
         // ! Update once health app is integrated
 
         Goal.userProgressCyclingGoal =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[0];
-        Goal.userProgressCyclingGoalWeekly =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[0] +
-                Goal.userProgressCyclingGoalWeekly;
+            CustomGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Cycling");
 
         Goal.userProgressRowingGoal =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[1];
-        Goal.userProgressRowingGoalWeekly =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[1] +
-                Goal.userProgressRowingGoalWeekly;
+            CustomGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Rowing");
 
         Goal.userProgressStepMillGoal =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[2];
-        Goal.userProgressStepMillGoalWeekly =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup)[2] +
-                Goal.userProgressStepMillGoalWeekly;
+            CustomGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Step-Mill");
 
         FireStore.updateGoalData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
@@ -362,8 +346,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _exerciseViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
@@ -403,8 +386,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _calViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthTrackerPermissionGranted) {
@@ -443,8 +425,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _stepsViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthTrackerPermissionGranted) {
@@ -484,8 +465,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _milesViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthTrackerPermissionGranted) {
@@ -590,8 +570,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : 0,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
