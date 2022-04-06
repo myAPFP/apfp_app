@@ -111,7 +111,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         children: [
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.07),
-                          // Icon(Icons.live_tv),
                         ],
                       ),
                       Column(
