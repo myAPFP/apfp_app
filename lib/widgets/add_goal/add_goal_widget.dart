@@ -43,6 +43,10 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   final _milesWeeklyFormKey = GlobalKey<FormState>();
   final _stepFormKey = GlobalKey<FormState>();
   final _stepWeeklyFormKey = GlobalKey<FormState>();
+  final _ellipticalFormKey = GlobalKey<FormState>();
+  final _ellipticalWeeklyFormKey = GlobalKey<FormState>();
+  final _resistanceStrengthFormKey = GlobalKey<FormState>();
+  final _resistanceStrengthWeeklyFormKey = GlobalKey<FormState>();
 
   TextEditingController? _exerciseGoalController = TextEditingController();
   TextEditingController? _exerciseWeeklyGoalController =
@@ -61,7 +65,13 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
   TextEditingController? _milesWeeklyGoalController = TextEditingController();
   TextEditingController? _stepGoalController = TextEditingController();
   TextEditingController? _stepWeeklyGoalController = TextEditingController();
-
+  TextEditingController? _ellipticalGoalController = TextEditingController();
+  TextEditingController? _ellipticalWeeklyGoalController =
+      TextEditingController();
+  TextEditingController? _resistanceStrengthGoalController =
+      TextEditingController();
+  TextEditingController? _resistanceStrengthWeeklyGoalController =
+      TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -85,6 +95,10 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     _caloriesWeeklyGoalController!.dispose();
     _milesWeeklyGoalController!.dispose();
     _stepWeeklyGoalController!.dispose();
+    _ellipticalGoalController!.dispose();
+    _ellipticalWeeklyGoalController!.dispose();
+    _resistanceStrengthGoalController!.dispose();
+    _resistanceStrengthWeeklyGoalController!.dispose();
   }
 
   void setText(MapEntry<String, dynamic> element, String fieldName,
@@ -109,6 +123,9 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
       setText(element, "calEndGoal", _caloriesGoalController);
       setText(element, "mileEndGoal", _milesGoalController);
       setText(element, "stepEndGoal", _stepGoalController);
+      setText(element, "ellipticalEndGoal", _ellipticalGoalController);
+      setText(element, "resistanceStrengthEndGoal",
+          _resistanceStrengthGoalController);
       setText(element, "exerciseTimeEndGoal_w", _exerciseWeeklyGoalController);
       setText(element, "cyclingEndGoal_w", _cyclingWeeklyGoalController);
       setText(element, "rowingEndGoal_w", _rowingWeeklyGoalController);
@@ -116,6 +133,9 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
       setText(element, "calEndGoal_w", _caloriesWeeklyGoalController);
       setText(element, "mileEndGoal_w", _milesWeeklyGoalController);
       setText(element, "stepEndGoal_w", _stepWeeklyGoalController);
+      setText(element, "ellipticalEndGoal_w", _ellipticalWeeklyGoalController);
+      setText(element, "resistanceStrengthEndGoal_w",
+          _resistanceStrengthWeeklyGoalController);
     });
   }
 
@@ -514,6 +534,67 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                 ],
               ),
             ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+              child: _header(
+                  text: 'Elliptical Goal', style: FlutterFlowTheme.title3),
+            ),
+            Form(
+              key: _ellipticalFormKey,
+              child: Row(
+                children: [
+                  _goalTextField(
+                      hintText: "Total Minutes",
+                      contr: _ellipticalGoalController!),
+                  _setGoalButton(_ellipticalFormKey, () async {
+                    await FireStore.updateGoalData({
+                      "ellipticalEndGoal": double.parse(
+                          _ellipticalGoalController!.text.toString()),
+                      "isEllipticalGoalSet": true
+                    });
+                  }),
+                  _deleteGoalIcon(onDelete: () async {
+                    await FireStore.updateGoalData({
+                      "ellipticalEndGoal": 0,
+                      "isEllipticalGoalSet": false
+                    }).then((value) {
+                      _ellipticalGoalController!.text = '';
+                    });
+                  })
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+              child: _header(
+                  text: 'Resistance-Strength\nGoal',
+                  style: FlutterFlowTheme.title3),
+            ),
+            Form(
+              key: _resistanceStrengthFormKey,
+              child: Row(
+                children: [
+                  _goalTextField(
+                      hintText: "Total Minutes",
+                      contr: _resistanceStrengthGoalController!),
+                  _setGoalButton(_resistanceStrengthFormKey, () async {
+                    await FireStore.updateGoalData({
+                      "resistanceStrengthEndGoal": double.parse(
+                          _resistanceStrengthGoalController!.text.toString()),
+                      "isResistanceStrengthGoalSet": true
+                    });
+                  }),
+                  _deleteGoalIcon(onDelete: () async {
+                    await FireStore.updateGoalData({
+                      "resistanceStrengthEndGoal": 0,
+                      "isResistanceStrengthGoalSet": false
+                    }).then((value) {
+                      _resistanceStrengthGoalController!.text = '';
+                    });
+                  })
+                ],
+              ),
+            )
           ];
   }
 
@@ -769,7 +850,78 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   })
                 ],
               ),
-            )
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+              child: _header(
+                  text: 'Elliptical Goal', style: FlutterFlowTheme.title3),
+            ),
+            Form(
+              key: _ellipticalWeeklyFormKey,
+              child: Row(
+                children: [
+                  _goalTextField(
+                      hintText: "Total Minutes",
+                      contr: _ellipticalWeeklyGoalController!,
+                      goalType: "Weekly"),
+                  _setGoalButton(_ellipticalWeeklyFormKey, () async {
+                    await FireStore.updateGoalData({
+                      "ellipticalWeekDeadline":
+                          "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
+                      "ellipticalEndGoal_w": double.parse(
+                          _ellipticalWeeklyGoalController!.text.toString()),
+                      "isEllipticalGoalSet_w": true
+                    });
+                  }),
+                  _deleteGoalIcon(onDelete: () async {
+                    await FireStore.updateGoalData({
+                      "ellipticalWeekDeadline": "0/00/0000",
+                      "ellipticalGoalProgressWeekly": 0,
+                      "ellipticalEndGoal_w": 0,
+                      "isEllipticalGoalSet_w": false
+                    }).then((value) {
+                      _ellipticalWeeklyGoalController!.text = '';
+                    });
+                  })
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
+              child: _header(
+                  text: 'Resistance-Strength\nGoal',
+                  style: FlutterFlowTheme.title3),
+            ),
+            Form(
+                key: _resistanceStrengthWeeklyFormKey,
+                child: Row(
+                  children: [
+                    _goalTextField(
+                        hintText: "Total Minutes",
+                        contr: _resistanceStrengthWeeklyGoalController!,
+                        goalType: "Weekly"),
+                    _setGoalButton(_resistanceStrengthWeeklyFormKey, () async {
+                      await FireStore.updateGoalData({
+                        "resistanceStrengthWeekDeadline":
+                            "${weekFromNow.month}/${weekFromNow.day}/${weekFromNow.year}",
+                        "resistanceStrengthEndGoal_w": double.parse(
+                            _resistanceStrengthWeeklyGoalController!.text
+                                .toString()),
+                        "isResistanceStrengthGoalSet_w": true
+                      });
+                    }),
+                    _deleteGoalIcon(onDelete: () async {
+                      await FireStore.updateGoalData({
+                        "resistanceStrengthWeekDeadline": "0/00/0000",
+                        "resistanceStrengthGoalProgressWeekly": 0,
+                        "resistanceStrengthEndGoal_w": 0,
+                        "isResistanceStrengthGoalSet_w": false
+                      }).then((value) {
+                        _resistanceStrengthWeeklyGoalController!.text = '';
+                      });
+                    })
+                  ],
+                ))
           ];
   }
 

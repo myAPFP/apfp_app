@@ -93,14 +93,25 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         // ! Update once health app is integrated
 
-        Goal.userProgressCyclingGoal =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Cycling");
+        Goal.userProgressCyclingGoal = CustomGoal.calcGoalSums(
+            _activitySnapshotBackup,
+            goalType: "Cycling");
 
-        Goal.userProgressRowingGoal =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Rowing");
+        Goal.userProgressRowingGoal = CustomGoal.calcGoalSums(
+            _activitySnapshotBackup,
+            goalType: "Rowing");
 
-        Goal.userProgressStepMillGoal =
-            CustomGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Step-Mill");
+        Goal.userProgressStepMillGoal = CustomGoal.calcGoalSums(
+            _activitySnapshotBackup,
+            goalType: "Step-Mill");
+
+        Goal.userProgressEllipticalGoal = CustomGoal.calcGoalSums(
+            _activitySnapshotBackup,
+            goalType: "Elliptical");
+
+        Goal.userProgressResistanceStrengthGoal = CustomGoal.calcGoalSums(
+            _activitySnapshotBackup,
+            goalType: "ResStrength");
 
         FireStore.updateGoalData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
@@ -116,7 +127,13 @@ class _HomeWidgetState extends State<HomeWidget> {
           "rowingGoalProgress": Goal.userProgressRowingGoal,
           "rowingGoalProgressWeekly": Goal.userProgressRowingGoalWeekly,
           "stepMillGoalProgress": Goal.userProgressStepMillGoal,
-          "stepMillGoalProgressWeekly": Goal.userProgressStepMillGoalWeekly
+          "stepMillGoalProgressWeekly": Goal.userProgressStepMillGoalWeekly,
+          "ellipticalGoalProgress": Goal.userProgressEllipticalGoal,
+          "ellipticalGoalProgressWeekly": Goal.userProgressEllipticalGoalWeekly,
+          "resistanceStrengthGoalProgress":
+              Goal.userProgressResistanceStrengthGoal,
+          "resistanceStrengthGoalProgressWeekly":
+              Goal.userProgressResistanceStrengthGoalWeekly,
         });
       });
     });
@@ -157,6 +174,16 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.isStepMillGoalSet = _healthSnapshotBackup['isStepMillGoalSet'];
           Goal.isStepMillWeeklyGoalSet =
               _healthSnapshotBackup['isStepMillGoalSet_w'];
+
+          Goal.isEllipticalGoalSet =
+              _healthSnapshotBackup['isEllipticalGoalSet'];
+          Goal.isEllipticalWeeklyGoalSet =
+              _healthSnapshotBackup['isEllipticalGoalSet_w'];
+
+          Goal.isResistanceStrengthGoalSet =
+              _healthSnapshotBackup['isResistanceStrengthGoalSet'];
+          Goal.isResistanceStrengthWeeklyGoalSet =
+              _healthSnapshotBackup['isResistanceStrengthGoalSet_w'];
 
           Goal.isHealthTrackerPermissionGranted =
               _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
@@ -210,6 +237,21 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.userStepMillWeeklyEndGoal =
               _healthSnapshotBackup['stepMillEndGoal_w'].toDouble();
 
+          Goal.userEllipticalEndGoal =
+              _healthSnapshotBackup['ellipticalEndGoal'].toDouble();
+          Goal.userProgressEllipticalGoalWeekly =
+              _healthSnapshotBackup['ellipticalGoalProgressWeekly'].toDouble();
+          Goal.userEllipticalWeeklyEndGoal =
+              _healthSnapshotBackup['ellipticalEndGoal_w'].toDouble();
+
+          Goal.userResistanceStrengthEndGoal =
+              _healthSnapshotBackup['resistanceStrengthEndGoal'].toDouble();
+          Goal.userProgressResistanceStrengthGoalWeekly =
+              _healthSnapshotBackup['resistanceStrengthGoalProgressWeekly']
+                  .toDouble();
+          Goal.userResistanceStrengthWeeklyEndGoal =
+              _healthSnapshotBackup['resistanceStrengthEndGoal_w'].toDouble();
+
           Goal.exerciseWeekDeadline =
               _healthSnapshotBackup['exerciseWeekDeadline'];
           Goal.calWeekDeadline = _healthSnapshotBackup['calWeekDeadline'];
@@ -220,6 +262,10 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.rowingWeekDeadline = _healthSnapshotBackup['rowingWeekDeadline'];
           Goal.stepMillWeekDeadline =
               _healthSnapshotBackup['stepMillWeekDeadline'];
+          Goal.ellipticalWeekDeadline =
+              _healthSnapshotBackup['ellipticalWeekDeadline'];
+          Goal.resistanceStrengthWeekDeadline =
+              _healthSnapshotBackup['resistanceStrengthWeekDeadline'];
         });
         Goal.uploadCompletedGoals();
       }
@@ -392,7 +438,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           if (Goal.isHealthTrackerPermissionGranted) {
             AddGoalWidget.launch(context);
           } else
-            Toasted.showToast("Please sync your Health App to continue.");
+            Toasted.showToast(
+                "Please sync your $_platformHealthName to continue.");
         },
         context: context,
         innerCircleText: Goal.isDailyDisplayed
@@ -431,7 +478,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           if (Goal.isHealthTrackerPermissionGranted) {
             AddGoalWidget.launch(context);
           } else
-            Toasted.showToast("Please sync your Health App to continue.");
+            Toasted.showToast(
+                "Please sync your $_platformHealthName to continue.");
         },
         context: context,
         innerCircleText: Goal.isDailyDisplayed
@@ -471,7 +519,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           if (Goal.isHealthTrackerPermissionGranted) {
             AddGoalWidget.launch(context);
           } else
-            Toasted.showToast("Please sync your Health App to continue.");
+            Toasted.showToast(
+                "Please sync your $_platformHealthName to continue.");
         },
         context: context,
         innerCircleText: Goal.isDailyDisplayed
@@ -507,7 +556,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : "Cycling Goal Not Active"
             : Goal.isCyclingWeeklyGoalSet
                 ? "Cycling - ${Goal.userProgressCyclingGoalWeekly.toStringAsFixed(2)} / ${Goal.userCyclingWeeklyEndGoal.toStringAsFixed(2)} min" +
-                    " | ${int.parse(Goal.cyclingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s)"
+                    "\n${int.parse(Goal.cyclingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Cycling Goal Not Active",
         goal2Title: Goal.isDailyDisplayed
             ? Goal.isRowingGoalSet
@@ -515,7 +564,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : "Rowing Goal Not Active"
             : Goal.isRowingWeeklyGoalSet
                 ? "Rowing - ${Goal.userProgressRowingGoalWeekly.toStringAsFixed(2)} / ${Goal.userRowingWeeklyEndGoal.toStringAsFixed(2)} min" +
-                    " | ${int.parse(Goal.rowingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s)"
+                    "\n${int.parse(Goal.rowingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Rowing Goal Not Active",
         goal3Title: Goal.isDailyDisplayed
             ? Goal.isStepMillGoalSet
@@ -523,8 +572,24 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : "Step Mill Goal Not Active"
             : Goal.isStepMillWeeklyGoalSet
                 ? "Step Mill - ${Goal.userProgressStepMillGoalWeekly.toStringAsFixed(2)} / ${Goal.userStepMillWeeklyEndGoal.toStringAsFixed(2)} min" +
-                    " | ${int.parse(Goal.stepMillWeekDeadline.split("/")[1]) - DateTime.now().day} day(s)"
+                    "\n${int.parse(Goal.stepMillWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Step Mill Goal Not Active",
+        goal4Title: Goal.isDailyDisplayed
+            ? Goal.isEllipticalGoalSet
+                ? "Elliptical - ${Goal.userProgressEllipticalGoal.toStringAsFixed(2)} / ${Goal.userEllipticalEndGoal.toStringAsFixed(2)} min"
+                : "Elliptical Goal Not Active"
+            : Goal.isEllipticalWeeklyGoalSet
+                ? "Elliptical - ${Goal.userProgressEllipticalGoalWeekly.toStringAsFixed(2)} / ${Goal.userEllipticalWeeklyEndGoal.toStringAsFixed(2)} min" +
+                    "\n${int.parse(Goal.ellipticalWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
+                : "Elliptical Goal Not Active",
+        goal5Title: Goal.isDailyDisplayed
+            ? Goal.isResistanceStrengthGoalSet
+                ? "Res-Strength - ${Goal.userProgressResistanceStrengthGoal.toStringAsFixed(2)} / ${Goal.userResistanceStrengthEndGoal.toStringAsFixed(2)} min"
+                : "Res-Strength Goal Not Active"
+            : Goal.isResistanceStrengthWeeklyGoalSet
+                ? "Res-Strength - ${Goal.userProgressResistanceStrengthGoalWeekly.toStringAsFixed(2)} / ${Goal.userResistanceStrengthWeeklyEndGoal.toStringAsFixed(2)} min" +
+                    "\n${int.parse(Goal.resistanceStrengthWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
+                : "Res-Strength Goal Not Active",
         percent1: Goal.isDailyDisplayed
             ? Goal.isCyclingGoalSet
                 ? (Goal.userProgressCyclingGoal / Goal.userCyclingEndGoal) > 1.0
@@ -568,6 +633,40 @@ class _HomeWidgetState extends State<HomeWidget> {
                     : Goal.userProgressStepMillGoalWeekly /
                         Goal.userStepMillWeeklyEndGoal
                 : 0,
+        percent4: Goal.isDailyDisplayed
+            ? Goal.isEllipticalGoalSet
+                ? (Goal.userProgressEllipticalGoal /
+                            Goal.userEllipticalEndGoal) >
+                        1.0
+                    ? 1.0
+                    : Goal.userProgressEllipticalGoal /
+                        Goal.userEllipticalEndGoal
+                : 0
+            : Goal.isEllipticalWeeklyGoalSet
+                ? (Goal.userProgressEllipticalGoalWeekly /
+                            Goal.userEllipticalWeeklyEndGoal) >
+                        1.0
+                    ? 1.0
+                    : Goal.userProgressEllipticalGoalWeekly /
+                        Goal.userEllipticalWeeklyEndGoal
+                : 0,
+        percent5: Goal.isDailyDisplayed
+            ? Goal.isResistanceStrengthGoalSet
+                ? (Goal.userProgressResistanceStrengthGoal /
+                            Goal.userResistanceStrengthEndGoal) >
+                        1.0
+                    ? 1.0
+                    : Goal.userProgressResistanceStrengthGoal /
+                        Goal.userResistanceStrengthEndGoal
+                : 0
+            : Goal.isResistanceStrengthWeeklyGoalSet
+                ? (Goal.userProgressResistanceStrengthGoalWeekly /
+                            Goal.userResistanceStrengthWeeklyEndGoal) >
+                        1.0
+                    ? 1.0
+                    : Goal.userProgressResistanceStrengthGoalWeekly /
+                        Goal.userResistanceStrengthWeeklyEndGoal
+                : 0,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
           FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
@@ -578,7 +677,11 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _otherSC,
         isGoal1Set: (Goal.isCyclingGoalSet || Goal.isCyclingWeeklyGoalSet),
         isGoal2Set: (Goal.isRowingGoalSet || Goal.isRowingWeeklyGoalSet),
-        isGoal3Set: (Goal.isStepMillGoalSet || Goal.isStepMillWeeklyGoalSet));
+        isGoal3Set: (Goal.isStepMillGoalSet || Goal.isStepMillWeeklyGoalSet),
+        isGoal4Set:
+            (Goal.isEllipticalGoalSet || Goal.isEllipticalWeeklyGoalSet),
+        isGoal5Set: (Goal.isResistanceStrengthGoalSet ||
+            Goal.isResistanceStrengthWeeklyGoalSet));
   }
 
   Padding _activityGUI() {

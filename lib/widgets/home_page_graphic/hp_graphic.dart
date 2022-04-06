@@ -41,20 +41,27 @@ class HPGraphic {
     );
   }
 
-  static InkWell createCustomView(
-      {required BuildContext context,
-      required String goal1Title,
-      required String goal2Title,
-      required String goal3Title,
-      required double percent1,
-      required double percent2,
-      required double percent3,
-      required Function onDoubleTap,
-      required Function onLongPress,
-      required ScrollController scrollController,
-      required bool isGoal1Set,
-      required bool isGoal2Set,
-      required bool isGoal3Set}) {
+  static InkWell createCustomView({
+    required BuildContext context,
+    required String goal1Title,
+    required String goal2Title,
+    required String goal3Title,
+    required String goal4Title,
+    required String goal5Title,
+    required double percent1,
+    required double percent2,
+    required double percent3,
+    required double percent4,
+    required double percent5,
+    required Function onDoubleTap,
+    required Function onLongPress,
+    required ScrollController scrollController,
+    required bool isGoal1Set,
+    required bool isGoal2Set,
+    required bool isGoal3Set,
+    required bool isGoal4Set,
+    required bool isGoal5Set,
+  }) {
     return InkWell(
       onDoubleTap: () => onDoubleTap(),
       onLongPress: () => onLongPress(),
@@ -118,6 +125,44 @@ class HPGraphic {
                   backgroundColor: FlutterFlowTheme.secondaryColor,
                   progressColor: Colors.green,
                 ),
+                SizedBox(height: 25),
+                Text(isGoal4Set ? goal4Title : 'Elliptical Goal Not Active',
+                    style: TextStyle(fontSize: 20)),
+                SizedBox(height: 5),
+                LinearPercentIndicator(
+                  linearStrokeCap: LinearStrokeCap.butt,
+                  lineHeight: 30,
+                  animation: true,
+                  animationDuration: 1200,
+                  center: isGoal4Set
+                      ? Text("${(percent4 * 100).toStringAsFixed(2)} %",
+                          style: TextStyle(color: Colors.white))
+                      : Text('0.00 %', style: TextStyle(color: Colors.white)),
+                  percent: isGoal4Set ? percent4 : 0.0,
+                  backgroundColor: FlutterFlowTheme.secondaryColor,
+                  progressColor: Colors.green,
+                ),
+                SizedBox(height: 25),
+                Text(
+                    isGoal5Set
+                        ? goal5Title
+                        : 'Res-Strength Goal Not Active',
+                    style: TextStyle(fontSize: 20)),
+                SizedBox(height: 5),
+                LinearPercentIndicator(
+                  linearStrokeCap: LinearStrokeCap.butt,
+                  lineHeight: 30,
+                  animation: true,
+                  animationDuration: 1200,
+                  center: isGoal5Set
+                      ? Text("${(percent5 * 100).toStringAsFixed(2)} %",
+                          style: TextStyle(color: Colors.white))
+                      : Text('0.00 %', style: TextStyle(color: Colors.white)),
+                  percent: isGoal5Set ? percent5 : 0.0,
+                  backgroundColor: FlutterFlowTheme.secondaryColor,
+                  progressColor: Colors.green,
+                ),
+                SizedBox(height: 10)
               ]),
         ),
       )),

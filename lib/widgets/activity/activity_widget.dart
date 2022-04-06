@@ -139,7 +139,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     });
   }
 
-
   void _addActivityToCloud(ActivityCard activityCard) {
     currentSnapshotBackup.putIfAbsent(activityCard.timestamp.toString(),
         () => [activityCard.name, activityCard.type, activityCard.duration]);
@@ -172,6 +171,17 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       case "Step-Mill":
         var stepMill = Goal.userProgressStepMillGoalWeekly - durationInMinutes;
         FireStore.updateGoalData({"stepMillGoalProgressWeekly": stepMill});
+        break;
+      case "Elliptical":
+        var elliptical =
+            Goal.userProgressEllipticalGoalWeekly - durationInMinutes;
+        FireStore.updateGoalData({"ellipticalGoalProgressWeekly": elliptical});
+        break;
+      case "ResStrength":
+        var resistanceStrength =
+            Goal.userProgressResistanceStrengthGoalWeekly - durationInMinutes;
+        FireStore.updateGoalData(
+            {"resistanceStrengthGoalProgressWeekly": resistanceStrength});
         break;
     }
   }

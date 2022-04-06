@@ -29,7 +29,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     'Flexibility',
     'Kinesthetic',
     'Speed',
-    'Strength',
+    'Resistance-Strength',
     "Total-Body"
   ];
 
@@ -111,8 +111,17 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             Goal.userProgressRowingGoalWeekly +=
                 CustomGoal.calcGoalSums(activitySnapShot, goalType: "Rowing");
 
-            Goal.userProgressStepMillGoalWeekly +=
-                CustomGoal.calcGoalSums(activitySnapShot, goalType: "Step-Mill");
+            Goal.userProgressStepMillGoalWeekly += CustomGoal.calcGoalSums(
+                activitySnapShot,
+                goalType: "Step-Mill");
+
+            Goal.userProgressEllipticalGoalWeekly += CustomGoal.calcGoalSums(
+                activitySnapShot,
+                goalType: "Elliptical");
+
+            Goal.userProgressResistanceStrengthGoalWeekly +=
+                CustomGoal.calcGoalSums(activitySnapShot,
+                    goalType: "ResStrength");
 
             Goal.userProgressExerciseTimeWeekly +=
                 ExerciseGoal.totalTimeInMinutes(activitySnapShot);
