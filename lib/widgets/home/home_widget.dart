@@ -49,6 +49,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     _listenToGoalStream();
     _listenToActivityStream();
+    _checkIfHealthAppSynced();
   }
 
   @override
@@ -270,6 +271,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         Goal.uploadCompletedGoals();
       }
     });
+  }
+
+  void _checkIfHealthAppSynced() async {
+    await Permission.activityRecognition.request().isGranted
+        ? FireStore.updateGoalData({"isHealthAppSynced": true})
+        : FireStore.updateGoalData({"isHealthAppSynced": false});
   }
 
   Padding _recentAnnouncementsLabel() {
