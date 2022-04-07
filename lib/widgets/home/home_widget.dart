@@ -9,7 +9,6 @@ import '../../util/goals/goal.dart';
 import '../add_goal/add_goal_widget.dart';
 import '../health_app_info/health_app_info.dart';
 import '../home_page_graphic/hp_graphic.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
