@@ -146,7 +146,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         _healthSnapshotBackup = element.data()!;
         setState(() {
           Goal.dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
-          Goal.isDailyGoalsDisplayed = _healthSnapshotBackup['isDailyGoalsDisplayed'];
+          Goal.isDailyGoalsDisplayed =
+              _healthSnapshotBackup['isDailyGoalsDisplayed'];
           _goalTypeLabel = Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly";
 
           Goal.isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
@@ -185,8 +186,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.isResistanceStrengthWeeklyGoalSet =
               _healthSnapshotBackup['isResistanceStrengthGoalSet_w'];
 
-          Goal.isHealthAppSynced =
-              _healthSnapshotBackup['isHealthAppSynced'];
+          Goal.isHealthAppSynced = _healthSnapshotBackup['isHealthAppSynced'];
 
           Goal.userCalEndGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
           Goal.userProgressCalGoalWeekly =
@@ -272,21 +272,24 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
   }
 
-  Row _recentAnnouncementsLabel() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.92,
-          height: MediaQuery.of(context).size.height * 0.06,
-          child: AutoSizeText(
-            'Recent Announcements',
-            style: FlutterFlowTheme.title1,
-            maxLines: 1,
-            overflow: TextOverflow.fade,
-          ),
-        )
-      ],
+  Padding _recentAnnouncementsLabel() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.92,
+            height: MediaQuery.of(context).size.height * 0.06,
+            child: AutoSizeText(
+              'Recent Announcements',
+              style: FlutterFlowTheme.title1,
+              maxLines: 1,
+              overflow: TextOverflow.fade,
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -392,7 +395,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _exerciseViewSC,
         onDoubleTap: () {
           Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
-          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
+          FireStore.updateGoalData(
+              {"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
@@ -432,7 +436,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _calViewSC,
         onDoubleTap: () {
           Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
-          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
+          FireStore.updateGoalData(
+              {"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthAppSynced) {
@@ -472,7 +477,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _stepsViewSC,
         onDoubleTap: () {
           Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
-          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
+          FireStore.updateGoalData(
+              {"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthAppSynced) {
@@ -513,7 +519,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _milesViewSC,
         onDoubleTap: () {
           Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
-          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
+          FireStore.updateGoalData(
+              {"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthAppSynced) {
@@ -669,7 +676,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : 0,
         onDoubleTap: () {
           Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
-          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
+          FireStore.updateGoalData(
+              {"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
@@ -722,8 +730,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: FFButtonWidget(
         onPressed: () async {
           if (await Permission.activityRecognition.request().isGranted) {
-            FireStore.updateGoalData(
-                {"isHealthAppSynced": true});
+            FireStore.updateGoalData({"isHealthAppSynced": true});
             Toasted.showToast("$_platformHealthName has been synchronized!");
           } else if (await Permission.activityRecognition
               .request()
