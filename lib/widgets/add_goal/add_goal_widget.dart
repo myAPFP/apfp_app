@@ -24,7 +24,7 @@ class AddGoalWidget extends StatefulWidget {
 }
 
 class _AddGoalWidgetState extends State<AddGoalWidget> {
-  String _mode = Goal.isDailyDisplayed ? "Daily" : "Weekly";
+  String _mode = Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly";
   final weekFromNow = DateTime.now().add(const Duration(days: 7));
   bool _loadingButton = false;
   bool _isCustomGoalsDisplayed = false;

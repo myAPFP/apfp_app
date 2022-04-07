@@ -171,23 +171,23 @@ class HPGraphic {
 
   static InkWell createView(
       {required BuildContext context,
-      required String innerCircleText,
-      required String goalProgressStr,
+      required String goalProgress,
+      required String goalProgressInfo,
       required double percent,
       required Function onDoubleTap,
       required Function onLongPress,
       required ScrollController scrollController,
-      required bool isHealthGranted,
+      required bool isHealthAppSynced,
       required bool isGoalSet}) {
-    if (!isHealthGranted) {
-      innerCircleText = "$_platformHealthName\nNot Sync'd";
-      goalProgressStr = Platform.isIOS
+    if (!isHealthAppSynced) {
+      goalProgress = "$_platformHealthName\nNot Sync'd";
+      goalProgressInfo = Platform.isIOS
           ? "Sync your myAPFP App with\na $_platformHealthName to set this goal."
           : "Sync your myAPFP App with\n$_platformHealthName to set this goal.";
       percent = 0;
-    } else if (!isGoalSet && isHealthGranted) {
-      innerCircleText = "No\nActive\nGoal";
-      goalProgressStr = "Long Press here to set & edit goals.";
+    } else if (!isGoalSet && isHealthAppSynced) {
+      goalProgress = "No\nActive\nGoal";
+      goalProgressInfo = "Long Press here to set & edit goals.";
       percent = 0;
     }
     return InkWell(
@@ -210,7 +210,7 @@ class HPGraphic {
                 lineWidth: 15.0,
                 percent: percent,
                 center: new Text(
-                  innerCircleText,
+                  goalProgress,
                   style: new TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
@@ -219,7 +219,7 @@ class HPGraphic {
                 progressColor: Colors.green,
               ),
               SizedBox(height: 25),
-              Text(goalProgressStr, style: TextStyle(fontSize: 20))
+              Text(goalProgressInfo, style: TextStyle(fontSize: 20))
             ],
           ),
         ),

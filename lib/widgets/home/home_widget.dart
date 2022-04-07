@@ -146,8 +146,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         _healthSnapshotBackup = element.data()!;
         setState(() {
           Goal.dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
-          Goal.isDailyDisplayed = _healthSnapshotBackup['isDailyDisplayed'];
-          _goalTypeLabel = Goal.isDailyDisplayed ? "Daily" : "Weekly";
+          Goal.isDailyGoalsDisplayed = _healthSnapshotBackup['isDailyGoalsDisplayed'];
+          _goalTypeLabel = Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly";
 
           Goal.isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
           Goal.isCalWeeklyGoalSet = _healthSnapshotBackup['isCalGoalSet_w'];
@@ -185,8 +185,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           Goal.isResistanceStrengthWeeklyGoalSet =
               _healthSnapshotBackup['isResistanceStrengthGoalSet_w'];
 
-          Goal.isHealthTrackerPermissionGranted =
-              _healthSnapshotBackup['isHealthTrackerPermissionGranted'];
+          Goal.isHealthAppSynced =
+              _healthSnapshotBackup['isHealthAppSynced'];
 
           Goal.userCalEndGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
           Goal.userProgressCalGoalWeekly =
@@ -388,20 +388,20 @@ class _HomeWidgetState extends State<HomeWidget> {
     return HPGraphic.createView(
         isGoalSet:
             (Goal.isExerciseTimeGoalSet || Goal.isExerciseTimeWeeklyGoalSet),
-        isHealthGranted: true,
+        isHealthAppSynced: true,
         scrollController: _exerciseViewSC,
         onDoubleTap: () {
-          Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
+          Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
+          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
         },
         context: context,
-        innerCircleText: Goal.isDailyDisplayed
+        goalProgress: Goal.isDailyGoalsDisplayed
             ? "${Goal.isExerciseTimeGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes"
             : "${Goal.isExerciseTimeWeeklyGoalSet ? Goal.userProgressExerciseTimeWeekly.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userExerciseTimeWeeklyEndGoal.toStringAsFixed(2)}\nTotal Minutes",
-        goalProgressStr: Goal.isDailyDisplayed
+        goalProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isExerciseTimeGoalSet
                 ? "Your goal is " +
                     "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
@@ -412,7 +412,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     "${((Goal.userProgressExerciseTimeWeekly / Goal.userExerciseTimeWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTimeWeekly / Goal.userExerciseTimeWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
                     "% complete.\nYou have ${int.parse(Goal.exerciseWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left."
                 : "Goal not active.",
-        percent: Goal.isDailyDisplayed
+        percent: Goal.isDailyGoalsDisplayed
             ? (Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) >
                     1.0
                 ? 1.0
@@ -428,24 +428,24 @@ class _HomeWidgetState extends State<HomeWidget> {
   InkWell _calsView() {
     return HPGraphic.createView(
         isGoalSet: (Goal.isCalGoalSet || Goal.isCalWeeklyGoalSet),
-        isHealthGranted: Goal.isHealthTrackerPermissionGranted,
+        isHealthAppSynced: Goal.isHealthAppSynced,
         scrollController: _calViewSC,
         onDoubleTap: () {
-          Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
+          Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
+          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
-          if (Goal.isHealthTrackerPermissionGranted) {
+          if (Goal.isHealthAppSynced) {
             AddGoalWidget.launch(context);
           } else
             Toasted.showToast(
                 "Please sync your $_platformHealthName to continue.");
         },
         context: context,
-        innerCircleText: Goal.isDailyDisplayed
+        goalProgress: Goal.isDailyGoalsDisplayed
             ? "${Goal.isCalGoalSet ? Goal.userProgressCalGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userCalEndGoal.toStringAsFixed(2)}\nCals Burned"
             : "${Goal.isCalWeeklyGoalSet ? Goal.userProgressCalGoalWeekly.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userCalWeeklyEndGoal.toStringAsFixed(2)}\nCals Burned",
-        goalProgressStr: Goal.isDailyDisplayed
+        goalProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isCalGoalSet
                 ? "Your goal is " +
                     "${((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100).toStringAsFixed(2)}" +
@@ -456,7 +456,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     "${((Goal.userProgressCalGoalWeekly / Goal.userCalWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressCalGoalWeekly / Goal.userCalWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
                     "% complete.\nYou have ${int.parse(Goal.calWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left."
                 : "Goal not active.",
-        percent: Goal.isDailyDisplayed
+        percent: Goal.isDailyGoalsDisplayed
             ? (Goal.userProgressCalGoal / Goal.userCalEndGoal) > 1.0
                 ? 1.0
                 : Goal.userProgressCalGoal / Goal.userCalEndGoal
@@ -468,24 +468,24 @@ class _HomeWidgetState extends State<HomeWidget> {
   InkWell _stepsView() {
     return HPGraphic.createView(
         isGoalSet: (Goal.isStepGoalSet || Goal.isStepWeeklyGoalSet),
-        isHealthGranted: Goal.isHealthTrackerPermissionGranted,
+        isHealthAppSynced: Goal.isHealthAppSynced,
         scrollController: _stepsViewSC,
         onDoubleTap: () {
-          Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
+          Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
+          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
-          if (Goal.isHealthTrackerPermissionGranted) {
+          if (Goal.isHealthAppSynced) {
             AddGoalWidget.launch(context);
           } else
             Toasted.showToast(
                 "Please sync your $_platformHealthName to continue.");
         },
         context: context,
-        innerCircleText: Goal.isDailyDisplayed
+        goalProgress: Goal.isDailyGoalsDisplayed
             ? "${Goal.isStepGoalSet ? Goal.userProgressStepGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userStepEndGoal.toStringAsFixed(2)}\nSteps Taken"
             : "${Goal.isStepWeeklyGoalSet ? Goal.userProgressStepGoalWeekly.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userStepWeeklyEndGoal.toStringAsFixed(2)}\nSteps Taken",
-        goalProgressStr: Goal.isDailyDisplayed
+        goalProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isStepGoalSet
                 ? "Your goal is " +
                     "${((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100).toStringAsFixed(2)}" +
@@ -496,7 +496,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     "${((Goal.userProgressStepGoalWeekly / Goal.userStepWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressStepGoalWeekly / Goal.userStepWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
                     "% complete.\nYou have ${int.parse(Goal.stepWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left."
                 : "Goal not active.",
-        percent: Goal.isDailyDisplayed
+        percent: Goal.isDailyGoalsDisplayed
             ? (Goal.userProgressStepGoal / Goal.userStepEndGoal) > 1.0
                 ? 1.0
                 : Goal.userProgressStepGoal / Goal.userStepEndGoal
@@ -509,24 +509,24 @@ class _HomeWidgetState extends State<HomeWidget> {
   InkWell _milesView() {
     return HPGraphic.createView(
         isGoalSet: (Goal.isMileGoalSet || Goal.isMileWeeklyGoalSet),
-        isHealthGranted: Goal.isHealthTrackerPermissionGranted,
+        isHealthAppSynced: Goal.isHealthAppSynced,
         scrollController: _milesViewSC,
         onDoubleTap: () {
-          Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
+          Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
+          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
-          if (Goal.isHealthTrackerPermissionGranted) {
+          if (Goal.isHealthAppSynced) {
             AddGoalWidget.launch(context);
           } else
             Toasted.showToast(
                 "Please sync your $_platformHealthName to continue.");
         },
         context: context,
-        innerCircleText: Goal.isDailyDisplayed
+        goalProgress: Goal.isDailyGoalsDisplayed
             ? "${Goal.isMileGoalSet ? Goal.userProgressMileGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userMileEndGoal.toStringAsFixed(2)}\nMi Traveled"
             : "${Goal.isMileWeeklyGoalSet ? Goal.userProgressMileGoalWeekly.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userMileWeeklyEndGoal.toStringAsFixed(2)}\nMi Traveled",
-        goalProgressStr: Goal.isDailyDisplayed
+        goalProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isMileGoalSet
                 ? "Your goal is " +
                     "${((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100).toStringAsFixed(2)}" +
@@ -537,7 +537,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     "${((Goal.userProgressMileGoalWeekly / Goal.userMileWeeklyEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressMileGoalWeekly / Goal.userMileWeeklyEndGoal) * 100).toStringAsFixed(2)}" +
                     "% complete.\nYou have ${int.parse(Goal.mileWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left."
                 : "Goal not active.",
-        percent: Goal.isDailyDisplayed
+        percent: Goal.isDailyGoalsDisplayed
             ? (Goal.userProgressMileGoal / Goal.userMileEndGoal) > 1.0
                 ? 1.0
                 : Goal.userProgressMileGoal / Goal.userMileEndGoal
@@ -550,7 +550,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   InkWell _otherGoalsView() {
     return HPGraphic.createCustomView(
         context: context,
-        goal1Title: Goal.isDailyDisplayed
+        goal1Title: Goal.isDailyGoalsDisplayed
             ? Goal.isCyclingGoalSet
                 ? "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(2)} / ${Goal.userCyclingEndGoal.toStringAsFixed(2)} min"
                 : "Cycling Goal Not Active"
@@ -558,7 +558,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Cycling - ${Goal.userProgressCyclingGoalWeekly.toStringAsFixed(2)} / ${Goal.userCyclingWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.cyclingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Cycling Goal Not Active",
-        goal2Title: Goal.isDailyDisplayed
+        goal2Title: Goal.isDailyGoalsDisplayed
             ? Goal.isRowingGoalSet
                 ? "Rowing - ${Goal.userProgressRowingGoal.toStringAsFixed(2)} / ${Goal.userRowingEndGoal.toStringAsFixed(2)} min"
                 : "Rowing Goal Not Active"
@@ -566,7 +566,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Rowing - ${Goal.userProgressRowingGoalWeekly.toStringAsFixed(2)} / ${Goal.userRowingWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.rowingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Rowing Goal Not Active",
-        goal3Title: Goal.isDailyDisplayed
+        goal3Title: Goal.isDailyGoalsDisplayed
             ? Goal.isStepMillGoalSet
                 ? "Step Mill - ${Goal.userProgressStepMillGoal.toStringAsFixed(2)} / ${Goal.userStepMillEndGoal.toStringAsFixed(2)} min"
                 : "Step Mill Goal Not Active"
@@ -574,7 +574,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Step Mill - ${Goal.userProgressStepMillGoalWeekly.toStringAsFixed(2)} / ${Goal.userStepMillWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.stepMillWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Step Mill Goal Not Active",
-        goal4Title: Goal.isDailyDisplayed
+        goal4Title: Goal.isDailyGoalsDisplayed
             ? Goal.isEllipticalGoalSet
                 ? "Elliptical - ${Goal.userProgressEllipticalGoal.toStringAsFixed(2)} / ${Goal.userEllipticalEndGoal.toStringAsFixed(2)} min"
                 : "Elliptical Goal Not Active"
@@ -582,7 +582,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Elliptical - ${Goal.userProgressEllipticalGoalWeekly.toStringAsFixed(2)} / ${Goal.userEllipticalWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.ellipticalWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Elliptical Goal Not Active",
-        goal5Title: Goal.isDailyDisplayed
+        goal5Title: Goal.isDailyGoalsDisplayed
             ? Goal.isResistanceStrengthGoalSet
                 ? "Res-Strength - ${Goal.userProgressResistanceStrengthGoal.toStringAsFixed(2)} / ${Goal.userResistanceStrengthEndGoal.toStringAsFixed(2)} min"
                 : "Res-Strength Goal Not Active"
@@ -590,7 +590,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Res-Strength - ${Goal.userProgressResistanceStrengthGoalWeekly.toStringAsFixed(2)} / ${Goal.userResistanceStrengthWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.resistanceStrengthWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Res-Strength Goal Not Active",
-        percent1: Goal.isDailyDisplayed
+        percent1: Goal.isDailyGoalsDisplayed
             ? Goal.isCyclingGoalSet
                 ? (Goal.userProgressCyclingGoal / Goal.userCyclingEndGoal) > 1.0
                     ? 1.0
@@ -604,7 +604,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     : Goal.userProgressCyclingGoalWeekly /
                         Goal.userCyclingWeeklyEndGoal
                 : 0,
-        percent2: Goal.isDailyDisplayed
+        percent2: Goal.isDailyGoalsDisplayed
             ? Goal.isRowingGoalSet
                 ? (Goal.userProgressRowingGoal / Goal.userRowingEndGoal) > 1.0
                     ? 1.0
@@ -618,7 +618,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     : Goal.userProgressRowingGoalWeekly /
                         Goal.userRowingWeeklyEndGoal
                 : 0,
-        percent3: Goal.isDailyDisplayed
+        percent3: Goal.isDailyGoalsDisplayed
             ? Goal.isStepMillGoalSet
                 ? (Goal.userProgressStepMillGoal / Goal.userStepMillEndGoal) >
                         1.0
@@ -633,7 +633,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     : Goal.userProgressStepMillGoalWeekly /
                         Goal.userStepMillWeeklyEndGoal
                 : 0,
-        percent4: Goal.isDailyDisplayed
+        percent4: Goal.isDailyGoalsDisplayed
             ? Goal.isEllipticalGoalSet
                 ? (Goal.userProgressEllipticalGoal /
                             Goal.userEllipticalEndGoal) >
@@ -650,7 +650,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     : Goal.userProgressEllipticalGoalWeekly /
                         Goal.userEllipticalWeeklyEndGoal
                 : 0,
-        percent5: Goal.isDailyDisplayed
+        percent5: Goal.isDailyGoalsDisplayed
             ? Goal.isResistanceStrengthGoalSet
                 ? (Goal.userProgressResistanceStrengthGoal /
                             Goal.userResistanceStrengthEndGoal) >
@@ -668,8 +668,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                         Goal.userResistanceStrengthWeeklyEndGoal
                 : 0,
         onDoubleTap: () {
-          Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
+          Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
+          FireStore.updateGoalData({"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
@@ -723,7 +723,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         onPressed: () async {
           if (await Permission.activityRecognition.request().isGranted) {
             FireStore.updateGoalData(
-                {"isHealthTrackerPermissionGranted": true});
+                {"isHealthAppSynced": true});
             Toasted.showToast("$_platformHealthName has been synchronized!");
           } else if (await Permission.activityRecognition
               .request()
@@ -734,16 +734,16 @@ class _HomeWidgetState extends State<HomeWidget> {
             );
           }
           // // ! -- Demo Purposes --
-          // Goal.isHealthTrackerPermissionGranted =
-          //     !Goal.isHealthTrackerPermissionGranted;
-          // if (!Goal.isHealthTrackerPermissionGranted) {
+          // Goal.isHealthAppSynced =
+          //     !Goal.isHealthAppSynced;
+          // if (!Goal.isHealthAppSynced) {
           //   FireStore.updateGoalData({"isCalGoalSet": false});
           //   FireStore.updateGoalData({"isStepGoalSet": false});
           //   FireStore.updateGoalData({"isMileGoalSet": false});
           // }
           // FireStore.updateGoalData({
-          //   "isHealthTrackerPermissionGranted":
-          //       Goal.isHealthTrackerPermissionGranted
+          //   "isHealthAppSynced":
+          //       Goal.isHealthAppSynced
           // });
           // // ! -------------------
         },

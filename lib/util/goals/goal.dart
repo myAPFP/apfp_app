@@ -6,9 +6,9 @@ class Goal {
 
   static int dayOfMonth = 0;
 
-  static bool isDailyDisplayed = false;
+  static bool isDailyGoalsDisplayed = false;
 
-  static bool isHealthTrackerPermissionGranted = false;
+  static bool isHealthAppSynced = false;
 
   static String exerciseWeekDeadline = "0/00/0000";
   static String calWeekDeadline = "0/00/0000";
