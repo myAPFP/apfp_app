@@ -88,8 +88,8 @@ class FireStore {
         .collection('goals')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .set({
-      "isHealthTrackerPermissionGranted": false,
-      "isDailyDisplayed": true,
+      "isHealthAppSynced": false,
+      "isDailyGoalsDisplayed": true,
       "isExerciseTimeGoalSet": false,
       "isExerciseTimeGoalSet_w": false,
       "isCalGoalSet": false,
