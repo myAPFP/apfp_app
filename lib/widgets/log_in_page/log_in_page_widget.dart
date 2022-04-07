@@ -411,12 +411,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: () async {
-          WelcomeWidget.returnToWelcome(context);
-          return false;
-        },
-        child: Scaffold(
+      child: Scaffold(
           key: scaffoldKey,
           backgroundColor: Colors.white,
           body: SafeArea(
@@ -438,8 +433,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
               ),
             ),
           ),
-        ),
-      ),
+        )
     );
   }
 }

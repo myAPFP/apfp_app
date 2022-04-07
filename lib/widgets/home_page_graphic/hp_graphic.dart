@@ -42,6 +42,7 @@ class HPGraphic {
   }
 
   static InkWell createCustomView({
+    required Key key,
     required BuildContext context,
     required String goal1Title,
     required String goal2Title,
@@ -63,6 +64,7 @@ class HPGraphic {
     required bool isGoal5Set,
   }) {
     return InkWell(
+      key: key,
       onDoubleTap: () => onDoubleTap(),
       onLongPress: () => onLongPress(),
       child: Container(
@@ -143,10 +145,7 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(
-                    isGoal5Set
-                        ? goal5Title
-                        : 'Res-Strength Goal Not Active',
+                Text(isGoal5Set ? goal5Title : 'Res-Strength Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -170,7 +169,8 @@ class HPGraphic {
   }
 
   static InkWell createView(
-      {required BuildContext context,
+      {required Key key,
+      required BuildContext context,
       required String goalProgress,
       required String goalProgressInfo,
       required double percent,
@@ -191,6 +191,7 @@ class HPGraphic {
       percent = 0;
     }
     return InkWell(
+      key: key,
       onDoubleTap: () => onDoubleTap(),
       onLongPress: () => onLongPress(),
       child: Container(

@@ -198,12 +198,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: () async {
-          Navigator.pop(context, true);
-          return false;
-        },
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.tertiaryColor,
@@ -260,7 +255,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     title: "View Completed Goals",
                     onTap: () {
                       CompletedGoalsWidget.launch(context,
-                          mode: Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly");
+                          mode:
+                              Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly");
                     }),
                 _settingsButton(
                     title: "Change Password",
@@ -345,8 +341,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

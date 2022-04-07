@@ -96,7 +96,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   String _getFullName() {
     final first = _firstNameController!.text.trim();
     final last = _lastNameController!.text.trim();
-    return "${first} ${last}";
+    return "$first $last";
   }
 
   /// Returns trimmed text taken from [_passwordController].

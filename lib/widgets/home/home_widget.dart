@@ -389,6 +389,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   InkWell _exerciseView() {
     return HPGraphic.createView(
+        key: Key("Home.exerciseView"),
         isGoalSet:
             (Goal.isExerciseTimeGoalSet || Goal.isExerciseTimeWeeklyGoalSet),
         isHealthAppSynced: true,
@@ -431,6 +432,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   InkWell _calsView() {
     return HPGraphic.createView(
+        key: Key("Home.calView"),
         isGoalSet: (Goal.isCalGoalSet || Goal.isCalWeeklyGoalSet),
         isHealthAppSynced: Goal.isHealthAppSynced,
         scrollController: _calViewSC,
@@ -472,6 +474,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   InkWell _stepsView() {
     return HPGraphic.createView(
+        key: Key("Home.stepsView"),
         isGoalSet: (Goal.isStepGoalSet || Goal.isStepWeeklyGoalSet),
         isHealthAppSynced: Goal.isHealthAppSynced,
         scrollController: _stepsViewSC,
@@ -514,6 +517,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   InkWell _milesView() {
     return HPGraphic.createView(
+        key: Key("Home.mileView"),
         isGoalSet: (Goal.isMileGoalSet || Goal.isMileWeeklyGoalSet),
         isHealthAppSynced: Goal.isHealthAppSynced,
         scrollController: _milesViewSC,
@@ -556,6 +560,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   InkWell _otherGoalsView() {
     return HPGraphic.createCustomView(
+        key: Key("Home.otherGoalsView"),
         context: context,
         goal1Title: Goal.isDailyGoalsDisplayed
             ? Goal.isCyclingGoalSet
@@ -772,53 +777,47 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        ConfirmationDialog.showExitAppDialog(context);
-        return false;
-      },
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _recentAnnouncementsLabel(),
-              StreamBuilder(
-                  stream: widget.announcementsStream,
-                  builder: (context,
-                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                          snapshot) {
-                    if (snapshot.hasData) {
-                      List<String> alertTexts =
-                          new List.filled(3, "No older announcements.");
-                      if (snapshot.data!.docs.length > 0) {
-                        alertTexts[0] = snapshot.data?.docs[0]['title'];
-                      }
-                      if (snapshot.data!.docs.length > 1) {
-                        alertTexts[1] = snapshot.data?.docs[1]['title'];
-                      }
-                      if (snapshot.data!.docs.length > 2) {
-                        alertTexts[2] = snapshot.data?.docs[2]['title'];
-                      }
-                      return _announcements(
-                          alertTexts[0], alertTexts[1], alertTexts[2]);
-                    } else {
-                      return Text("No announcements available.");
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _recentAnnouncementsLabel(),
+            StreamBuilder(
+                stream: widget.announcementsStream,
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.hasData) {
+                    List<String> alertTexts =
+                        new List.filled(3, "No older announcements.");
+                    if (snapshot.data!.docs.length > 0) {
+                      alertTexts[0] = snapshot.data?.docs[0]['title'];
                     }
-                  }),
-              _activityLabel(),
-              _activityGUI(),
-              SizedBox(
-                height: 5,
-              ),
-              _syncHealthDataButton(),
-            ],
-          ),
-        )),
-      ),
+                    if (snapshot.data!.docs.length > 1) {
+                      alertTexts[1] = snapshot.data?.docs[1]['title'];
+                    }
+                    if (snapshot.data!.docs.length > 2) {
+                      alertTexts[2] = snapshot.data?.docs[2]['title'];
+                    }
+                    return _announcements(
+                        alertTexts[0], alertTexts[1], alertTexts[2]);
+                  } else {
+                    return Text("No announcements available.");
+                  }
+                }),
+            _activityLabel(),
+            _activityGUI(),
+            SizedBox(
+              height: 5,
+            ),
+            _syncHealthDataButton(),
+          ],
+        ),
+      )),
     );
   }
 }

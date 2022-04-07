@@ -15,7 +15,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '../log_in_page/log_in_page_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '/main.dart';
 
 class MyApp extends StatelessWidget {
@@ -95,7 +94,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
-    
+
   Future<FirebaseApp> _initFirebaseApp() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;
@@ -311,24 +310,18 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-        return false;
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: FutureBuilder(
-            future: _initFirebaseApp(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                getAdminEmails();
-                return _routeUI();
-              }
-              return Center(child: _showInitializingAppDialog());
-            }),
-      ),
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: FutureBuilder(
+          future: _initFirebaseApp(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              getAdminEmails();
+              return _routeUI();
+            }
+            return Center(child: _showInitializingAppDialog());
+          }),
     );
   }
 }

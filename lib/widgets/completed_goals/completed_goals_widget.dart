@@ -274,63 +274,57 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pop(context);
-        return false;
-      },
-      child: Scaffold(
-          key: scaffoldKey,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: FlutterFlowTheme.secondaryColor,
-            child: _mode == "Daily"
-                ? Text("W", style: TextStyle(fontSize: 25))
-                : Text("D", style: TextStyle(fontSize: 25)),
-            onPressed: () async {
-              switch (_mode) {
-                case "Daily":
-                  setState(() => _mode = "Weekly");
-                  break;
-                case "Weekly":
-                  setState(() => _mode = "Daily");
-                  break;
-              }
-            },
-          ),
-          backgroundColor: Colors.white,
-          body: SafeArea(
-              child: SingleChildScrollView(
-            child: Column(mainAxisSize: MainAxisSize.max, children: [
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      _goBackButton(),
-                    ],
-                  ),
-                  _paddedHeaderText(),
-                ],
-              ),
-              SizedBox(height: 15),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: _mode == "Daily"
-                    ? _dailyGoals.isEmpty
-                        ? [_noGoalsText()]
-                        : _dailyGoals
-                            .map((e) => focusedMenu(_dailyGoals, e))
-                            .toList()
-                    : _weeklyGoals.isEmpty
-                        ? [_noGoalsText()]
-                        : _weeklyGoals
-                            .map((e) => focusedMenu(_weeklyGoals, e))
-                            .toList(),
-              ),
-              SizedBox(height: 10)
-            ]),
-          ))),
-    );
+    return Scaffold(
+        key: scaffoldKey,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: FlutterFlowTheme.secondaryColor,
+          child: _mode == "Daily"
+              ? Text("W", style: TextStyle(fontSize: 25))
+              : Text("D", style: TextStyle(fontSize: 25)),
+          onPressed: () async {
+            switch (_mode) {
+              case "Daily":
+                setState(() => _mode = "Weekly");
+                break;
+              case "Weekly":
+                setState(() => _mode = "Daily");
+                break;
+            }
+          },
+        ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _goBackButton(),
+                  ],
+                ),
+                _paddedHeaderText(),
+              ],
+            ),
+            SizedBox(height: 15),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: _mode == "Daily"
+                  ? _dailyGoals.isEmpty
+                      ? [_noGoalsText()]
+                      : _dailyGoals
+                          .map((e) => focusedMenu(_dailyGoals, e))
+                          .toList()
+                  : _weeklyGoals.isEmpty
+                      ? [_noGoalsText()]
+                      : _weeklyGoals
+                          .map((e) => focusedMenu(_weeklyGoals, e))
+                          .toList(),
+            ),
+            SizedBox(height: 10)
+          ]),
+        )));
   }
 }
