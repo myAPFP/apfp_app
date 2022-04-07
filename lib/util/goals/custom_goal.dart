@@ -1,61 +1,57 @@
 import 'goal.dart';
 
 class CustomGoal {
-  static Duration _cyclingDuration = Duration.zero;
-  static Duration _rowingDuration = Duration.zero;
-  static Duration _stepMillDuration = Duration.zero;
-  static Duration _ellipticalDuration = Duration.zero;
-  static Duration _resistanceStrengthDuration = Duration.zero;
-
-  static double calcGoalProgress(Map activitySnapshot, {required String goalType}) {
+  static double calcGoalSums(Map activitySnapshot, {required String goalType}) {
+    Duration cyclingDuration = Duration.zero;
+    Duration rowingDuration = Duration.zero;
+    Duration stepMillDuration = Duration.zero;
+    Duration ellipticalDuration = Duration.zero;
+    Duration resistanceStrengthDuration = Duration.zero;
     activitySnapshot.forEach((key, value) {
-      _findGoalDuration(value);
+      switch (value[0]) {
+        case "Cycling":
+          cyclingDuration += Goal.convertToDuration(value[2]);
+          break;
+        case "Rowing":
+          rowingDuration += Goal.convertToDuration(value[2]);
+          break;
+        case "Step-Mill":
+          stepMillDuration += Goal.convertToDuration(value[2]);
+          break;
+        case "Elliptical":
+          ellipticalDuration += Goal.convertToDuration(value[2]);
+          break;
+        case "ResStrength":
+          resistanceStrengthDuration += Goal.convertToDuration(value[2]);
+          break;
+      }
     });
-    return _durationInMinutes(goalType);
-  }
-
-  static void _findGoalDuration(List<String> activityInfo) {
-    String exerciseName = activityInfo[0];
-    String activityDurationStr = activityInfo[2];
-    switch (exerciseName) {
-      case "Cycling":
-        _cyclingDuration += Goal.convertToDuration(activityDurationStr);
-        break;
-      case "Rowing":
-        _rowingDuration += Goal.convertToDuration(activityDurationStr);
-        break;
-      case "Step-Mill":
-        _stepMillDuration += Goal.convertToDuration(activityDurationStr);
-        break;
-      case "Elliptical":
-        _ellipticalDuration += Goal.convertToDuration(activityDurationStr);
-        break;
-      case "ResStrength":
-        _resistanceStrengthDuration +=
-            Goal.convertToDuration(activityDurationStr);
-        break;
-    }
-  }
-
-  static double _durationInMinutes(String goalType) {
     double sum = 0.0;
     switch (goalType) {
       case "Cycling":
-        sum = Goal.toMinutes(_cyclingDuration);
+        sum = _toMinutes(cyclingDuration);
         break;
       case "Rowing":
-        sum = Goal.toMinutes(_rowingDuration);
+        sum = _toMinutes(rowingDuration);
         break;
       case "Step-Mill":
-        sum = Goal.toMinutes(_stepMillDuration);
+        sum = _toMinutes(stepMillDuration);
         break;
       case "Elliptical":
-        sum = Goal.toMinutes(_ellipticalDuration);
+        sum = _toMinutes(ellipticalDuration);
         break;
       case "ResStrength":
-        sum = Goal.toMinutes(_resistanceStrengthDuration);
+        sum = _toMinutes(resistanceStrengthDuration);
         break;
     }
     return sum;
+  }
+
+  static double _toMinutes(Duration goalSum) {
+    String hhmmss = goalSum.toString().split('.').first.padLeft(8, "0");
+    List<String> hhmmssSplit = hhmmss.split(':');
+    return double.parse(hhmmssSplit[0]) * 60 +
+        double.parse(hhmmssSplit[1]) +
+        double.parse(hhmmssSplit[2]) / 60;
   }
 }

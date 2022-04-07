@@ -121,22 +121,6 @@ class Goal {
     return duration;
   }
 
-  static double toMinutes(Duration goalSum) {
-    String hhmmss = goalSum.toString().split('.').first.padLeft(8, "0");
-    List<String> hhmmssSplit = hhmmss.split(':');
-    return double.parse(hhmmssSplit[0]) * 60 +
-        double.parse(hhmmssSplit[1]) +
-        double.parse(hhmmssSplit[2]) / 60;
-  }
-
-  static double totalExerciseTimeInMinutes(Map activitySnapshot) {
-    Duration sum = Duration.zero;
-    activitySnapshot.forEach((key, value) {
-      sum += convertToDuration(value[2]);
-    });
-    return toMinutes(sum);
-  }
-
   static void _calculateCompletedGoals() {
     isExerciseTimeGoalComplete = isExerciseTimeGoalSet &&
         (userProgressExerciseTime / userExerciseTimeEndGoal) * 100 >= 100;
