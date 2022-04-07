@@ -260,7 +260,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     title: "View Completed Goals",
                     onTap: () {
                       CompletedGoalsWidget.launch(context,
-                          mode: Goal.isDailyDisplayed ? "Daily" : "Weekly");
+                          mode: Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly");
                     }),
                 _settingsButton(
                     title: "Change Password",
