@@ -4,7 +4,6 @@ import 'package:apfp/util/goals/custom_goal.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
-import '../../util/goals/exercise_time_goal.dart';
 import '../../util/goals/goal.dart';
 import '../add_goal/add_goal_widget.dart';
 import '../health_app_info/health_app_info.dart';
@@ -69,47 +68,47 @@ class _HomeWidgetState extends State<HomeWidget> {
       }
       setState(() {
         Goal.userProgressExerciseTime =
-            ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+            Goal.totalExerciseTimeInMinutes(_activitySnapshotBackup);
 
         // ! Update once health app is integrated
 
         // Goal.userProgressCalGoal =
-        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        //     Exer.Exercise(_activitySnapshotBackup);
         // Goal.userProgressCalGoalWeekly =
-        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
+        //     Exer.Exercise(_activitySnapshotBackup) +
         //         Goal.userProgressExerciseTimeWeekly;
 
         // Goal.userProgressMileGoal =
-        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        //     Exer.Exercise(_activitySnapshotBackup);
         // Goal.userProgressMileGoalWeekly =
-        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
+        //     Exer.Exercise(_activitySnapshotBackup) +
         //         Goal.userProgressExerciseTimeWeekly;
 
         // Goal.userProgressStepGoal =
-        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+        //     Exer.Exercise(_activitySnapshotBackup);
         // Goal.userProgressStepGoalWeekly =
-        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
+        //     Exer.Exercise(_activitySnapshotBackup) +
         //         Goal.userProgressExerciseTimeWeekly;
 
         // ! Update once health app is integrated
 
-        Goal.userProgressCyclingGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressCyclingGoal = CustomGoal.calcGoalProgress(
             _activitySnapshotBackup,
             goalType: "Cycling");
 
-        Goal.userProgressRowingGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressRowingGoal = CustomGoal.calcGoalProgress(
             _activitySnapshotBackup,
             goalType: "Rowing");
 
-        Goal.userProgressStepMillGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressStepMillGoal = CustomGoal.calcGoalProgress(
             _activitySnapshotBackup,
             goalType: "Step-Mill");
 
-        Goal.userProgressEllipticalGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressEllipticalGoal = CustomGoal.calcGoalProgress(
             _activitySnapshotBackup,
             goalType: "Elliptical");
 
-        Goal.userProgressResistanceStrengthGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressResistanceStrengthGoal = CustomGoal.calcGoalProgress(
             _activitySnapshotBackup,
             goalType: "ResStrength");
 

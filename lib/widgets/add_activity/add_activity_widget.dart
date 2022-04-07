@@ -1,7 +1,6 @@
 import 'package:apfp/util/validator/validator.dart';
 import '../../flutter_flow/flutter_flow_drop_down.dart';
 import '../../util/goals/custom_goal.dart';
-import '../../util/goals/exercise_time_goal.dart';
 import '../../util/goals/goal.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '../activity_card/activity_card.dart';
@@ -106,25 +105,25 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             };
 
             Goal.userProgressCyclingGoalWeekly +=
-                CustomGoal.calcGoalSums(activitySnapShot, goalType: "Cycling");
+                CustomGoal.calcGoalProgress(activitySnapShot, goalType: "Cycling");
 
             Goal.userProgressRowingGoalWeekly +=
-                CustomGoal.calcGoalSums(activitySnapShot, goalType: "Rowing");
+                CustomGoal.calcGoalProgress(activitySnapShot, goalType: "Rowing");
 
-            Goal.userProgressStepMillGoalWeekly += CustomGoal.calcGoalSums(
+            Goal.userProgressStepMillGoalWeekly += CustomGoal.calcGoalProgress(
                 activitySnapShot,
                 goalType: "Step-Mill");
 
-            Goal.userProgressEllipticalGoalWeekly += CustomGoal.calcGoalSums(
+            Goal.userProgressEllipticalGoalWeekly += CustomGoal.calcGoalProgress(
                 activitySnapShot,
                 goalType: "Elliptical");
 
             Goal.userProgressResistanceStrengthGoalWeekly +=
-                CustomGoal.calcGoalSums(activitySnapShot,
+                CustomGoal.calcGoalProgress(activitySnapShot,
                     goalType: "ResStrength");
 
             Goal.userProgressExerciseTimeWeekly +=
-                ExerciseGoal.totalTimeInMinutes(activitySnapShot);
+                Goal.totalExerciseTimeInMinutes(activitySnapShot);
           }
         } finally {
           setState(() => _loadingButton = false);
