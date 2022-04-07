@@ -256,7 +256,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                   'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                   'Exercise Type: ${cardInfo[2]}\n' +
                   'Duration: ${cardInfo[3]} ${cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
-                  '\nSent from the APFP App.');
+                  '\nSent from the myAPFP App.');
           imagepick = null;
           Navigator.pop(context);
         },
@@ -334,7 +334,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                               'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                                               'Exercise Type: ${cardInfo[2]}\n' +
                                               'Duration: ${cardInfo[3] + ' ' + cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
-                                              '\nSent from the APFP App.');
+                                              '\nSent from the myAPFP App.');
                                     }),
                                 FocusedMenuItem(
                                     title: Text("Delete",
