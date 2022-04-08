@@ -139,12 +139,22 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
-  Row _showInitializingAppDialog() {
-    return new Row(children: [
-      CircularProgressIndicator(),
-      Container(
-          margin: EdgeInsets.only(left: 7), child: Text("Initializing App..."))
-    ]);
+  Row _loadingSplash() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(margin: EdgeInsets.only(left: 7), child: _apfpLogo()),
+              Text("Loading myAPFP...", style: TextStyle(fontSize: 20)),
+              SizedBox(height: 50),
+              CircularProgressIndicator(),
+            ])
+      ],
+    );
   }
 
   SizedBox _welcomeAnimated() {
@@ -320,7 +330,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
               getAdminEmails();
               return _routeUI();
             }
-            return Center(child: _showInitializingAppDialog());
+            return Center(child: _loadingSplash());
           }),
     );
   }
