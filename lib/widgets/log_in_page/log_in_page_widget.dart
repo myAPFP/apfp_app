@@ -1,16 +1,21 @@
-import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:apfp/widgets/email_not_confirmed/email_not_confirmed_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '/main.dart';
+import '../welcome/welcome_widget.dart';
+
+import '../../firebase/fire_auth.dart';
+
+import '../../util/toasted/toasted.dart';
+import '../../util/validator/validator.dart';
+import '../../util/internet_connection/internet.dart';
+
+import '../../widgets/confimation_dialog/confirmation_dialog.dart';
+import '../../widgets/email_not_confirmed/email_not_confirmed_widget.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/main.dart';
-import '../welcome/welcome_widget.dart';
+
 import 'package:flutter/material.dart';
-import 'package:apfp/util/validator/validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LogInPageWidget extends StatefulWidget {
   LogInPageWidget({Key? key}) : super(key: key);
@@ -35,7 +40,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   /// Serves as key for the [Form] found in [build].
@@ -86,10 +91,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Text _backToHomeText() {
-    return Text('< Back', style: FlutterFlowTheme.subtitle2);
-  }
-  
   /// Returns a [Padding] widget who's child is a [InkWell].
   ///
   /// [InkWell]'s [onTap] parameter is used to go back to [WelcomeWidget].
@@ -103,7 +104,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           onTap: () async {
             WelcomeWidget.returnToWelcome(context);
           },
-          child: _backToHomeText(),
+          child: Text('< Back', style: FlutterFlowTheme.subtitle2),
         ),
       )
     ]);
