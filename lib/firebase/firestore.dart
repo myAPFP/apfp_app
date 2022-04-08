@@ -75,8 +75,7 @@ class FireStore {
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
-  static Stream<DocumentSnapshot<Map<String, dynamic>>>
-      createGoalDocStream() {
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> createGoalDocStream() {
     return getGoalDocument().snapshots();
   }
 
@@ -89,8 +88,8 @@ class FireStore {
         .collection('goals')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .set({
-      "isHealthTrackerPermissionGranted": false,
-      "isDailyDisplayed": true,
+      "isHealthAppSynced": false,
+      "isDailyGoalsDisplayed": true,
       "isExerciseTimeGoalSet": false,
       "isExerciseTimeGoalSet_w": false,
       "isCalGoalSet": false,
@@ -105,6 +104,10 @@ class FireStore {
       "isRowingGoalSet_w": false,
       "isStepMillGoalSet": false,
       "isStepMillGoalSet_w": false,
+      "isEllipticalGoalSet": false,
+      "isEllipticalGoalSet_w": false,
+      "isResistanceStrengthGoalSet": false,
+      "isResistanceStrengthGoalSet_w": false,
       "exerciseTimeGoalProgressWeekly": 0,
       "exerciseTimeGoalProgress": 0,
       "exerciseTimeEndGoal": 0,
@@ -133,6 +136,14 @@ class FireStore {
       "stepMillGoalProgressWeekly": 0,
       "stepMillEndGoal": 0,
       "stepMillEndGoal_w": 0,
+      "ellipticalGoalProgress": 0,
+      "ellipticalGoalProgressWeekly": 0,
+      "ellipticalEndGoal": 0,
+      "ellipticalEndGoal_w": 0,
+      "resistanceStrengthGoalProgress": 0,
+      "resistanceStrengthGoalProgressWeekly": 0,
+      "resistanceStrengthEndGoal": 0,
+      "resistanceStrengthEndGoal_w": 0,
       "exerciseWeekDeadline": "0/00/0000",
       "calWeekDeadline": "0/00/0000",
       "stepWeekDeadline": "0/00/0000",
@@ -140,6 +151,8 @@ class FireStore {
       "cyclingWeekDeadline": "0/00/0000",
       "rowingWeekDeadline": "0/00/0000",
       "stepMillWeekDeadline": "0/00/0000",
+      "ellipticalWeekDeadline": "0/00/0000",
+      "resistanceStrengthWeekDeadline": "0/00/0000",
       "dayOfMonth": DateTime.now().day
     });
   }

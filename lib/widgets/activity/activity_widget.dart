@@ -8,6 +8,7 @@ import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../util/goals/goal.dart';
 import '../../util/toasted/toasted.dart';
 import '../add_activity/add_activity_widget.dart';
 import '../activity_card/activity_card.dart';
@@ -35,8 +36,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   @override
   void initState() {
     super.initState();
-    widget.activityStream.first
-        .then((firstElement) => currentSnapshotBackup = firstElement.data()!);
     _syncHealthAppData();
     _collectActivity();
   }
@@ -147,9 +146,67 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   void _removeActivityFromCloud(String id) {
+    _updateCustomWeeklyGoalProgress();
     currentSnapshotBackup
-        .removeWhere((key, value) => (key == id.split(' ')[0]));
+        .removeWhere((key, durationInMinutes) => (key == id.split(' ')[0]));
     FireStore.updateWorkoutData(currentSnapshotBackup);
+  }
+
+  void _updateCustomWeeklyGoalProgress() {
+    String exerciseType = currentSnapshotBackup.values.first[0];
+    double durationInMinutes = _getDurationInMinutes();
+    double exerciseTimeWeeklyProgress =
+        Goal.userProgressExerciseTimeWeekly - durationInMinutes;
+    FireStore.updateGoalData(
+        {"exerciseTimeGoalProgressWeekly": exerciseTimeWeeklyProgress});
+    switch (exerciseType) {
+      case "Cycling":
+        var cycling = Goal.userProgressCyclingGoalWeekly - durationInMinutes;
+        FireStore.updateGoalData({"cyclingGoalProgressWeekly": cycling});
+        break;
+      case "Rowing":
+        var rowing = Goal.userProgressRowingGoalWeekly - durationInMinutes;
+        FireStore.updateGoalData({"rowingGoalProgressWeekly": rowing});
+        break;
+      case "Step-Mill":
+        var stepMill = Goal.userProgressStepMillGoalWeekly - durationInMinutes;
+        FireStore.updateGoalData({"stepMillGoalProgressWeekly": stepMill});
+        break;
+      case "Elliptical":
+        var elliptical =
+            Goal.userProgressEllipticalGoalWeekly - durationInMinutes;
+        FireStore.updateGoalData({"ellipticalGoalProgressWeekly": elliptical});
+        break;
+      case "ResStrength":
+        var resistanceStrength =
+            Goal.userProgressResistanceStrengthGoalWeekly - durationInMinutes;
+        FireStore.updateGoalData(
+            {"resistanceStrengthGoalProgressWeekly": resistanceStrength});
+        break;
+    }
+  }
+
+  double _getDurationInMinutes() {
+    List<String> duration =
+        currentSnapshotBackup.values.first[2].toString().split(" ");
+    double durationInMinutes = 0.0;
+    switch (duration[1].toUpperCase()) {
+      case "SECONDS":
+        durationInMinutes =
+            double.parse((double.parse(duration[0]) / 60).toStringAsFixed(2));
+        break;
+      case 'MINUTE':
+      case 'MINUTES':
+        durationInMinutes =
+            double.parse((double.parse(duration[0])).toStringAsFixed(2));
+        break;
+      case 'HOUR':
+      case 'HOURS':
+        durationInMinutes =
+            double.parse((double.parse(duration[0]) * 60).toStringAsFixed(2));
+        break;
+    }
+    return durationInMinutes;
   }
 
   Row _headerTextRow(String text) {
@@ -199,7 +256,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                   'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                   'Exercise Type: ${cardInfo[2]}\n' +
                   'Duration: ${cardInfo[3]} ${cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
-                  '\nSent from the APFP App.');
+                  '\nSent from the myAPFP App.');
           imagepick = null;
           Navigator.pop(context);
         },
@@ -277,7 +334,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                               'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                                               'Exercise Type: ${cardInfo[2]}\n' +
                                               'Duration: ${cardInfo[3] + ' ' + cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
-                                              '\nSent from the APFP App.');
+                                              '\nSent from the myAPFP App.');
                                     }),
                                 FocusedMenuItem(
                                     title: Text("Delete",

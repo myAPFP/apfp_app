@@ -6,9 +6,9 @@ class Goal {
 
   static int dayOfMonth = 0;
 
-  static bool isDailyDisplayed = false;
+  static bool isDailyGoalsDisplayed = false;
 
-  static bool isHealthTrackerPermissionGranted = false;
+  static bool isHealthAppSynced = false;
 
   static String exerciseWeekDeadline = "0/00/0000";
   static String calWeekDeadline = "0/00/0000";
@@ -17,6 +17,8 @@ class Goal {
   static String cyclingWeekDeadline = "0/00/0000";
   static String rowingWeekDeadline = "0/00/0000";
   static String stepMillWeekDeadline = "0/00/0000";
+  static String ellipticalWeekDeadline = "0/00/0000";
+  static String resistanceStrengthWeekDeadline = "0/00/0000";
 
   static double userProgressExerciseTime = 0;
   static double userProgressExerciseTimeWeekly = 0;
@@ -80,6 +82,24 @@ class Goal {
   static bool isStepMillWeeklyGoalSet = false;
   static bool isStepMillGoalComplete = false;
   static bool isStepMillWeeklyGoalComplete = false;
+
+  static double userProgressEllipticalGoal = 0;
+  static double userProgressEllipticalGoalWeekly = 0;
+  static double userEllipticalEndGoal = 0;
+  static double userEllipticalWeeklyEndGoal = 0;
+  static bool isEllipticalGoalSet = false;
+  static bool isEllipticalWeeklyGoalSet = false;
+  static bool isEllipticalGoalComplete = false;
+  static bool isEllipticalWeeklyGoalComplete = false;
+
+  static double userProgressResistanceStrengthGoal = 0;
+  static double userProgressResistanceStrengthGoalWeekly = 0;
+  static double userResistanceStrengthEndGoal = 0;
+  static double userResistanceStrengthWeeklyEndGoal = 0;
+  static bool isResistanceStrengthGoalSet = false;
+  static bool isResistanceStrengthWeeklyGoalSet = false;
+  static bool isResistanceStrengthGoalComplete = false;
+  static bool isResistanceStrengthWeeklyGoalComplete = false;
 
   static Duration convertToDuration(String activityDurationStr) {
     Duration duration = Duration.zero;
@@ -146,6 +166,26 @@ class Goal {
     isStepMillWeeklyGoalComplete = isStepMillWeeklyGoalSet &&
         (userProgressStepMillGoalWeekly / userStepMillWeeklyEndGoal) * 100 >=
             100;
+
+    isEllipticalGoalComplete = isEllipticalGoalSet &&
+        (userProgressEllipticalGoal / userEllipticalEndGoal) * 100 >= 100;
+
+    isEllipticalWeeklyGoalComplete = isEllipticalWeeklyGoalSet &&
+        (userProgressEllipticalGoalWeekly / userEllipticalWeeklyEndGoal) *
+                100 >=
+            100;
+
+    isResistanceStrengthGoalComplete = isResistanceStrengthGoalSet &&
+        (userProgressResistanceStrengthGoal / userResistanceStrengthEndGoal) *
+                100 >=
+            100;
+
+    isResistanceStrengthWeeklyGoalComplete =
+        isResistanceStrengthWeeklyGoalSet &&
+            (userProgressResistanceStrengthGoalWeekly /
+                        userResistanceStrengthWeeklyEndGoal) *
+                    100 >=
+                100;
   }
 
   static void _uploadCompletedDailyGoals() {
@@ -250,6 +290,36 @@ class Goal {
       });
       NotificationService.showGoalNotification(
           "Daily Goal Completed!", "Miles - $userMileEndGoal miles traveled");
+    }
+    if (isEllipticalGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${_now.month}/${_now.day}/${_now.year}",
+        "Completed Goal": 'Elliptical',
+        "Info": "$userEllipticalEndGoal min of activity",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateGoalData({
+        "ellipticalGoalProgress": 0,
+        "ellipticalEndGoal": 0,
+        "isEllipticalGoalSet": false,
+      });
+      NotificationService.showGoalNotification("Daily Goal Completed!",
+          "Elliptical - $userEllipticalEndGoal min of activity");
+    }
+    if (isResistanceStrengthGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "daily").add({
+        "Date": "${_now.month}/${_now.day}/${_now.year}",
+        "Completed Goal": 'Resistance-Strength',
+        "Info": "$userResistanceStrengthEndGoal min of activity",
+        "Type": "Daily Goal"
+      });
+      FireStore.updateGoalData({
+        "resistanceStrengthGoalProgress": 0,
+        "resistanceStrengthEndGoal": 0,
+        "isResistanceStrengthGoalSet": false,
+      });
+      NotificationService.showGoalNotification("Daily Goal Completed!",
+          "Resistance-Strength - $userResistanceStrengthEndGoal min of activity");
     }
   }
 
@@ -372,6 +442,40 @@ class Goal {
           "Miles - $userMileWeeklyEndGoal miles traveled",
           id: 1, type: "Weekly");
     }
+    if (isEllipticalWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${_now.month}/${_now.day}/${_now.year}",
+        "Completed Goal": 'Elliptical',
+        "Info": "$userEllipticalWeeklyEndGoal min of activity",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateGoalData({
+        "ellipticalWeekDeadline": "0/00/0000",
+        "ellipticalGoalProgressWeekly": 0,
+        "ellipticalEndGoal_w": 0,
+        "isEllipticalGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Elliptical - $userEllipticalWeeklyEndGoal min of activity",
+          id: 1, type: "Weekly");
+    }
+    if (isResistanceStrengthWeeklyGoalComplete) {
+      FireStore.getGoalLogCollection(goalType: "weekly").add({
+        "Date": "${_now.month}/${_now.day}/${_now.year}",
+        "Completed Goal": 'Resistance-Strength',
+        "Info": "$userResistanceStrengthWeeklyEndGoal min of activity",
+        "Type": "Weekly Goal"
+      });
+      FireStore.updateGoalData({
+        "resistanceStrengthWeekDeadline": "0/00/0000",
+        "resistanceStrengthGoalProgressWeekly": 0,
+        "resistanceStrengthEndGoal_w": 0,
+        "isResistanceStrengthGoalSet_w": false,
+      });
+      NotificationService.showGoalNotification("Weekly Goal Completed!",
+          "Resistance-Strength - $userResistanceStrengthWeeklyEndGoal min of activity",
+          id: 1, type: "Weekly");
+    }
   }
 
   static void _checkWeeklyGoalDeadLines() {
@@ -429,6 +533,23 @@ class Goal {
         "stepGoalProgressWeekly": 0,
         "stepEndGoal_w": 0,
         "isStepGoalSet_w": false,
+      });
+    }
+    if (ellipticalWeekDeadline == "${_now.month}/${_now.day}/${_now.year}") {
+      FireStore.updateGoalData({
+        "ellipticalWeekDeadline": "0/00/0000",
+        "ellipticalGoalProgressWeekly": 0,
+        "ellipticalEndGoal_w": 0,
+        "isEllipticalGoalSet_w": false,
+      });
+    }
+    if (resistanceStrengthWeekDeadline ==
+        "${_now.month}/${_now.day}/${_now.year}") {
+      FireStore.updateGoalData({
+        "resistanceStrengthWeekDeadline": "0/00/0000",
+        "resistanceStrengthGoalProgressWeekly": 0,
+        "resistanceStrengthEndGoal_w": 0,
+        "isResistanceStrengthGoalSet_w": false,
       });
     }
   }

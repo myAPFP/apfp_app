@@ -69,29 +69,23 @@ class _SuccessfulRegistrationWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        _goToWelcome();
-        return false;
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Align(
-                alignment: AlignmentDirectional(0, 0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
-                  child: _headerText(),
-                ),
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Align(
+              alignment: AlignmentDirectional(0, 0),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
+                child: _headerText(),
               ),
-              _backToHomeButton()
-            ],
-          ),
+            ),
+            _backToHomeButton()
+          ],
         ),
       ),
     );

@@ -111,7 +111,6 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                         children: [
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.07),
-                          // Icon(Icons.live_tv),
                         ],
                       ),
                       Column(
@@ -278,36 +277,30 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        ConfirmationDialog.showExitAppDialog(context);
-        return false;
-      },
-      child: Scaffold(
-          key: scaffoldKey,
-          backgroundColor: Colors.white,
-          body: SafeArea(
-              child: SingleChildScrollView(
-            child: Column(mainAxisSize: MainAxisSize.max, children: [
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _paddedHeaderText()[0],
-                  _paddedHeaderText()[1],
-                  !_isVideosLoaded
-                      ? Text("Loading Videos...",
-                          style: FlutterFlowTheme.subtitle3)
-                      : Text("Video Count: ${videoList.length}",
-                          style: FlutterFlowTheme.subtitle3),
-                ],
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: videoList,
-              ),
-              SizedBox(height: 10)
-            ]),
-          ))),
-    );
+    return Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _paddedHeaderText()[0],
+                _paddedHeaderText()[1],
+                !_isVideosLoaded
+                    ? Text("Loading Videos...",
+                        style: FlutterFlowTheme.subtitle3)
+                    : Text("Video Count: ${videoList.length}",
+                        style: FlutterFlowTheme.subtitle3),
+              ],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: videoList,
+            ),
+            SizedBox(height: 10)
+          ]),
+        )));
   }
 }

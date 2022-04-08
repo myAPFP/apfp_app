@@ -1,28 +1,50 @@
 import 'goal.dart';
 
 class CustomGoal {
-  static List<double> calcGoalSums(Map activitySnapshot) {
-    Duration cyclingSum = Duration.zero;
-    Duration rowingSum = Duration.zero;
-    Duration stepMillSum = Duration.zero;
+  static double calcGoalSums(Map activitySnapshot, {required String goalType}) {
+    Duration cyclingDuration = Duration.zero;
+    Duration rowingDuration = Duration.zero;
+    Duration stepMillDuration = Duration.zero;
+    Duration ellipticalDuration = Duration.zero;
+    Duration resistanceStrengthDuration = Duration.zero;
     activitySnapshot.forEach((key, value) {
       switch (value[0]) {
         case "Cycling":
-          cyclingSum += Goal.convertToDuration(value[2]);
+          cyclingDuration += Goal.convertToDuration(value[2]);
           break;
         case "Rowing":
-          rowingSum += Goal.convertToDuration(value[2]);
+          rowingDuration += Goal.convertToDuration(value[2]);
           break;
         case "Step-Mill":
-          stepMillSum += Goal.convertToDuration(value[2]);
+          stepMillDuration += Goal.convertToDuration(value[2]);
+          break;
+        case "Elliptical":
+          ellipticalDuration += Goal.convertToDuration(value[2]);
+          break;
+        case "ResStrength":
+          resistanceStrengthDuration += Goal.convertToDuration(value[2]);
           break;
       }
     });
-    return [
-      _toMinutes(cyclingSum),
-      _toMinutes(rowingSum),
-      _toMinutes(stepMillSum)
-    ];
+    double sum = 0.0;
+    switch (goalType) {
+      case "Cycling":
+        sum = _toMinutes(cyclingDuration);
+        break;
+      case "Rowing":
+        sum = _toMinutes(rowingDuration);
+        break;
+      case "Step-Mill":
+        sum = _toMinutes(stepMillDuration);
+        break;
+      case "Elliptical":
+        sum = _toMinutes(ellipticalDuration);
+        break;
+      case "ResStrength":
+        sum = _toMinutes(resistanceStrengthDuration);
+        break;
+    }
+    return sum;
   }
 
   static double _toMinutes(Duration goalSum) {
