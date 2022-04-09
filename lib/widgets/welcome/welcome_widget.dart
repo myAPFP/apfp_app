@@ -1,21 +1,27 @@
+import '/main.dart';
+
 import 'dart:async';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/flutter_flow/flutter_flow_util.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+
+import '../../firebase/firestore.dart';
+
+import '../log_in_page/log_in_page_widget.dart';
+
+import '../create_account/create_account_widget.dart';
+
+import '../../flutter_flow/flutter_flow_util.dart';
+import '../../flutter_flow/flutter_flow_theme.dart';
+import '../../flutter_flow/flutter_flow_widgets.dart';
+import '../../flutter_flow/flutter_flow_animations.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:page_transition/page_transition.dart';
-import '../create_account/create_account_widget.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '../log_in_page/log_in_page_widget.dart';
-import 'package:flutter/material.dart';
-import '/main.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -37,6 +43,7 @@ class MyApp extends StatelessWidget {
 class WelcomeWidget extends StatefulWidget {
   WelcomeWidget({Key? key}) : super(key: key);
 
+  /// When called, the user will be taken to the Welcome screen.
   static void returnToWelcome(BuildContext context) async {
     await Navigator.push(
       context,
@@ -49,6 +56,10 @@ class WelcomeWidget extends StatefulWidget {
     );
   }
 
+  /// Only called from the log out button in Settings.
+  ///
+  /// After logging out, the user is taken to Welcome without
+  /// a [PageTransition] effect.
   static void logOutToWelcome(BuildContext context) async {
     await Navigator.pushAndRemoveUntil(
       context,
@@ -65,6 +76,7 @@ class WelcomeWidget extends StatefulWidget {
 
 class _WelcomeWidgetState extends State<WelcomeWidget>
     with TickerProviderStateMixin, WidgetsBindingObserver {
+  /// Map to be used in page load animations.
   final animationsMap = {
     'imageOnPageLoadAnimation': AnimationInfo(
       curve: Curves.easeIn,
@@ -75,7 +87,13 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     ),
   };
 
+  /// Holds a list of admin emails stored in FireStore.
+  ///
+  /// This list is used to populate the email recipient list
+  /// when a user requests to contact administartors.
   List<String>? adminEmails = [];
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -95,11 +113,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     super.dispose();
   }
 
+  /// Initializes FirebaseApp and sends the user to Home if
+  /// their email has been verified.
   Future<FirebaseApp> _initFirebaseApp() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
-    User? user = FirebaseAuth.instance.currentUser;
-    user!.reload().then((_) => user.getIdToken(true));
-    if (user.emailVerified) {
+    if (await isUserEmailVerfified()) {
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -111,6 +129,14 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     return firebaseApp;
   }
 
+  /// Returns bool indicating email verification status.
+  Future<bool> isUserEmailVerfified() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    user!.reload().then((_) => user.getIdToken(true));
+    return user.emailVerified;
+  }
+
+  /// Returns APFP logo.
   Widget _apfpLogo() {
     return Image.asset(
       'assets/images/BSU_APFP_logo.png',
@@ -120,25 +146,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     ).animated([animationsMap['imageOnPageLoadAnimation']]);
   }
 
-  SafeArea _routeUI() {
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _apfpLogo(),
-          _welcomeAnimated(),
-          _contactText(),
-          _logInButton(),
-          _createAccountButton(),
-          SizedBox(
-            height: 25,
-          )
-        ],
-      ),
-    );
-  }
-
+  /// Returns a row containing a loading message and [CircularProgressIndicator].
+  ///
+  /// This is displayed while the FirebaseApp initializes upon startup.
   Row _loadingSplash() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -148,7 +158,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(margin: EdgeInsets.only(left: 7), child: _apfpLogo()),
               Text("Loading myAPFP...", style: TextStyle(fontSize: 20)),
               SizedBox(height: 50),
               CircularProgressIndicator(),
@@ -157,6 +166,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
+  /// Animated 'Welcome' text.
   SizedBox _welcomeAnimated() {
     const colorizeColors = [
       FlutterFlowTheme.primaryColor,
@@ -181,6 +191,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
+  /// Retrieves admin emails stored in Firestore.
   void getAdminEmails() {
     FireStore.getAdminEmails().then((value) {
       value.docs
@@ -190,7 +201,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     });
   }
 
-  Padding _contactText() {
+  /// Text shown detailing how to contact an APFP admin.
+  Padding _contactAdminText() {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
         child: AutoSizeText.rich(
@@ -219,7 +231,23 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
 
                         // If no mail apps found, show error
                         if (!result.didOpen && !result.canOpen) {
-                          showNoMailAppsDialog(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Open Mail App"),
+                                content: Text("No mail apps installed"),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    child: Text("OK"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
 
                           // iOS: if multiple mail apps found, show dialog to select.
                           // There is no native intent/default app system in iOS so
@@ -241,6 +269,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         ));
   }
 
+  /// Login button displayed in Welcome.
+  ///
+  /// Sends user to the login screen when pressed.
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
       key: Key("Welcome.loginButton"),
@@ -269,6 +300,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
+  /// Create Account button displayed in Welcome.
+  ///
+  /// Sends user to the create account screen when pressed.
   FFButtonWidget _createAccountButton() {
     return FFButtonWidget(
       key: Key("Welcome.createAcctButton"),
@@ -298,26 +332,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
-  void showNoMailAppsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Open Mail App"),
-          content: Text("No mail apps installed"),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -328,7 +342,22 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               getAdminEmails();
-              return _routeUI();
+              return SafeArea(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _apfpLogo(),
+                    _welcomeAnimated(),
+                    _contactAdminText(),
+                    _logInButton(),
+                    _createAccountButton(),
+                    SizedBox(
+                      height: 25,
+                    )
+                  ],
+                ),
+              );
             }
             return Center(child: _loadingSplash());
           }),
