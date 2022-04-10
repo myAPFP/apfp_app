@@ -411,30 +411,34 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-          key: scaffoldKey,
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    _backButton(),
-                    _label("Email Address"),
-                    _emailTextFormField(),
-                    _label("Password"),
-                    _passwordTextFormField(),
-                    _logInButton(),
-                    _forgotPasswordLabel()
-                  ],
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: WillPopScope(
+            onWillPop: () async {
+              WelcomeWidget.returnToWelcome(context);
+              return false;
+            },
+            child: Scaffold(
+              key: scaffoldKey,
+              backgroundColor: Colors.white,
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        _backButton(),
+                        _label("Email Address"),
+                        _emailTextFormField(),
+                        _label("Password"),
+                        _passwordTextFormField(),
+                        _logInButton(),
+                        _forgotPasswordLabel()
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        )
-    );
+            )));
   }
 }
