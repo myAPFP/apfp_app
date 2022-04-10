@@ -181,7 +181,10 @@ class HPGraphic {
     );
   }
 
-  /// Creates a view to display a default goal. 
+  /// Creates a view to display a default goal.
+  /// 
+  /// If [isHealthAppSynced] is set to false, the goal within view 
+  /// cannot be set until a user synchronizes a health app to myAPFP. 
   static InkWell createView(
       {required Key key,
       required BuildContext context,
