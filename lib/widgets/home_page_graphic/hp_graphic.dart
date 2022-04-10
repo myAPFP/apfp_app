@@ -41,14 +41,14 @@ class HPGraphic {
     );
   }
 
-  static InkWell createCustomView({
+  static InkWell createOtherView({
     required Key key,
     required BuildContext context,
-    required String goal1Title,
-    required String goal2Title,
-    required String goal3Title,
-    required String goal4Title,
-    required String goal5Title,
+    required String goal1ProgressInfo,
+    required String goal2ProgressInfo,
+    required String goal3ProgressInfo,
+    required String goal4ProgressInfo,
+    required String goal5ProgressInfo,
     required double percent1,
     required double percent2,
     required double percent3,
@@ -77,7 +77,7 @@ class HPGraphic {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(height: 25),
-                Text(isGoal1Set ? goal1Title : 'Cycling Goal Not Active',
+                Text(isGoal1Set ? goal1ProgressInfo : 'Cycling Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -94,7 +94,7 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(isGoal2Set ? goal2Title : 'Rowing Goal Not Active',
+                Text(isGoal2Set ? goal2ProgressInfo : 'Rowing Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -111,7 +111,7 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(isGoal3Set ? goal3Title : 'Step Mill Goal Not Active',
+                Text(isGoal3Set ? goal3ProgressInfo : 'Step Mill Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -128,7 +128,7 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(isGoal4Set ? goal4Title : 'Elliptical Goal Not Active',
+                Text(isGoal4Set ? goal4ProgressInfo : 'Elliptical Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -145,7 +145,7 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(isGoal5Set ? goal5Title : 'Res-Strength Goal Not Active',
+                Text(isGoal5Set ? goal5ProgressInfo : 'Resistance Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
