@@ -63,7 +63,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     userGoals = connectGoalDocument();
     _currentPage = widget.initialPage;
     messaging = FirebaseMessaging.instance;
-    messaging.subscribeToTopic("alerts");
+    messaging.subscribeToTopic("Alerts");
     messaging.subscribeToTopic(
         FirebaseAuth.instance.currentUser!.displayName!.replaceAll(" ", ""));
     pageList.add(HomeWidget(
