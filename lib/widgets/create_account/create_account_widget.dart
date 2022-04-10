@@ -167,7 +167,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       TextSpan(
                         text: '\nAPFP Membership is required to sign up.',
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: FlutterFlowTheme.secondaryColor),
                       )
