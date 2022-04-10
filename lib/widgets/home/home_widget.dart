@@ -1,23 +1,37 @@
 import 'dart:io';
-import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/util/goals/custom_goal.dart';
-import 'package:apfp/util/toasted/toasted.dart';
-import 'package:permission_handler/permission_handler.dart';
-import '../../flutter_flow/flutter_flow_widgets.dart';
-import '../../util/goals/exercise_time_goal.dart';
+
+import '../../firebase/firestore.dart';
+
 import '../../util/goals/goal.dart';
+import '../../util/toasted/toasted.dart';
+import '../../util/goals/custom_goal.dart';
+import '../../util/goals/exercise_time_goal.dart';
+
+import '../../flutter_flow/flutter_flow_widgets.dart';
+import '../../flutter_flow/flutter_flow_theme.dart';
+
 import '../add_goal/add_goal_widget.dart';
-import '../health_app_info/health_app_info.dart';
+
 import '../home_page_graphic/hp_graphic.dart';
+
+import '../health_app_info/health_app_info.dart';
+
+import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeWidget extends StatefulWidget {
-  late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
-  final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
+
+  /// The user's goal document stream.
   final Stream<DocumentSnapshot<Map<String, dynamic>>> goalStream;
+
+  /// The user's activity document stream.
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
+
+  /// The annoucements collection stream.
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+  
   HomeWidget(
       {Key? key,
       required this.goalStream,
@@ -30,17 +44,38 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  late Map<String, dynamic> _activitySnapshotBackup;
-  static late Map<String, dynamic> _healthSnapshotBackup;
 
+  /// Stores a user's activity document snapshots.
+  late Map<String, dynamic> _activitySnapshotBackup;
+
+  /// Stores a user's goal document snapshots.
+  late Map<String, dynamic> _goalSnapshotBackup;
+
+  /// [ScrollController] for [_otherGoalsView].
   final _otherSC = ScrollController();
+
+  /// [ScrollController] for [_calsView].
   final _calViewSC = ScrollController();
+
+  /// [ScrollController] for [_stepsView].
   final _stepsViewSC = ScrollController();
+
+  /// [ScrollController] for [_milesView].
   final _milesViewSC = ScrollController();
-  final _exerciseViewSC = ScrollController();
+
+  /// [ScrollController] for [_exerciseTimeView].
+  final _exerciseTimeViewSC = ScrollController();
+
+  /// Serves as key for the [Scaffold] found in [build].
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String _goalTypeLabel = "Daily";
+  /// Label displayed above the [_goalsTabbedContainer].
+  ///
+  /// This changes based on which type of goals the user is currently viewing.
+  String _goalType = "Daily";
+
+  /// If the app is being ran on Android, this is set to 'Google Fit'.
+  /// Otherwise, this is set to 'Health App'.
   String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   @override
@@ -58,9 +93,13 @@ class _HomeWidgetState extends State<HomeWidget> {
     _calViewSC.dispose();
     _stepsViewSC.dispose();
     _milesViewSC.dispose();
-    _exerciseViewSC.dispose();
+    _exerciseTimeViewSC.dispose();
   }
 
+  /// This listens to the user's activity document stream.
+  ///
+  /// Upon any changes to said document, goal progress and the
+  /// app's UI is updated accordingly.
   void _listenToActivityStream() {
     widget.activityStream.forEach((element) {
       _activitySnapshotBackup = new Map();
@@ -139,145 +178,146 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
   }
 
+  /// This listens to the user's goal document stream.
+  ///
+  /// Upon any changes to said document, goal progress and the
+  /// app's UI is updated accordingly.
   void _listenToGoalStream() {
     widget.goalStream.forEach((element) {
-      _healthSnapshotBackup = new Map();
+      _goalSnapshotBackup = new Map();
       if (element.data() != null) {
-        _healthSnapshotBackup = element.data()!;
+        _goalSnapshotBackup = element.data()!;
         setState(() {
-          Goal.dayOfMonth = _healthSnapshotBackup['dayOfMonth'];
+          Goal.dayOfMonth = _goalSnapshotBackup['dayOfMonth'];
           Goal.isDailyGoalsDisplayed =
-              _healthSnapshotBackup['isDailyGoalsDisplayed'];
-          _goalTypeLabel = Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly";
+              _goalSnapshotBackup['isDailyGoalsDisplayed'];
+          _goalType = Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly";
 
-          Goal.isCalGoalSet = _healthSnapshotBackup['isCalGoalSet'];
-          Goal.isCalWeeklyGoalSet = _healthSnapshotBackup['isCalGoalSet_w'];
+          Goal.isCalGoalSet = _goalSnapshotBackup['isCalGoalSet'];
+          Goal.isCalWeeklyGoalSet = _goalSnapshotBackup['isCalGoalSet_w'];
 
-          Goal.isStepGoalSet = _healthSnapshotBackup['isStepGoalSet'];
-          Goal.isStepWeeklyGoalSet = _healthSnapshotBackup['isStepGoalSet_w'];
+          Goal.isStepGoalSet = _goalSnapshotBackup['isStepGoalSet'];
+          Goal.isStepWeeklyGoalSet = _goalSnapshotBackup['isStepGoalSet_w'];
 
-          Goal.isMileGoalSet = _healthSnapshotBackup['isMileGoalSet'];
-          Goal.isMileWeeklyGoalSet = _healthSnapshotBackup['isMileGoalSet_w'];
+          Goal.isMileGoalSet = _goalSnapshotBackup['isMileGoalSet'];
+          Goal.isMileWeeklyGoalSet = _goalSnapshotBackup['isMileGoalSet_w'];
 
           Goal.isExerciseTimeGoalSet =
-              _healthSnapshotBackup['isExerciseTimeGoalSet'];
+              _goalSnapshotBackup['isExerciseTimeGoalSet'];
           Goal.isExerciseTimeWeeklyGoalSet =
-              _healthSnapshotBackup['isExerciseTimeGoalSet_w'];
+              _goalSnapshotBackup['isExerciseTimeGoalSet_w'];
 
-          Goal.isCyclingGoalSet = _healthSnapshotBackup['isCyclingGoalSet'];
+          Goal.isCyclingGoalSet = _goalSnapshotBackup['isCyclingGoalSet'];
           Goal.isCyclingWeeklyGoalSet =
-              _healthSnapshotBackup['isCyclingGoalSet_w'];
+              _goalSnapshotBackup['isCyclingGoalSet_w'];
 
-          Goal.isRowingGoalSet = _healthSnapshotBackup['isRowingGoalSet'];
-          Goal.isRowingWeeklyGoalSet =
-              _healthSnapshotBackup['isRowingGoalSet_w'];
+          Goal.isRowingGoalSet = _goalSnapshotBackup['isRowingGoalSet'];
+          Goal.isRowingWeeklyGoalSet = _goalSnapshotBackup['isRowingGoalSet_w'];
 
-          Goal.isStepMillGoalSet = _healthSnapshotBackup['isStepMillGoalSet'];
+          Goal.isStepMillGoalSet = _goalSnapshotBackup['isStepMillGoalSet'];
           Goal.isStepMillWeeklyGoalSet =
-              _healthSnapshotBackup['isStepMillGoalSet_w'];
+              _goalSnapshotBackup['isStepMillGoalSet_w'];
 
-          Goal.isEllipticalGoalSet =
-              _healthSnapshotBackup['isEllipticalGoalSet'];
+          Goal.isEllipticalGoalSet = _goalSnapshotBackup['isEllipticalGoalSet'];
           Goal.isEllipticalWeeklyGoalSet =
-              _healthSnapshotBackup['isEllipticalGoalSet_w'];
+              _goalSnapshotBackup['isEllipticalGoalSet_w'];
 
           Goal.isResistanceStrengthGoalSet =
-              _healthSnapshotBackup['isResistanceStrengthGoalSet'];
+              _goalSnapshotBackup['isResistanceStrengthGoalSet'];
           Goal.isResistanceStrengthWeeklyGoalSet =
-              _healthSnapshotBackup['isResistanceStrengthGoalSet_w'];
+              _goalSnapshotBackup['isResistanceStrengthGoalSet_w'];
 
-          Goal.isHealthAppSynced = _healthSnapshotBackup['isHealthAppSynced'];
+          Goal.isHealthAppSynced = _goalSnapshotBackup['isHealthAppSynced'];
 
-          Goal.userCalEndGoal = _healthSnapshotBackup['calEndGoal'].toDouble();
+          Goal.userCalEndGoal = _goalSnapshotBackup['calEndGoal'].toDouble();
           Goal.userProgressCalGoalWeekly =
-              _healthSnapshotBackup['calGoalProgressWeekly'].toDouble();
+              _goalSnapshotBackup['calGoalProgressWeekly'].toDouble();
           Goal.userCalWeeklyEndGoal =
-              _healthSnapshotBackup['calEndGoal_w'].toDouble();
+              _goalSnapshotBackup['calEndGoal_w'].toDouble();
 
-          Goal.userStepEndGoal =
-              _healthSnapshotBackup['stepEndGoal'].toDouble();
+          Goal.userStepEndGoal = _goalSnapshotBackup['stepEndGoal'].toDouble();
           Goal.userProgressStepGoalWeekly =
-              _healthSnapshotBackup['stepGoalProgressWeekly'].toDouble();
+              _goalSnapshotBackup['stepGoalProgressWeekly'].toDouble();
           Goal.userStepWeeklyEndGoal =
-              _healthSnapshotBackup['stepEndGoal_w'].toDouble();
+              _goalSnapshotBackup['stepEndGoal_w'].toDouble();
 
-          Goal.userMileEndGoal =
-              _healthSnapshotBackup['mileEndGoal'].toDouble();
+          Goal.userMileEndGoal = _goalSnapshotBackup['mileEndGoal'].toDouble();
           Goal.userProgressMileGoalWeekly =
-              _healthSnapshotBackup['mileGoalProgressWeekly'].toDouble();
+              _goalSnapshotBackup['mileGoalProgressWeekly'].toDouble();
           Goal.userMileWeeklyEndGoal =
-              _healthSnapshotBackup['mileEndGoal_w'].toDouble();
+              _goalSnapshotBackup['mileEndGoal_w'].toDouble();
 
           Goal.userExerciseTimeEndGoal =
-              _healthSnapshotBackup['exerciseTimeEndGoal'].toDouble();
+              _goalSnapshotBackup['exerciseTimeEndGoal'].toDouble();
           Goal.userProgressExerciseTimeWeekly =
-              _healthSnapshotBackup['exerciseTimeGoalProgressWeekly']
-                  .toDouble();
+              _goalSnapshotBackup['exerciseTimeGoalProgressWeekly'].toDouble();
           Goal.userExerciseTimeWeeklyEndGoal =
-              _healthSnapshotBackup['exerciseTimeEndGoal_w'].toDouble();
+              _goalSnapshotBackup['exerciseTimeEndGoal_w'].toDouble();
 
           Goal.userCyclingEndGoal =
-              _healthSnapshotBackup['cyclingEndGoal'].toDouble();
+              _goalSnapshotBackup['cyclingEndGoal'].toDouble();
           Goal.userProgressCyclingGoalWeekly =
-              _healthSnapshotBackup['cyclingGoalProgressWeekly'].toDouble();
+              _goalSnapshotBackup['cyclingGoalProgressWeekly'].toDouble();
           Goal.userCyclingWeeklyEndGoal =
-              _healthSnapshotBackup['cyclingEndGoal_w'].toDouble();
+              _goalSnapshotBackup['cyclingEndGoal_w'].toDouble();
 
           Goal.userRowingEndGoal =
-              _healthSnapshotBackup['rowingEndGoal'].toDouble();
+              _goalSnapshotBackup['rowingEndGoal'].toDouble();
           Goal.userProgressRowingGoalWeekly =
-              _healthSnapshotBackup['rowingGoalProgressWeekly'].toDouble();
+              _goalSnapshotBackup['rowingGoalProgressWeekly'].toDouble();
           Goal.userRowingWeeklyEndGoal =
-              _healthSnapshotBackup['rowingEndGoal_w'].toDouble();
+              _goalSnapshotBackup['rowingEndGoal_w'].toDouble();
 
           Goal.userStepMillEndGoal =
-              _healthSnapshotBackup['stepMillEndGoal'].toDouble();
+              _goalSnapshotBackup['stepMillEndGoal'].toDouble();
           Goal.userProgressStepMillGoalWeekly =
-              _healthSnapshotBackup['stepMillGoalProgressWeekly'].toDouble();
+              _goalSnapshotBackup['stepMillGoalProgressWeekly'].toDouble();
           Goal.userStepMillWeeklyEndGoal =
-              _healthSnapshotBackup['stepMillEndGoal_w'].toDouble();
+              _goalSnapshotBackup['stepMillEndGoal_w'].toDouble();
 
           Goal.userEllipticalEndGoal =
-              _healthSnapshotBackup['ellipticalEndGoal'].toDouble();
+              _goalSnapshotBackup['ellipticalEndGoal'].toDouble();
           Goal.userProgressEllipticalGoalWeekly =
-              _healthSnapshotBackup['ellipticalGoalProgressWeekly'].toDouble();
+              _goalSnapshotBackup['ellipticalGoalProgressWeekly'].toDouble();
           Goal.userEllipticalWeeklyEndGoal =
-              _healthSnapshotBackup['ellipticalEndGoal_w'].toDouble();
+              _goalSnapshotBackup['ellipticalEndGoal_w'].toDouble();
 
           Goal.userResistanceStrengthEndGoal =
-              _healthSnapshotBackup['resistanceStrengthEndGoal'].toDouble();
+              _goalSnapshotBackup['resistanceStrengthEndGoal'].toDouble();
           Goal.userProgressResistanceStrengthGoalWeekly =
-              _healthSnapshotBackup['resistanceStrengthGoalProgressWeekly']
+              _goalSnapshotBackup['resistanceStrengthGoalProgressWeekly']
                   .toDouble();
           Goal.userResistanceStrengthWeeklyEndGoal =
-              _healthSnapshotBackup['resistanceStrengthEndGoal_w'].toDouble();
+              _goalSnapshotBackup['resistanceStrengthEndGoal_w'].toDouble();
 
           Goal.exerciseWeekDeadline =
-              _healthSnapshotBackup['exerciseWeekDeadline'];
-          Goal.calWeekDeadline = _healthSnapshotBackup['calWeekDeadline'];
-          Goal.stepWeekDeadline = _healthSnapshotBackup['stepWeekDeadline'];
-          Goal.mileWeekDeadline = _healthSnapshotBackup['mileWeekDeadline'];
-          Goal.cyclingWeekDeadline =
-              _healthSnapshotBackup['cyclingWeekDeadline'];
-          Goal.rowingWeekDeadline = _healthSnapshotBackup['rowingWeekDeadline'];
+              _goalSnapshotBackup['exerciseWeekDeadline'];
+          Goal.calWeekDeadline = _goalSnapshotBackup['calWeekDeadline'];
+          Goal.stepWeekDeadline = _goalSnapshotBackup['stepWeekDeadline'];
+          Goal.mileWeekDeadline = _goalSnapshotBackup['mileWeekDeadline'];
+          Goal.cyclingWeekDeadline = _goalSnapshotBackup['cyclingWeekDeadline'];
+          Goal.rowingWeekDeadline = _goalSnapshotBackup['rowingWeekDeadline'];
           Goal.stepMillWeekDeadline =
-              _healthSnapshotBackup['stepMillWeekDeadline'];
+              _goalSnapshotBackup['stepMillWeekDeadline'];
           Goal.ellipticalWeekDeadline =
-              _healthSnapshotBackup['ellipticalWeekDeadline'];
+              _goalSnapshotBackup['ellipticalWeekDeadline'];
           Goal.resistanceStrengthWeekDeadline =
-              _healthSnapshotBackup['resistanceStrengthWeekDeadline'];
+              _goalSnapshotBackup['resistanceStrengthWeekDeadline'];
         });
         Goal.uploadCompletedGoals();
       }
     });
   }
 
+  /// Checks if a user has granted physical activity permissions to myAPFP and
+  /// updates the Firestore database accordingly.
   void _checkIfHealthAppSynced() async {
     await Permission.activityRecognition.request().isGranted
         ? FireStore.updateGoalData({"isHealthAppSynced": true})
         : FireStore.updateGoalData({"isHealthAppSynced": false});
   }
 
+  /// Label used above the [_recentAnnouncementGrid].
   Padding _recentAnnouncementsLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
@@ -299,28 +339,26 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Container _announcementText(String text) {
-    return Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
-        child: AutoSizeText(
-          text,
-          overflow: TextOverflow.ellipsis,
-          style: FlutterFlowTheme.bodyText1,
-        ));
-  }
-
-  Column _announcementTextColumn(String text) {
+  /// Creates text to be displayed in the [_recentAnnouncementGrid].
+  Column _announcementText(String text) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _announcementText(text),
+        Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.75),
+            child: AutoSizeText(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: FlutterFlowTheme.bodyText1,
+            )),
       ],
     );
   }
 
-  Column _errorIcon() {
+  /// Creates a urgent info (!) icon to be displayed next to an [_announcementText].
+  Column _infoIcon() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -335,16 +373,17 @@ class _HomeWidgetState extends State<HomeWidget> {
         ]);
   }
 
+  /// Creates a row that includes an [_infoIcon] and [_announcementText].
   Row _announcementRow(String text) {
     return Row(
-      children: [_errorIcon(), _announcementTextColumn(text)],
+      children: [_infoIcon(), _announcementText(text)],
     );
   }
 
-  IgnorePointer _announcementGrid(
+  /// Creates GridView to display recent announcements.
+  GridView _recentAnnouncementGrid(
       String alertOneText, String alertTwoText, String alertThreeText) {
-    return IgnorePointer(
-        child: GridView(
+    return GridView(
       padding: EdgeInsets.zero,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
@@ -358,9 +397,10 @@ class _HomeWidgetState extends State<HomeWidget> {
         _announcementRow(alertTwoText),
         _announcementRow(alertThreeText)
       ],
-    ));
+    );
   }
 
+  /// Wraps the [_recentAnnouncementGrid], and provides border decoration.
   Container _announcements(
       String alertOneText, String alertTwoText, String alertThreeText) {
     return Container(
@@ -373,11 +413,14 @@ class _HomeWidgetState extends State<HomeWidget> {
           width: 2,
         ),
       ),
-      child: _announcementGrid(alertOneText, alertTwoText, alertThreeText),
+      child: _recentAnnouncementGrid(alertOneText, alertTwoText, alertThreeText),
     );
   }
 
-  Padding _activityLabel() {
+  /// Label used above [_goalsTabbedContainer].
+  ///
+  /// This will be set to either "Daily Goals" or "Weekly Goals".
+  Padding _goalTypeLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(
           MediaQuery.of(context).size.width * 0.04,
@@ -387,19 +430,20 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          AutoSizeText('$_goalTypeLabel Goals', style: FlutterFlowTheme.title1),
+          AutoSizeText('$_goalType Goals', style: FlutterFlowTheme.title1),
         ],
       ),
     );
   }
 
-  InkWell _exerciseView() {
+  /// The view displayed in the 'Time' tab of the [_goalsTabbedContainer].
+  InkWell _exerciseTimeView() {
     return HPGraphic.createView(
         key: Key("Home.exerciseView"),
         isGoalSet:
             (Goal.isExerciseTimeGoalSet || Goal.isExerciseTimeWeeklyGoalSet),
         isHealthAppSynced: true,
-        scrollController: _exerciseViewSC,
+        scrollController: _exerciseTimeViewSC,
         onDoubleTap: () {
           Goal.isDailyGoalsDisplayed = !Goal.isDailyGoalsDisplayed;
           FireStore.updateGoalData(
@@ -436,6 +480,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     Goal.userExerciseTimeWeeklyEndGoal);
   }
 
+  /// The view displayed in the 'Calories' tab of the [_goalsTabbedContainer].
   InkWell _calsView() {
     return HPGraphic.createView(
         key: Key("Home.calView"),
@@ -478,6 +523,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : Goal.userProgressCalGoalWeekly / Goal.userCalWeeklyEndGoal);
   }
 
+  /// The view displayed in the 'Steps' tab of the [_goalsTabbedContainer].
   InkWell _stepsView() {
     return HPGraphic.createView(
         key: Key("Home.stepsView"),
@@ -521,6 +567,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : Goal.userProgressStepGoalWeekly / Goal.userStepWeeklyEndGoal);
   }
 
+  /// The view displayed in the 'Miles' tab of the [_goalsTabbedContainer].
   InkWell _milesView() {
     return HPGraphic.createView(
         key: Key("Home.mileView"),
@@ -564,6 +611,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : Goal.userProgressMileGoalWeekly / Goal.userMileWeeklyEndGoal);
   }
 
+  /// The view displayed in the 'Other' tab of the [_goalsTabbedContainer].
   InkWell _otherGoalsView() {
     return HPGraphic.createOtherView(
         key: Key("Home.otherGoalsView"),
@@ -703,9 +751,10 @@ class _HomeWidgetState extends State<HomeWidget> {
             Goal.isResistanceStrengthWeeklyGoalSet));
   }
 
-  Padding _activityGUI() {
+  /// The tabbed container used with the goals system.
+  Padding _goalsTabbedContainer() {
     return Padding(
-      key: Key('Home.activityGUI'),
+      key: Key('Home.goalsTabbedContainer'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -725,7 +774,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           Text('Miles'),
           Text('Other'),
         ], views: [
-          _exerciseView(),
+          _exerciseTimeView(),
           _calsView(),
           _stepsView(),
           _milesView(),
@@ -735,7 +784,8 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Padding _syncHealthDataButton() {
+  /// Creates button that allows user to sync a health app to myAPFP.
+  Padding _syncHealthAppButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
@@ -751,19 +801,6 @@ class _HomeWidgetState extends State<HomeWidget> {
               MaterialPageRoute(builder: (context) => HealthAppInfo()),
             );
           }
-          // // ! -- Demo Purposes --
-          // Goal.isHealthAppSynced =
-          //     !Goal.isHealthAppSynced;
-          // if (!Goal.isHealthAppSynced) {
-          //   FireStore.updateGoalData({"isCalGoalSet": false});
-          //   FireStore.updateGoalData({"isStepGoalSet": false});
-          //   FireStore.updateGoalData({"isMileGoalSet": false});
-          // }
-          // FireStore.updateGoalData({
-          //   "isHealthAppSynced":
-          //       Goal.isHealthAppSynced
-          // });
-          // // ! -------------------
         },
         text: 'Sync $_platformHealthName',
         options: FFButtonOptions(
@@ -815,12 +852,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                     return Text("No announcements available.");
                   }
                 }),
-            _activityLabel(),
-            _activityGUI(),
+            _goalTypeLabel(),
+            _goalsTabbedContainer(),
             SizedBox(
               height: 5,
             ),
-            _syncHealthDataButton(),
+            _syncHealthAppButton(),
           ],
         ),
       )),
