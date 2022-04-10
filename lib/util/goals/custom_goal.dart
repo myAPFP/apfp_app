@@ -1,6 +1,7 @@
 import 'goal.dart';
 
 class CustomGoal {
+  
   static double calcGoalSums(Map activitySnapshot, {required String goalType}) {
     Duration cyclingDuration = Duration.zero;
     Duration rowingDuration = Duration.zero;
@@ -21,7 +22,7 @@ class CustomGoal {
         case "Elliptical":
           ellipticalDuration += Goal.convertToDuration(value[2]);
           break;
-        case "ResStrength":
+        case "Resistance":
           resistanceStrengthDuration += Goal.convertToDuration(value[2]);
           break;
       }
@@ -40,7 +41,7 @@ class CustomGoal {
       case "Elliptical":
         sum = _toMinutes(ellipticalDuration);
         break;
-      case "ResStrength":
+      case "Resistance":
         sum = _toMinutes(resistanceStrengthDuration);
         break;
     }

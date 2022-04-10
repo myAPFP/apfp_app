@@ -121,7 +121,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
 
             Goal.userProgressResistanceStrengthGoalWeekly +=
                 CustomGoal.calcGoalSums(activitySnapShot,
-                    goalType: "ResStrength");
+                    goalType: "Resistance");
 
             Goal.userProgressExerciseTimeWeekly +=
                 ExerciseGoal.totalTimeInMinutes(activitySnapShot);

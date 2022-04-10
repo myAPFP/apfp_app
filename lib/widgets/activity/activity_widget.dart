@@ -177,7 +177,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             Goal.userProgressEllipticalGoalWeekly - durationInMinutes;
         FireStore.updateGoalData({"ellipticalGoalProgressWeekly": elliptical});
         break;
-      case "ResStrength":
+      case "Resistance":
         var resistanceStrength =
             Goal.userProgressResistanceStrengthGoalWeekly - durationInMinutes;
         FireStore.updateGoalData(

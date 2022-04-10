@@ -111,7 +111,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         Goal.userProgressResistanceStrengthGoal = CustomGoal.calcGoalSums(
             _activitySnapshotBackup,
-            goalType: "ResStrength");
+            goalType: "Resistance");
 
         FireStore.updateGoalData({
           "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
@@ -565,10 +565,10 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   InkWell _otherGoalsView() {
-    return HPGraphic.createCustomView(
+    return HPGraphic.createOtherView(
         key: Key("Home.otherGoalsView"),
         context: context,
-        goal1Title: Goal.isDailyGoalsDisplayed
+        goal1ProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isCyclingGoalSet
                 ? "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(2)} / ${Goal.userCyclingEndGoal.toStringAsFixed(2)} min"
                 : "Cycling Goal Not Active"
@@ -576,7 +576,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Cycling - ${Goal.userProgressCyclingGoalWeekly.toStringAsFixed(2)} / ${Goal.userCyclingWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.cyclingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Cycling Goal Not Active",
-        goal2Title: Goal.isDailyGoalsDisplayed
+        goal2ProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isRowingGoalSet
                 ? "Rowing - ${Goal.userProgressRowingGoal.toStringAsFixed(2)} / ${Goal.userRowingEndGoal.toStringAsFixed(2)} min"
                 : "Rowing Goal Not Active"
@@ -584,7 +584,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Rowing - ${Goal.userProgressRowingGoalWeekly.toStringAsFixed(2)} / ${Goal.userRowingWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.rowingWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Rowing Goal Not Active",
-        goal3Title: Goal.isDailyGoalsDisplayed
+        goal3ProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isStepMillGoalSet
                 ? "Step Mill - ${Goal.userProgressStepMillGoal.toStringAsFixed(2)} / ${Goal.userStepMillEndGoal.toStringAsFixed(2)} min"
                 : "Step Mill Goal Not Active"
@@ -592,7 +592,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Step Mill - ${Goal.userProgressStepMillGoalWeekly.toStringAsFixed(2)} / ${Goal.userStepMillWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.stepMillWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Step Mill Goal Not Active",
-        goal4Title: Goal.isDailyGoalsDisplayed
+        goal4ProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isEllipticalGoalSet
                 ? "Elliptical - ${Goal.userProgressEllipticalGoal.toStringAsFixed(2)} / ${Goal.userEllipticalEndGoal.toStringAsFixed(2)} min"
                 : "Elliptical Goal Not Active"
@@ -600,14 +600,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ? "Elliptical - ${Goal.userProgressEllipticalGoalWeekly.toStringAsFixed(2)} / ${Goal.userEllipticalWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.ellipticalWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
                 : "Elliptical Goal Not Active",
-        goal5Title: Goal.isDailyGoalsDisplayed
+        goal5ProgressInfo: Goal.isDailyGoalsDisplayed
             ? Goal.isResistanceStrengthGoalSet
-                ? "Res-Strength - ${Goal.userProgressResistanceStrengthGoal.toStringAsFixed(2)} / ${Goal.userResistanceStrengthEndGoal.toStringAsFixed(2)} min"
-                : "Res-Strength Goal Not Active"
+                ? "Resistance - ${Goal.userProgressResistanceStrengthGoal.toStringAsFixed(2)} / ${Goal.userResistanceStrengthEndGoal.toStringAsFixed(2)} min"
+                : "Resistance Goal Not Active"
             : Goal.isResistanceStrengthWeeklyGoalSet
-                ? "Res-Strength - ${Goal.userProgressResistanceStrengthGoalWeekly.toStringAsFixed(2)} / ${Goal.userResistanceStrengthWeeklyEndGoal.toStringAsFixed(2)} min" +
+                ? "Resistance - ${Goal.userProgressResistanceStrengthGoalWeekly.toStringAsFixed(2)} / ${Goal.userResistanceStrengthWeeklyEndGoal.toStringAsFixed(2)} min" +
                     "\n${int.parse(Goal.resistanceStrengthWeekDeadline.split("/")[1]) - DateTime.now().day} day(s) left"
-                : "Res-Strength Goal Not Active",
+                : "Resistance Goal Not Active",
         percent1: Goal.isDailyGoalsDisplayed
             ? Goal.isCyclingGoalSet
                 ? (Goal.userProgressCyclingGoal / Goal.userCyclingEndGoal) > 1.0
