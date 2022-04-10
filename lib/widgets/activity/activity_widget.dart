@@ -37,7 +37,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     super.initState();
     widget.activityStream.first
         .then((firstElement) => currentSnapshotBackup = firstElement.data()!);
-    _syncHealthAppData();
+    // _syncHealthAppData();
     _collectActivity();
   }
 
