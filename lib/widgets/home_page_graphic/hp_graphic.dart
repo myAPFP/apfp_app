@@ -1,14 +1,25 @@
 import 'dart:io';
 
-import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
-import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-
 import '../../flutter_flow/flutter_flow_theme.dart';
 
+import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
+
 class HPGraphic {
+
+  /// If the app is being ran on Android, this is set to 'Google Fit'.
+  /// Otherwise, this is set to 'Health App'.
   static String _platformHealthName =
       Platform.isAndroid ? 'Google Fit' : 'Health App';
+
+  /// Creates a container which holds different tabs & views.
+  /// 
+  /// [tabs] are typically a list of two or more widgets which are used as tab buttons.
+  /// 
+  /// [views] are typically a list of two or more widgets which are used as tab views.
+  ///
+  /// NOTE: The length of [tabs] must match the length of [views].
   static ContainedTabBarView tabbedContainer(
       {required BuildContext context,
       required List<Widget> tabs,
@@ -41,6 +52,8 @@ class HPGraphic {
     );
   }
 
+  /// Creates a view to display 'other' goals. 
+  /// This view should be used with the 'other' tab.
   static InkWell createOtherView({
     required Key key,
     required BuildContext context,
@@ -168,6 +181,7 @@ class HPGraphic {
     );
   }
 
+  /// Creates a view to display a default goal. 
   static InkWell createView(
       {required Key key,
       required BuildContext context,
