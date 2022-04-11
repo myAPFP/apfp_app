@@ -19,7 +19,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? duration;
   String? unitOfTime = 'Minutes';
   String? exercisetype = 'Cardio';
-  String? OtherGoalName = "";
+  String? otherGoalName = "";
 
   List<String> exerciseTypes = [
     "Aerobic",
@@ -111,9 +111,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             Goal.userProgressRowingGoalWeekly +=
                 OtherGoal.calcGoalSums(activitySnapShot, goalType: "Rowing");
 
-            Goal.userProgressStepMillGoalWeekly += OtherGoal.calcGoalSums(
-                activitySnapShot,
-                goalType: "Step-Mill");
+            Goal.userProgressStepMillGoalWeekly +=
+                OtherGoal.calcGoalSums(activitySnapShot, goalType: "Step-Mill");
 
             Goal.userProgressEllipticalGoalWeekly += OtherGoal.calcGoalSums(
                 activitySnapShot,
@@ -143,9 +142,9 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   }
 
   bool _noRadioButtonSelected() {
-    return (OtherGoalName != "Cycling" &&
-        OtherGoalName != "Rowing" &&
-        OtherGoalName != "Step Mill");
+    return (otherGoalName != "Cycling" &&
+        otherGoalName != "Rowing" &&
+        otherGoalName != "Step Mill");
   }
 
   Padding _activityNameTextField() {
@@ -277,12 +276,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           leading: Radio(
             toggleable: true,
             value: 'Cycling',
-            groupValue: OtherGoalName,
+            groupValue: otherGoalName,
             onChanged: (value) {
               setState(() {
-                OtherGoalName = value.toString();
+                otherGoalName = value.toString();
                 activityNameTextController!.text =
-                    OtherGoalName != "null" ? OtherGoalName! : "";
+                    otherGoalName != "null" ? otherGoalName! : "";
                 exercisetype = 'Aerobic';
               });
             },
@@ -293,12 +292,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           leading: Radio(
             toggleable: true,
             value: 'Rowing',
-            groupValue: OtherGoalName,
+            groupValue: otherGoalName,
             onChanged: (value) {
               setState(() {
-                OtherGoalName = value.toString();
+                otherGoalName = value.toString();
                 activityNameTextController!.text =
-                    OtherGoalName != "null" ? OtherGoalName! : "";
+                    otherGoalName != "null" ? otherGoalName! : "";
                 exercisetype = 'Total-Body';
               });
             },
@@ -309,12 +308,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           leading: Radio(
             toggleable: true,
             value: 'Step Mill',
-            groupValue: OtherGoalName,
+            groupValue: otherGoalName,
             onChanged: (value) {
               setState(() {
-                OtherGoalName = value.toString();
+                otherGoalName = value.toString();
                 activityNameTextController!.text =
-                    OtherGoalName != "null" ? OtherGoalName! : "";
+                    otherGoalName != "null" ? otherGoalName! : "";
                 exercisetype = 'Aerobic';
               });
             },

@@ -1,10 +1,9 @@
 import 'goal.dart';
 
 class OtherGoal {
-
-  /// Loops through each activity in [activitySnapshot] and calculates the 
-  /// total amount of minutes spent doing each 'other' activity.  
-  /// 
+  /// Loops through each activity in [activitySnapshot] and calculates the
+  /// total amount of minutes spent doing each 'other' activity.
+  ///
   /// Returns the minute count as a double.
   static double calcGoalSums(Map activitySnapshot, {required String goalType}) {
     Duration cyclingDuration = Duration.zero;

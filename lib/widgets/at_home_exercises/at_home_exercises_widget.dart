@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 class AtHomeExercisesWidget extends StatefulWidget {
   final Stream<QuerySnapshot<Object?>> videoStream;
   final Stream<QuerySnapshot<Object?>> playlistStream;
-  
 
   AtHomeExercisesWidget(
       {Key? key, required this.playlistStream, required this.videoStream})

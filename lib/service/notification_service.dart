@@ -1,13 +1,18 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
 class NotificationService {
+  /// Provides cross-platform functionality for displaying local notifications.
   static FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
+
+  static FlutterLocalNotificationsPlugin get notifications => _notifications;
+
+  /// Creates a stream which payloads are stored once a user clicks on
+  /// a notification.
   static final onNotifications = BehaviorSubject<String?>();
 
+  /// Settings for Android notification channels.
   static AndroidNotificationChannel _channel = AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
@@ -15,6 +20,9 @@ class NotificationService {
       importance: Importance.high,
       playSound: true);
 
+  static AndroidNotificationChannel get channel => _channel;
+
+  /// Initializes local notifications for iOS and Android.
   static Future init() async {
     final iOS = IOSInitializationSettings();
     final android = AndroidInitializationSettings('app_icon');
@@ -26,23 +34,5 @@ class NotificationService {
     _notifications.initialize(settings, onSelectNotification: (payload) async {
       onNotifications.add(payload);
     });
-  }
-
-  static void showGoalNotification(String title, String body,
-      {int id = 0, String type = "Daily"}) {
-    _notifications.show(
-        id,
-        title,
-        body,
-        NotificationDetails(
-            android: AndroidNotificationDetails(
-          _channel.id,
-          _channel.name,
-          channelDescription: _channel.description,
-          importance: Importance.high,
-          color: Colors.white,
-          playSound: true
-        )),
-        payload: type);
   }
 }

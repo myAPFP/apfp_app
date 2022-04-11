@@ -7,16 +7,15 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 
 class HPGraphic {
-
   /// If the app is being ran on Android, this is set to 'Google Fit'.
   /// Otherwise, this is set to 'Health App'.
   static String _platformHealthName =
       Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   /// Creates a container which holds different tabs & views.
-  /// 
+  ///
   /// [tabs] are typically a list of two or more widgets which are used as tab buttons.
-  /// 
+  ///
   /// [views] are typically a list of two or more widgets which are used as tab views.
   ///
   /// NOTE: The length of [tabs] must match the length of [views].
@@ -52,7 +51,7 @@ class HPGraphic {
     );
   }
 
-  /// Creates a view to display 'other' goals. 
+  /// Creates a view to display 'other' goals.
   /// This view should be used with the 'other' tab.
   static InkWell createOtherView({
     required Key key,
@@ -124,7 +123,10 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(isGoal3Set ? goal3ProgressInfo : 'Step Mill Goal Not Active',
+                Text(
+                    isGoal3Set
+                        ? goal3ProgressInfo
+                        : 'Step Mill Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -141,7 +143,10 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(isGoal4Set ? goal4ProgressInfo : 'Elliptical Goal Not Active',
+                Text(
+                    isGoal4Set
+                        ? goal4ProgressInfo
+                        : 'Elliptical Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -158,7 +163,10 @@ class HPGraphic {
                   progressColor: Colors.green,
                 ),
                 SizedBox(height: 25),
-                Text(isGoal5Set ? goal5ProgressInfo : 'Resistance Goal Not Active',
+                Text(
+                    isGoal5Set
+                        ? goal5ProgressInfo
+                        : 'Resistance Goal Not Active',
                     style: TextStyle(fontSize: 20)),
                 SizedBox(height: 5),
                 LinearPercentIndicator(
@@ -182,9 +190,9 @@ class HPGraphic {
   }
 
   /// Creates a view to display a default goal.
-  /// 
-  /// If [isHealthAppSynced] is set to false, the goal within view 
-  /// cannot be set until a user synchronizes a health app to myAPFP. 
+  ///
+  /// If [isHealthAppSynced] is set to false, the goal within view
+  /// cannot be set until a user synchronizes a health app to myAPFP.
   static InkWell createView(
       {required Key key,
       required BuildContext context,

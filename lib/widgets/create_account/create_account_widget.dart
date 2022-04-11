@@ -774,7 +774,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   }
 
   /// Called when a user successfully creates their account.
-  /// 
+  ///
   /// This will take the user to the Successful Registration screen
   /// that provides details on how to verify their email address.
   void _onSuccessfulAccountCreation() async {

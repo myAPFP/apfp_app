@@ -76,7 +76,6 @@ class WelcomeWidget extends StatefulWidget {
 
 class _WelcomeWidgetState extends State<WelcomeWidget>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-      
   /// Map to be used in page load animations.
   final animationsMap = {
     'imageOnPageLoadAnimation': AnimationInfo(

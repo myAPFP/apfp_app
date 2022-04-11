@@ -22,7 +22,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeWidget extends StatefulWidget {
-
   /// The user's goal document stream.
   final Stream<DocumentSnapshot<Map<String, dynamic>>> goalStream;
 
@@ -31,7 +30,7 @@ class HomeWidget extends StatefulWidget {
 
   /// The annoucements collection stream.
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
-  
+
   HomeWidget(
       {Key? key,
       required this.goalStream,
@@ -44,7 +43,6 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-
   /// Stores a user's activity document snapshots.
   late Map<String, dynamic> _activitySnapshotBackup;
 
@@ -136,9 +134,8 @@ class _HomeWidgetState extends State<HomeWidget> {
             _activitySnapshotBackup,
             goalType: "Cycling");
 
-        Goal.userProgressRowingGoal = OtherGoal.calcGoalSums(
-            _activitySnapshotBackup,
-            goalType: "Rowing");
+        Goal.userProgressRowingGoal =
+            OtherGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Rowing");
 
         Goal.userProgressStepMillGoal = OtherGoal.calcGoalSums(
             _activitySnapshotBackup,
@@ -413,7 +410,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           width: 2,
         ),
       ),
-      child: _recentAnnouncementGrid(alertOneText, alertTwoText, alertThreeText),
+      child:
+          _recentAnnouncementGrid(alertOneText, alertTwoText, alertThreeText),
     );
   }
 

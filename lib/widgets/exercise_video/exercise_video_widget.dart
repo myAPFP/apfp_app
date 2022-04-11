@@ -16,6 +16,7 @@ class ExerciseVideoWidget extends StatefulWidget {
 }
 
 class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
+  
   /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import '/firebase/firestore.dart';
 import '/service/notification_service.dart';
 
 class Goal {
-
   /// Stores a [DateTime] instance with current date and time in the local time zone
   static final _now = DateTime.now();
 
@@ -21,82 +23,82 @@ class Goal {
   /// Indicates if the user has synchronized a health app to myAPFP
   static bool isHealthAppSynced = false;
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly exercise goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String exerciseWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly calories goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String calWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly steps goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String stepWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly miles goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String mileWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly cycling goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String cyclingWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly rowing goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String rowingWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly step mill goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String stepMillWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly elliptical goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
   static String ellipticalWeekDeadline = "0/00/0000";
 
-  /// Serves as a goal deadline. When a user sets a weekly goal, 
+  /// Serves as a goal deadline. When a user sets a weekly resistance/strength goal,
   /// this is updated to the week from the current date.
   ///
-  /// When a user resets a weekly goal, this becomes its initial value.
+  /// When a user resets the weekly goal, this becomes its initial value.
   ///
   /// Example:
   /// - "0/00/0000" -> "3/23/2022"
@@ -322,11 +324,13 @@ class Goal {
   ///
   /// Example:
   ///
+  /// ```dart
   /// String activityDurationStr = "4 minutes";
   ///
   /// Duration d = convertToDuration(activityDurationStr);
   ///
   /// print(d); // 00:04:00
+  /// ```
   static Duration convertToDuration(String activityDurationStr) {
     Duration duration = Duration.zero;
     String value = activityDurationStr.split(' ')[0];
@@ -350,18 +354,45 @@ class Goal {
   /// Converts a [Duration] to minutes.
   ///
   /// Example:
-  /// 
+  ///
+  ///```dart
   /// Duration d = Duration(hours: 3);
   ///
   /// double minutes = toMinutes(d);
   ///
   /// print(d); // 180
+  /// ```
   static double toMinutes(Duration goalSum) {
     String hhmmss = goalSum.toString().split('.').first.padLeft(8, "0");
     List<String> hhmmssSplit = hhmmss.split(':');
     return double.parse(hhmmssSplit[0]) * 60 +
         double.parse(hhmmssSplit[1]) +
         double.parse(hhmmssSplit[2]) / 60;
+  }
+
+  /// Sends a local goal completion notification to the user.
+  ///
+  /// The [type] indicates the payload. By default, if a goal is completed, it is
+  /// assumed to be a daily goal. Passing in 'Weekly' as the [type] will indicate
+  /// the completed goal to be a weekly goal.
+  ///
+  /// If the user clicks on a notification, they will be taken to the Completed
+  /// Goals screen and the [type] will determine which set of completed goals are
+  /// displayed: daily or weekly.
+  static void notify(String title, String body,
+      {int id = 0, String type = "Daily"}) {
+    NotificationService.notifications.show(
+        id,
+        title,
+        body,
+        NotificationDetails(
+            android: AndroidNotificationDetails(NotificationService.channel.id,
+                NotificationService.channel.name,
+                channelDescription: NotificationService.channel.description,
+                importance: Importance.high,
+                color: Colors.white,
+                playSound: true)),
+        payload: type);
   }
 
   /// Calculates a user's completed goals.
@@ -433,9 +464,9 @@ class Goal {
   }
 
   /// Uploads a completed daily goal's stats to the user's goal log collection.
-  /// 
+  ///
   /// Once a goal is completed, the associated goal values are reset.
-  /// 
+  ///
   /// A user will also receive a local notification informing them of completion.
   static void _uploadCompletedDailyGoals() {
     if (isExerciseTimeGoalComplete) {
@@ -447,7 +478,7 @@ class Goal {
       });
       FireStore.updateGoalData(
           {"exerciseTimeEndGoal": 0.0, "isExerciseTimeGoalSet": false});
-      NotificationService.showGoalNotification("Daily Goal Completed!",
+      notify("Daily Goal Completed!",
           "Exercise Time - $userExerciseTimeEndGoal min of activity");
     }
     if (isCyclingGoalComplete) {
@@ -462,7 +493,7 @@ class Goal {
         "cyclingEndGoal": 0,
         "isCyclingGoalSet": false,
       });
-      NotificationService.showGoalNotification("Daily Goal Completed!",
+      notify("Daily Goal Completed!",
           "Cycling - $userCyclingEndGoal min of activity");
     }
     if (isRowingGoalComplete) {
@@ -477,7 +508,7 @@ class Goal {
         "rowingEndGoal": 0,
         "isRowingGoalSet": false,
       });
-      NotificationService.showGoalNotification("Daily Goal Completed!",
+      notify("Daily Goal Completed!",
           "Rowing - $userRowingEndGoal min of activity");
     }
     if (isStepMillGoalComplete) {
@@ -492,7 +523,7 @@ class Goal {
         "stepMillEndGoal": 0,
         "isStepMillGoalSet": false,
       });
-      NotificationService.showGoalNotification("Daily Goal Completed!",
+      notify("Daily Goal Completed!",
           "Step Mill - $userStepMillEndGoal min of activity");
     }
     if (isCalGoalComplete) {
@@ -507,7 +538,7 @@ class Goal {
         "calEndGoal": 0,
         "isCalGoalSet": false,
       });
-      NotificationService.showGoalNotification(
+      notify(
           "Daily Goal Completed!", "Calories - $userCalEndGoal cals burned");
     }
     if (isStepGoalComplete) {
@@ -522,7 +553,7 @@ class Goal {
         "stepEndGoal": 0,
         "isStepGoalSet": false,
       });
-      NotificationService.showGoalNotification(
+      notify(
           "Daily Goal Completed!", "Steps - $userStepEndGoal steps taken");
     }
     if (isMileGoalComplete) {
@@ -537,7 +568,7 @@ class Goal {
         "mileEndGoal": 0,
         "isMileGoalSet": false,
       });
-      NotificationService.showGoalNotification(
+      notify(
           "Daily Goal Completed!", "Miles - $userMileEndGoal miles traveled");
     }
     if (isEllipticalGoalComplete) {
@@ -552,7 +583,7 @@ class Goal {
         "ellipticalEndGoal": 0,
         "isEllipticalGoalSet": false,
       });
-      NotificationService.showGoalNotification("Daily Goal Completed!",
+      notify("Daily Goal Completed!",
           "Elliptical - $userEllipticalEndGoal min of activity");
     }
     if (isResistanceStrengthGoalComplete) {
@@ -567,15 +598,15 @@ class Goal {
         "resistanceStrengthEndGoal": 0,
         "isResistanceStrengthGoalSet": false,
       });
-      NotificationService.showGoalNotification("Daily Goal Completed!",
+      notify("Daily Goal Completed!",
           "Resistance-Strength - $userResistanceStrengthEndGoal min of activity");
     }
   }
 
   /// Uploads a completed weekly goal's stats to the user's goal log collection.
-  /// 
+  ///
   /// Once a goal is completed, the associated goal values are reset.
-  /// 
+  ///
   /// A user will also receive a local notification informing them of completion.
   static void _uploadCompletedWeeklyGoals() {
     if (isExerciseTimeWeeklyGoalComplete) {
@@ -590,7 +621,7 @@ class Goal {
         "exerciseTimeEndGoal_w": 0.0,
         "isExerciseTimeGoalSet_w": false
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Exercise Time - $userExerciseTimeWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
     }
@@ -607,7 +638,7 @@ class Goal {
         "cyclingEndGoal_w": 0,
         "isCyclingGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Cycling - $userCyclingWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
     }
@@ -624,7 +655,7 @@ class Goal {
         "rowingEndGoal_w": 0,
         "isRowingGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Rowing - $userRowingWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
     }
@@ -641,7 +672,7 @@ class Goal {
         "stepMillEndGoal_w": 0,
         "isStepMillGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Step Mill - $userStepMillWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
     }
@@ -658,7 +689,7 @@ class Goal {
         "calEndGoal_w": 0,
         "isCalGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Calories - $userCalWeeklyEndGoal cals burned",
           id: 1, type: "Weekly");
     }
@@ -675,7 +706,7 @@ class Goal {
         "stepEndGoal_w": 0,
         "isStepGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Steps - $userStepWeeklyEndGoal steps taken",
           id: 1, type: "Weekly");
     }
@@ -692,7 +723,7 @@ class Goal {
         "mileEndGoal_w": 0,
         "isMileGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Miles - $userMileWeeklyEndGoal miles traveled",
           id: 1, type: "Weekly");
     }
@@ -709,7 +740,7 @@ class Goal {
         "ellipticalEndGoal_w": 0,
         "isEllipticalGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Elliptical - $userEllipticalWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
     }
@@ -726,14 +757,14 @@ class Goal {
         "resistanceStrengthEndGoal_w": 0,
         "isResistanceStrengthGoalSet_w": false,
       });
-      NotificationService.showGoalNotification("Weekly Goal Completed!",
+      notify("Weekly Goal Completed!",
           "Resistance-Strength - $userResistanceStrengthWeeklyEndGoal min of activity",
           id: 1, type: "Weekly");
     }
   }
 
   /// Checks if a user's weekly goal deadline has been reached.
-  /// 
+  ///
   /// If so, the associated goal's values will be reset.
   static void _checkWeeklyGoalDeadLines() {
     if (exerciseWeekDeadline == "${_now.month}/${_now.day}/${_now.year}") {
@@ -812,7 +843,7 @@ class Goal {
   }
 
   /// Checks if [dayOfMonth] is equal to the current day.
-  /// 
+  ///
   /// If not, the associated field in Firestore is updated.
   static void _updateDayOfMonth() {
     if (dayOfMonth != _now.day) {

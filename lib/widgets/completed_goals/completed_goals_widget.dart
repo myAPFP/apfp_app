@@ -10,16 +10,14 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class CompletedGoalsWidget extends StatefulWidget {
-
   /// Dictates what type of completed goals are being displayed, daily or weekly.
   final String? mode;
 
   CompletedGoalsWidget({Key? key, this.mode}) : super(key: key);
 
   /// Takes user to Completed Goals screen.
-  /// 
+  ///
   /// By default, completed daily goals are displayed.
   static void launch(BuildContext context, {String mode = "Daily"}) async {
     await Navigator.push(
@@ -35,7 +33,6 @@ class CompletedGoalsWidget extends StatefulWidget {
 }
 
 class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
-
   /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -113,8 +110,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
             child: Text('< Go Back', style: FlutterFlowTheme.subtitle2)));
   }
 
-  /// Creates a [Card] with [Padding] applied that displays 
-  /// information relevant to a goal. 
+  /// Creates a [Card] with [Padding] applied that displays
+  /// information relevant to a goal.
   Padding _goalCard(
       {required Color color,
       required String goalName,
@@ -252,7 +249,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   }
 
   /// Adds a focused menu to a [_goalCard].
-  /// 
+  ///
   /// When a [_goalCard] is pressed, a user will have an option to delete the card.
   FocusedMenuHolder focusedMenu(Widget goalCard) {
     return FocusedMenuHolder(
@@ -348,14 +345,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
               children: _mode == "Daily"
                   ? _dailyGoals.isEmpty
                       ? [_noGoalsCompletedText()]
-                      : _dailyGoals
-                          .map((e) => focusedMenu(e))
-                          .toList()
+                      : _dailyGoals.map((e) => focusedMenu(e)).toList()
                   : _weeklyGoals.isEmpty
                       ? [_noGoalsCompletedText()]
-                      : _weeklyGoals
-                          .map((e) => focusedMenu(e))
-                          .toList(),
+                      : _weeklyGoals.map((e) => focusedMenu(e)).toList(),
             ),
             SizedBox(height: 10)
           ]),

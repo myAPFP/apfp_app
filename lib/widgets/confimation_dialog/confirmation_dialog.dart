@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
 
 class ConfirmationDialog {
-
   /// Shows confirmation dialog to user.
-  /// 
-  /// Best used to prevent a user from accidentally performing 
+  ///
+  /// Best used to prevent a user from accidentally performing
   /// a significant action such as account deletion.
-  /// 
+  ///
   /// [onSubmitTap] is executed when a user confirms their action.
-  /// 
+  ///
   /// [onCancelTap] is executed when a user cancels their action.
-  /// 
+  ///
   /// [submitText] is displayed as a button to confirm action. Ex: 'OK'
-  /// 
+  ///
   /// [cancelText] is displayed as a button to cancel action. Ex: 'BACK'
   static void showConfirmationDialog({
     required BuildContext context,

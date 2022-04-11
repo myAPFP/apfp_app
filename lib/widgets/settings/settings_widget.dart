@@ -32,7 +32,6 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
-  
   /// The [FirebaseMessaging] entry point.
   late FirebaseMessaging messaging;
 
@@ -221,8 +220,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   }
 
   /// Signs in the user and then immediately deletes their account.
-  /// 
-  /// This is called when a user must reauthenticate in order to 
+  ///
+  /// This is called when a user must reauthenticate in order to
   /// delete their account.
   _signInAndDelete() async {
     if (await Internet.isConnected()) {

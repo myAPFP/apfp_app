@@ -25,7 +25,6 @@ class LogInPageWidget extends StatefulWidget {
 }
 
 class _LogInPageWidgetState extends State<LogInPageWidget> {
-
   /// [TextEditingController] for [_emailTextFormField].
   TextEditingController? _emailController;
 

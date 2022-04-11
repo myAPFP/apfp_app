@@ -1,8 +1,10 @@
-import 'package:apfp/util/toasted/toasted.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '/util/toasted/toasted.dart';
+
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireAuth {
+  /// Registers a user via email and password.
   static Future<User?> registerUsingEmailPassword(
       {required String name,
       required String email,
@@ -29,6 +31,7 @@ class FireAuth {
     return user;
   }
 
+  /// Signs in a user via email and password.
   static Future<User?> signInUsingEmailPassword(
       {required String email, required String password}) async {
     User? user;
@@ -53,6 +56,10 @@ class FireAuth {
     return user;
   }
 
+  /// Resends a verification email to the user's email address.
+  ///
+  /// If a user has already verified their email, and toast will be displayed to
+  /// inform the user.
   static reSendEmailVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -65,22 +72,28 @@ class FireAuth {
             "A new verification email has been sent to: ${user.email}");
       } else
         Toasted.showToast('Your email has already been verified.');
-    } else
-      Toasted.showToast("You must attempt to login first.");
+    }
   }
 
+  /// Signs the user out.
   static signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
+  /// Deletes user then closes app.
   static void deleteUserAccount() {
-    /// Deletes user then closes app
     FirebaseAuth.instance.currentUser?.delete().whenComplete(() {
       Toasted.showToast("Account has been deleted.");
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      closeApp();
     });
   }
 
+  /// Closes app.
+  static void closeApp() {
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
+
+  /// Allows a user to update their email address.
   static updateEmail({required String newEmail}) {
     User? user = FirebaseAuth.instance.currentUser;
     user!
@@ -88,6 +101,7 @@ class FireAuth {
         .then((value) => Toasted.showToast("Email has been updated."));
   }
 
+  /// Sends a password reset link to the user's email address.
   static sendResetPasswordLink({required String email}) async {
     final auth = FirebaseAuth.instance;
     await auth
