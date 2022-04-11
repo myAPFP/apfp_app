@@ -1,7 +1,11 @@
 import 'goal.dart';
 
-class CustomGoal {
-  
+class OtherGoal {
+
+  /// Loops through each activity in [activitySnapshot] and calculates the 
+  /// total amount of minutes spent doing each 'other' activity.  
+  /// 
+  /// Returns the minute count as a double.
   static double calcGoalSums(Map activitySnapshot, {required String goalType}) {
     Duration cyclingDuration = Duration.zero;
     Duration rowingDuration = Duration.zero;
@@ -30,29 +34,21 @@ class CustomGoal {
     double sum = 0.0;
     switch (goalType) {
       case "Cycling":
-        sum = _toMinutes(cyclingDuration);
+        sum = Goal.toMinutes(cyclingDuration);
         break;
       case "Rowing":
-        sum = _toMinutes(rowingDuration);
+        sum = Goal.toMinutes(rowingDuration);
         break;
       case "Step-Mill":
-        sum = _toMinutes(stepMillDuration);
+        sum = Goal.toMinutes(stepMillDuration);
         break;
       case "Elliptical":
-        sum = _toMinutes(ellipticalDuration);
+        sum = Goal.toMinutes(ellipticalDuration);
         break;
       case "Resistance":
-        sum = _toMinutes(resistanceStrengthDuration);
+        sum = Goal.toMinutes(resistanceStrengthDuration);
         break;
     }
     return sum;
-  }
-
-  static double _toMinutes(Duration goalSum) {
-    String hhmmss = goalSum.toString().split('.').first.padLeft(8, "0");
-    List<String> hhmmssSplit = hhmmss.split(':');
-    return double.parse(hhmmssSplit[0]) * 60 +
-        double.parse(hhmmssSplit[1]) +
-        double.parse(hhmmssSplit[2]) / 60;
   }
 }

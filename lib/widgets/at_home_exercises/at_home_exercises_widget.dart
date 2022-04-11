@@ -4,14 +4,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../../util/internet_connection/internet.dart';
-import '../confimation_dialog/confirmation_dialog.dart';
 import '../exercise_video/exercise_video_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AtHomeExercisesWidget extends StatefulWidget {
-  final Stream<QuerySnapshot<Object?>> playlistStream;
   final Stream<QuerySnapshot<Object?>> videoStream;
+  final Stream<QuerySnapshot<Object?>> playlistStream;
+  
 
   AtHomeExercisesWidget(
       {Key? key, required this.playlistStream, required this.videoStream})

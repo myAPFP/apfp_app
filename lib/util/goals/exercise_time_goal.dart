@@ -1,15 +1,16 @@
 import 'goal.dart';
 
 class ExerciseGoal {
+
+  /// Loops through each activity in [activitySnapshot] and calculates the 
+  /// total amount of exercise minutes. 
+  /// 
+  /// Returns the minute count as a double.
   static double totalTimeInMinutes(Map activitySnapshot) {
     Duration sum = Duration.zero;
     activitySnapshot.forEach((key, value) {
       sum += Goal.convertToDuration(value[2]);
     });
-    String hhmmss= sum.toString().split('.').first.padLeft(8, "0");
-    List<String> hhmmssSplit = hhmmss.split(':');
-    return double.parse(hhmmssSplit[0]) * 60 +
-        double.parse(hhmmssSplit[1]) +
-        double.parse(hhmmssSplit[2]) / 60;
+    return Goal.toMinutes(sum);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:apfp/util/validator/validator.dart';
 import '../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../util/goals/custom_goal.dart';
+import '../../util/goals/other_goal.dart';
 import '../../util/goals/exercise_time_goal.dart';
 import '../../util/goals/goal.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -19,7 +19,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   String? duration;
   String? unitOfTime = 'Minutes';
   String? exercisetype = 'Cardio';
-  String? customGoalName = "";
+  String? OtherGoalName = "";
 
   List<String> exerciseTypes = [
     "Aerobic",
@@ -106,21 +106,21 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             };
 
             Goal.userProgressCyclingGoalWeekly +=
-                CustomGoal.calcGoalSums(activitySnapShot, goalType: "Cycling");
+                OtherGoal.calcGoalSums(activitySnapShot, goalType: "Cycling");
 
             Goal.userProgressRowingGoalWeekly +=
-                CustomGoal.calcGoalSums(activitySnapShot, goalType: "Rowing");
+                OtherGoal.calcGoalSums(activitySnapShot, goalType: "Rowing");
 
-            Goal.userProgressStepMillGoalWeekly += CustomGoal.calcGoalSums(
+            Goal.userProgressStepMillGoalWeekly += OtherGoal.calcGoalSums(
                 activitySnapShot,
                 goalType: "Step-Mill");
 
-            Goal.userProgressEllipticalGoalWeekly += CustomGoal.calcGoalSums(
+            Goal.userProgressEllipticalGoalWeekly += OtherGoal.calcGoalSums(
                 activitySnapShot,
                 goalType: "Elliptical");
 
             Goal.userProgressResistanceStrengthGoalWeekly +=
-                CustomGoal.calcGoalSums(activitySnapShot,
+                OtherGoal.calcGoalSums(activitySnapShot,
                     goalType: "Resistance");
 
             Goal.userProgressExerciseTimeWeekly +=
@@ -143,9 +143,9 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   }
 
   bool _noRadioButtonSelected() {
-    return (customGoalName != "Cycling" &&
-        customGoalName != "Rowing" &&
-        customGoalName != "Step Mill");
+    return (OtherGoalName != "Cycling" &&
+        OtherGoalName != "Rowing" &&
+        OtherGoalName != "Step Mill");
   }
 
   Padding _activityNameTextField() {
@@ -269,7 +269,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
-  Column _customGoalRadioButtons() {
+  Column _OtherGoalRadioButtons() {
     return Column(
       children: <Widget>[
         ListTile(
@@ -277,12 +277,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           leading: Radio(
             toggleable: true,
             value: 'Cycling',
-            groupValue: customGoalName,
+            groupValue: OtherGoalName,
             onChanged: (value) {
               setState(() {
-                customGoalName = value.toString();
+                OtherGoalName = value.toString();
                 activityNameTextController!.text =
-                    customGoalName != "null" ? customGoalName! : "";
+                    OtherGoalName != "null" ? OtherGoalName! : "";
                 exercisetype = 'Aerobic';
               });
             },
@@ -293,12 +293,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           leading: Radio(
             toggleable: true,
             value: 'Rowing',
-            groupValue: customGoalName,
+            groupValue: OtherGoalName,
             onChanged: (value) {
               setState(() {
-                customGoalName = value.toString();
+                OtherGoalName = value.toString();
                 activityNameTextController!.text =
-                    customGoalName != "null" ? customGoalName! : "";
+                    OtherGoalName != "null" ? OtherGoalName! : "";
                 exercisetype = 'Total-Body';
               });
             },
@@ -309,12 +309,12 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
           leading: Radio(
             toggleable: true,
             value: 'Step Mill',
-            groupValue: customGoalName,
+            groupValue: OtherGoalName,
             onChanged: (value) {
               setState(() {
-                customGoalName = value.toString();
+                OtherGoalName = value.toString();
                 activityNameTextController!.text =
-                    customGoalName != "null" ? customGoalName! : "";
+                    OtherGoalName != "null" ? OtherGoalName! : "";
                 exercisetype = 'Aerobic';
               });
             },
@@ -412,7 +412,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                           text: 'Other Activities',
                           style: FlutterFlowTheme.title3),
                     ),
-                    _customGoalRadioButtons(),
+                    _OtherGoalRadioButtons(),
                     Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(

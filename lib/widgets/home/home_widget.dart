@@ -4,7 +4,7 @@ import '/firebase/firestore.dart';
 
 import '/util/goals/goal.dart';
 import '/util/toasted/toasted.dart';
-import '/util/goals/custom_goal.dart';
+import '/util/goals/other_goal.dart';
 import '/util/goals/exercise_time_goal.dart';
 
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -132,23 +132,23 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         // ! Update once health app is integrated
 
-        Goal.userProgressCyclingGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressCyclingGoal = OtherGoal.calcGoalSums(
             _activitySnapshotBackup,
             goalType: "Cycling");
 
-        Goal.userProgressRowingGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressRowingGoal = OtherGoal.calcGoalSums(
             _activitySnapshotBackup,
             goalType: "Rowing");
 
-        Goal.userProgressStepMillGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressStepMillGoal = OtherGoal.calcGoalSums(
             _activitySnapshotBackup,
             goalType: "Step-Mill");
 
-        Goal.userProgressEllipticalGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressEllipticalGoal = OtherGoal.calcGoalSums(
             _activitySnapshotBackup,
             goalType: "Elliptical");
 
-        Goal.userProgressResistanceStrengthGoal = CustomGoal.calcGoalSums(
+        Goal.userProgressResistanceStrengthGoal = OtherGoal.calcGoalSums(
             _activitySnapshotBackup,
             goalType: "Resistance");
 

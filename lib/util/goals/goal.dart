@@ -347,6 +347,23 @@ class Goal {
     return duration;
   }
 
+  /// Converts a [Duration] to minutes.
+  ///
+  /// Example:
+  /// 
+  /// Duration d = Duration(hours: 3);
+  ///
+  /// double minutes = toMinutes(d);
+  ///
+  /// print(d); // 180
+  static double toMinutes(Duration goalSum) {
+    String hhmmss = goalSum.toString().split('.').first.padLeft(8, "0");
+    List<String> hhmmssSplit = hhmmss.split(':');
+    return double.parse(hhmmssSplit[0]) * 60 +
+        double.parse(hhmmssSplit[1]) +
+        double.parse(hhmmssSplit[2]) / 60;
+  }
+
   /// Calculates a user's completed goals.
   static void _calculateCompletedGoals() {
     isExerciseTimeGoalComplete = isExerciseTimeGoalSet &&

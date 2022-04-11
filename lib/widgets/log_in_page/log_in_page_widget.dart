@@ -25,6 +25,7 @@ class LogInPageWidget extends StatefulWidget {
 }
 
 class _LogInPageWidgetState extends State<LogInPageWidget> {
+
   /// [TextEditingController] for [_emailTextFormField].
   TextEditingController? _emailController;
 
@@ -371,7 +372,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         submitText: "Send");
   }
 
-  // Returns a [Padding] which creates the 'Forgot Your Password?' label which appears on screen.
+  /// Returns a [Padding] which creates the 'Forgot Your Password?' label which appears on screen.
   /// When pressed, [_showEmailDialog] is called, showing a dialog which prompts
   /// a user to enter their email address to receive instructions on how to reset
   /// their password.
