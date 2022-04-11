@@ -2,16 +2,16 @@ import '/main.dart';
 
 import 'dart:async';
 
-import '../../firebase/firestore.dart';
+import '/firebase/firestore.dart';
 
 import '../log_in_page/log_in_page_widget.dart';
 
 import '../create_account/create_account_widget.dart';
 
-import '../../flutter_flow/flutter_flow_util.dart';
-import '../../flutter_flow/flutter_flow_theme.dart';
-import '../../flutter_flow/flutter_flow_widgets.dart';
-import '../../flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';

@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import '../../firebase/firestore.dart';
+import '/firebase/firestore.dart';
 
-import '../../util/goals/goal.dart';
-import '../../util/toasted/toasted.dart';
-import '../../util/goals/custom_goal.dart';
-import '../../util/goals/exercise_time_goal.dart';
+import '/util/goals/goal.dart';
+import '/util/toasted/toasted.dart';
+import '/util/goals/custom_goal.dart';
+import '/util/goals/exercise_time_goal.dart';
 
-import '../../flutter_flow/flutter_flow_widgets.dart';
-import '../../flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 
 import '../add_goal/add_goal_widget.dart';
 

@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
-import '../../firebase/firestore.dart';
+import '/firebase/firestore.dart';
 import '../confimation_dialog/confirmation_dialog.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';

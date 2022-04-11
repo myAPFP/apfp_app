@@ -1,22 +1,22 @@
 import 'dart:io';
 
-import '../../firebase/fire_auth.dart';
+import '/firebase/fire_auth.dart';
 
 import '../health_app_info/health_app_info.dart';
 
 import '../completed_goals/completed_goals_widget.dart';
 
-import '../../util/goals/goal.dart';
-import '../../util/toasted/toasted.dart';
-import '../../util/validator/validator.dart';
-import '../../util/internet_connection/internet.dart';
+import '/util/goals/goal.dart';
+import '/util/toasted/toasted.dart';
+import '/util/validator/validator.dart';
+import '/util/internet_connection/internet.dart';
 
-import '../../widgets/welcome/welcome_widget.dart';
-import '../../widgets/add_goal/add_goal_widget.dart';
-import '../../widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/welcome/welcome_widget.dart';
+import '/widgets/add_goal/add_goal_widget.dart';
+import '/widgets/confimation_dialog/confirmation_dialog.dart';
 
-import '../../flutter_flow/flutter_flow_theme.dart';
-import '../../flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

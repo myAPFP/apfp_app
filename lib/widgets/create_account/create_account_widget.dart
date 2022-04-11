@@ -1,16 +1,16 @@
-import '../../firebase/firestore.dart';
-import '../../firebase/fire_auth.dart';
+import '/firebase/firestore.dart';
+import '/firebase/fire_auth.dart';
 
-import '../../util/toasted/toasted.dart';
-import '../../util/validator/validator.dart';
+import '/util/toasted/toasted.dart';
+import '/util/validator/validator.dart';
 
-import '../../flutter_flow/flutter_flow_util.dart';
-import '../../flutter_flow/flutter_flow_theme.dart';
-import '../../flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 
-import '../../util/internet_connection/internet.dart';
+import '/util/internet_connection/internet.dart';
 
-import '../../widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/confimation_dialog/confirmation_dialog.dart';
 
 import '../welcome/welcome_widget.dart';
 
