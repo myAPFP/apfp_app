@@ -1,16 +1,26 @@
+import '/firebase/firestore.dart';
+
+import '/flutter_flow/flutter_flow_theme.dart';
+
+import '../confimation_dialog/confirmation_dialog.dart';
+
+import 'package:flutter/material.dart';
+import 'package:focused_menu/modals.dart';
+import 'package:focused_menu/focused_menu.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:focused_menu/focused_menu.dart';
-import 'package:focused_menu/modals.dart';
-import '/firebase/firestore.dart';
-import '../confimation_dialog/confirmation_dialog.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/material.dart';
+
 
 class CompletedGoalsWidget extends StatefulWidget {
+
+  /// Dictates what type of completed goals are being displayed, daily or weekly.
   final String? mode;
+
   CompletedGoalsWidget({Key? key, this.mode}) : super(key: key);
 
+  /// Takes user to Completed Goals screen.
+  /// 
+  /// By default, completed daily goals are displayed.
   static void launch(BuildContext context, {String mode = "Daily"}) async {
     await Navigator.push(
       context,
@@ -25,19 +35,29 @@ class CompletedGoalsWidget extends StatefulWidget {
 }
 
 class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// The user's daily goal-log collection stream.
   Stream<QuerySnapshot> dailyGoalsLogStream =
       FireStore.getGoalLogCollection(goalType: "daily")
           .orderBy("Date", descending: true)
           .snapshots();
 
+  /// The user's weekly goal-log collection stream.
   Stream<QuerySnapshot> weeklyGoalsLogStream =
       FireStore.getGoalLogCollection(goalType: "weekly")
           .orderBy("Date", descending: true)
           .snapshots();
 
+  /// Dictates what type of completed goals are being displayed, daily or weekly.
   String _mode = "";
+
+  /// A list of daily [_goalCard] widgets.
   List<Widget> _dailyGoals = [];
+
+  /// A list of weekly [_goalCard] widgets.
   List<Widget> _weeklyGoals = [];
 
   @override
@@ -57,6 +77,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     super.dispose();
   }
 
+  /// Header text. Indicates current type of goal the user is displaying.
   Padding _paddedHeaderText() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 15),
@@ -74,7 +95,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     );
   }
 
-  Column _noGoalsText() {
+  /// This is displayed if a user has not completed any goals.
+  Column _noGoalsCompletedText() {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -82,6 +104,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     );
   }
 
+  /// When pressed, the user is taken back to Settings.
   Padding _goBackButton() {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
@@ -90,6 +113,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
             child: Text('< Go Back', style: FlutterFlowTheme.subtitle2)));
   }
 
+  /// Creates a [Card] with [Padding] applied that displays 
+  /// information relevant to a goal. 
   Padding _goalCard(
       {required Color color,
       required String goalName,
@@ -147,6 +172,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
             )));
   }
 
+  /// Used to created a [_goalCard] title.
   Row _titleRow(String goalName) {
     return Row(children: [
       Container(
@@ -162,6 +188,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     ]);
   }
 
+  /// Used to created a [_goalCard] attribute.
   Row _goalAttributeRow(String label, String value) {
     return Row(children: [
       Container(
@@ -178,18 +205,21 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     ]);
   }
 
+  /// Adds a [_goalCard] to the [_dailyGoals] list.
   void _addDailyGoal(Padding goalCard) {
     setState(() {
       _dailyGoals.add(goalCard);
     });
   }
 
+  /// Adds a [_goalCard] to the [_weeklyGoals] list.
   void _addWeeklyGoal(Padding goalCard) {
     setState(() {
       _weeklyGoals.add(goalCard);
     });
   }
 
+  /// Pre-loads previously completed daily goals stored in Firestore.
   void _getPreviousDailyGoals() {
     dailyGoalsLogStream.forEach(((snapshot) {
       _dailyGoals.clear();
@@ -205,6 +235,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     }));
   }
 
+  /// Pre-loads previously completed weekly goals stored in Firestore.
   void _getPreviousWeeklyGoals() {
     weeklyGoalsLogStream.forEach(((snapshot) {
       _weeklyGoals.clear();
@@ -220,7 +251,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     }));
   }
 
-  FocusedMenuHolder focusedMenu(List<Widget> goals, Widget e) {
+  /// Adds a focused menu to a [_goalCard].
+  /// 
+  /// When a [_goalCard] is pressed, a user will have an option to delete the card.
+  FocusedMenuHolder focusedMenu(Widget goalCard) {
     return FocusedMenuHolder(
         menuWidth: MediaQuery.of(context).size.width * 0.50,
         blurSize: 5.0,
@@ -269,7 +303,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
               })
         ],
         onPressed: () {},
-        child: e);
+        child: goalCard);
   }
 
   @override
@@ -313,14 +347,14 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
               mainAxisSize: MainAxisSize.max,
               children: _mode == "Daily"
                   ? _dailyGoals.isEmpty
-                      ? [_noGoalsText()]
+                      ? [_noGoalsCompletedText()]
                       : _dailyGoals
-                          .map((e) => focusedMenu(_dailyGoals, e))
+                          .map((e) => focusedMenu(e))
                           .toList()
                   : _weeklyGoals.isEmpty
-                      ? [_noGoalsText()]
+                      ? [_noGoalsCompletedText()]
                       : _weeklyGoals
-                          .map((e) => focusedMenu(_weeklyGoals, e))
+                          .map((e) => focusedMenu(e))
                           .toList(),
             ),
             SizedBox(height: 10)
