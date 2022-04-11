@@ -163,7 +163,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
               if (value.length > 15) {
                 return "15 character max limit. Current count: ${value.length}";
               }
-              if (!Validator.isValidActivity(value)) {
+              if (!Validator.isValidActivityName(value)) {
                 return 'Alphabet letters only';
               }
               if (Validator.hasProfanity(value)) {
