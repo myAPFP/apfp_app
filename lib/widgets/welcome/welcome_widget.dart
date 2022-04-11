@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 class WelcomeWidget extends StatefulWidget {
   WelcomeWidget({Key? key}) : super(key: key);
 
-  /// When called, the user will be taken to the Welcome screen.
+  /// Takes user to Welcome screen.
   static void returnToWelcome(BuildContext context) async {
     await Navigator.push(
       context,
