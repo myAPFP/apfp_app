@@ -28,9 +28,19 @@ class ActivityWidget extends StatefulWidget {
 }
 
 class _ActivityWidgetState extends State<ActivityWidget> {
+  /// The image a user captures after pressing "+ Image/Share" in an activity card's
+  /// focused menu.
+  ///
+  /// If a user captures an image but declines to share it, this is reset to null.
+  XFile? image;
+
+  /// A list of the user's activity cards.
   List<Padding> cards = [];
-  XFile? imagepick;
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// Stores a user's activity document snapshots.
   late Map<String, dynamic> currentSnapshotBackup;
 
   @override
@@ -40,6 +50,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     _collectActivity();
   }
 
+  /// Synchronizes iOS Health App data with myAPFP.
   void _syncIOSHealthData(HealthFactory health) async {
     await health
         .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
@@ -68,6 +79,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     });
   }
 
+  /// Synchronizes Android Health App data with myAPFP.
   void _syncAndroidHealthData(HealthFactory health) async {
     bool requested;
     List<HealthDataType> types = List.empty(growable: true);
@@ -102,6 +114,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     }
   }
 
+  /// Synchronizes Health App data with myAPFP based on current platform.
   void _syncHealthAppData() async {
     if (Platform.isIOS) {
       _syncIOSHealthData(new HealthFactory());
@@ -110,6 +123,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     }
   }
 
+  /// Fetches a user's activity data from Firestore and displays them.
   void _collectActivity() {
     widget.activityStream.forEach((element) {
       Map sortedMap = new Map();
@@ -139,12 +153,17 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     });
   }
 
+  /// Adds [activityCard]'s info to the user's activity document in Firestore.
   void _addActivityToCloud(ActivityCard activityCard) {
     currentSnapshotBackup.putIfAbsent(activityCard.timestamp.toString(),
         () => [activityCard.name, activityCard.type, activityCard.duration]);
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
+  /// Removes an activity from Firestore.
+  /// 
+  /// The [id] represents the activity's id, which is the timestamp in 
+  /// which it was created.
   void _removeActivityFromCloud(String id) {
     _updateCustomWeeklyGoalProgress();
     currentSnapshotBackup
@@ -152,6 +171,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
+  /// Updates a user's current weekly goal progess in Firestore.
   void _updateCustomWeeklyGoalProgress() {
     String exerciseType = currentSnapshotBackup.values.first[0];
     double durationInMinutes = _getDurationInMinutes();
@@ -186,6 +206,18 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     }
   }
 
+  /// Converts an activity duration string to a [double] representing
+  /// the duration in minutes.
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// String activityDurationStr = "30 seconds";
+  ///
+  /// double d = _getDurationInMinutes();
+  ///
+  /// print(d); // 0.5
+  /// ```
   double _getDurationInMinutes() {
     List<String> duration =
         currentSnapshotBackup.values.first[2].toString().split(" ");
@@ -209,6 +241,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     return durationInMinutes;
   }
 
+  /// Creates header text displayed at top of the screen.
   Row _headerTextRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -224,22 +257,25 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     );
   }
 
+  /// Adds [card] to the list of cards to be displayed.
   void addCard(Padding card) {
     setState(() => cards.add(card));
   }
 
+  /// Allows a user to share activity info with others.
   share({String? body, String? subject}) async {
     final box = context.findRenderObject() as RenderBox?;
-    imagepick == null
+    image == null
         ? await Share.share(body!,
             subject: subject,
             sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size)
-        : await Share.shareFiles([imagepick!.path],
+        : await Share.shareFiles([image!.path],
             text: body,
             subject: subject,
             sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
 
+  /// Displays the '+ Image/Share' dialog.
   void _showShareWithImageDialog(Padding paddedActivityCard) async {
     final cardInfo = paddedActivityCard.key.toString().split(' ');
     ConfirmationDialog.showConfirmationDialog(
@@ -257,11 +293,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                   'Exercise Type: ${cardInfo[2]}\n' +
                   'Duration: ${cardInfo[3]} ${cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
                   '\nSent from the myAPFP App.');
-          imagepick = null;
+          image = null;
           Navigator.pop(context);
         },
         onCancelTap: () {
-          imagepick = null;
+          image = null;
           Navigator.pop(context);
         },
         cancelText: 'No',
@@ -313,10 +349,10 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     title: Text("+ Image/Share"),
                                     trailingIcon: Icon(Icons.image),
                                     onPressed: () async {
-                                      imagepick = null;
-                                      imagepick = await ImagePicker().pickImage(
+                                      image = null;
+                                      image = await ImagePicker().pickImage(
                                           source: ImageSource.camera);
-                                      if (imagepick == null) {
+                                      if (image == null) {
                                         return;
                                       } else {
                                         _showShareWithImageDialog(e);
