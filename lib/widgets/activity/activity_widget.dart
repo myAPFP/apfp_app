@@ -1,23 +1,29 @@
 import 'dart:io';
 
-import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:focused_menu/modals.dart';
-import 'package:health/health.dart';
-import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:share_plus/share_plus.dart';
-import '../../util/goals/goal.dart';
-import '../../util/toasted/toasted.dart';
-import '../add_activity/add_activity_widget.dart';
+import '/util/goals/goal.dart';
+
+import '/firebase/firestore.dart';
+
+import '/util/toasted/toasted.dart';
+
 import '../activity_card/activity_card.dart';
-import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:focused_menu/focused_menu.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
+import '/flutter_flow/flutter_flow_theme.dart';
+
+import '../add_activity/add_activity_widget.dart';
 
 import '../confimation_dialog/confirmation_dialog.dart';
+
+import 'package:intl/intl.dart';
+import 'package:health/health.dart';
+import 'package:flutter/material.dart';
+import 'package:focused_menu/modals.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 class ActivityWidget extends StatefulWidget {
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
