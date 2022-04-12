@@ -345,19 +345,16 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   /// Creates a radio button.
   ///
   /// [exerciseType] will be used to populate the 'Type of Exercise' dropdown.
-  ListTile _radioButton(
-      {required String title,
-      required String value,
-      required String exerciseType}) {
+  ListTile _radioButton({required String title, required String exerciseType}) {
     return ListTile(
       title: Text(title),
       leading: Radio(
         toggleable: true,
-        value: value,
+        value: title,
         groupValue: _radioButtonValue,
-        onChanged: (_) {
+        onChanged: (v) {
           setState(() {
-            _radioButtonValue = value.toString();
+            _radioButtonValue = v.toString();
             activityNameTextController!.text =
                 _radioButtonValue != "null" ? _radioButtonValue! : "";
             _exerciseType = exerciseType;
@@ -371,18 +368,11 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   Column _otherActivityRadioButtons() {
     return Column(
       children: <Widget>[
-        _radioButton(
-            title: 'Cycling', value: 'Cycling', exerciseType: 'Aerobic'),
-        _radioButton(
-            title: 'Rowing', value: 'Rowing', exerciseType: 'Total-Body'),
-        _radioButton(
-            title: 'Step Mill', value: 'Step Mill', exerciseType: 'Aerobic'),
-        _radioButton(
-            title: 'Elliptical', value: 'Elliptical', exerciseType: 'Aerobic'),
-        _radioButton(
-            title: 'Resistance/Strength',
-            value: 'Resistance',
-            exerciseType: 'Aerobic')
+        _radioButton(title: 'Cycling', exerciseType: 'Aerobic'),
+        _radioButton(title: 'Rowing', exerciseType: 'Total-Body'),
+        _radioButton(title: 'Step Mill', exerciseType: 'Aerobic'),
+        _radioButton(title: 'Elliptical', exerciseType: 'Aerobic'),
+        _radioButton(title: 'Resistance', exerciseType: 'Aerobic')
       ],
     );
   }
