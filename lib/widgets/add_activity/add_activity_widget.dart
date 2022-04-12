@@ -1,11 +1,14 @@
-import 'package:apfp/util/validator/validator.dart';
-import '../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../util/goals/other_goal.dart';
-import '../../util/goals/exercise_time_goal.dart';
-import '../../util/goals/goal.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import '/util/goals/goal.dart';
+import '/util/goals/other_goal.dart';
+import '/util/validator/validator.dart';
+import '/util/goals/exercise_time_goal.dart';
+
 import '../activity_card/activity_card.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
+
 import 'package:flutter/material.dart';
 
 class AddActivityWidget extends StatefulWidget {
@@ -16,11 +19,26 @@ class AddActivityWidget extends StatefulWidget {
 }
 
 class _AddActivityWidgetState extends State<AddActivityWidget> {
-  String? duration;
+  /// Activity duration's unit of time. Set to 'Minutes' by default.
+  ///
+  /// Possible values:
+  /// - Seconds
+  /// - Minute
+  /// - Minutes
+  /// - Hour
+  /// - Hours
   String? unitOfTime = 'Minutes';
-  String? exercisetype = 'Cardio';
-  String? otherGoalName = "";
 
+  /// Activity's exercise type. Set to 'Cardio' by default.
+  ///
+  /// Possible values are included in the [exerciseTypes] list.
+  String? _exerciseType = 'Cardio';
+
+  /// This is set to an 'other' activity's name when a user chooses one via
+  /// radio buttons.
+  String? otherActivityName = "";
+
+  /// A list of exercise types a user can choose from.
   List<String> exerciseTypes = [
     "Aerobic",
     'Body-Composition',
@@ -33,20 +51,27 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     "Total-Body"
   ];
 
-  TextEditingController? activityNameTextController;
-  TextEditingController? exerciseTextController;
+  /// [TextEditingController] for [_durationTextField].
   TextEditingController? durationTextController;
 
+  /// [TextEditingController] for [_activityNameTextField].
+  TextEditingController? activityNameTextController;
+
+  /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
+  /// Serves as key for the [Form] found in [build].
+  ///
+  /// Used to validate the current state of the [Form].
   final _formKey = GlobalKey<FormState>();
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
     activityNameTextController = TextEditingController();
-    exerciseTextController = TextEditingController();
     durationTextController = TextEditingController();
   }
 
@@ -54,18 +79,20 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   void dispose() {
     super.dispose();
     activityNameTextController!.dispose();
-    exerciseTextController!.dispose();
     durationTextController!.dispose();
   }
 
-  Text _header({required String text, TextStyle? style}) {
+  /// Creates a label.
+  Text _label({required String text, TextStyle? style}) {
     return Text(text, style: style);
   }
 
+  /// Gets text from [durationTextController].
   String _getDuration() {
     return durationTextController!.text.toString().trim();
   }
 
+  /// Options to be used with the [_submitButton].
   FFButtonOptions _ffButtonOptions() {
     return FFButtonOptions(
       width: 120,
@@ -81,6 +108,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
+  /// Validates all user input and creates an Activity Card to be displayed.
   FFButtonWidget _submitButton() {
     return FFButtonWidget(
       key: Key("AddActivity.submitButton"),
@@ -99,10 +127,11 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     icon: Icons.info,
                     duration: duration,
                     name: name,
-                    type: exercisetype,
+                    type: _exerciseType,
                     timestamp: DateTime.now().toIso8601String()));
+
             var activitySnapShot = {
-              DateTime.now().toIso8601String(): [name, exercisetype, duration]
+              DateTime.now().toIso8601String(): [name, _exerciseType, duration]
             };
 
             Goal.userProgressCyclingGoalWeekly +=
@@ -135,18 +164,22 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
+  /// When pressed, the user is taken back to My Activity.
   InkWell _goBackButton() {
     return InkWell(
         onTap: () => Navigator.pop(context),
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
+  /// Returns true if there are no 'Other Activities' radio buttons selected.
   bool _noRadioButtonSelected() {
-    return (otherGoalName != "Cycling" &&
-        otherGoalName != "Rowing" &&
-        otherGoalName != "Step Mill");
+    return (otherActivityName != "Cycling" &&
+        otherActivityName != "Rowing" &&
+        otherActivityName != "Step Mill");
   }
 
+  /// Returns a [Padding] which contains the TextFormField used for
+  /// handling activity name input.
   Padding _activityNameTextField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
@@ -197,6 +230,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
+  /// Returns a [Padding] which contains the TextFormField used for
+  /// handling activity duration input.
   Padding _durationTextField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
@@ -268,57 +303,73 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
-  Column _OtherGoalRadioButtons() {
+  /// Dropdown used for selecting a unit of time.
+  FlutterFlowDropDown _unitOfTimeDropDown() {
+    return FlutterFlowDropDown(
+      initialOption: 'Minutes',
+      options: ['Seconds', 'Minutes', 'Hours'],
+      onChanged: (val) => setState(() => unitOfTime = val),
+      width: MediaQuery.of(context).size.width * .55,
+      height: 50,
+      textStyle: FlutterFlowTheme.bodyText1,
+      fillColor: Colors.white,
+      elevation: 2,
+      borderColor: FlutterFlowTheme.primaryColor,
+      borderWidth: 0,
+      borderRadius: 10,
+      margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
+      hidesUnderline: true,
+    );
+  }
+
+  /// Dropdown used for selecting an exercise type.
+  FlutterFlowDropDown _exerciseTypeDropDown() {
+    return FlutterFlowDropDown(
+      initialOption: _exerciseType,
+      options: _noRadioButtonSelected() ? exerciseTypes : [_exerciseType!],
+      onChanged: (val) => setState(() => _exerciseType = val),
+      width: MediaQuery.of(context).size.width,
+      height: 50,
+      textStyle: FlutterFlowTheme.bodyText1,
+      fillColor: Colors.white,
+      elevation: 2,
+      borderColor: FlutterFlowTheme.primaryColor,
+      borderWidth: 0,
+      borderRadius: 10,
+      margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
+      hidesUnderline: true,
+    );
+  }
+
+  /// Creates a radio button.
+  ///
+  /// [exerciseType] will be used to populate the 'Type of Exercise' dropdown.
+  ListTile _radioButton({required String title, required String exerciseType}) {
+    return ListTile(
+      title: Text(title),
+      leading: Radio(
+        toggleable: true,
+        value: title,
+        groupValue: otherActivityName,
+        onChanged: (value) {
+          setState(() {
+            otherActivityName = value.toString();
+            activityNameTextController!.text =
+                otherActivityName != "null" ? otherActivityName! : "";
+            _exerciseType = exerciseType;
+          });
+        },
+      ),
+    );
+  }
+
+  /// Returns a column of 'Other Activities' radio buttons.
+  Column _otherActivityRadioButtons() {
     return Column(
       children: <Widget>[
-        ListTile(
-          title: const Text('Cycling'),
-          leading: Radio(
-            toggleable: true,
-            value: 'Cycling',
-            groupValue: otherGoalName,
-            onChanged: (value) {
-              setState(() {
-                otherGoalName = value.toString();
-                activityNameTextController!.text =
-                    otherGoalName != "null" ? otherGoalName! : "";
-                exercisetype = 'Aerobic';
-              });
-            },
-          ),
-        ),
-        ListTile(
-          title: const Text('Rowing'),
-          leading: Radio(
-            toggleable: true,
-            value: 'Rowing',
-            groupValue: otherGoalName,
-            onChanged: (value) {
-              setState(() {
-                otherGoalName = value.toString();
-                activityNameTextController!.text =
-                    otherGoalName != "null" ? otherGoalName! : "";
-                exercisetype = 'Total-Body';
-              });
-            },
-          ),
-        ),
-        ListTile(
-          title: const Text('Step Mill'),
-          leading: Radio(
-            toggleable: true,
-            value: 'Step Mill',
-            groupValue: otherGoalName,
-            onChanged: (value) {
-              setState(() {
-                otherGoalName = value.toString();
-                activityNameTextController!.text =
-                    otherGoalName != "null" ? otherGoalName! : "";
-                exercisetype = 'Aerobic';
-              });
-            },
-          ),
-        )
+        _radioButton(title: 'Cycling', exerciseType: 'Aerobic'),
+        _radioButton(title: 'Rowing', exerciseType: 'Total-Body'),
+        _radioButton(title: 'Step Mill', exerciseType: 'Aerobic')
       ],
     );
   }
@@ -344,74 +395,40 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     ),
                     Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
-                        child: _header(
+                        child: _label(
                             text: 'Add New Activity',
                             style: FlutterFlowTheme.title1)),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                      child: _header(
+                      child: _label(
                           text: 'Name of Activity',
                           style: FlutterFlowTheme.title3),
                     ),
                     _activityNameTextField(),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                      child: _header(
+                      child: _label(
                           text: 'Type of Exercise',
                           style: FlutterFlowTheme.title3),
                     ),
                     Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                        child: FlutterFlowDropDown(
-                          initialOption: exercisetype,
-                          options: _noRadioButtonSelected()
-                              ? exerciseTypes
-                              : [exercisetype!],
-                          onChanged: (val) =>
-                              setState(() => exercisetype = val),
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          textStyle: FlutterFlowTheme.bodyText1,
-                          fillColor: Colors.white,
-                          elevation: 2,
-                          borderColor: FlutterFlowTheme.primaryColor,
-                          borderWidth: 0,
-                          borderRadius: 10,
-                          margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                          hidesUnderline: true,
-                        )),
+                        child: _exerciseTypeDropDown()),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                      child: _header(
+                      child: _label(
                           text: 'Duration', style: FlutterFlowTheme.title3),
                     ),
                     Row(
-                      children: [
-                        _durationTextField(),
-                        FlutterFlowDropDown(
-                          initialOption: 'Minutes',
-                          options: ['Seconds', 'Minutes', 'Hours'],
-                          onChanged: (val) => setState(() => unitOfTime = val),
-                          width: MediaQuery.of(context).size.width * .55,
-                          height: 50,
-                          textStyle: FlutterFlowTheme.bodyText1,
-                          fillColor: Colors.white,
-                          elevation: 2,
-                          borderColor: FlutterFlowTheme.primaryColor,
-                          borderWidth: 0,
-                          borderRadius: 10,
-                          margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                          hidesUnderline: true,
-                        )
-                      ],
+                      children: [_durationTextField(), _unitOfTimeDropDown()],
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
-                      child: _header(
+                      child: _label(
                           text: 'Other Activities',
                           style: FlutterFlowTheme.title3),
                     ),
-                    _OtherGoalRadioButtons(),
+                    _otherActivityRadioButtons(),
                     Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(
