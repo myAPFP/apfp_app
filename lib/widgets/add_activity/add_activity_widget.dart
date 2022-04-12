@@ -345,34 +345,60 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   /// Creates a radio button.
   ///
   /// [exerciseType] will be used to populate the 'Type of Exercise' dropdown.
-  ListTile _radioButton({required String title, required String exerciseType}) {
-    return ListTile(
-      title: Text(title),
-      leading: Radio(
-        toggleable: true,
-        value: title,
-        groupValue: _radioButtonValue,
-        onChanged: (v) {
-          setState(() {
-            _radioButtonValue = v.toString();
-            activityNameTextController!.text =
-                _radioButtonValue != "null" ? _radioButtonValue! : "";
-            _exerciseType = exerciseType;
-          });
-        },
-      ),
+  Row _radioButton({required String title, required String exerciseType}) {
+    return Row(
+      children: [
+        Radio(
+          toggleable: true,
+          value: title,
+          groupValue: _radioButtonValue,
+          onChanged: (v) {
+            setState(() {
+              _radioButtonValue = v.toString();
+              activityNameTextController!.text =
+                  _radioButtonValue != "null" ? _radioButtonValue! : "";
+              _exerciseType = exerciseType;
+            });
+          },
+        ),
+        Expanded(child: Text(title, style: FlutterFlowTheme.bodyText1))
+      ],
     );
   }
 
   /// Returns a column of 'Other Activities' radio buttons.
   Column _otherActivityRadioButtons() {
     return Column(
-      children: <Widget>[
-        _radioButton(title: 'Cycling', exerciseType: 'Aerobic'),
-        _radioButton(title: 'Rowing', exerciseType: 'Total-Body'),
-        _radioButton(title: 'Step Mill', exerciseType: 'Aerobic'),
-        _radioButton(title: 'Elliptical', exerciseType: 'Aerobic'),
-        _radioButton(title: 'Resistance', exerciseType: 'Aerobic')
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: _radioButton(title: 'Cycling', exerciseType: 'Aerobic'),
+              flex: 1,
+            ),
+            Expanded(
+              child: _radioButton(title: 'Rowing', exerciseType: 'Total-Body'),
+              flex: 1,
+            ),
+            Expanded(
+              child: _radioButton(title: 'Step Mill', exerciseType: 'Aerobic'),
+              flex: 1,
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: _radioButton(title: 'Elliptical', exerciseType: 'Aerobic'),
+            ),
+            Expanded(
+              flex: 1,
+              child: _radioButton(title: 'Resistance', exerciseType: 'Aerobic'),
+            ),
+          ],
+        ),
       ],
     );
   }
