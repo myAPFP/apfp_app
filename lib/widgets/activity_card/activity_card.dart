@@ -1,15 +1,27 @@
-import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ActivityCard {
+
+  /// Activity name.
   String? name;
+
+  /// Activity exercise type.
   String? type;
+
+  /// Activity card's icon.
   IconData? icon;
+
+  /// Activity duration.
   String? duration;
+
+  /// Activity timestamp.
   String? timestamp;
 
+  /// Activity card.
   Card? _card;
 
   ActivityCard(
@@ -26,6 +38,7 @@ class ActivityCard {
     _createActivityCard();
   }
 
+  /// Creates an activity card.
   void _createActivityCard() {
     _card = Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -104,6 +117,7 @@ class ActivityCard {
     );
   }
 
+  /// Adds padding to an activity card.
   Padding paddedActivityCard(BuildContext context) {
     return Padding(
       key: Key('$timestamp $name $type $duration'),
