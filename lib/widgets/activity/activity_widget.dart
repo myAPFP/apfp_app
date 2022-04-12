@@ -24,7 +24,6 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class ActivityWidget extends StatefulWidget {
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
   ActivityWidget({Key? key, required this.activityStream}) : super(key: key);
@@ -167,8 +166,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   /// Removes an activity from Firestore.
-  /// 
-  /// The [id] represents the activity's id, which is the timestamp in 
+  ///
+  /// The [id] represents the activity's id, which is the timestamp in
   /// which it was created.
   void _removeActivityFromCloud(String id) {
     _updateCustomWeeklyGoalProgress();

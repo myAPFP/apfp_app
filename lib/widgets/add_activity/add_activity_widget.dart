@@ -34,9 +34,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   /// Possible values are included in the [exerciseTypes] list.
   String? _exerciseType = 'Cardio';
 
-  /// This is set to an 'other' activity's name when a user chooses one via
-  /// radio buttons.
-  String? otherActivityName = "";
+  /// Holds the value of the currently selected radio button.
+  String? _radioButtonValue = "";
 
   /// A list of exercise types a user can choose from.
   List<String> exerciseTypes = [
@@ -173,9 +172,11 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
 
   /// Returns true if there are no 'Other Activities' radio buttons selected.
   bool _noRadioButtonSelected() {
-    return (otherActivityName != "Cycling" &&
-        otherActivityName != "Rowing" &&
-        otherActivityName != "Step Mill");
+    return (_radioButtonValue != "Cycling" &&
+        _radioButtonValue != "Rowing" &&
+        _radioButtonValue != "Step Mill" &&
+        _radioButtonValue != "Elliptical" &&
+        _radioButtonValue != "Resistance");
   }
 
   /// Returns a [Padding] which contains the TextFormField used for
@@ -344,18 +345,21 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   /// Creates a radio button.
   ///
   /// [exerciseType] will be used to populate the 'Type of Exercise' dropdown.
-  ListTile _radioButton({required String title, required String exerciseType}) {
+  ListTile _radioButton(
+      {required String title,
+      required String value,
+      required String exerciseType}) {
     return ListTile(
       title: Text(title),
       leading: Radio(
         toggleable: true,
-        value: title,
-        groupValue: otherActivityName,
-        onChanged: (value) {
+        value: value,
+        groupValue: _radioButtonValue,
+        onChanged: (_) {
           setState(() {
-            otherActivityName = value.toString();
+            _radioButtonValue = value.toString();
             activityNameTextController!.text =
-                otherActivityName != "null" ? otherActivityName! : "";
+                _radioButtonValue != "null" ? _radioButtonValue! : "";
             _exerciseType = exerciseType;
           });
         },
@@ -367,9 +371,18 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
   Column _otherActivityRadioButtons() {
     return Column(
       children: <Widget>[
-        _radioButton(title: 'Cycling', exerciseType: 'Aerobic'),
-        _radioButton(title: 'Rowing', exerciseType: 'Total-Body'),
-        _radioButton(title: 'Step Mill', exerciseType: 'Aerobic')
+        _radioButton(
+            title: 'Cycling', value: 'Cycling', exerciseType: 'Aerobic'),
+        _radioButton(
+            title: 'Rowing', value: 'Rowing', exerciseType: 'Total-Body'),
+        _radioButton(
+            title: 'Step Mill', value: 'Step Mill', exerciseType: 'Aerobic'),
+        _radioButton(
+            title: 'Elliptical', value: 'Elliptical', exerciseType: 'Aerobic'),
+        _radioButton(
+            title: 'Resistance/Strength',
+            value: 'Resistance',
+            exerciseType: 'Aerobic')
       ],
     );
   }
