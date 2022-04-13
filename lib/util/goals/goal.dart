@@ -331,7 +331,7 @@ class Goal {
   ///
   /// Duration d = convertToDuration(activityDurationStr);
   ///
-  /// print(d); // 00:04:00
+  /// print(d); // 0:04:00.000000
   /// ```
   static Duration convertToDuration(String activityDurationStr) {
     Duration duration = Duration.zero;
