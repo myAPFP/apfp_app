@@ -1,15 +1,16 @@
-// Copyright 2022 The myAPFP Authors. All rights reserved.
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../alert/alert_widget.dart';
 import '/components/announcement_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class AlertsWidget extends StatefulWidget {
+  /// The annoucements collection stream.
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
+
   AlertsWidget({Key? key, required this.announcementsStream}) : super(key: key);
 
   @override
@@ -17,11 +18,20 @@ class AlertsWidget extends StatefulWidget {
 }
 
 class _AlertsWidgetState extends State<AlertsWidget> {
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Padding> unReadAnnouncements = [];
+
+  /// List of previous announcements collected from Firestore.
   List<Padding> previousAnnouncements = [];
 
-  InkWell _makeAlert(String alertTitle, String alertDescription) {
+  @override
+  void initState() {
+    super.initState();
+    _collectPreviousAnnouncements();
+  }
+
+  /// Creates an alert card to be displayed.
+  InkWell _makeAlertCard(String alertTitle, String alertDescription) {
     return InkWell(
       key: Key('Alert'),
       onTap: () async {
@@ -38,6 +48,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     );
   }
 
+  /// Adds padding to an alert card.
   Padding _paddedAlert(InkWell alert) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
@@ -49,6 +60,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     );
   }
 
+  /// Creates header.
   AutoSizeText _makeHeader(String text) {
     return AutoSizeText(
       text,
@@ -57,6 +69,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     );
   }
 
+  /// Adds padding to a header.
   Padding _paddedHeader(AutoSizeText header) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
@@ -71,33 +84,23 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     );
   }
 
-  void addToUnRead(Padding unRead) {
-    setState(() {
-      unReadAnnouncements.add(unRead);
-    });
-  }
-
+  /// Adds a previous padded alert card to [previousAnnouncements].
   void addToPrevious(Padding previous) {
     setState(() {
       previousAnnouncements.add(previous);
     });
   }
 
-  void _collectAnnouncements() {
+  /// Fetches previous annoucements from Firestore.
+  void _collectPreviousAnnouncements() {
     widget.announcementsStream
         .forEach((QuerySnapshot<Map<String, dynamic>> snapshot) {
       previousAnnouncements.clear();
       snapshot.docs.forEach((QueryDocumentSnapshot element) {
-        addToPrevious(
-            _paddedAlert(_makeAlert(element['title'], element['description'])));
+        addToPrevious(_paddedAlert(
+            _makeAlertCard(element['title'], element['description'])));
       });
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _collectAnnouncements();
   }
 
   @override
@@ -110,11 +113,6 @@ class _AlertsWidgetState extends State<AlertsWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: unReadAnnouncements,
-              ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,

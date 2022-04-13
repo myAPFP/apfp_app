@@ -12,7 +12,7 @@ import '/util/goals/exercise_time_goal.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 
-import '../add_goal/add_goal_widget.dart';
+import '../set_goals/set_goals_widget.dart';
 
 import '../home_page_graphic/hp_graphic.dart';
 
@@ -450,7 +450,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               {"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
-          AddGoalWidget.launch(context);
+          SetGoalsWidget.launch(context);
         },
         context: context,
         goalProgress: Goal.isDailyGoalsDisplayed
@@ -494,7 +494,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         onLongPress: () {
           if (Goal.isHealthAppSynced) {
-            AddGoalWidget.launch(context);
+            SetGoalsWidget.launch(context);
           } else
             Toasted.showToast(
                 "Please sync your $_platformHealthName to continue.");
@@ -537,7 +537,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         onLongPress: () {
           if (Goal.isHealthAppSynced) {
-            AddGoalWidget.launch(context);
+            SetGoalsWidget.launch(context);
           } else
             Toasted.showToast(
                 "Please sync your $_platformHealthName to continue.");
@@ -581,7 +581,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         onLongPress: () {
           if (Goal.isHealthAppSynced) {
-            AddGoalWidget.launch(context);
+            SetGoalsWidget.launch(context);
           } else
             Toasted.showToast(
                 "Please sync your $_platformHealthName to continue.");
@@ -739,7 +739,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               {"isDailyGoalsDisplayed": Goal.isDailyGoalsDisplayed});
         },
         onLongPress: () {
-          AddGoalWidget.launch(context);
+          SetGoalsWidget.launch(context);
         },
         scrollController: _otherSC,
         isGoal1Set: (Goal.isCyclingGoalSet || Goal.isCyclingWeeklyGoalSet),

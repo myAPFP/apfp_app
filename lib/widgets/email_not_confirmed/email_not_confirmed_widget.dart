@@ -1,18 +1,24 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
 
-import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/util/toasted/toasted.dart';
-import 'package:apfp/util/validator/validator.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
+import '/firebase/fire_auth.dart';
+
+import '../welcome/welcome_widget.dart';
+
+import '/util/toasted/toasted.dart';
+import '/util/validator/validator.dart';
+
+import '/widgets/confimation_dialog/confirmation_dialog.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '../welcome/welcome_widget.dart';
+
 import 'package:flutter/material.dart';
 
 class EmailNotConfirmedWidget extends StatefulWidget {
+  /// The user's email address.
   final String? email;
+
   EmailNotConfirmedWidget({Key? key, this.email}) : super(key: key);
 
   @override
@@ -21,10 +27,16 @@ class EmailNotConfirmedWidget extends StatefulWidget {
 }
 
 class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
+  /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
+
+  /// [TextEditingController] for the textfield within [_showEmailDialog].
   TextEditingController? _dialogEmailController;
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  /// Returns text taken from [_dialogEmailController].
   String _getDialogEmail() {
     return _dialogEmailController!.text.trim().toLowerCase();
   }
@@ -42,6 +54,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
     _dialogEmailController!.dispose();
   }
 
+  /// Warning message shown to user.
   Padding _contextMessage() {
     return Padding(
       key: Key('Email.contextMessage'),
@@ -71,6 +84,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
     );
   }
 
+  /// Displays a [ConfirmationDialog] allowing a user to enter their email.
   void _showEmailDialog(
       {String? title, String? contentText, Function()? onSubmitTap}) {
     ConfirmationDialog.showConfirmationDialog(
@@ -95,6 +109,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
         submitText: "Send");
   }
 
+  /// Resends a verification email to the email address provided by the user.
   Padding _resendEmailButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
@@ -136,50 +151,49 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
     );
   }
 
-  Padding _returnToHome() {
+  /// Returns the user to the Welcome screen.
+  Padding _returnToWelcomeButton() {
     return Padding(
       key: Key('Email.returnHomeButton'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [_returnHomeButton()],
-      ),
-    );
-  }
-
-  FFButtonWidget _returnHomeButton() {
-    return FFButtonWidget(
-      onPressed: () async {
-        setState(() => _loadingButton = true);
-        try {
-          await Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.leftToRight,
-              duration: Duration(milliseconds: 125),
-              reverseDuration: Duration(milliseconds: 125),
-              child: WelcomeWidget(),
+        children: [
+          FFButtonWidget(
+            onPressed: () async {
+              setState(() => _loadingButton = true);
+              try {
+                await Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 125),
+                    reverseDuration: Duration(milliseconds: 125),
+                    child: WelcomeWidget(),
+                  ),
+                );
+              } finally {
+                setState(() => _loadingButton = false);
+              }
+            },
+            text: 'Back to Home',
+            options: FFButtonOptions(
+              width: 250,
+              height: 50,
+              color: Color(0xFFBA0C2F),
+              textStyle: FlutterFlowTheme.title2,
+              elevation: 2,
+              borderSide: BorderSide(
+                color: Colors.transparent,
+                width: 1,
+              ),
+              borderRadius: 12,
             ),
-          );
-        } finally {
-          setState(() => _loadingButton = false);
-        }
-      },
-      text: 'Back to Home',
-      options: FFButtonOptions(
-        width: 250,
-        height: 50,
-        color: Color(0xFFBA0C2F),
-        textStyle: FlutterFlowTheme.title2,
-        elevation: 2,
-        borderSide: BorderSide(
-          color: Colors.transparent,
-          width: 1,
-        ),
-        borderRadius: 12,
+            loading: _loadingButton,
+          )
+        ],
       ),
-      loading: _loadingButton,
     );
   }
 
@@ -192,7 +206,11 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [_contextMessage(), _resendEmailButton(), _returnToHome()],
+          children: [
+            _contextMessage(),
+            _resendEmailButton(),
+            _returnToWelcomeButton()
+          ],
         ),
       ),
     );

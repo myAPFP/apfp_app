@@ -113,10 +113,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     return _passwordController!.text.trim();
   }
 
-  /// Returns a [Row] in which an inner [InkWell], wrapped in a [Padding] and [Container],
-  /// serves as the back button.
+  /// Returns a [Row] which wraps the back button.
   ///
-  /// When [InkWell]'s [onTap] is called, a call to [_returnToWelcome] is made.
+  /// When pressed, the user is taken back to the Welcome screen.
   Row _backButtonRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,

@@ -113,8 +113,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// Returns a [TextFormField] which is used for email address input.
-  ///
-  /// This [Widget] uses [_emailController] as its [TextEditingController].
   Row _emailTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -171,8 +169,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// Returns a [TextFormField] which is used for password input.
-  ///
-  /// This [Widget] uses [_passwordController] as its [TextEditingController].
   Row _passwordTextFormField() {
     return Row(
       key: Key('LogIn.passwordTextBox'),
@@ -239,8 +235,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  /// Returns a [Row] whose only child is a [Text] widget wrapped in a [Padding].
-  ///
   /// The string passed to this method will be displayed as a label.
   Row _label(String text) {
     return Row(

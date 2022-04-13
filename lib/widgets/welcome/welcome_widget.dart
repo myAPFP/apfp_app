@@ -271,8 +271,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         ));
   }
 
-  /// Login button displayed in Welcome.
-  ///
   /// Sends user to the login screen when pressed.
   FFButtonWidget _logInButton() {
     return FFButtonWidget(
@@ -302,8 +300,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
     );
   }
 
-  /// Create Account button displayed in Welcome.
-  ///
   /// Sends user to the create account screen when pressed.
   FFButtonWidget _createAccountButton() {
     return FFButtonWidget(

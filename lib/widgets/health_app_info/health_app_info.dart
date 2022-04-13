@@ -13,7 +13,11 @@ class HealthAppInfo extends StatefulWidget {
 }
 
 class _HealthAppInfoState extends State<HealthAppInfo> {
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// If the app is being ran on Android, this is set to 'Google Fit'.
+  /// Otherwise, this is set to 'Google Fit and Apple Health'.
   final _healthAppName =
       Platform.isAndroid ? "Google Fit" : "Google Fit and Apple Health";
 

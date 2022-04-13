@@ -1,12 +1,17 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
 
+import '/main.dart';
+
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/main.dart';
+
 import 'package:flutter/material.dart';
 
 class AlertWidget extends StatefulWidget {
+  /// Alert Title.
   final String title;
+
+  /// Alert description.
   final String description;
 
   AlertWidget({Key? key, required this.title, required this.description})
@@ -17,8 +22,11 @@ class AlertWidget extends StatefulWidget {
 }
 
 class _AlertWidgetState extends State<AlertWidget> {
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  /// When pressed, the user is taken back to Settings
   InkWell _backButton() {
     return InkWell(
       onTap: () async {
@@ -36,6 +44,7 @@ class _AlertWidgetState extends State<AlertWidget> {
     );
   }
 
+  /// Creates title label.
   Text _announcementTitle(String text) {
     return Text(
       text,
@@ -43,6 +52,7 @@ class _AlertWidgetState extends State<AlertWidget> {
     );
   }
 
+  /// Creates paragraph body.
   Text _announcementParagraph(String text) {
     return Text(
       text,

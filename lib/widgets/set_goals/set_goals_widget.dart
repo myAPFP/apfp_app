@@ -1,79 +1,165 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
 
-import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/util/validator/validator.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import '../../util/goals/goal.dart';
-import '../../util/toasted/toasted.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import '/util/goals/goal.dart';
+import '/util/toasted/toasted.dart';
+import '/util/validator/validator.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+
+import '/firebase/firestore.dart';
+
+import '/widgets/confimation_dialog/confirmation_dialog.dart';
+
 import 'package:flutter/material.dart';
 
-class AddGoalWidget extends StatefulWidget {
-  AddGoalWidget({Key? key}) : super(key: key);
+class SetGoalsWidget extends StatefulWidget {
+  SetGoalsWidget({Key? key}) : super(key: key);
 
+  /// Takes user to Set Goals screen.
   static void launch(BuildContext context) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddGoalWidget(),
+        builder: (context) => SetGoalsWidget(),
       ),
     );
   }
 
   @override
-  _AddGoalWidgetState createState() => _AddGoalWidgetState();
+  _SetGoalsWidgetState createState() => _SetGoalsWidgetState();
 }
 
-class _AddGoalWidgetState extends State<AddGoalWidget> {
+class _SetGoalsWidgetState extends State<SetGoalsWidget> {
+  /// Dictates what type of goal textfields are being displayed, daily or weekly.
   String _mode = Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly";
+
+  /// A week from today's date.
   final weekFromNow = DateTime.now().add(const Duration(days: 7));
+
+  /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
-  bool _isCustomGoalsDisplayed = false;
+
+  /// Indicates if the 'other' goal textfields are shown.
+  bool _isOtherGoalsDisplayed = false;
+
+  /// Used to validate the current input of the Exercise Time textfield.
   final _exerciseFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Exercise Time textfield.
   final _exerciseWeeklyFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Cycling textfield.
   final _cyclingFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Cycling textfield.
   final _cyclingWeeklyFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Rowing textfield.
   final _rowingFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Rowing textfield.
   final _rowingWeeklyFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Step Mill textfield.
   final _stepMillFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Step Mill textfield.
   final _stepMillWeeklyFormKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// Used to validate the current input of the Calories textfield.
   final _caloriesFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Calories textfield.
   final _caloriesWeeklyFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Miles textfield.
   final _milesFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Miles textfield.
   final _milesWeeklyFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Steps textfield.
   final _stepFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Steps textfield.
   final _stepWeeklyFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Elliptical textfield.
   final _ellipticalFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Elliptical textfield.
   final _ellipticalWeeklyFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Resistance/Strength textfield.
   final _resistanceStrengthFormKey = GlobalKey<FormState>();
+
+  /// Used to validate the current input of the Weekly Resistance/Strength textfield.
   final _resistanceStrengthWeeklyFormKey = GlobalKey<FormState>();
 
+  /// Serves as key for the [Scaffold] found in [build].
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// [TextEditingController] for the Exercise Time textfield.
   TextEditingController? _exerciseGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Exercise Time textfield.
   TextEditingController? _exerciseWeeklyGoalController =
       TextEditingController();
+
+  /// [TextEditingController] for the Cycling textfield.
   TextEditingController? _cyclingGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Cycling textfield.
   TextEditingController? _cyclingWeeklyGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Rowing textfield.
   TextEditingController? _rowingGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Rowing textfield.
   TextEditingController? _rowingWeeklyGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Step Mill textfield.
   TextEditingController? _stepMillGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Step Mill textfield.
   TextEditingController? _stepMillWeeklyGoalController =
       TextEditingController();
+
+  /// [TextEditingController] for the Calories textfield.
   TextEditingController? _caloriesGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Calories textfield.
   TextEditingController? _caloriesWeeklyGoalController =
       TextEditingController();
+
+  /// [TextEditingController] for the Miles textfield.
   TextEditingController? _milesGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Miles textfield.
   TextEditingController? _milesWeeklyGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Steps textfield.
   TextEditingController? _stepGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Steps textfield.
   TextEditingController? _stepWeeklyGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Elliptcal textfield.
   TextEditingController? _ellipticalGoalController = TextEditingController();
+
+  /// [TextEditingController] for the Weekly Elliptical textfield.
   TextEditingController? _ellipticalWeeklyGoalController =
       TextEditingController();
+
+  /// [TextEditingController] for the Resistance/Strength textfield.
   TextEditingController? _resistanceStrengthGoalController =
       TextEditingController();
+
+  /// [TextEditingController] for the Weekly Resistance/Strength textfield.
   TextEditingController? _resistanceStrengthWeeklyGoalController =
       TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -103,6 +189,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     _resistanceStrengthWeeklyGoalController!.dispose();
   }
 
+  /// Set's [contr]'s text to an end goal vlaue in Firestore, based on
+  /// what's passed to [fieldName].
   void setText(MapEntry<String, dynamic> element, String fieldName,
       TextEditingController? contr) {
     if (element.key == fieldName) {
@@ -114,6 +202,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     }
   }
 
+  /// Fetches the user's end goals from Firestore.
   void _getStoredEndGoals() async {
     var doc = await FireStore.getGoalDocument().get();
     var docEntries = doc.data()!.entries;
@@ -141,10 +230,12 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     });
   }
 
-  Text _header({required String text, TextStyle? style}) {
+  /// Creates a label.
+  Text _label({required String text, TextStyle? style}) {
     return Text(text, style: style);
   }
 
+  /// When pressed, the user is taken back to Settings.
   InkWell _goBackButton() {
     return InkWell(
         key: Key("AddGoal.goBackBTN"),
@@ -152,14 +243,15 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
+  /// Button to allow a user to switch between daily or weekly goals.
   Padding _switchGoalViewBTN() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
         onPressed: () => setState(() {
-          _isCustomGoalsDisplayed = !_isCustomGoalsDisplayed;
+          _isOtherGoalsDisplayed = !_isOtherGoalsDisplayed;
         }),
-        text: _isCustomGoalsDisplayed ? 'Set Regular Goals' : 'Set Other Goals',
+        text: _isOtherGoalsDisplayed ? 'Set Regular Goals' : 'Set Other Goals',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.5,
           height: 50,
@@ -175,7 +267,13 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     );
   }
 
-  FFButtonWidget _setGoalButton(GlobalKey<FormState> formKey, Function onTap, {required Key key}) {
+  /// Creates a button that allows a user to set a goal.
+  ///
+  /// [formKey] is used to validate the associated goal's textfield.
+  ///
+  /// [onTap] is executed when a user presses the button.
+  FFButtonWidget _setGoalButton(GlobalKey<FormState> formKey, Function onTap,
+      {required Key key}) {
     return FFButtonWidget(
       key: key,
       onPressed: () async {
@@ -190,12 +288,28 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
         }
       },
       text: 'Set Goal',
-      options: _ffButtonOptions(),
+      options: FFButtonOptions(
+        width: MediaQuery.of(context).size.width / 3,
+        height: 50,
+        color: FlutterFlowTheme.secondaryColor,
+        textStyle: FlutterFlowTheme.title2,
+        elevation: 2,
+        borderSide: BorderSide(
+          color: Colors.transparent,
+          width: 1,
+        ),
+        borderRadius: 12,
+      ),
       loading: _loadingButton,
     );
   }
 
-  Expanded _deleteGoalIcon({required Function onDelete}) {
+  /// Creates a button that allows a user to reset a goal.
+  ///
+  /// [onTap] is executed when a user presses the button.
+  ///
+  /// A [ConfirmationDialog] is shown allowing a user to confirm their decision.
+  Expanded _deleteGoalIcon({required Function onTap}) {
     return Expanded(
         child: InkWell(
             onTap: () {
@@ -204,7 +318,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   title: Text('Reset Goal'),
                   content: Text('Are you sure you want to reset this goal?'),
                   onSubmitTap: () {
-                    onDelete();
+                    onTap();
                     Navigator.of(context).pop();
                     Toasted.showToast("Goal has been reset");
                   },
@@ -219,21 +333,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             )));
   }
 
-  FFButtonOptions _ffButtonOptions() {
-    return FFButtonOptions(
-      width: MediaQuery.of(context).size.width / 3,
-      height: 50,
-      color: FlutterFlowTheme.secondaryColor,
-      textStyle: FlutterFlowTheme.title2,
-      elevation: 2,
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 1,
-      ),
-      borderRadius: 12,
-    );
-  }
-
+  /// Creates a textfield to be used to enter end goals.
   Padding _goalTextField(
       {required Key key,
       required String hintText,
@@ -326,13 +426,15 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
     );
   }
 
+  /// Based on [_isOtherGoalsDisplayed], this will return a list of widgets
+  /// associated with daily regular goals or 'other' goals.
   List<Widget> _dailyGoalsUI() {
-    return !_isCustomGoalsDisplayed
+    return !_isOtherGoalsDisplayed
         ? [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
-                  text: 'Exercise Goal', style: FlutterFlowTheme.title3),
+              child:
+                  _label(text: 'Exercise Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _exerciseFormKey,
@@ -349,7 +451,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isExerciseTimeGoalSet": true
                     });
                   }, key: Key("AddGoal.setExerciseGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "exerciseTimeEndGoal": 0.0,
                       "isExerciseTimeGoalSet": false
@@ -362,8 +464,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
-                  text: 'Calories Goal', style: FlutterFlowTheme.title3),
+              child:
+                  _label(text: 'Calories Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _caloriesFormKey,
@@ -382,7 +484,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isCalGoalSet": true
                     });
                   }, key: Key("AddGoal.setCalGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData(
                             {"calEndGoal": 0.0, "isCalGoalSet": false})
                         .then((value) {
@@ -394,8 +496,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child:
-                  _header(text: 'Miles Goal', style: FlutterFlowTheme.title3),
+              child: _label(text: 'Miles Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _milesFormKey,
@@ -414,7 +515,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isMileGoalSet": true
                     });
                   }, key: Key("AddGoal.setMileGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData(
                             {"mileEndGoal": 0.0, "isMileGoalSet": false})
                         .then((value) {
@@ -426,8 +527,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child:
-                  _header(text: 'Steps Goal', style: FlutterFlowTheme.title3),
+              child: _label(text: 'Steps Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _stepFormKey,
@@ -446,7 +546,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isStepGoalSet": true
                     });
                   }, key: Key("AddGoal.setStepGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData(
                             {"stepEndGoal": 0.0, "isStepGoalSet": false})
                         .then((value) {
@@ -461,7 +561,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
               child:
-                  _header(text: 'Cycling Goal', style: FlutterFlowTheme.title3),
+                  _label(text: 'Cycling Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _cyclingFormKey,
@@ -478,7 +578,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isCyclingGoalSet": true
                     });
                   }, key: Key("AddGoal.setCyclingGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData(
                             {"cyclingEndGoal": 0, "isCyclingGoalSet": false})
                         .then((value) {
@@ -491,7 +591,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
               child:
-                  _header(text: 'Rowing Goal', style: FlutterFlowTheme.title3),
+                  _label(text: 'Rowing Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _rowingFormKey,
@@ -508,7 +608,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isRowingGoalSet": true
                     });
                   }, key: Key("AddGoal.setRowingGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData(
                             {"rowingEndGoal": 0, "isRowingGoalSet": false})
                         .then((value) {
@@ -520,7 +620,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
+              child: _label(
                   text: 'Step Mill Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
@@ -538,7 +638,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isStepMillGoalSet": true
                     });
                   }, key: Key("AddGoal.setStepMillGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData(
                             {"stepMillEndGoal": 0, "isStepMillGoalSet": false})
                         .then((value) {
@@ -550,7 +650,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
+              child: _label(
                   text: 'Elliptical Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
@@ -568,7 +668,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isEllipticalGoalSet": true
                     });
                   }, key: Key("AddGoal.setEllipticalGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "ellipticalEndGoal": 0,
                       "isEllipticalGoalSet": false
@@ -581,7 +681,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
+              child: _label(
                   text: 'Resistance-Strength\nGoal',
                   style: FlutterFlowTheme.title3),
             ),
@@ -600,7 +700,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isResistanceStrengthGoalSet": true
                     });
                   }, key: Key("AddGoal.setResStrengthGoalBTN_daily")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "resistanceStrengthEndGoal": 0,
                       "isResistanceStrengthGoalSet": false
@@ -614,13 +714,15 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
           ];
   }
 
+  /// Based on [_isOtherGoalsDisplayed], this will return a list of widgets
+  /// associated with weekly regular goals or 'other' goals.
   List<Widget> _weeklyGoalsUI() {
-    return !_isCustomGoalsDisplayed
+    return !_isOtherGoalsDisplayed
         ? [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
-                  text: 'Exercise Goal', style: FlutterFlowTheme.title3),
+              child:
+                  _label(text: 'Exercise Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _exerciseWeeklyFormKey,
@@ -629,7 +731,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _exerciseWeeklyGoalController!,
-                      goalType: "Weekly", key: Key("AddGoal.exerciseGoalTextField_weekly")),
+                      goalType: "Weekly",
+                      key: Key("AddGoal.exerciseGoalTextField_weekly")),
                   _setGoalButton(_exerciseWeeklyFormKey, () async {
                     await FireStore.updateGoalData({
                       "exerciseWeekDeadline":
@@ -639,7 +742,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isExerciseTimeGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setExerciseGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "exerciseWeekDeadline": "0/00/0000",
                       "exerciseTimeGoalProgressWeekly": 0,
@@ -654,8 +757,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
-                  text: 'Calories Goal', style: FlutterFlowTheme.title3),
+              child:
+                  _label(text: 'Calories Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _caloriesWeeklyFormKey,
@@ -676,7 +779,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isCalGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setCalGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "calWeekDeadline": "0/00/0000",
                       "calGoalProgressWeekly": 0,
@@ -691,8 +794,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child:
-                  _header(text: 'Miles Goal', style: FlutterFlowTheme.title3),
+              child: _label(text: 'Miles Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _milesWeeklyFormKey,
@@ -702,7 +804,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       hintText: "Miles",
                       contr: _milesWeeklyGoalController!,
                       unitOfMeasure: "miles",
-                      goalType: "Weekly", key: Key("AddGoal.mileGoalTextField_weekly")),
+                      goalType: "Weekly",
+                      key: Key("AddGoal.mileGoalTextField_weekly")),
                   _setGoalButton(_milesWeeklyFormKey, () async {
                     await FireStore.updateGoalData({
                       "mileWeekDeadline":
@@ -712,7 +815,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isMileGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setMileGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "mileWeekDeadline": "0/00/0000",
                       "mileGoalProgressWeekly": 0,
@@ -727,8 +830,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child:
-                  _header(text: 'Steps Goal', style: FlutterFlowTheme.title3),
+              child: _label(text: 'Steps Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _stepWeeklyFormKey,
@@ -749,7 +851,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isStepGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setStepGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "stepWeekDeadline": "0/00/0000",
                       "stepGoalProgressWeekly": 0,
@@ -767,7 +869,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
               child:
-                  _header(text: 'Cycling Goal', style: FlutterFlowTheme.title3),
+                  _label(text: 'Cycling Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _cyclingWeeklyFormKey,
@@ -776,7 +878,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _cyclingWeeklyGoalController!,
-                      goalType: "Weekly",key: Key("AddGoal.cyclingGoalTextField_weekly")),
+                      goalType: "Weekly",
+                      key: Key("AddGoal.cyclingGoalTextField_weekly")),
                   _setGoalButton(_cyclingWeeklyFormKey, () async {
                     await FireStore.updateGoalData({
                       "cyclingWeekDeadline":
@@ -786,7 +889,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isCyclingGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setCyclingGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "cyclingWeekDeadline": "0/00/0000",
                       "cyclingGoalProgressWeekly": 0,
@@ -802,7 +905,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
               child:
-                  _header(text: 'Rowing Goal', style: FlutterFlowTheme.title3),
+                  _label(text: 'Rowing Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
               key: _rowingWeeklyFormKey,
@@ -811,7 +914,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _rowingWeeklyGoalController!,
-                      goalType: "Weekly", key: Key("AddGoal.rowingGoalTextField_weekly")),
+                      goalType: "Weekly",
+                      key: Key("AddGoal.rowingGoalTextField_weekly")),
                   _setGoalButton(_rowingWeeklyFormKey, () async {
                     await FireStore.updateGoalData({
                       "rowingWeekDeadline":
@@ -821,7 +925,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isRowingGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setRowingGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "rowingWeekDeadline": "0/00/0000",
                       "rowingGoalProgressWeekly": 0,
@@ -836,7 +940,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
+              child: _label(
                   text: 'Step Mill Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
@@ -846,7 +950,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _stepMillWeeklyGoalController!,
-                      goalType: "Weekly", key: Key("AddGoal.stepMillGoalTextField_weekly")),
+                      goalType: "Weekly",
+                      key: Key("AddGoal.stepMillGoalTextField_weekly")),
                   _setGoalButton(_stepMillWeeklyFormKey, () async {
                     await FireStore.updateGoalData({
                       "stepMillWeekDeadline":
@@ -856,7 +961,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isStepMillGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setStepMillGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "stepMillWeekDeadline": "0/00/0000",
                       "stepMillGoalProgressWeekly": 0,
@@ -871,7 +976,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
+              child: _label(
                   text: 'Elliptical Goal', style: FlutterFlowTheme.title3),
             ),
             Form(
@@ -881,7 +986,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _ellipticalWeeklyGoalController!,
-                      goalType: "Weekly", key: Key("AddGoal.ellipticalGoalTextField_weekly")),
+                      goalType: "Weekly",
+                      key: Key("AddGoal.ellipticalGoalTextField_weekly")),
                   _setGoalButton(_ellipticalWeeklyFormKey, () async {
                     await FireStore.updateGoalData({
                       "ellipticalWeekDeadline":
@@ -891,7 +997,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                       "isEllipticalGoalSet_w": true
                     });
                   }, key: Key("AddGoal.setEllipticalGoalBTN_weekly")),
-                  _deleteGoalIcon(onDelete: () async {
+                  _deleteGoalIcon(onTap: () async {
                     await FireStore.updateGoalData({
                       "ellipticalWeekDeadline": "0/00/0000",
                       "ellipticalGoalProgressWeekly": 0,
@@ -906,7 +1012,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
-              child: _header(
+              child: _label(
                   text: 'Resistance-Strength\nGoal',
                   style: FlutterFlowTheme.title3),
             ),
@@ -917,7 +1023,8 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                     _goalTextField(
                         hintText: "Total Minutes",
                         contr: _resistanceStrengthWeeklyGoalController!,
-                        goalType: "Weekly", key: Key("AddGoal.resStrengthGoalTextField_weekly")),
+                        goalType: "Weekly",
+                        key: Key("AddGoal.resStrengthGoalTextField_weekly")),
                     _setGoalButton(_resistanceStrengthWeeklyFormKey, () async {
                       await FireStore.updateGoalData({
                         "resistanceStrengthWeekDeadline":
@@ -928,7 +1035,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                         "isResistanceStrengthGoalSet_w": true
                       });
                     }, key: Key("AddGoal.setResStrengthGoalBTN_weekly")),
-                    _deleteGoalIcon(onDelete: () async {
+                    _deleteGoalIcon(onTap: () async {
                       await FireStore.updateGoalData({
                         "resistanceStrengthWeekDeadline": "0/00/0000",
                         "resistanceStrengthGoalProgressWeekly": 0,
@@ -978,7 +1085,7 @@ class _AddGoalWidgetState extends State<AddGoalWidget> {
                   ),
                   Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
-                      child: _header(
+                      child: _label(
                           text: '$_mode Goals',
                           style: FlutterFlowTheme.title1)),
                   Column(

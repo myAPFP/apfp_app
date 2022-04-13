@@ -14,7 +14,7 @@ import '/util/validator/validator.dart';
 import '/util/internet_connection/internet.dart';
 
 import '/widgets/welcome/welcome_widget.dart';
-import '/widgets/add_goal/add_goal_widget.dart';
+import '../set_goals/set_goals_widget.dart';
 import '/widgets/confimation_dialog/confirmation_dialog.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -288,7 +288,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 _settingsButton(
                     title: "Set Activity Goals",
                     onTap: () {
-                      AddGoalWidget.launch(context);
+                      SetGoalsWidget.launch(context);
                     }),
                 _settingsButton(
                     title: "View Completed Goals",

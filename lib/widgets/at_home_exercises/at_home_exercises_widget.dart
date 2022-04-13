@@ -2,16 +2,20 @@
 
 import 'dart:async';
 
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/util/internet_connection/internet.dart';
+import '../exercise_video/exercise_video_widget.dart';
+
+import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import '../../util/internet_connection/internet.dart';
-import '../exercise_video/exercise_video_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/material.dart';
 
 class AtHomeExercisesWidget extends StatefulWidget {
+  /// The APFP YouTube url collection stream.
   final Stream<QuerySnapshot<Object?>> videoStream;
+
+  /// The APFP YouTube playlist id collection stream.
   final Stream<QuerySnapshot<Object?>> playlistStream;
 
   AtHomeExercisesWidget(
@@ -23,15 +27,26 @@ class AtHomeExercisesWidget extends StatefulWidget {
 }
 
 class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  int _index = 0;
-  List<Widget> videoList = [];
+  /// Returns true if all YouTube videos are loaded.
   bool _isVideosLoaded = false;
-  List<String> playlistIDs = [];
+
+  /// A list of APFP YouTube video urls.
   List<String> videoURLs = [];
-  List<Widget> playlistBackup = [];
+
+  /// Backup of APFP YouTube video urls.
   List<Widget> videoBackup = [];
+
+  /// A list of APFP YouTube playlist ids.
+  List<String> playlistIDs = [];
+
+  /// Backup of APFP YouTube playlist ids.
+  List<Widget> playlistBackup = [];
+
+  /// A list of APFP YouTube videos available for viewing.
+  List<Widget> videoList = [];
 
   @override
   void initState() {
@@ -44,6 +59,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     super.dispose();
   }
 
+  /// Returns the header text which is displayed at the top of the
+  /// Exercises screen.
   List<Padding> _paddedHeaderText() {
     return [
       Padding(
@@ -70,9 +87,9 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     ];
   }
 
-  Padding _videoTrainingCard(
-      {required int index,
-      required String author,
+  /// Creates a video card which displays the video's info.
+  Padding _videoCard(
+      {required String author,
       required String url,
       required String title,
       required Video video}) {
@@ -127,13 +144,14 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.005),
-                            _lengthRow(video)
+                            _videoLengthRow(video)
                           ]),
                     ],
                   ),
                 ))));
   }
 
+  /// Creates a video title row used in a [_videoCard].
   Row _titleRow(String title) {
     return Row(children: [
       Container(
@@ -149,6 +167,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     ]);
   }
 
+  /// Creates a video source row used in a [_videoCard].
   Row _sourceRow(String author) {
     return Row(children: [
       Container(
@@ -169,7 +188,8 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     ]);
   }
 
-  Row _lengthRow(Video video) {
+  /// Creates a video length row used in a [_videoCard].
+  Row _videoLengthRow(Video video) {
     return Row(children: [
       Container(
           constraints: BoxConstraints(
@@ -195,6 +215,10 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     ]);
   }
 
+  /// Preloads all APFP YouTube videos if the user is connected to the internet.
+  /// 
+  /// If there is no internet connection, this method will be called recursively until
+  /// one is established.
   void preloadAllVideos() async {
     await (Internet.isConnected()).then((value) async => {
           if (value)
@@ -210,6 +234,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     _isVideosLoaded = true;
   }
 
+  /// Adds each video url from the video stream to [videoList].
   void _populateVideos() {
     widget.videoStream.forEach((snapshot) {
       for (Widget element in videoBackup) {
@@ -224,6 +249,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     });
   }
 
+  /// Adds each playlist id from the video stream to [videoList].
   void _populatePlaylists() {
     widget.playlistStream.forEach((snapshot) {
       for (Widget element in playlistBackup) {
@@ -238,28 +264,23 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     });
   }
 
+  /// Converts a YouTube url into a [_videoCard] and adds it to [videoList].
   void _preloadVideo(String url) async {
     YoutubeExplode yt = YoutubeExplode();
     Video video = await yt.videos.get(url);
-    _index++;
-    Padding videoCard = _videoTrainingCard(
-        index: _index,
-        author: video.author,
-        url: video.url,
-        title: video.title,
-        video: video);
+    Padding videoCard = _videoCard(
+        author: video.author, url: video.url, title: video.title, video: video);
     _addVideoToList(videoCard);
     videoBackup.add(videoCard);
     yt.close();
   }
 
+  /// Converts a YouTube playlist id into a [_videoCard] and adds it to [videoList].
   void _preloadPlaylist(String id) async {
     YoutubeExplode yt = YoutubeExplode();
     Playlist playlist = await yt.playlists.get(id);
     await for (Video video in yt.playlists.getVideos(playlist.id)) {
-      _index++;
-      Padding videoCard = _videoTrainingCard(
-          index: _index,
+      Padding videoCard = _videoCard(
           author: video.author,
           url: video.url,
           title: video.title,
@@ -270,9 +291,10 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
     yt.close();
   }
 
-  void _addVideoToList(Padding videoTrainingCard) {
+  /// Adds a video card to [videoList].
+  void _addVideoToList(Padding videoCard) {
     setState(() {
-      videoList.add(videoTrainingCard);
+      videoList.add(videoCard);
     });
   }
 

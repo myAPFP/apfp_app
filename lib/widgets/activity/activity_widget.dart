@@ -248,7 +248,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     return durationInMinutes;
   }
 
-  /// Creates header text displayed at top of the screen.
+  /// Returns the header text which is displayed at the top of the
+  /// Activity screen.
   Row _headerTextRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,

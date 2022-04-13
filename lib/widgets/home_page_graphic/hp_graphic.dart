@@ -55,6 +55,8 @@ class HPGraphic {
 
   /// Creates a view to display 'other' goals.
   /// This view should be used with the 'other' tab.
+  /// 
+  /// Any value passed as a percent must be between 0.0 and 1.0.
   static InkWell createOtherView({
     required Key key,
     required BuildContext context,
@@ -192,6 +194,8 @@ class HPGraphic {
   }
 
   /// Creates a view to display a default goal.
+  /// 
+  /// [percent] must be between 0.0 and 1.0.
   ///
   /// If [isHealthAppSynced] is set to false, the goal within view
   /// cannot be set until a user synchronizes a health app to myAPFP.
