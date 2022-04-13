@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'package:apfp/firebase/fire_auth.dart';
 import 'package:apfp/util/toasted/toasted.dart';
 import 'package:apfp/util/validator/validator.dart';

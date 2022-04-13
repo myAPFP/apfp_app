@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import '/firebase/firestore.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';

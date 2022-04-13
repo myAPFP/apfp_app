@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'package:flutter/cupertino.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 

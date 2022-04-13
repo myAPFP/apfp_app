@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Toasted {

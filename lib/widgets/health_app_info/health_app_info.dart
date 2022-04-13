@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'dart:io';
 import '/main.dart';
 import 'package:flutter/material.dart';

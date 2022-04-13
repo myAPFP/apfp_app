@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'dart:io';
 
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';

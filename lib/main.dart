@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'package:apfp/service/notification_service.dart';
 import 'package:apfp/widgets/completed_goals/completed_goals_widget.dart';
 import 'package:apfp/widgets/settings/settings_widget.dart';

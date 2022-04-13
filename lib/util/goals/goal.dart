@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// Copyright 2022 The myAPFP Authors. All rights reserved.
 
 import '/firebase/firestore.dart';
 import '/service/notification_service.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Goal {
   /// Stores a [DateTime] instance with current date and time in the local time zone

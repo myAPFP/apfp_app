@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import '/util/goals/goal.dart';
 import '/util/goals/other_goal.dart';
 import '/util/validator/validator.dart';

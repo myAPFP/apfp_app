@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import '/util/toasted/toasted.dart';
 
 import 'package:flutter/services.dart';
