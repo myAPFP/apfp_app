@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../alert/alert_widget.dart';
 import '../confimation_dialog/confirmation_dialog.dart';
@@ -87,8 +88,15 @@ class _AlertsWidgetState extends State<AlertsWidget> {
         .forEach((QuerySnapshot<Map<String, dynamic>> snapshot) {
       previousAnnouncements.clear();
       snapshot.docs.forEach((QueryDocumentSnapshot element) {
-        addToPrevious(
-            _paddedAlert(_makeAlert(element['title'], element['description'])));
+        if ((element['topic'] == 'Alerts') |
+            (element['topic'] ==
+                FirebaseAuth.instance.currentUser!.displayName!
+                    .replaceAll(" ", ""))) {
+          addToPrevious(_paddedAlert(
+              _makeAlert(element['title'], element['description'])));
+        } else {
+          addToPrevious(_paddedAlert(_makeAlert('uh', 'not working')));
+        }
       });
     });
   }
