@@ -129,7 +129,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    _paddedHeader(_makeHeader('Previous Announcements')),
+                    _paddedHeader(_makeHeader('Announcements')),
                   ],
                 ),
                 Column(
