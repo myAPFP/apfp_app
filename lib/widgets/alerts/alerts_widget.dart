@@ -94,8 +94,6 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                     .replaceAll(" ", ""))) {
           addToPrevious(_paddedAlert(
               _makeAlert(element['title'], element['description'])));
-        } else {
-          addToPrevious(_paddedAlert(_makeAlert('uh', 'not working')));
         }
       });
     });
