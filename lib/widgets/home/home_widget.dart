@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:apfp/firebase/firestore.dart';
 import 'package:apfp/util/goals/custom_goal.dart';
 import 'package:apfp/util/toasted/toasted.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../../util/goals/exercise_time_goal.dart';
@@ -362,8 +363,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _exerciseViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
@@ -403,8 +403,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _calViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthTrackerPermissionGranted) {
@@ -443,8 +442,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _stepsViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthTrackerPermissionGranted) {
@@ -484,8 +482,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         scrollController: _milesViewSC,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           if (Goal.isHealthTrackerPermissionGranted) {
@@ -590,8 +587,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 : 0,
         onDoubleTap: () {
           Goal.isDailyDisplayed = !Goal.isDailyDisplayed;
-          FireStore.updateGoalData(
-              {"isDailyDisplayed": Goal.isDailyDisplayed});
+          FireStore.updateGoalData({"isDailyDisplayed": Goal.isDailyDisplayed});
         },
         onLongPress: () {
           AddGoalWidget.launch(context);
@@ -703,16 +699,31 @@ class _HomeWidgetState extends State<HomeWidget> {
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                           snapshot) {
                     if (snapshot.hasData) {
-                      List<String> alertTexts =
-                          new List.filled(3, "No older announcements.");
+                      var topics = [
+                        'Alerts',
+                        FirebaseAuth.instance.currentUser!.displayName!
+                            .replaceAll(" ", "")
+                      ];
+                      List<String> alertTexts = new List.empty(growable: true);
                       if (snapshot.data!.docs.length > 0) {
-                        alertTexts[0] = snapshot.data?.docs[0]['title'];
+                        if (topics.contains(snapshot.data?.docs[0]['topic'])) {
+                          alertTexts.add(snapshot.data?.docs[0]['title']);
+                        }
                       }
                       if (snapshot.data!.docs.length > 1) {
-                        alertTexts[1] = snapshot.data?.docs[1]['title'];
+                        if (topics.contains(snapshot.data?.docs[1]['topic'])) {
+                          alertTexts.add(snapshot.data?.docs[1]['title']);
+                        }
                       }
                       if (snapshot.data!.docs.length > 2) {
-                        alertTexts[2] = snapshot.data?.docs[2]['title'];
+                        if (topics.contains(snapshot.data?.docs[2]['topic'])) {
+                          alertTexts.add(snapshot.data?.docs[2]['title']);
+                        }
+                      }
+                      if (alertTexts.length < 3) {
+                        for (int i = alertTexts.length - 1; i < 3; i++) {
+                          alertTexts.add("No announcement available.");
+                        }
                       }
                       return _announcements(
                           alertTexts[0], alertTexts[1], alertTexts[2]);
