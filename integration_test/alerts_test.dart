@@ -7,10 +7,8 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Announcements List Screen Tests', () {
-    testWidgets(
-        'US: My unread announcements and previous announcements should be ' +
-            'separated into two different panels: Ensure existence of "Unread" and ' +
-            '"Previous" announcements panels', (WidgetTester tester) async {
+    testWidgets('US: Ensure existence of announcements panels',
+        (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -18,9 +16,8 @@ void main() {
       await tester.tap(find.byTooltip('Alerts'));
       await tester.pumpAndSettle(Duration(seconds: 2));
 
-      // Ensure existence of "Previous Announcements" header
-      // expect(find.text("Unread Announcements"), findsOneWidget); Not implemented
-      expect(find.text("Previous Announcements"), findsOneWidget);
+      // Ensure existence of "Announcements" header
+      expect(find.text("Announcements"), findsOneWidget);
       await tester.pumpAndSettle();
     });
 
@@ -35,9 +32,9 @@ void main() {
       await tester.tap(find.byTooltip('Alerts'));
       await tester.pumpAndSettle();
 
-      // Ensure announcement subject and information exist for first announcement
-      expect(find.text('Test'), findsOneWidget);
-      expect(find.textContaining('This is a test'), findsOneWidget);
+      // Ensure announcement subject and information exist for first announcement. THIS WILL FAIL IN DEPLOYMENT
+      expect(find.text('Test - 4/13/2022'), findsOneWidget);
+      expect(find.textContaining('This is a test.'), findsOneWidget);
       await tester.pumpAndSettle();
     });
 
