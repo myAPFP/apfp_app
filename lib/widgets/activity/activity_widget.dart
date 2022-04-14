@@ -2,10 +2,8 @@
 
 import 'dart:io';
 
-import 'package:apfp/util/health/healthUtil.dart';
-import 'package:apfp/widgets/health_app_info/health_app_info.dart';
-
 import '/util/goals/goal.dart';
+import '/util/health/healthUtil.dart';
 
 import '/firebase/firestore.dart';
 
@@ -17,7 +15,8 @@ import '../add_activity/add_activity_widget.dart';
 
 import '../confimation_dialog/confirmation_dialog.dart';
 
-import 'package:intl/intl.dart';
+import '/widgets/health_app_info/health_app_info.dart';
+
 import 'package:health/health.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/modals.dart';
