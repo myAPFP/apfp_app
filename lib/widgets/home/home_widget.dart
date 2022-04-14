@@ -89,10 +89,20 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Otherwise, this is set to 'Health App'.
   String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
+  /// Indicates if this screen has been disposed of.
+  bool _disposed = false;
+
   @override
   void initState() {
     super.initState();
     _fetchHealthData();
+    // Refreshes health data every minute
+    Timer.periodic(Duration(minutes: 1), (t) {
+      _fetchHealthData();
+      if (_disposed) {
+        t.cancel();
+      }
+    });
     _listenToGoalStream();
     _listenToActivityStream();
     _checkIfHealthAppSynced();
@@ -101,6 +111,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void dispose() {
     super.dispose();
+    _disposed = true;
     _otherSC.dispose();
     _calViewSC.dispose();
     _stepsViewSC.dispose();
@@ -379,8 +390,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         "mileGoalProgress": Goal.userProgressMileGoal,
         // "mileGoalProgressWeekly": Goal.userProgressMileGoalWeekly,
       });
-      // Refreshes health data every minute
-      Timer(Duration(minutes: 1), _fetchHealthData);
     }
   }
 
