@@ -2,8 +2,6 @@
 
 import 'dart:io';
 
-import 'package:health/health.dart';
-
 import '/firebase/firestore.dart';
 
 import '/util/goals/goal.dart';
@@ -11,18 +9,18 @@ import '/util/toasted/toasted.dart';
 import '/util/goals/other_goal.dart';
 import '/util/goals/exercise_time_goal.dart';
 
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 
 import '../set_goals/set_goals_widget.dart';
 
 import '../home_page_graphic/hp_graphic.dart';
 
-import '../health_app_info/health_app_info.dart';
-
+import 'package:health/health.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -76,9 +74,11 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// This changes based on which type of goals the user is currently viewing.
   String _goalType = "Daily";
 
+  /// Entrypoint to health API.
   HealthFactory health = HealthFactory();
 
-  int numOfSteps = 0;
+  /// Set to true when health data is being fetched.
+  bool _isFetchingHealthData = false;
 
   /// If the app is being ran on Android, this is set to 'Google Fit'.
   /// Otherwise, this is set to 'Health App'.
@@ -87,7 +87,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
-    fetchStepData();
+    _fetchHealthData();
     _listenToGoalStream();
     _listenToActivityStream();
     _checkIfHealthAppSynced();
@@ -321,26 +321,74 @@ class _HomeWidgetState extends State<HomeWidget> {
         : FireStore.updateGoalData({"isHealthAppSynced": false});
   }
 
-  Future fetchStepData() async {
-    int? steps;
-
+  /// Fetches calories, steps, and miles from the user's health app.
+  Future _fetchHealthData() async {
+    int steps = 0;
+    double cals = 0;
+    double miles = 0;
     final now = DateTime.now();
     final midnight = DateTime(now.year, now.month, now.day);
-
-    bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
-    
+    bool requested = await health.requestAuthorization([
+      HealthDataType.STEPS,
+      Platform.isAndroid
+          ? HealthDataType.DISTANCE_DELTA // Android
+          : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
+    ]);
+    setState(() {
+      _isFetchingHealthData = true;
+    });
     if (requested) {
       try {
-        steps = await health.getTotalStepsInInterval(midnight, now);
+        var calData = await health.getHealthDataFromTypes(midnight, now, [
+          HealthDataType.ACTIVE_ENERGY_BURNED // Calories
+        ]);
+        var calSet = calData.toSet();
+        cals = _getHealthSums(calSet);
+        var mileData = await health.getHealthDataFromTypes(midnight, now, [
+          Platform.isAndroid
+              ? HealthDataType.DISTANCE_DELTA // Android
+              : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
+        ]);
+        var mileSet = mileData.toSet();
+        miles = double.parse(
+            (_getHealthSums(mileSet) / 1609.344).toStringAsFixed(2));
+        steps = (await health.getTotalStepsInInterval(midnight, now))!;
       } catch (error) {
         print("Caught exception in getTotalStepsInInterval: $error");
       }
-
       setState(() {
-        Goal.userProgressStepGoal =
-            (steps == null) ? 0.0 : steps.toDouble();
+        Goal.userProgressCalGoal = cals;
+        Goal.userProgressStepGoal = steps.toDouble();
+        Goal.userProgressMileGoal = miles;
+        _isFetchingHealthData = false;
       });
-    } 
+    }
+  }
+
+  /// Calulates health data sums.
+  /// 
+  /// On Android, a given [HealthDataType]'s returned data is divided 
+  /// into multiple entries.
+  /// 
+  /// For example, if a user has burned 250 calories, 3 entries
+  /// will appear, and the sum of the 3 entries will equal 250.
+  ///  
+  /// As a result, we must loop through the entries, add all values, 
+  /// and return the sum.
+  double _getHealthSums(Set dataSet) {
+    double sum = 0;
+    dataSet.forEach((element) {
+      var valueRE = RegExp(r"HealthDataPoint - value: (.*?),");
+      // Extracts only the calorie count value
+      var valueStr = valueRE.stringMatch(element.toString())!;
+      // Removes trailing comma
+      valueStr = valueStr.substring(0, valueStr.length - 1);
+      // Removes 'HealthDataPoint - value: '
+      valueStr = valueStr.replaceAll(RegExp(r'HealthDataPoint - value: '), "");
+      print(valueStr);
+      sum += double.parse(double.parse(valueStr).toStringAsFixed(2));
+    });
+    return sum;
   }
 
   /// Label used above the [_recentAnnouncementGrid].
@@ -383,7 +431,8 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  /// Creates a urgent info (!) icon to be displayed next to an [_announcementText].
+  /// Creates a urgent info (!) icon to be displayed next to an 
+  /// [_announcementText].
   Column _infoIcon() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -459,6 +508,25 @@ class _HomeWidgetState extends State<HomeWidget> {
         children: [
           AutoSizeText('$_goalType Goals', style: FlutterFlowTheme.title1),
         ],
+      ),
+    );
+  }
+
+  /// Refreshes health data shown in the health data carousel.
+  FFButtonWidget _refreshHealthData() {
+    return FFButtonWidget(
+      onPressed: () => _fetchHealthData(),
+      text: 'Refresh $_platformHealthName data',
+      options: FFButtonOptions(
+        width: MediaQuery.of(context).size.height * 0.4,
+        height: 45,
+        color: FlutterFlowTheme.secondaryColor,
+        textStyle: FlutterFlowTheme.title2,
+        elevation: 2,
+        borderSide: BorderSide(
+          color: FlutterFlowTheme.secondaryColor,
+        ),
+        borderRadius: 8,
       ),
     );
   }
@@ -811,37 +879,64 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  /// Creates button that allows user to sync a health app to myAPFP.
-  Padding _syncHealthAppButton() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
-      child: FFButtonWidget(
-        onPressed: () async {
-          if (await Permission.activityRecognition.request().isGranted) {
-            FireStore.updateGoalData({"isHealthAppSynced": true});
-            Toasted.showToast("$_platformHealthName has been synchronized!");
-          } else if (await Permission.activityRecognition
-              .request()
-              .isPermanentlyDenied) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HealthAppInfo()),
-            );
-          }
-        },
-        text: 'Sync $_platformHealthName',
-        options: FFButtonOptions(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: 50,
-          color: FlutterFlowTheme.secondaryColor,
-          textStyle: FlutterFlowTheme.title2,
-          elevation: 2,
-          borderSide: BorderSide(
-            color: FlutterFlowTheme.secondaryColor,
-          ),
-          borderRadius: 8,
+  // Creates button that allows user to sync a health app to myAPFP.
+  // Padding _syncHealthAppButton() {
+  //   return Padding(
+  //     padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
+  //     child: FFButtonWidget(
+  //       onPressed: () async {
+  //         if (await Permission.activityRecognition.request().isGranted) {
+  //           FireStore.updateGoalData({"isHealthAppSynced": true});
+  //           Toasted.showToast("$_platformHealthName has been synchronized!");
+  //         } else if (await Permission.activityRecognition
+  //             .request()
+  //             .isPermanentlyDenied) {
+  //           Navigator.push(
+  //             context,
+  //             MaterialPageRoute(builder: (context) => HealthAppInfo()),
+  //           );
+  //         }
+  //       },
+  //       text: 'Sync $_platformHealthName',
+  //       options: FFButtonOptions(
+  //         width: MediaQuery.of(context).size.width * 0.9,
+  //         height: 50,
+  //         color: FlutterFlowTheme.secondaryColor,
+  //         textStyle: FlutterFlowTheme.title2,
+  //         elevation: 2,
+  //         borderSide: BorderSide(
+  //           color: FlutterFlowTheme.secondaryColor,
+  //         ),
+  //         borderRadius: 8,
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  /// Displays the health data carousel.
+  /// 
+  /// The user is shown:
+  /// - Calories Burned Today
+  /// - Steps Taken Today
+  /// - Miles Ran Today
+  CarouselSlider _healthDataCarousel() {
+    return CarouselSlider(
+      options: CarouselOptions(
+          height: 30, autoPlay: true, autoPlayInterval: Duration(seconds: 3)),
+      items: [
+        Text(
+          "Calories Burned Today: ${Goal.userProgressCalGoal.toStringAsFixed(2)}",
+          style: FlutterFlowTheme.bodyText1,
         ),
-      ),
+        Text(
+          "Steps Taken Today: ${Goal.userProgressStepGoal.toStringAsFixed(2)}",
+          style: FlutterFlowTheme.bodyText1,
+        ),
+        Text(
+          "Miles Ran Today: ${Goal.userProgressMileGoal.toStringAsFixed(2)}",
+          style: FlutterFlowTheme.bodyText1,
+        )
+      ],
     );
   }
 
@@ -881,10 +976,20 @@ class _HomeWidgetState extends State<HomeWidget> {
                 }),
             _goalTypeLabel(),
             _goalsTabbedContainer(),
-            SizedBox(
-              height: 5,
-            ),
-            _syncHealthAppButton(),
+            SizedBox(height: 25),
+            !_isFetchingHealthData
+                ? _healthDataCarousel()
+                : Goal.isHealthAppSynced
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [CircularProgressIndicator()],
+                      )
+                    : Text(
+                        "$_platformHealthName not sync'd.",
+                        style: FlutterFlowTheme.bodyText1,
+                      ),
+            SizedBox(height: 5),
+            _refreshHealthData()
           ],
         ),
       )),
