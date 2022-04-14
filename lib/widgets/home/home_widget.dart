@@ -1,5 +1,6 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
 
+import 'dart:async';
 import 'dart:io';
 
 import '../health_app_info/health_app_info.dart';
@@ -374,6 +375,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         "mileGoalProgress": Goal.userProgressMileGoal,
         // "mileGoalProgressWeekly": Goal.userProgressMileGoalWeekly,
       });
+      // Refreshes health data every minute
+      Timer(Duration(minutes: 1), _fetchHealthData);
     }
   }
 
