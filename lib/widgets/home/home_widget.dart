@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:apfp/util/health/healthUtil.dart';
+import 'package:intl/intl.dart';
 
 import '../health_app_info/health_app_info.dart';
 import '/firebase/firestore.dart';
@@ -382,8 +383,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       Timer(Duration(minutes: 1), _fetchHealthData);
     }
   }
-
-  
 
   /// Label used above the [_recentAnnouncementGrid].
   Padding _recentAnnouncementsLabel() {
@@ -911,24 +910,29 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// - Steps Taken Today
   /// - Miles Ran Today
   CarouselSlider _healthDataCarousel() {
+    var formatter = NumberFormat("###,###", "en_US");
+    var time = Goal.userProgressExerciseTime;
+    var cals = formatter.format(Goal.userProgressCalGoal);
+    var steps = formatter.format(Goal.userProgressStepGoal);
+    var miles = Goal.userProgressMileGoal;
     return CarouselSlider(
       options: CarouselOptions(
           height: 30, autoPlay: true, autoPlayInterval: Duration(seconds: 3)),
       items: [
         Text(
-          "Activity Minutes: ${Goal.userProgressExerciseTime.toStringAsFixed(2)}",
+          "Activity Minutes: $time",
           style: FlutterFlowTheme.bodyText1,
         ),
         Text(
-          "Cals Burned Today: ${Goal.userProgressCalGoal.toStringAsFixed(2)}",
+          "Cals Burned Today: $cals",
           style: FlutterFlowTheme.bodyText1,
         ),
         Text(
-          "Steps Taken Today: ${Goal.userProgressStepGoal.toStringAsFixed(2)}",
+          "Steps Taken Today: $steps",
           style: FlutterFlowTheme.bodyText1,
         ),
         Text(
-          "Miles Ran Today: ${Goal.userProgressMileGoal.toStringAsFixed(2)}",
+          "Miles Ran Today: $miles",
           style: FlutterFlowTheme.bodyText1,
         )
       ],
