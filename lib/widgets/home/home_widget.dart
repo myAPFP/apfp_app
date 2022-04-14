@@ -380,13 +380,12 @@ class _HomeWidgetState extends State<HomeWidget> {
     double sum = 0;
     dataSet.forEach((element) {
       var valueRE = RegExp(r"HealthDataPoint - value: (.*?),");
-      // Extracts only the health data value
+      // Extracts only the 'HealthDataPoint - value' field
       var valueStr = valueRE.stringMatch(element.toString())!;
       // Removes trailing comma
       valueStr = valueStr.substring(0, valueStr.length - 1);
-      // Removes 'HealthDataPoint - value: '
+      // Removes 'HealthDataPoint - value: ' fieldname, leaving only the value
       valueStr = valueStr.replaceAll(RegExp(r'HealthDataPoint - value: '), "");
-      print(valueStr);
       sum += double.parse(double.parse(valueStr).toStringAsFixed(2));
     });
     return sum;
