@@ -63,10 +63,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
       if (value) {
         DateTime now = DateTime.now();
+        final midnight = DateTime(now.year, now.month, now.day);
         await health.getHealthDataFromTypes(
-            DateTime(now.year, now.month, now.day),
-            now,
-            [HealthDataType.WORKOUT]).then((value) {
+            midnight, now, [HealthDataType.WORKOUT]).then((value) {
           for (HealthDataPoint dataPoint in value) {
             _addActivityToCloud(
               ActivityCard(
@@ -75,10 +74,10 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                           .difference(dataPoint.dateFrom)
                           .inMinutes
                           .toString() +
-                      " minutes",
+                      " Minutes",
                   name: "Imported Workout",
-                  type: "Exercise",
-                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
+                  type: "Exercise Minutes",
+                  timestamp: DateTime.now().toIso8601String()),
             );
           }
         });
@@ -104,7 +103,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             ActivityCard(
                 icon: Icons.emoji_events_rounded,
                 duration: "${moveMinutes.round()} Minutes",
-                name: "Imported Activity",
+                name: "Imported Workout",
                 type: "Exercise Minutes",
                 timestamp: DateTime.now().toIso8601String()),
           );
