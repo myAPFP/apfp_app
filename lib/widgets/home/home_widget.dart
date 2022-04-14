@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import '../health_app_info/health_app_info.dart';
 import '/firebase/firestore.dart';
 
 import '/util/goals/goal.dart';
@@ -366,14 +367,14 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   /// Calulates health data sums.
-  /// 
-  /// On Android, a given [HealthDataType]'s returned data is divided 
+  ///
+  /// On Android, a given [HealthDataType]'s returned data is divided
   /// into multiple entries.
-  /// 
+  ///
   /// For example, if a user has burned 250 calories, 3 entries
   /// will appear, and the sum of the 3 entries will equal 250.
-  ///  
-  /// As a result, we must loop through the entries, add all values, 
+  ///
+  /// As a result, we must loop through the entries, add all values,
   /// and return the sum.
   double _getHealthSums(Set dataSet) {
     double sum = 0;
@@ -431,7 +432,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  /// Creates a urgent info (!) icon to be displayed next to an 
+  /// Creates a urgent info (!) icon to be displayed next to an
   /// [_announcementText].
   Column _infoIcon() {
     return Column(
@@ -516,7 +517,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   FFButtonWidget _refreshHealthData() {
     return FFButtonWidget(
       onPressed: () => _fetchHealthData(),
-      text: 'Refresh $_platformHealthName data',
+      text: 'Refresh $_platformHealthName Data',
       options: FFButtonOptions(
         width: MediaQuery.of(context).size.height * 0.4,
         height: 45,
@@ -879,42 +880,42 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  // Creates button that allows user to sync a health app to myAPFP.
-  // Padding _syncHealthAppButton() {
-  //   return Padding(
-  //     padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
-  //     child: FFButtonWidget(
-  //       onPressed: () async {
-  //         if (await Permission.activityRecognition.request().isGranted) {
-  //           FireStore.updateGoalData({"isHealthAppSynced": true});
-  //           Toasted.showToast("$_platformHealthName has been synchronized!");
-  //         } else if (await Permission.activityRecognition
-  //             .request()
-  //             .isPermanentlyDenied) {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(builder: (context) => HealthAppInfo()),
-  //           );
-  //         }
-  //       },
-  //       text: 'Sync $_platformHealthName',
-  //       options: FFButtonOptions(
-  //         width: MediaQuery.of(context).size.width * 0.9,
-  //         height: 50,
-  //         color: FlutterFlowTheme.secondaryColor,
-  //         textStyle: FlutterFlowTheme.title2,
-  //         elevation: 2,
-  //         borderSide: BorderSide(
-  //           color: FlutterFlowTheme.secondaryColor,
-  //         ),
-  //         borderRadius: 8,
-  //       ),
-  //     ),
-  //   );
-  // }
+  /// Creates button that allows user to sync a health app to myAPFP.
+  Padding _syncHealthAppButton() {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
+      child: FFButtonWidget(
+        onPressed: () async {
+          if (await Permission.activityRecognition.request().isGranted) {
+            FireStore.updateGoalData({"isHealthAppSynced": true});
+            Toasted.showToast("$_platformHealthName has been synchronized!");
+          } else if (await Permission.activityRecognition
+              .request()
+              .isPermanentlyDenied) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HealthAppInfo()),
+            );
+          }
+        },
+        text: 'Sync $_platformHealthName',
+        options: FFButtonOptions(
+          width: MediaQuery.of(context).size.height * 0.4,
+          height: 45,
+          color: FlutterFlowTheme.secondaryColor,
+          textStyle: FlutterFlowTheme.title2,
+          elevation: 2,
+          borderSide: BorderSide(
+            color: FlutterFlowTheme.secondaryColor,
+          ),
+          borderRadius: 8,
+        ),
+      ),
+    );
+  }
 
   /// Displays the health data carousel.
-  /// 
+  ///
   /// The user is shown:
   /// - Calories Burned Today
   /// - Steps Taken Today
@@ -989,7 +990,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                         style: FlutterFlowTheme.bodyText1,
                       ),
             SizedBox(height: 5),
-            _refreshHealthData()
+            Goal.isHealthAppSynced
+                ? _refreshHealthData()
+                : _syncHealthAppButton()
           ],
         ),
       )),
