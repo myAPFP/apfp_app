@@ -355,7 +355,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             (_getHealthSums(mileSet) / 1609.344).toStringAsFixed(2));
         steps = (await health.getTotalStepsInInterval(midnight, now))!;
       } catch (error) {
-        print("Caught exception in getTotalStepsInInterval: $error");
+        print("Home._fetchHealthData() error: $error");
       }
       setState(() {
         Goal.userProgressCalGoal = cals;
@@ -380,7 +380,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     double sum = 0;
     dataSet.forEach((element) {
       var valueRE = RegExp(r"HealthDataPoint - value: (.*?),");
-      // Extracts only the 'HealthDataPoint - value' field
+      // Extracts the 'HealthDataPoint - value' field
       var valueStr = valueRE.stringMatch(element.toString())!;
       // Removes trailing comma
       valueStr = valueStr.substring(0, valueStr.length - 1);
