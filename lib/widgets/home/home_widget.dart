@@ -3,6 +3,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:apfp/util/health/healthUtil.dart';
+
 import '../health_app_info/health_app_info.dart';
 import '/firebase/firestore.dart';
 
@@ -346,7 +348,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           HealthDataType.ACTIVE_ENERGY_BURNED // Calories
         ]);
         var calSet = calData.toSet();
-        cals = _getHealthSums(calSet);
+        cals = HealthUtil.getHealthSums(calSet);
         var mileData = await health.getHealthDataFromTypes(midnight, now, [
           Platform.isAndroid
               ? HealthDataType.DISTANCE_DELTA // Android
@@ -354,7 +356,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         ]);
         var mileSet = mileData.toSet();
         miles = double.parse(
-            (_getHealthSums(mileSet) / 1609.344).toStringAsFixed(2));
+            (HealthUtil.getHealthSums(mileSet) / 1609.344).toStringAsFixed(2));
         steps = (await health.getTotalStepsInInterval(midnight, now))!;
       } catch (error) {
         print("Home._fetchHealthData() error: $error");
@@ -381,30 +383,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     }
   }
 
-  /// Calulates health data sums.
-  ///
-  /// On Android, a given [HealthDataType]'s returned data is divided
-  /// into multiple entries.
-  ///
-  /// For example, if a user has burned 250 calories, 3 entries
-  /// will appear, and the sum of the 3 entries will equal 250.
-  ///
-  /// As a result, we must loop through the entries, add all values,
-  /// and return the sum.
-  double _getHealthSums(Set dataSet) {
-    double sum = 0;
-    dataSet.forEach((element) {
-      var valueRE = RegExp(r"HealthDataPoint - value: (.*?),");
-      // Extracts the 'HealthDataPoint - value' field
-      var valueStr = valueRE.stringMatch(element.toString())!;
-      // Removes trailing comma
-      valueStr = valueStr.substring(0, valueStr.length - 1);
-      // Removes 'HealthDataPoint - value: ' fieldname, leaving only the value
-      valueStr = valueStr.replaceAll(RegExp(r'HealthDataPoint - value: '), "");
-      sum += double.parse(double.parse(valueStr).toStringAsFixed(2));
-    });
-    return sum;
-  }
+  
 
   /// Label used above the [_recentAnnouncementGrid].
   Padding _recentAnnouncementsLabel() {
