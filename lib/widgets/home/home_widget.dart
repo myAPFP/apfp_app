@@ -318,9 +318,10 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Checks if a user has granted physical activity permissions to myAPFP and
   /// updates the Firestore database accordingly.
   void _checkIfHealthAppSynced() async {
-    await Permission.activityRecognition.request().isGranted
-        ? FireStore.updateGoalData({"isHealthAppSynced": true})
-        : FireStore.updateGoalData({"isHealthAppSynced": false});
+    FireStore.updateGoalData({
+      "isHealthAppSynced":
+          await Permission.activityRecognition.request().isGranted
+    });
   }
 
   /// Fetches calories, steps, and miles from the user's health app.
