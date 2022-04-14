@@ -379,7 +379,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     double sum = 0;
     dataSet.forEach((element) {
       var valueRE = RegExp(r"HealthDataPoint - value: (.*?),");
-      // Extracts only the calorie count value
+      // Extracts only the health data value
       var valueStr = valueRE.stringMatch(element.toString())!;
       // Removes trailing comma
       valueStr = valueStr.substring(0, valueStr.length - 1);
