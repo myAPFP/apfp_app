@@ -68,7 +68,7 @@ class ActivityCard {
                                 .size
                                 .width *
                             0.6),
-                    child: Text(
+                    child: AutoSizeText(
                       '$name',
                       style: FlutterFlowTheme.title1,
                       overflow: TextOverflow.fade,
