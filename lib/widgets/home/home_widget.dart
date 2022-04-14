@@ -2,6 +2,8 @@
 
 import 'dart:io';
 
+import 'package:health/health.dart';
+
 import '/firebase/firestore.dart';
 
 import '/util/goals/goal.dart';
@@ -74,6 +76,10 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// This changes based on which type of goals the user is currently viewing.
   String _goalType = "Daily";
 
+  HealthFactory health = HealthFactory();
+
+  int numOfSteps = 0;
+
   /// If the app is being ran on Android, this is set to 'Google Fit'.
   /// Otherwise, this is set to 'Health App'.
   String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
@@ -81,6 +87,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
+    fetchStepData();
     _listenToGoalStream();
     _listenToActivityStream();
     _checkIfHealthAppSynced();
@@ -124,8 +131,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
         //         Goal.userProgressExerciseTimeWeekly;
 
-        // Goal.userProgressStepGoal =
-        //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
         // Goal.userProgressStepGoalWeekly =
         //     ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup) +
         //         Goal.userProgressExerciseTimeWeekly;
@@ -314,6 +319,28 @@ class _HomeWidgetState extends State<HomeWidget> {
     await Permission.activityRecognition.request().isGranted
         ? FireStore.updateGoalData({"isHealthAppSynced": true})
         : FireStore.updateGoalData({"isHealthAppSynced": false});
+  }
+
+  Future fetchStepData() async {
+    int? steps;
+
+    final now = DateTime.now();
+    final midnight = DateTime(now.year, now.month, now.day);
+
+    bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
+    
+    if (requested) {
+      try {
+        steps = await health.getTotalStepsInInterval(midnight, now);
+      } catch (error) {
+        print("Caught exception in getTotalStepsInInterval: $error");
+      }
+
+      setState(() {
+        Goal.userProgressStepGoal =
+            (steps == null) ? 0.0 : steps.toDouble();
+      });
+    } 
   }
 
   /// Label used above the [_recentAnnouncementGrid].

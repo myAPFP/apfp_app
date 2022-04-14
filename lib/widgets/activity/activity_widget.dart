@@ -115,7 +115,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
             );
           }
         } catch (error) {
-          Toasted.showToast("Activity data could not be retreived: $error ");
+          print("Activity data could not be retreived: $error ");
         }
       }
     }
