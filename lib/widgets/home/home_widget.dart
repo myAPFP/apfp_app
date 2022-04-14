@@ -936,6 +936,10 @@ class _HomeWidgetState extends State<HomeWidget> {
           height: 30, autoPlay: true, autoPlayInterval: Duration(seconds: 3)),
       items: [
         Text(
+          "Activity Minutes: ${Goal.userProgressExerciseTime.toStringAsFixed(2)}",
+          style: FlutterFlowTheme.bodyText1,
+        ),
+        Text(
           "Cals Burned Today: ${Goal.userProgressCalGoal.toStringAsFixed(2)}",
           style: FlutterFlowTheme.bodyText1,
         ),
