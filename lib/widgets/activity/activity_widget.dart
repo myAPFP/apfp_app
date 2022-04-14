@@ -94,7 +94,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       HealthDataType.MOVE_MINUTES,
       HealthDataType.ACTIVE_ENERGY_BURNED,
       HealthDataType.STEPS,
-      HealthDataType.DISTANCE_DELTA
+      Platform.isAndroid
+          ? HealthDataType.DISTANCE_DELTA // Android
+          : HealthDataType.DISTANCE_WALKING_RUNNING // iOS
     ]);
     if (await Permission.activityRecognition.status.isGranted) {
       requested = await health.requestAuthorization(types);
