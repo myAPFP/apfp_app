@@ -2,11 +2,12 @@
 
 import 'dart:io';
 
+import 'package:apfp/util/health/healthUtil.dart';
+import 'package:apfp/widgets/health_app_info/health_app_info.dart';
+
 import '/util/goals/goal.dart';
 
 import '/firebase/firestore.dart';
-
-import '/util/toasted/toasted.dart';
 
 import '../activity_card/activity_card.dart';
 
@@ -53,7 +54,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   @override
   void initState() {
     super.initState();
-    _syncHealthAppData();
     _collectActivity();
   }
 
@@ -76,7 +76,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                           .inMinutes
                           .toString() +
                       " minutes",
-                  name: "Imported Activity",
+                  name: "Imported Workout",
                   type: "Exercise",
                   timestamp: DateFormat.jm().format(dataPoint.dateTo)),
             );
@@ -89,33 +89,25 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   /// Synchronizes Android Health App data with myAPFP.
   void _syncAndroidHealthData(HealthFactory health) async {
     bool requested;
-    List<HealthDataType> types = List.empty(growable: true);
-    types.addAll([
-      HealthDataType.MOVE_MINUTES,
-      HealthDataType.ACTIVE_ENERGY_BURNED,
-      HealthDataType.STEPS,
-      Platform.isAndroid
-          ? HealthDataType.DISTANCE_DELTA // Android
-          : HealthDataType.DISTANCE_WALKING_RUNNING // iOS
-    ]);
     if (await Permission.activityRecognition.status.isGranted) {
-      requested = await health.requestAuthorization(types);
+      requested =
+          await health.requestAuthorization([HealthDataType.MOVE_MINUTES]);
       if (requested) {
         try {
           DateTime now = DateTime.now();
-          List<HealthDataPoint> healthData =
-              await health.getHealthDataFromTypes(
-                  DateTime(now.year, now.month, now.day), now, types);
-          for (HealthDataPoint dataPoint in healthData) {
-            _addActivityToCloud(
-              ActivityCard(
-                  icon: Icons.emoji_events_rounded,
-                  duration: dataPoint.value.toString() + " minutes",
-                  name: "Imported Activity",
-                  type: "Exercise",
-                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
-            );
-          }
+          final midnight = DateTime(now.year, now.month, now.day);
+          List<HealthDataPoint> healthData = await health
+              .getHealthDataFromTypes(
+                  midnight, now, [HealthDataType.MOVE_MINUTES]);
+          var moveMinutes = HealthUtil.getHealthSums(healthData.toSet());
+          _addActivityToCloud(
+            ActivityCard(
+                icon: Icons.emoji_events_rounded,
+                duration: "${moveMinutes.round()} Minutes",
+                name: "Imported Activity",
+                type: "Exercise Minutes",
+                timestamp: DateTime.now().toIso8601String()),
+          );
         } catch (error) {
           print("Activity data could not be retreived: $error ");
         }
@@ -125,10 +117,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   /// Synchronizes Health App data with myAPFP based on current platform.
   void _syncHealthAppData() async {
+    final health = HealthFactory();
     if (Platform.isIOS) {
-      _syncIOSHealthData(new HealthFactory());
+      _syncIOSHealthData(health);
     } else if (Platform.isAndroid) {
-      _syncAndroidHealthData(new HealthFactory());
+      _syncAndroidHealthData(health);
     }
   }
 
@@ -256,13 +249,49 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
-          child: Text(
-            text,
-            style: FlutterFlowTheme.title1,
-          ),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16, 16, 30, 0),
+            child: Text(
+              text,
+              style: FlutterFlowTheme.title1,
+            ),
+          )
+        ]),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(16, 16, 30, 0),
+              child: InkWell(
+                onTap: _syncHealthAppData,
+                child: Icon(
+                  Icons.refresh,
+                  color: FlutterFlowTheme.secondaryColor,
+                ),
+              ),
+            )
+          ],
         ),
+        Column(
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 16, 20, 0),
+              child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HealthAppInfo()));
+                  },
+                  child: Icon(
+                    Icons.help,
+                    color: FlutterFlowTheme.secondaryColor,
+                  )),
+            )
+          ],
+        )
       ],
     );
   }
