@@ -22,7 +22,7 @@ class Goal {
   /// If this is false, weekly goals are being displayed.
   static bool isDailyGoalsDisplayed = false;
 
-  /// Indicates if the user has synchronized a health app to myAPFP
+  /// Indicates if the user has synchronized a health app to myAPFP.
   static bool isHealthAppSynced = false;
 
   /// Serves as a goal deadline. When a user sets a weekly exercise goal,
