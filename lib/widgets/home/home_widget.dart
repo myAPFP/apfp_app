@@ -359,9 +359,20 @@ class _HomeWidgetState extends State<HomeWidget> {
       }
       setState(() {
         Goal.userProgressCalGoal = cals;
+        // Goal.userProgressCalGoalWeekly += cals;
         Goal.userProgressStepGoal = steps.toDouble();
+        // Goal.userProgressStepGoalWeekly += steps.toDouble();
         Goal.userProgressMileGoal = miles;
+        // Goal.userProgressMileGoalWeekly += miles;
         _isFetchingHealthData = false;
+      });
+      FireStore.updateGoalData({
+        "calGoalProgress": Goal.userProgressCalGoal,
+        // "calGoalProgressWeekly": Goal.userProgressCalGoalWeekly,
+        "stepGoalProgress": Goal.userProgressStepGoal,
+        // "stepGoalProgressWeekly": Goal.userProgressStepGoalWeekly,
+        "mileGoalProgress": Goal.userProgressMileGoal,
+        // "mileGoalProgressWeekly": Goal.userProgressMileGoalWeekly,
       });
     }
   }
