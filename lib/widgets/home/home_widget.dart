@@ -881,35 +881,32 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   /// Creates button that allows user to sync a health app to myAPFP.
-  Padding _syncHealthAppButton() {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
-      child: FFButtonWidget(
-        onPressed: () async {
-          if (await Permission.activityRecognition.request().isGranted) {
-            FireStore.updateGoalData({"isHealthAppSynced": true});
-            Toasted.showToast("$_platformHealthName has been synchronized!");
-          } else if (await Permission.activityRecognition
-              .request()
-              .isPermanentlyDenied) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HealthAppInfo()),
-            );
-          }
-        },
-        text: 'Sync $_platformHealthName',
-        options: FFButtonOptions(
-          width: MediaQuery.of(context).size.height * 0.4,
-          height: 45,
+  FFButtonWidget _syncHealthAppButton() {
+    return FFButtonWidget(
+      onPressed: () async {
+        if (await Permission.activityRecognition.request().isGranted) {
+          FireStore.updateGoalData({"isHealthAppSynced": true});
+          Toasted.showToast("$_platformHealthName has been synchronized!");
+        } else if (await Permission.activityRecognition
+            .request()
+            .isPermanentlyDenied) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HealthAppInfo()),
+          );
+        }
+      },
+      text: 'Sync $_platformHealthName',
+      options: FFButtonOptions(
+        width: MediaQuery.of(context).size.height * 0.4,
+        height: 45,
+        color: FlutterFlowTheme.secondaryColor,
+        textStyle: FlutterFlowTheme.title2,
+        elevation: 2,
+        borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
-          textStyle: FlutterFlowTheme.title2,
-          elevation: 2,
-          borderSide: BorderSide(
-            color: FlutterFlowTheme.secondaryColor,
-          ),
-          borderRadius: 8,
         ),
+        borderRadius: 8,
       ),
     );
   }
@@ -978,17 +975,14 @@ class _HomeWidgetState extends State<HomeWidget> {
             _goalTypeLabel(),
             _goalsTabbedContainer(),
             SizedBox(height: 25),
-            !_isFetchingHealthData
+            !_isFetchingHealthData && Goal.isHealthAppSynced
                 ? _healthDataCarousel()
                 : Goal.isHealthAppSynced
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [CircularProgressIndicator()],
                       )
-                    : Text(
-                        "$_platformHealthName not sync'd.",
-                        style: FlutterFlowTheme.bodyText1,
-                      ),
+                    : Container(height: 0, width: 0),
             SizedBox(height: 5),
             Goal.isHealthAppSynced
                 ? _refreshHealthData()
