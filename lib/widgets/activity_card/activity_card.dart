@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class ActivityCard {
-
   /// Activity name.
   String? name;
 
@@ -26,12 +25,13 @@ class ActivityCard {
   /// Activity card.
   Card? _card;
 
-  ActivityCard(
-      {String? duration,
-      String? type,
-      String? name,
-      IconData? icon,
-      String? timestamp}) {
+  ActivityCard({
+    String? duration,
+    String? type,
+    String? name,
+    IconData? icon,
+    String? timestamp
+  }) {
     this.name = name;
     this.type = type;
     this.icon = icon;
@@ -103,15 +103,19 @@ class ActivityCard {
                 ],
               ),
               SizedBox(width: 5),
-              AutoSizeText.rich(TextSpan(
-                  text: 'Logged at ',
-                  style: FlutterFlowTheme.bodyText1,
-                  children: [
-                    TextSpan(
-                      text: DateFormat.jm().format(DateTime.parse(timestamp!)),
-                      style: FlutterFlowTheme.title3Red,
-                    )
-                  ]))
+              timestamp == "3000-12-${DateTime.now().day}T00:00:00.000"
+                  ? AutoSizeText("Logged Today",
+                      style: FlutterFlowTheme.bodyText1)
+                  : AutoSizeText.rich(TextSpan(
+                      text: 'Logged at ',
+                      style: FlutterFlowTheme.bodyText1,
+                      children: [
+                          TextSpan(
+                            text: DateFormat.jm()
+                                .format(DateTime.parse(timestamp!)),
+                            style: FlutterFlowTheme.title3Red,
+                          )
+                        ]))
             ],
           ),
         ],

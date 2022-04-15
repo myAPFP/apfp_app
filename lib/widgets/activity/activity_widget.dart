@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import '/util/goals/exercise_time_goal.dart';
 import '/util/goals/goal.dart';
 import '/util/health/healthUtil.dart';
 
@@ -50,6 +51,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   /// Stores a user's activity document snapshots.
   late Map<String, dynamic> currentSnapshotBackup;
 
+  /// Special activity id reserved for an imported activity.
+  ///
+  /// Using this id ensures:
+  /// - Only one imported activity card appears, and is updated as needed.
+  /// - The imported activity card always appears at the top of the [cards]
+  /// list.
+  String importedActivityID = "3000-12-${DateTime.now().day}T00:00:00.000";
+
   @override
   void initState() {
     super.initState();
@@ -66,18 +75,11 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         await health.getHealthDataFromTypes(
             midnight, now, [HealthDataType.WORKOUT]).then((value) {
           for (HealthDataPoint dataPoint in value) {
-            _addActivityToCloud(
-              ActivityCard(
-                  icon: Icons.emoji_events_rounded,
-                  duration: dataPoint.dateTo
-                          .difference(dataPoint.dateFrom)
-                          .inMinutes
-                          .toString() +
-                      " Minutes",
-                  name: "Imported Workout",
-                  type: "Exercise Minutes",
-                  timestamp: DateTime.now().toIso8601String()),
-            );
+            _addImportedCard(dataPoint.dateTo
+                    .difference(dataPoint.dateFrom)
+                    .inMinutes
+                    .toString() +
+                " Minutes");
           }
         });
       }
@@ -98,14 +100,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
               .getHealthDataFromTypes(
                   midnight, now, [HealthDataType.MOVE_MINUTES]);
           var moveMinutes = HealthUtil.getHealthSums(healthData.toSet());
-          _addActivityToCloud(
-            ActivityCard(
-                icon: Icons.emoji_events_rounded,
-                duration: "${moveMinutes.round()} Minutes",
-                name: "Imported Workout",
-                type: "Exercise Minutes",
-                timestamp: DateTime.now().toIso8601String()),
-          );
+          _addImportedCard("${moveMinutes.round()} Minutes");
         } catch (error) {
           print("Activity data could not be retreived: $error ");
         }
@@ -142,22 +137,41 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
       sortedMap.forEach((key, value) => addCard(ActivityCard(
-              icon: Icons.emoji_events_rounded,
-              duration: value[2],
-              name: value[0],
-              type: value[1],
-              timestamp: key != null
-                  ? DateTime.parse(key).toIso8601String()
-                  : DateTime.now().toIso8601String())
-          .paddedActivityCard(context)));
+            icon: Icons.emoji_events_rounded,
+            duration: value[2],
+            name: value[0],
+            type: value[1],
+            timestamp: key != null
+                ? DateTime.parse(key).toIso8601String()
+                : DateTime.now().toIso8601String()
+          ).paddedActivityCard(context)));
     });
   }
 
-  /// Adds [activityCard]'s info to the user's activity document in Firestore.
+  /// Adds [ActivityCard]'s info to the user's activity document in Firestore.
   void _addActivityToCloud(ActivityCard activityCard) {
     currentSnapshotBackup.putIfAbsent(activityCard.timestamp.toString(),
         () => [activityCard.name, activityCard.type, activityCard.duration]);
     FireStore.updateWorkoutData(currentSnapshotBackup);
+  }
+
+  /// Adds an imported [ActivityCard]'s info to the user's activity document 
+  /// in Firestore.
+  void _addImportedCard(String duration) {
+    var activityCard = ActivityCard(
+      icon: Icons.emoji_events_rounded,
+      duration: duration,
+      name: "Imported Workout",
+      type: "Exercise Minutes",
+      timestamp: importedActivityID,
+    );
+    _removeActivityFromCloud(importedActivityID);
+    _addActivityToCloud(activityCard);
+    var activitySnapShot = {
+      DateTime.now().toIso8601String(): ["", "", duration]
+    };
+    Goal.userProgressExerciseTimeWeekly +=
+        ExerciseGoal.totalTimeInMinutes(activitySnapShot);
   }
 
   /// Removes an activity from Firestore.
@@ -165,9 +179,15 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   /// The [id] represents the activity's id, which is the timestamp in
   /// which it was created.
   void _removeActivityFromCloud(String id) {
-    _updateCustomWeeklyGoalProgress();
-    currentSnapshotBackup
-        .removeWhere((key, durationInMinutes) => (key == id.split(' ')[0]));
+    if (currentSnapshotBackup.isNotEmpty) {
+      _updateCustomWeeklyGoalProgress();
+      currentSnapshotBackup
+          .removeWhere((key, durationInMinutes) => (key == id.split(' ')[0]));
+    }
+    if (id.split(' ')[0] == importedActivityID) {
+      currentSnapshotBackup
+          .removeWhere((key, durationInMinutes) => key == importedActivityID);
+    }
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
