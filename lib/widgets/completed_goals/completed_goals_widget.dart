@@ -222,15 +222,17 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   void _getPreviousDailyGoals() {
     dailyGoalsLogStream.forEach(((snapshot) {
       _dailyGoals.clear();
-      snapshot.docs.forEach((document) {
-        var dayNum = document.get("Date").toString().split('/')[1];
-        _addDailyGoal(_goalCard(
-            color: FlutterFlowTheme.dayToColor(dayNum),
-            goalType: document.get("Type").toString(),
-            goalName: document.get("Completed Goal").toString(),
-            goalInfo: document.get("Info").toString(),
-            dateOfCompletion: document.get("Date").toString()));
-      });
+      if (!mounted) {
+        snapshot.docs.forEach((document) {
+          var dayNum = document.get("Date").toString().split('/')[1];
+          _addDailyGoal(_goalCard(
+              color: FlutterFlowTheme.dayToColor(dayNum),
+              goalType: document.get("Type").toString(),
+              goalName: document.get("Completed Goal").toString(),
+              goalInfo: document.get("Info").toString(),
+              dateOfCompletion: document.get("Date").toString()));
+        });
+      }
     }));
   }
 
