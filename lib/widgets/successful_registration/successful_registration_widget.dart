@@ -62,7 +62,6 @@ class _SuccessfulRegistrationWidgetState
         color: Colors.white,
         textStyle: TextStyle()
             .copyWith(fontSize: 24, color: FlutterFlowTheme.primaryColor),
-        elevation: 2,
         borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
           width: 3,

@@ -137,7 +137,6 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
               height: 50,
               color: Color(0xFFBA0C2F),
               textStyle: FlutterFlowTheme.title2,
-              elevation: 2,
               borderSide: BorderSide(
                 color: Colors.transparent,
                 width: 1,
@@ -183,7 +182,6 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
               height: 50,
               color: Color(0xFFBA0C2F),
               textStyle: FlutterFlowTheme.title2,
-              elevation: 2,
               borderSide: BorderSide(
                 color: Colors.transparent,
                 width: 1,

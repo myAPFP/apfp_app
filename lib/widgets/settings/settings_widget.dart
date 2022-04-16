@@ -158,7 +158,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           height: 50,
           color: FlutterFlowTheme.secondaryColor,
           textStyle: FlutterFlowTheme.title2,
-          elevation: 2,
           borderSide: BorderSide(
             color: FlutterFlowTheme.secondaryColor,
           ),

@@ -97,7 +97,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
       height: 50,
       color: FlutterFlowTheme.secondaryColor,
       textStyle: FlutterFlowTheme.title2,
-      elevation: 2,
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 1,

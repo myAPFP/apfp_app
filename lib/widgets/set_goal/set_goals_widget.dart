@@ -256,7 +256,6 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
           height: 50,
           color: FlutterFlowTheme.secondaryColor,
           textStyle: FlutterFlowTheme.title2,
-          elevation: 2,
           borderSide: BorderSide(
             color: FlutterFlowTheme.secondaryColor,
           ),
@@ -292,7 +291,6 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
         height: 50,
         color: FlutterFlowTheme.secondaryColor,
         textStyle: FlutterFlowTheme.title2,
-        elevation: 2,
         borderSide: BorderSide(
           color: Colors.transparent,
           width: 1,

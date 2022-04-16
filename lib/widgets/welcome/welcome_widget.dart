@@ -290,7 +290,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         height: 50,
         color: Color(0xFFBA0C2F),
         textStyle: FlutterFlowTheme.title2,
-        elevation: 2,
         borderSide: BorderSide(
           color: Colors.transparent,
           width: 1,
@@ -320,7 +319,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         color: Colors.white,
         textStyle: TextStyle()
             .copyWith(fontSize: 24, color: FlutterFlowTheme.primaryColor),
-        elevation: 2,
         borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
           width: 3,
