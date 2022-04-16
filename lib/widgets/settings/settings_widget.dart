@@ -1,21 +1,29 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'dart:io';
-import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
-import 'package:apfp/util/validator/validator.dart';
-import 'package:apfp/widgets/add_goal/add_goal_widget.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:apfp/widgets/welcome/welcome_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
-import '../../util/goals/goal.dart';
-import '../completed_goals/completed_goals_widget.dart';
+
+import '/firebase/fire_auth.dart';
+
 import '../health_app_info/health_app_info.dart';
+
+import '../completed_goals/completed_goals_widget.dart';
+
+import '/util/toasted/toasted.dart';
+import '/util/validator/validator.dart';
+import '/util/internet_connection/internet.dart';
+
+import '/widgets/welcome/welcome_widget.dart';
+import '../set_goals/set_goals_widget.dart';
+import '/widgets/confimation_dialog/confirmation_dialog.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SettingsWidget extends StatefulWidget {
   const SettingsWidget({Key? key}) : super(key: key);
@@ -25,11 +33,23 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
+  /// The [FirebaseMessaging] entry point.
   late FirebaseMessaging messaging;
+
+  /// [TextEditingController] for [_emailTextField].
   TextEditingController? _emailController;
+
+  /// [TextEditingController] for [_passwordTextField].
   TextEditingController? _passwordController;
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// Stores the current [User] if they are currently signed-in, or null if not.
   final currentUser = FirebaseAuth.instance.currentUser;
+
+  /// If the app is being ran on Android, this is set to 'Google Fit'.
+  /// Otherwise, this is set to 'Health App'.
   String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   @override
@@ -46,10 +66,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     _passwordController!.dispose();
   }
 
+  /// Returns trimmed text from [_passwordController].
   String _getPassword() {
     return _passwordController!.text.trim();
   }
 
+  /// Returns account deletion warning text.
   Text _deleteAcctDialogText() {
     return Text.rich(TextSpan(
         text: "Are you sure you want to delete your account?\n\nThis will be ",
@@ -60,18 +82,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               style: TextStyle(
                   fontSize: 20, color: FlutterFlowTheme.secondaryColor)),
           // ! We are closing app here for now, as calling returnToWelcome() from a
-          // ! dialog pop up creates routing issues, causing the app to only return to Home
+          // ! dialog pop up creates routing issues, causing the app to only return to Home.
           TextSpan(
               text: ' and all of your data will be deleted.\n\n',
               style: TextStyle(fontSize: 20))
         ]));
   }
 
-  Text _logoutDialogText() {
-    return Text('Are you sure you want to log out?\n\nYour data will be saved.',
-        style: TextStyle(fontSize: 20));
-  }
-
+  /// Returns password change info text.
   Text _changePasswordDialogText() {
     return Text.rich(TextSpan(
         text: 'Want to change your password?\n\nA link will be sent to:\n\n',
@@ -87,6 +105,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ]));
   }
 
+  /// Returns a [TextField] which is used for email address input.
+  ///
+  /// This [Widget] uses [_emailController] as its [TextEditingController].
   TextField _emailTextField() {
     return ConfirmationDialog.dialogTextField(
         enabled: false,
@@ -95,6 +116,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         contr: _emailController);
   }
 
+  /// Returns a [TextField] which is used for email address input.
+  ///
+  /// This [Widget] uses [_passwordController] as its [TextEditingController].
   TextField _passwordTextField() {
     return ConfirmationDialog.dialogTextField(
         enabled: true,
@@ -103,6 +127,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         contr: _passwordController);
   }
 
+  /// Returns a Row that contains an info icon and the text being passed in.
   Row _dialogInfoRow(String text) {
     return Row(
       children: [
@@ -113,6 +138,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
+  /// Displays a log out warning dialog when pressed.
+  ///
+  /// If the user presses 'Yes', they will be logged out.
   Padding _logOutButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
@@ -120,7 +148,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         onPressed: () => ConfirmationDialog.showConfirmationDialog(
             context: context,
             title: Text('Logout'),
-            content: _logoutDialogText(),
+            content: Text(
+                'Are you sure you want to log out?\n\nYour data will be saved.',
+                style: TextStyle(fontSize: 20)),
             cancelText: 'No',
             submitText: 'Yes',
             onCancelTap: () => Navigator.pop(context),
@@ -147,7 +177,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
-  Padding _settingsButton({String? title, void Function()? onTap}) {
+  /// Creates a button to be displayed in Settings.
+  ///
+  /// The [title] and [onTap] parameters cannot be null.
+  Padding _settingsButton(
+      {required String title, required void Function() onTap}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
       child: Material(
@@ -171,7 +205,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(title!, style: FlutterFlowTheme.title2),
+                  Text(title, style: FlutterFlowTheme.title2),
                   Icon(
                     Icons.chevron_right_rounded,
                     color: FlutterFlowTheme.tertiaryColor,
@@ -186,6 +220,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     );
   }
 
+  /// Signs in the user and then immediately deletes their account.
+  ///
+  /// This is called when a user must reauthenticate in order to
+  /// delete their account.
   _signInAndDelete() async {
     if (await Internet.isConnected()) {
       await FireAuth.signInUsingEmailPassword(
@@ -198,12 +236,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: () async {
-          Navigator.pop(context, true);
-          return false;
-        },
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.tertiaryColor,
@@ -252,15 +285,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 //       }
                 //     }),
                 _settingsButton(
-                    title: "Set Activity Goals",
+                    title: "Set Daily Goals",
                     onTap: () {
-                      AddGoalWidget.launch(context);
+                      SetGoalsWidget.launch(context);
                     }),
                 _settingsButton(
                     title: "View Completed Goals",
                     onTap: () {
-                      CompletedGoalsWidget.launch(context,
-                          mode: Goal.isDailyDisplayed ? "Daily" : "Weekly");
+                      CompletedGoalsWidget.launch(context, mode: "Daily");
                     }),
                 _settingsButton(
                     title: "Change Password",
@@ -345,8 +377,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

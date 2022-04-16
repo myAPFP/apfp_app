@@ -1,22 +1,29 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'dart:io';
 
-import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:focused_menu/modals.dart';
-import 'package:health/health.dart';
-import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:share_plus/share_plus.dart';
-import '../../util/toasted/toasted.dart';
-import '../add_activity/add_activity_widget.dart';
+import '/util/health/healthUtil.dart';
+
+import '/firebase/firestore.dart';
+
 import '../activity_card/activity_card.dart';
-import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:focused_menu/focused_menu.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
+import '/flutter_flow/flutter_flow_theme.dart';
+
+import '../add_activity/add_activity_widget.dart';
 
 import '../confimation_dialog/confirmation_dialog.dart';
+
+import '/widgets/health_app_info/health_app_info.dart';
+
+import 'package:health/health.dart';
+import 'package:flutter/material.dart';
+import 'package:focused_menu/modals.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ActivityWidget extends StatefulWidget {
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
@@ -27,90 +34,90 @@ class ActivityWidget extends StatefulWidget {
 }
 
 class _ActivityWidgetState extends State<ActivityWidget> {
-  List<Padding> cards = [];
-  XFile? imagepick;
+  /// The image a user captures after pressing "+ Image/Share" in an activity card's
+  /// focused menu.
+  ///
+  /// If a user captures an image but declines to share it, this is reset to null.
+  XFile? image;
+
+  /// A list of the user's activity cards.
+  List<ActivityCard> cards = [];
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// Stores a user's activity document snapshots.
   late Map<String, dynamic> currentSnapshotBackup;
+
+  /// Special activity timestamp reserved for an imported activity.
+  ///
+  /// Using this timestamp ensures:
+  /// - Only one imported activity card appears, and is updated as needed.
+  /// - The imported activity card always appears at the top of the [cards]
+  /// list.
+  String importedActivityID = "3000-12-${DateTime.now().day}T00:00:00.000";
 
   @override
   void initState() {
     super.initState();
-    widget.activityStream.first
-        .then((firstElement) => currentSnapshotBackup = firstElement.data()!);
-    // _syncHealthAppData();
     _collectActivity();
   }
 
+  /// Synchronizes iOS Health App data with myAPFP.
   void _syncIOSHealthData(HealthFactory health) async {
     await health
         .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
       if (value) {
         DateTime now = DateTime.now();
+        final midnight = DateTime(now.year, now.month, now.day);
         await health.getHealthDataFromTypes(
-            DateTime(now.year, now.month, now.day),
-            now,
-            [HealthDataType.WORKOUT]).then((value) {
+            midnight, now, [HealthDataType.WORKOUT]).then((value) {
           for (HealthDataPoint dataPoint in value) {
-            _addActivityToCloud(
-              ActivityCard(
-                  icon: Icons.emoji_events_rounded,
-                  duration: dataPoint.dateTo
-                          .difference(dataPoint.dateFrom)
-                          .inMinutes
-                          .toString() +
-                      " minutes",
-                  name: "Imported Activity",
-                  type: "Exercise",
-                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
-            );
+            _addImportedCard(dataPoint.dateTo
+                    .difference(dataPoint.dateFrom)
+                    .inMinutes
+                    .toString() +
+                " Minutes");
           }
         });
       }
     });
   }
 
+  /// Synchronizes Android Health App data with myAPFP.
   void _syncAndroidHealthData(HealthFactory health) async {
     bool requested;
-    List<HealthDataType> types = List.empty(growable: true);
-    types.addAll([
-      HealthDataType.MOVE_MINUTES,
-      HealthDataType.ACTIVE_ENERGY_BURNED,
-      HealthDataType.STEPS,
-      HealthDataType.DISTANCE_DELTA
-    ]);
     if (await Permission.activityRecognition.status.isGranted) {
-      requested = await health.requestAuthorization(types);
+      requested =
+          await health.requestAuthorization([HealthDataType.MOVE_MINUTES]);
       if (requested) {
         try {
           DateTime now = DateTime.now();
-          List<HealthDataPoint> healthData =
-              await health.getHealthDataFromTypes(
-                  DateTime(now.year, now.month, now.day), now, types);
-          for (HealthDataPoint dataPoint in healthData) {
-            _addActivityToCloud(
-              ActivityCard(
-                  icon: Icons.emoji_events_rounded,
-                  duration: dataPoint.value.toString() + " minutes",
-                  name: "Imported Activity",
-                  type: "Exercise",
-                  timestamp: DateFormat.jm().format(dataPoint.dateTo)),
-            );
-          }
+          final midnight = DateTime(now.year, now.month, now.day);
+          List<HealthDataPoint> healthData = await health
+              .getHealthDataFromTypes(
+                  midnight, now, [HealthDataType.MOVE_MINUTES]);
+          var moveMinutes = HealthUtil.getHealthSums(healthData.toSet());
+          _removeActivityFromCloud(importedActivityID);
+          _addImportedCard("${moveMinutes.round()} Minutes");
         } catch (error) {
-          Toasted.showToast("Activity data could not be retreived: $error ");
+          print("Activity data could not be retreived: $error ");
         }
       }
     }
   }
 
+  /// Synchronizes Health App data with myAPFP based on current platform.
   void _syncHealthAppData() async {
+    final health = HealthFactory();
     if (Platform.isIOS) {
-      _syncIOSHealthData(new HealthFactory());
+      _syncIOSHealthData(health);
     } else if (Platform.isAndroid) {
-      _syncAndroidHealthData(new HealthFactory());
+      _syncAndroidHealthData(health);
     }
   }
 
+  /// Fetches a user's activity data from Firestore and displays them.
   void _collectActivity() {
     widget.activityStream.forEach((element) {
       Map sortedMap = new Map();
@@ -129,60 +136,117 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
       sortedMap.forEach((key, value) => addCard(ActivityCard(
-              icon: Icons.emoji_events_rounded,
-              duration: value[2],
-              name: value[0],
-              type: value[1],
-              timestamp: key != null
-                  ? DateTime.parse(key).toIso8601String()
-                  : DateTime.now().toIso8601String())
-          .paddedActivityCard(context)));
+          icon: Icons.emoji_events_rounded,
+          duration: value[2],
+          name: value[0],
+          type: value[1],
+          timestamp: key != null
+              ? DateTime.parse(key).toIso8601String()
+              : DateTime.now().toIso8601String())));
     });
   }
 
+  /// Adds [activityCard]'s info to the user's activity document in Firestore.
   void _addActivityToCloud(ActivityCard activityCard) {
     currentSnapshotBackup.putIfAbsent(activityCard.timestamp.toString(),
         () => [activityCard.name, activityCard.type, activityCard.duration]);
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
-  void _removeActivityFromCloud(String id) {
-    currentSnapshotBackup
-        .removeWhere((key, value) => (key == id.split(' ')[0]));
+  /// Removes an activity from Firestore.
+  ///
+  /// The [timestamp] represents the activity's timestamp, which is the timestamp in
+  /// which it was created.
+  void _removeActivityFromCloud(String timestamp) {
+    currentSnapshotBackup.removeWhere(
+        (key, durationInMinutes) => (key == timestamp.split(' ')[0]));
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
+  /// Adds an imported [ActivityCard]'s info to the user's activity document
+  /// in Firestore.
+  void _addImportedCard(String duration) {
+    var activityCard = ActivityCard(
+      icon: Icons.emoji_events_rounded,
+      duration: duration,
+      name: "Imported Workout",
+      type: "Exercise Minutes",
+      timestamp: importedActivityID,
+    );
+    _addActivityToCloud(activityCard);
+  }
+
+  /// Returns the header text which is displayed at the top of the
+  /// Activity screen.
   Row _headerTextRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 24, 0),
-          child: Text(
-            text,
-            style: FlutterFlowTheme.title1,
-          ),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16, 16, 30, 0),
+            child: Text(
+              text,
+              style: FlutterFlowTheme.title1,
+            ),
+          )
+        ]),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(16, 16, 30, 0),
+              child: InkWell(
+                onTap: _syncHealthAppData,
+                child: Icon(
+                  Icons.refresh,
+                  color: FlutterFlowTheme.secondaryColor,
+                ),
+              ),
+            )
+          ],
         ),
+        Column(
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 16, 20, 0),
+              child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HealthAppInfo()));
+                  },
+                  child: Icon(
+                    Icons.help,
+                    color: FlutterFlowTheme.secondaryColor,
+                  )),
+            )
+          ],
+        )
       ],
     );
   }
 
-  void addCard(Padding card) {
+  void addCard(ActivityCard card) {
     setState(() => cards.add(card));
   }
 
+  /// Allows a user to share activity info with others.
   share({String? body, String? subject}) async {
     final box = context.findRenderObject() as RenderBox?;
-    imagepick == null
+    image == null
         ? await Share.share(body!,
             subject: subject,
             sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size)
-        : await Share.shareFiles([imagepick!.path],
+        : await Share.shareFiles([image!.path],
             text: body,
             subject: subject,
             sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
 
+  /// Displays the '+ Image/Share' dialog.
   void _showShareWithImageDialog(Padding paddedActivityCard) async {
     final cardInfo = paddedActivityCard.key.toString().split(' ');
     ConfirmationDialog.showConfirmationDialog(
@@ -199,12 +263,12 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                   'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                   'Exercise Type: ${cardInfo[2]}\n' +
                   'Duration: ${cardInfo[3]} ${cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
-                  '\nSent from the APFP App.');
-          imagepick = null;
+                  '\nSent from the myAPFP App.');
+          image = null;
           Navigator.pop(context);
         },
         onCancelTap: () {
-          imagepick = null;
+          image = null;
           Navigator.pop(context);
         },
         cancelText: 'No',
@@ -256,13 +320,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     title: Text("+ Image/Share"),
                                     trailingIcon: Icon(Icons.image),
                                     onPressed: () async {
-                                      imagepick = null;
-                                      imagepick = await ImagePicker().pickImage(
+                                      image = null;
+                                      image = await ImagePicker().pickImage(
                                           source: ImageSource.camera);
-                                      if (imagepick == null) {
+                                      if (image == null) {
                                         return;
                                       } else {
-                                        _showShareWithImageDialog(e);
+                                        _showShareWithImageDialog(
+                                            e.paddedActivityCard(context));
                                       }
                                     }),
                                 FocusedMenuItem(
@@ -270,14 +335,14 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     trailingIcon: Icon(Icons.share),
                                     onPressed: () {
                                       List<String> cardInfo =
-                                          e.key.toString().split(' ');
+                                          e.toString().split(' ');
                                       share(
                                           subject: "New Activity Completed!",
                                           body: 'I completed a new activity!\n\n' +
                                               'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                                               'Exercise Type: ${cardInfo[2]}\n' +
                                               'Duration: ${cardInfo[3] + ' ' + cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
-                                              '\nSent from the APFP App.');
+                                              '\nSent from the myAPFP App.');
                                     }),
                                 FocusedMenuItem(
                                     title: Text("Delete",
@@ -286,8 +351,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     trailingIcon: Icon(Icons.delete,
                                         color: Colors.redAccent),
                                     onPressed: () {
-                                      final cardInfo =
-                                          e.key.toString().split(' ');
+                                      final cardInfo = e.toString().split(' ');
                                       ConfirmationDialog.showConfirmationDialog(
                                           title: Text("Remove Activity?"),
                                           context: context,
@@ -302,16 +366,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                           },
                                           onSubmitTap: () {
                                             setState(() {
-                                              _removeActivityFromCloud(e.key
-                                                  .toString()
-                                                  .substring(
-                                                      e.key
-                                                              .toString()
-                                                              .indexOf("'") +
-                                                          1,
-                                                      e.key
-                                                          .toString()
-                                                          .lastIndexOf("'")));
+                                              _removeActivityFromCloud(
+                                                  e.timestamp.toString());
                                               cards.remove(e);
                                             });
                                             Navigator.pop(context);
@@ -319,7 +375,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     })
                               ],
                               onPressed: () {},
-                              child: e))
+                              child: e.paddedActivityCard(context)))
                           .toList())
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,

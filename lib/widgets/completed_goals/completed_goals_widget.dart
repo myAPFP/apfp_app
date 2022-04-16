@@ -1,21 +1,29 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
+import '/firebase/firestore.dart';
+
+import '/flutter_flow/flutter_flow_theme.dart';
+
+import '../confimation_dialog/confirmation_dialog.dart';
+
+import 'package:flutter/material.dart';
+import 'package:focused_menu/modals.dart';
+import 'package:focused_menu/focused_menu.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:focused_menu/focused_menu.dart';
-import 'package:focused_menu/modals.dart';
-import '../../firebase/firestore.dart';
-import '../confimation_dialog/confirmation_dialog.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/material.dart';
 
 class CompletedGoalsWidget extends StatefulWidget {
-  final String? mode;
-  CompletedGoalsWidget({Key? key, this.mode}) : super(key: key);
 
+  CompletedGoalsWidget({Key? key,}) : super(key: key);
+
+  /// Takes user to Completed Goals screen.
+  ///
+  /// By default, completed daily goals are displayed.
   static void launch(BuildContext context, {String mode = "Daily"}) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CompletedGoalsWidget(mode: mode),
+        builder: (context) => CompletedGoalsWidget(),
       ),
     );
   }
@@ -25,31 +33,26 @@ class CompletedGoalsWidget extends StatefulWidget {
 }
 
 class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// The user's daily goal-log collection stream.
   Stream<QuerySnapshot> dailyGoalsLogStream =
       FireStore.getGoalLogCollection(goalType: "daily")
           .orderBy("Date", descending: true)
           .snapshots();
 
-  Stream<QuerySnapshot> weeklyGoalsLogStream =
-      FireStore.getGoalLogCollection(goalType: "weekly")
-          .orderBy("Date", descending: true)
-          .snapshots();
 
-  String _mode = "";
+  /// Dictates what type of completed goals are being displayed.
+  String _mode = "Daily";
+
+  /// A list of daily [_goalCard] widgets.
   List<Widget> _dailyGoals = [];
-  List<Widget> _weeklyGoals = [];
 
   @override
   void initState() {
     super.initState();
-    if (widget.mode == "Daily" || widget.mode == null) {
-      _mode = "Daily";
-    } else {
-      _mode = "Weekly";
-    }
     _getPreviousDailyGoals();
-    _getPreviousWeeklyGoals();
   }
 
   @override
@@ -57,6 +60,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     super.dispose();
   }
 
+  /// Header text. Indicates current type of goal the user is displaying.
   Padding _paddedHeaderText() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 15),
@@ -74,7 +78,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     );
   }
 
-  Column _noGoalsText() {
+  /// This is displayed if a user has not completed any goals.
+  Column _noGoalsCompletedText() {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -82,6 +87,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     );
   }
 
+  /// When pressed, the user is taken back to Settings.
   Padding _goBackButton() {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 20),
@@ -90,6 +96,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
             child: Text('< Go Back', style: FlutterFlowTheme.subtitle2)));
   }
 
+  /// Creates a [Card] with [Padding] applied that displays
+  /// information relevant to a goal.
   Padding _goalCard(
       {required Color color,
       required String goalName,
@@ -147,6 +155,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
             )));
   }
 
+  /// Used to created a [_goalCard] title.
   Row _titleRow(String goalName) {
     return Row(children: [
       Container(
@@ -162,6 +171,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     ]);
   }
 
+  /// Used to created a [_goalCard] attribute.
   Row _goalAttributeRow(String label, String value) {
     return Row(children: [
       Container(
@@ -178,18 +188,14 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     ]);
   }
 
+  /// Adds a [_goalCard] to the [_dailyGoals] list.
   void _addDailyGoal(Padding goalCard) {
     setState(() {
       _dailyGoals.add(goalCard);
     });
   }
 
-  void _addWeeklyGoal(Padding goalCard) {
-    setState(() {
-      _weeklyGoals.add(goalCard);
-    });
-  }
-
+  /// Pre-loads previously completed daily goals stored in Firestore.
   void _getPreviousDailyGoals() {
     dailyGoalsLogStream.forEach(((snapshot) {
       _dailyGoals.clear();
@@ -205,22 +211,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     }));
   }
 
-  void _getPreviousWeeklyGoals() {
-    weeklyGoalsLogStream.forEach(((snapshot) {
-      _weeklyGoals.clear();
-      snapshot.docs.forEach((document) {
-        var dayNum = document.get("Date").toString().split('/')[1];
-        _addWeeklyGoal(_goalCard(
-            color: FlutterFlowTheme.dayToColor(dayNum),
-            goalType: document.get("Type").toString(),
-            goalName: document.get("Completed Goal").toString(),
-            goalInfo: document.get("Info").toString(),
-            dateOfCompletion: document.get("Date").toString()));
-      });
-    }));
-  }
-
-  FocusedMenuHolder focusedMenu(List<Widget> goals, Widget e) {
+  /// Adds a focused menu to a [_goalCard].
+  ///
+  /// When a [_goalCard] is pressed, a user will have an option to delete the card.
+  FocusedMenuHolder focusedMenu(Widget goalCard) {
     return FocusedMenuHolder(
         menuWidth: MediaQuery.of(context).size.width * 0.50,
         blurSize: 5.0,
@@ -269,68 +263,37 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
               })
         ],
         onPressed: () {},
-        child: e);
+        child: goalCard);
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pop(context);
-        return false;
-      },
-      child: Scaffold(
-          key: scaffoldKey,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: FlutterFlowTheme.secondaryColor,
-            child: _mode == "Daily"
-                ? Text("W", style: TextStyle(fontSize: 25))
-                : Text("D", style: TextStyle(fontSize: 25)),
-            onPressed: () async {
-              switch (_mode) {
-                case "Daily":
-                  setState(() => _mode = "Weekly");
-                  break;
-                case "Weekly":
-                  setState(() => _mode = "Daily");
-                  break;
-              }
-            },
-          ),
-          backgroundColor: Colors.white,
-          body: SafeArea(
-              child: SingleChildScrollView(
-            child: Column(mainAxisSize: MainAxisSize.max, children: [
-              Column(
+    return Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _goBackButton(),
+                  ],
+                ),
+                _paddedHeaderText(),
+              ],
+            ),
+            SizedBox(height: 15),
+            Column(
                 mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      _goBackButton(),
-                    ],
-                  ),
-                  _paddedHeaderText(),
-                ],
-              ),
-              SizedBox(height: 15),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: _mode == "Daily"
-                    ? _dailyGoals.isEmpty
-                        ? [_noGoalsText()]
-                        : _dailyGoals
-                            .map((e) => focusedMenu(_dailyGoals, e))
-                            .toList()
-                    : _weeklyGoals.isEmpty
-                        ? [_noGoalsText()]
-                        : _weeklyGoals
-                            .map((e) => focusedMenu(_weeklyGoals, e))
-                            .toList(),
-              ),
-              SizedBox(height: 10)
-            ]),
-          ))),
-    );
+                children: _dailyGoals.isEmpty
+                    ? [_noGoalsCompletedText()]
+                    : _dailyGoals.map((e) => focusedMenu(e)).toList()),
+            SizedBox(height: 10)
+          ]),
+        )));
   }
 }

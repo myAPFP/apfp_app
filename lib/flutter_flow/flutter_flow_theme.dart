@@ -51,7 +51,7 @@ class FlutterFlowTheme {
         fontFamily: 'Open Sans',
         color: primaryColor,
         fontWeight: FontWeight.normal,
-        fontSize: 20,
+        fontSize: 18,
       );
   static TextStyle get bodyText2 => TextStyle().copyWith(
         fontFamily: 'Open Sans',

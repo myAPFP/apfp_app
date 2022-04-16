@@ -29,24 +29,6 @@ void main() {
       expect(Validator.isValidName("wilkin;"), false);
     });
 
-    // Phone ------------------------------------------------------
-
-    test('Provided phone number should be a valid phone number.',() {
-      expect(Validator.isValidPhone("6542125359"), false);
-    });
-
-    test('Provided phone number should be a valid phone number.',() {
-      expect(Validator.isValidPhone("(334) 565-3222"), false);
-    });
-
-    test('Provided phone number should be a valid phone number.',() {
-      expect(Validator.isValidPhone("897-123-2432"), true);
-    });
-
-    test('Provided phone number should be a valid phone number.',() {
-      expect(Validator.isValidPhone("433-643-7643"), true);
-    });
-
     // Email ------------------------------------------------------
 
     test('Provided email address should be a valid email address.',() {

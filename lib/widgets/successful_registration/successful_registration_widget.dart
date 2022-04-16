@@ -1,7 +1,11 @@
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import '../welcome/welcome_widget.dart';
+
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+
 import 'package:flutter/material.dart';
 
 class SuccessfulRegistrationWidget extends StatefulWidget {
@@ -14,9 +18,14 @@ class SuccessfulRegistrationWidget extends StatefulWidget {
 
 class _SuccessfulRegistrationWidgetState
     extends State<SuccessfulRegistrationWidget> {
+  /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
+
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  /// Returns the header text which is displayed at the top of the
+  /// Successful Registration screen.
   Text _headerText() {
     return Text(
       'Thank you for registering! Please verify your email address before logging in.\n\n' +
@@ -26,25 +35,22 @@ class _SuccessfulRegistrationWidgetState
     );
   }
 
-  void _goToWelcome() async {
-    await Navigator.push(
-      context,
-      PageTransition(
-        type: PageTransitionType.leftToRight,
-        duration: Duration(milliseconds: 125),
-        reverseDuration: Duration(milliseconds: 125),
-        child: WelcomeWidget(),
-      ),
-    );
-  }
-
-  FFButtonWidget _backToHomeButton() {
+  /// When pressed, returns the user back to the Welcome screen.
+  FFButtonWidget _returnToWelcomeButton() {
     return FFButtonWidget(
       key: Key("Successful.backToHomeButton"),
       onPressed: () async {
         setState(() => _loadingButton = true);
         try {
-          _goToWelcome();
+          await Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.leftToRight,
+              duration: Duration(milliseconds: 125),
+              reverseDuration: Duration(milliseconds: 125),
+              child: WelcomeWidget(),
+            ),
+          );
         } finally {
           setState(() => _loadingButton = false);
         }
@@ -69,29 +75,23 @@ class _SuccessfulRegistrationWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        _goToWelcome();
-        return false;
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Align(
-                alignment: AlignmentDirectional(0, 0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
-                  child: _headerText(),
-                ),
+    return Scaffold(
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Align(
+              alignment: AlignmentDirectional(0, 0),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 100, 20, 50),
+                child: _headerText(),
               ),
-              _backToHomeButton()
-            ],
-          ),
+            ),
+            _returnToWelcomeButton()
+          ],
         ),
       ),
     );

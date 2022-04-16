@@ -1,16 +1,23 @@
-import 'package:apfp/firebase/fire_auth.dart';
-import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:apfp/widgets/email_not_confirmed/email_not_confirmed_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
+import '/main.dart';
+import '../welcome/welcome_widget.dart';
+
+import '/firebase/fire_auth.dart';
+
+import '/util/toasted/toasted.dart';
+import '/util/validator/validator.dart';
+import '/util/internet_connection/internet.dart';
+
+import '/widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/email_not_confirmed/email_not_confirmed_widget.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/main.dart';
-import '../welcome/welcome_widget.dart';
+
 import 'package:flutter/material.dart';
-import 'package:apfp/util/validator/validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LogInPageWidget extends StatefulWidget {
   LogInPageWidget({Key? key}) : super(key: key);
@@ -35,7 +42,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   /// Serves as key for the [Form] found in [build].
@@ -86,10 +93,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  Text _backToHomeText() {
-    return Text('< Back', style: FlutterFlowTheme.subtitle2);
-  }
-  
   /// Returns a [Padding] widget who's child is a [InkWell].
   ///
   /// [InkWell]'s [onTap] parameter is used to go back to [WelcomeWidget].
@@ -103,15 +106,13 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
           onTap: () async {
             WelcomeWidget.returnToWelcome(context);
           },
-          child: _backToHomeText(),
+          child: Text('< Back', style: FlutterFlowTheme.subtitle2),
         ),
       )
     ]);
   }
 
   /// Returns a [TextFormField] which is used for email address input.
-  ///
-  /// This [Widget] uses [_emailController] as its [TextEditingController].
   Row _emailTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -168,8 +169,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   }
 
   /// Returns a [TextFormField] which is used for password input.
-  ///
-  /// This [Widget] uses [_passwordController] as its [TextEditingController].
   Row _passwordTextFormField() {
     return Row(
       key: Key('LogIn.passwordTextBox'),
@@ -236,8 +235,6 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     );
   }
 
-  /// Returns a [Row] whose only child is a [Text] widget wrapped in a [Padding].
-  ///
   /// The string passed to this method will be displayed as a label.
   Row _label(String text) {
     return Row(
@@ -370,7 +367,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
         submitText: "Send");
   }
 
-  // Returns a [Padding] which creates the 'Forgot Your Password?' label which appears on screen.
+  /// Returns a [Padding] which creates the 'Forgot Your Password?' label which appears on screen.
   /// When pressed, [_showEmailDialog] is called, showing a dialog which prompts
   /// a user to enter their email address to receive instructions on how to reset
   /// their password.
@@ -410,36 +407,34 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: WillPopScope(
-        onWillPop: () async {
-          WelcomeWidget.returnToWelcome(context);
-          return false;
-        },
-        child: Scaffold(
-          key: scaffoldKey,
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    _backButton(),
-                    _label("Email Address"),
-                    _emailTextFormField(),
-                    _label("Password"),
-                    _passwordTextFormField(),
-                    _logInButton(),
-                    _forgotPasswordLabel()
-                  ],
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: WillPopScope(
+            onWillPop: () async {
+              WelcomeWidget.returnToWelcome(context);
+              return false;
+            },
+            child: Scaffold(
+              key: scaffoldKey,
+              backgroundColor: Colors.white,
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        _backButton(),
+                        _label("Email Address"),
+                        _emailTextFormField(),
+                        _label("Password"),
+                        _passwordTextFormField(),
+                        _logInButton(),
+                        _forgotPasswordLabel()
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
-    );
+            )));
   }
 }

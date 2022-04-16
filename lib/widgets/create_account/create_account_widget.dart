@@ -1,17 +1,26 @@
-import 'package:apfp/firebase/firestore.dart';
-import 'package:apfp/util/internet_connection/internet.dart';
-import 'package:apfp/util/toasted/toasted.dart';
-import 'package:apfp/util/validator/validator.dart';
-import 'package:apfp/widgets/confimation_dialog/confirmation_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:apfp/flutter_flow/flutter_flow_widgets.dart';
-import '../../flutter_flow/flutter_flow_util.dart';
-import '../successful_registration/successful_registration_widget.dart';
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
+import '/firebase/firestore.dart';
+import '/firebase/fire_auth.dart';
+
+import '/util/toasted/toasted.dart';
+import '/util/validator/validator.dart';
+
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+
+import '/util/internet_connection/internet.dart';
+
+import '/widgets/confimation_dialog/confirmation_dialog.dart';
+
 import '../welcome/welcome_widget.dart';
+
+import '../successful_registration/successful_registration_widget.dart';
+
 import 'package:flutter/material.dart';
-import 'package:apfp/firebase/fire_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   CreateAccountWidget({Key? key}) : super(key: key);
@@ -91,12 +100,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   /// Returns trimmed text taken from [_firstNameController]
   /// and [_lastNameController] and returns a string including
   /// the first and last name.
-  /// 
+  ///
   /// Ex: John Doe
   String _getFullName() {
     final first = _firstNameController!.text.trim();
     final last = _lastNameController!.text.trim();
-    return "${first} ${last}";
+    return "$first $last";
   }
 
   /// Returns trimmed text taken from [_passwordController].
@@ -104,11 +113,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     return _passwordController!.text.trim();
   }
 
-
-  /// Returns a [Row] in which an inner [InkWell], wrapped in a [Padding] and [Container],
-  /// serves as the back button.
-  /// 
-  /// When [InkWell]'s [onTap] is called, a call to [_returnToWelcome] is made.
+  /// Returns a [Row] which wraps the back button.
+  ///
+  /// When pressed, the user is taken back to the Welcome screen.
   Row _backButtonRow() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -137,6 +144,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns the header text which is displayed at the top of the
+  /// create account screen.
   Padding _headerText() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
@@ -159,7 +168,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       TextSpan(
                         text: '\nAPFP Membership is required to sign up.',
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: FlutterFlowTheme.secondaryColor),
                       )
@@ -171,6 +180,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Row] which contains the 'First Name' label displayed
+  /// above [_firstNameTextFormField].
   Row _firstNameLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -190,6 +201,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Padding] which contains the TextFormField used for
+  /// handling first name input.
   Padding _firstNameTextFormField() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
@@ -212,7 +225,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               return "Please capitalize your name";
             }
             if (Validator.hasProfanity(value)) {
-              // We want to allow the use of this word 
+              // We want to allow the use of this word
               // here as it is a valid name
               if (value.trim() != 'Dick') {
                 return 'Profanity is not allowed';
@@ -253,6 +266,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Row] which contains the 'Last Name' label displayed
+  /// above [_lastNameTextFormField].
   Row _lastNameLabel() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -272,6 +287,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Padding] which contains the TextFormField used for
+  /// handling last name input.
   Container _lastNameTextFormField() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
@@ -291,7 +308,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             return "Please capitalize your name";
           }
           if (Validator.hasProfanity(value)) {
-            // We want to allow the use of this word 
+            // We want to allow the use of this word
             // here as it is a valid name
             if (value.trim() != 'Dick') {
               return 'Profanity is not allowed';
@@ -331,6 +348,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [AutofillGroup] which wraps a [Row].
+  ///
+  /// This [Row] contains
+  /// [_firstNameLabel], [_firstNameTextFormField], [_lastNameLabel], and
+  /// [_lastNameTextFormField].
   AutofillGroup _nameRow() {
     return AutofillGroup(
       child: Row(
@@ -355,6 +377,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a padded [Row] which contains the 'Email' label displayed
+  /// above [_emailTextFormField].
   Padding _emailLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
@@ -381,6 +405,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Row] which contains the TextFormField used for
+  /// handling email address input.
   Row _emailTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -437,6 +463,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a padded [Row] which contains the 'Password' label displayed
+  /// above [_passwordTextFormField].
   Padding _passwordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
@@ -462,6 +490,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Row] which contains the TextFormField used for
+  /// handling password input.
   Row _passwordTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -541,6 +571,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a padded [Row] which contains the 'Confirm Password' label
+  /// displayed above [_confirmPasswordTextFormField].
   Padding _confirmPasswordLabel() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
@@ -565,6 +597,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Row] which contains the TextFormField used for
+  /// handling confirmation password input.
   Row _confirmPasswordTextFormField() {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -646,6 +680,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// Returns a [Row] that contains icons that are used to toggle password
+  /// visibility and view more info about password requirements.
   Row passwordIconRow(Function visibilityOnTap) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -672,6 +708,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     );
   }
 
+  /// When called, an [AlertDialog] is displayed with text specifying
+  /// password requirements.
   void showPwRequirements() {
     ConfirmationDialog.showConfirmationDialog(
         context: context,
@@ -689,6 +727,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         onSubmitTap: () => Navigator.pop(context, 'OK'));
   }
 
+  /// Used to verify a user's APFP membership status.
+  ///
+  /// If the email
+  /// they're attempting to sign up with is not found in the 'registered users'
+  /// collection,
+  ///
+  /// account creation will be prohibited.
   void _verifyAPFPCredentials() async {
     if (await Internet.isConnected()) {
       if (_formKey.currentState!.validate()) {
@@ -710,6 +755,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       showSnackbar(context, "Please check your Internet connection");
   }
 
+  /// Used to create a user's account based on their provided credentials.
+  ///
+  /// The user's UID is also uploaded to Firestore when the account is created.
   void _createAccount() async {
     User? user = await FireAuth.registerUsingEmailPassword(
         name: _getFullName(), email: _getEmail(), password: _getPassword());
@@ -721,12 +769,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       if (user.emailVerified) {
         Toasted.showToast("Account has been verified. Please sign in.");
       } else {
-        _onSuccess();
+        _onSuccessfulAccountCreation();
       }
     }
   }
 
-  void _onSuccess() async {
+  /// Called when a user successfully creates their account.
+  ///
+  /// This will take the user to the Successful Registration screen
+  /// that provides details on how to verify their email address.
+  void _onSuccessfulAccountCreation() async {
     setState(() => _loadingButton = true);
     try {
       await Navigator.push(
@@ -740,6 +792,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     }
   }
 
+  /// Used to create the 'Create Account' button displayed towards the bottom
+  /// of the form.
   Padding _createAccountButton() {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),

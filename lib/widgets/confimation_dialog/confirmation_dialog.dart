@@ -1,9 +1,21 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
 
 import 'package:flutter/material.dart';
 import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/services.dart';
 
 class ConfirmationDialog {
+  /// Shows confirmation dialog to user.
+  ///
+  /// Best used to prevent a user from accidentally performing
+  /// a significant action such as account deletion.
+  ///
+  /// [onSubmitTap] is executed when a user confirms their action.
+  ///
+  /// [onCancelTap] is executed when a user cancels their action.
+  ///
+  /// [submitText] is displayed as a button to confirm action. Ex: 'OK'
+  ///
+  /// [cancelText] is displayed as a button to cancel action. Ex: 'BACK'
   static void showConfirmationDialog({
     required BuildContext context,
     required Widget title,
@@ -35,6 +47,7 @@ class ConfirmationDialog {
     );
   }
 
+  /// Returns a [TextField] to be used within a dialog box.
   static TextField dialogTextField(
       {bool enabled = true,
       TextInputType kbType = TextInputType.text,
@@ -68,21 +81,5 @@ class ConfirmationDialog {
                   topLeft: Radius.circular(4.0),
                   topRight: Radius.circular(4.0),
                 ))));
-  }
-
-  static void showExitAppDialog(BuildContext context) {
-    ConfirmationDialog.showConfirmationDialog(
-        context: context,
-        title: Text("Exit the app?"),
-        content:
-            Text("The app will now close.", style: TextStyle(fontSize: 20)),
-        onSubmitTap: () {
-          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-        },
-        onCancelTap: () {
-          Navigator.pop(context);
-        },
-        cancelText: "Back",
-        submitText: "Exit");
   }
 }

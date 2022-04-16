@@ -1,15 +1,28 @@
-import 'package:apfp/flutter_flow/flutter_flow_theme.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
+import '/flutter_flow/flutter_flow_theme.dart';
+
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ActivityCard {
+  /// Activity name.
   String? name;
+
+  /// Activity exercise type.
   String? type;
+
+  /// Activity card's icon.
   IconData? icon;
+
+  /// Activity duration.
   String? duration;
+
+  /// Activity timestamp.
   String? timestamp;
 
+  /// Activity card.
   Card? _card;
 
   ActivityCard(
@@ -26,6 +39,7 @@ class ActivityCard {
     _createActivityCard();
   }
 
+  /// Creates an activity card.
   void _createActivityCard() {
     _card = Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -53,7 +67,7 @@ class ActivityCard {
                                 .size
                                 .width *
                             0.6),
-                    child: Text(
+                    child: AutoSizeText(
                       '$name',
                       style: FlutterFlowTheme.title1,
                       overflow: TextOverflow.fade,
@@ -88,15 +102,19 @@ class ActivityCard {
                 ],
               ),
               SizedBox(width: 5),
-              AutoSizeText.rich(TextSpan(
-                  text: 'Logged at ',
-                  style: FlutterFlowTheme.bodyText1,
-                  children: [
-                    TextSpan(
-                      text: DateFormat.jm().format(DateTime.parse(timestamp!)),
-                      style: FlutterFlowTheme.title3Red,
-                    )
-                  ]))
+              timestamp == "3000-12-${DateTime.now().day}T00:00:00.000"
+                  ? AutoSizeText("Logged Today",
+                      style: FlutterFlowTheme.bodyText1)
+                  : AutoSizeText.rich(TextSpan(
+                      text: 'Logged at ',
+                      style: FlutterFlowTheme.bodyText1,
+                      children: [
+                          TextSpan(
+                            text: DateFormat.jm()
+                                .format(DateTime.parse(timestamp!)),
+                            style: FlutterFlowTheme.title3Red,
+                          )
+                        ]))
             ],
           ),
         ],
@@ -104,9 +122,9 @@ class ActivityCard {
     );
   }
 
+  /// Adds padding to an activity card.
   Padding paddedActivityCard(BuildContext context) {
     return Padding(
-      key: Key('$timestamp $name $type $duration'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,
@@ -119,5 +137,10 @@ class ActivityCard {
         ),
       ),
     );
+  }
+
+  @override
+  String toString() {
+    return '$timestamp $name $type $duration';
   }
 }

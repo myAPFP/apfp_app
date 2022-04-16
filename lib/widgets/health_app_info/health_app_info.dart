@@ -1,3 +1,5 @@
+// Copyright 2022 The myAPFP Authors. All rights reserved.
+
 import 'dart:io';
 import '/main.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,11 @@ class HealthAppInfo extends StatefulWidget {
 }
 
 class _HealthAppInfoState extends State<HealthAppInfo> {
+  /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// If the app is being ran on Android, this is set to 'Google Fit'.
+  /// Otherwise, this is set to 'Google Fit and Apple Health'.
   final _healthAppName =
       Platform.isAndroid ? "Google Fit" : "Google Fit and Apple Health";
 
