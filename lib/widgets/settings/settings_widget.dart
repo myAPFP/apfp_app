@@ -1,10 +1,6 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
-
-import 'dart:io';
-
+ 
 import '/firebase/fire_auth.dart';
-
-import '../health_app_info/health_app_info.dart';
 
 import '../completed_goals/completed_goals_widget.dart';
 
@@ -23,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class SettingsWidget extends StatefulWidget {
   const SettingsWidget({Key? key}) : super(key: key);
@@ -47,10 +42,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
   /// Stores the current [User] if they are currently signed-in, or null if not.
   final currentUser = FirebaseAuth.instance.currentUser;
-
-  /// If the app is being ran on Android, this is set to 'Google Fit'.
-  /// Otherwise, this is set to 'Health App'.
-  String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
 
   @override
   void initState() {
