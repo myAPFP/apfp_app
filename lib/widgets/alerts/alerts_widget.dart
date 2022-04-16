@@ -103,7 +103,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                 FirebaseAuth.instance.currentUser!.displayName!
                     .replaceAll(" ", ""))) {
           addToPrevious(_paddedAlert(
-              _makeAlert(element['title'], element['description'])));
+              _makeAlertCard(element['title'], element['description'])));
         }
       });
     });

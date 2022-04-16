@@ -23,6 +23,7 @@ import '../home_page_graphic/hp_graphic.dart';
 
 import 'package:health/health.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -672,12 +673,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        ConfirmationDialog.showExitAppDialog(context);
-        return false;
-      },
-      child: Scaffold(
+    return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -724,17 +720,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                       return Text("No announcements available.");
 
                     }
-                    if (snapshot.data!.docs.length > 1) {
-                      alertTexts[1] = snapshot.data?.docs[1]['title'];
-                    }
-                    if (snapshot.data!.docs.length > 2) {
-                      alertTexts[2] = snapshot.data?.docs[2]['title'];
-                    }
-                    return _announcements(
-                        alertTexts[0], alertTexts[1], alertTexts[2]);
-                  } else {
-                    return Text("No announcements available.");
-                  }
                 }),
             _goalTypeLabel(),
             _goalsTabbedContainer(),
