@@ -499,7 +499,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isMileGoalSet ? Goal.userProgressMileGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressMileGoal.toStringAsFixed(0))}\n${Goal.userMileEndGoal.toStringAsFixed(0)}",
+            "${Goal.isMileGoalSet ? Goal.userProgressMileGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressMileGoal.toStringAsFixed(0))}\n${Goal.userMileEndGoal.toStringAsFixed(2)}",
         goalProgressInfo: Goal.isMileGoalSet
             ? "Your goal is " +
                 "${((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100).toStringAsFixed(0)}" +
@@ -573,7 +573,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Adds a delimiter to separate a user's goal progress and their end goal.
   static String progressDelimiter(String progressStr) {
     String delimiter = "";
-    for (int i = 0; i < progressStr.length + 1; i++) {
+    for (int i = 0; i < progressStr.length + 2; i++) {
       delimiter += "-";
     }
     return delimiter;

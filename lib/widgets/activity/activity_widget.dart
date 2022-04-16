@@ -169,8 +169,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     var activityCard = ActivityCard(
       icon: Icons.emoji_events_rounded,
       duration: duration,
-      name: "Imported Workout",
-      type: "Exercise Minutes",
+      name: "Imported-Workout",
+      type: "Exercise-Minutes",
       timestamp: importedActivityID,
     );
     _addActivityToCloud(activityCard);
@@ -262,7 +262,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
               body: 'I completed a new activity! \n\n' +
                   'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                   'Exercise Type: ${cardInfo[2]}\n' +
-                  'Duration: ${cardInfo[3]} ${cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
+                  'Duration: ${cardInfo[3]} ${cardInfo[4]}\n' +
                   '\nSent from the myAPFP App.');
           image = null;
           Navigator.pop(context);
@@ -335,12 +335,13 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     onPressed: () {
                                       List<String> cardInfo =
                                           e.toString().split(' ');
+                                      print(cardInfo);
                                       share(
                                           subject: "New Activity Completed!",
                                           body: 'I completed a new activity!\n\n' +
                                               'Activity: ${cardInfo[1].replaceAll(RegExp('-'), ' ')}\n' +
                                               'Exercise Type: ${cardInfo[2]}\n' +
-                                              'Duration: ${cardInfo[3] + ' ' + cardInfo[4].substring(0, cardInfo[4].indexOf("'"))}\n' +
+                                              'Duration: ${cardInfo[3] + ' ' + cardInfo[4]}\n' +
                                               '\nSent from the myAPFP App.');
                                     }),
                                 FocusedMenuItem(
