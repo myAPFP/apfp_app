@@ -247,7 +247,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         ]);
         var mileSet = mileData.toSet();
         miles = double.parse(
-            (HealthUtil.getHealthSums(mileSet) / 1609.344).toStringAsFixed(2));
+            (HealthUtil.getHealthSums(mileSet) / 1609.344).toStringAsFixed(0));
         steps = (await health.getTotalStepsInInterval(midnight, now))!;
       } catch (error) {
         print("Home._fetchHealthData() error: $error");
@@ -417,10 +417,10 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isExerciseTimeGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressExerciseTime.toStringAsFixed(2))}\n${Goal.userExerciseTimeEndGoal.toStringAsFixed(2)}",
+            "${Goal.isExerciseTimeGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(0) : 0.toStringAsFixed(0)}\n${progressDelimiter(Goal.userProgressExerciseTime.toStringAsFixed(0))}\n${Goal.userExerciseTimeEndGoal.toStringAsFixed(0)}",
         goalProgressInfo: Goal.isExerciseTimeGoalSet
             ? "Your goal is " +
-                "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
+                "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100).toStringAsFixed(0)}" +
                 "% complete."
             : "Goal not active.",
         percent:
@@ -445,10 +445,10 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isCalGoalSet ? Goal.userProgressCalGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressCalGoal.toStringAsFixed(2))}\n${Goal.userCalEndGoal.toStringAsFixed(2)}",
+            "${Goal.isCalGoalSet ? Goal.userProgressCalGoal.toStringAsFixed(0) : 0.toStringAsFixed(0)}\n${progressDelimiter(Goal.userProgressCalGoal.toStringAsFixed(0))}\n${Goal.userCalEndGoal.toStringAsFixed(0)}",
         goalProgressInfo: Goal.isCalGoalSet
             ? "Your goal is " +
-                "${((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100).toStringAsFixed(2)}" +
+                "${((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100).toStringAsFixed(0)}" +
                 "% complete."
             : "Goal not active.",
         percent: (Goal.userProgressCalGoal / Goal.userCalEndGoal) > 1.0
@@ -472,10 +472,10 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isStepGoalSet ? Goal.userProgressStepGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressStepGoal.toStringAsFixed(2))}\n${Goal.userStepEndGoal.toStringAsFixed(2)}",
+            "${Goal.isStepGoalSet ? Goal.userProgressStepGoal.toStringAsFixed(0) : 0.toStringAsFixed(0)}\n${progressDelimiter(Goal.userProgressStepGoal.toStringAsFixed(0))}\n${Goal.userStepEndGoal.toStringAsFixed(0)}",
         goalProgressInfo: Goal.isStepGoalSet
             ? "Your goal is " +
-                "${((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100).toStringAsFixed(2)}" +
+                "${((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100).toStringAsFixed(0)}" +
                 "% complete."
             : "Goal not active.",
         percent: (Goal.userProgressStepGoal / Goal.userStepEndGoal) > 1.0
@@ -499,10 +499,10 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isMileGoalSet ? Goal.userProgressMileGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressMileGoal.toStringAsFixed(2))}\n${Goal.userMileEndGoal.toStringAsFixed(2)}",
+            "${Goal.isMileGoalSet ? Goal.userProgressMileGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressMileGoal.toStringAsFixed(0))}\n${Goal.userMileEndGoal.toStringAsFixed(0)}",
         goalProgressInfo: Goal.isMileGoalSet
             ? "Your goal is " +
-                "${((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100).toStringAsFixed(2)}" +
+                "${((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100).toStringAsFixed(0)}" +
                 "% complete."
             : "Goal not active.",
         percent: (Goal.userProgressMileGoal / Goal.userMileEndGoal) > 1.0
@@ -516,19 +516,19 @@ class _HomeWidgetState extends State<HomeWidget> {
         key: Key("Home.otherGoalsView"),
         context: context,
         goal1ProgressInfo: Goal.isCyclingGoalSet
-            ? "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(2)} / ${Goal.userCyclingEndGoal.toStringAsFixed(2)} min"
+            ? "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(0)} / ${Goal.userCyclingEndGoal.toStringAsFixed(0)} min"
             : "Cycling Goal Not Active",
         goal2ProgressInfo: Goal.isRowingGoalSet
-            ? "Rowing - ${Goal.userProgressRowingGoal.toStringAsFixed(2)} / ${Goal.userRowingEndGoal.toStringAsFixed(2)} min"
+            ? "Rowing - ${Goal.userProgressRowingGoal.toStringAsFixed(0)} / ${Goal.userRowingEndGoal.toStringAsFixed(0)} min"
             : "Rowing Goal Not Active",
         goal3ProgressInfo: Goal.isStepMillGoalSet
-            ? "Step Mill - ${Goal.userProgressStepMillGoal.toStringAsFixed(2)} / ${Goal.userStepMillEndGoal.toStringAsFixed(2)} min"
+            ? "Step Mill - ${Goal.userProgressStepMillGoal.toStringAsFixed(0)} / ${Goal.userStepMillEndGoal.toStringAsFixed(0)} min"
             : "Step Mill Goal Not Active",
         goal4ProgressInfo: Goal.isEllipticalGoalSet
-            ? "Elliptical - ${Goal.userProgressEllipticalGoal.toStringAsFixed(2)} / ${Goal.userEllipticalEndGoal.toStringAsFixed(2)} min"
+            ? "Elliptical - ${Goal.userProgressEllipticalGoal.toStringAsFixed(0)} / ${Goal.userEllipticalEndGoal.toStringAsFixed(0)} min"
             : "Elliptical Goal Not Active",
         goal5ProgressInfo: Goal.isResistanceStrengthGoalSet
-            ? "Resistance - ${Goal.userProgressResistanceStrengthGoal.toStringAsFixed(2)} / ${Goal.userResistanceStrengthEndGoal.toStringAsFixed(2)} min"
+            ? "Resistance - ${Goal.userProgressResistanceStrengthGoal.toStringAsFixed(0)} / ${Goal.userResistanceStrengthEndGoal.toStringAsFixed(0)} min"
             : "Resistance Goal Not Active",
         percent1: Goal.isCyclingGoalSet
             ? (Goal.userProgressCyclingGoal / Goal.userCyclingEndGoal) > 1.0
