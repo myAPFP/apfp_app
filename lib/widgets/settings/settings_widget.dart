@@ -1,15 +1,16 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
- 
+
+import '/firebase/firestore.dart';
 import '/firebase/fire_auth.dart';
 
+import '../welcome/welcome_widget.dart';
+import '../set_goals/set_goals_widget.dart';
 import '../completed_goals/completed_goals_widget.dart';
 
 import '/util/toasted/toasted.dart';
 import '/util/validator/validator.dart';
 import '/util/internet_connection/internet.dart';
 
-import '/widgets/welcome/welcome_widget.dart';
-import '../set_goals/set_goals_widget.dart';
 import '/widgets/confimation_dialog/confirmation_dialog.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -18,6 +19,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SettingsWidget extends StatefulWidget {
@@ -56,6 +58,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     _emailController!.dispose();
     _passwordController!.dispose();
   }
+
+  /// The user's daily goal-log collection stream.
+  Stream<QuerySnapshot> dailyGoalsLogStream =
+      FireStore.getGoalLogCollection(goalType: "daily")
+          .orderBy("Date", descending: true)
+          .snapshots();
 
   /// Returns trimmed text from [_passwordController].
   String _getPassword() {
@@ -218,7 +226,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     if (await Internet.isConnected()) {
       await FireAuth.signInUsingEmailPassword(
               email: currentUser!.email!, password: _getPassword())
-          .then((value) => FireAuth.deleteUserAccount());
+          .then((value) {
+        FireStore.getUserActivityDocument().delete();
+        FireStore.getGoalDocument().delete();
+        FireStore.deleteAllCompletedGoals();
+        FireAuth.deleteUserAccount();
+      });
     } else
       Toasted.showToast("Please connect to the Internet.");
   }
@@ -256,24 +269,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   ),
                 ),
                 SizedBox(height: 15),
-                // _settingsButton(
-                //     title: "Sync $_platformHealthName",
-                //     onTap: () async {
-                //       if (await Permission.activityRecognition
-                //           .request()
-                //           .isGranted) {
-                //         Toasted.showToast(
-                //             "$_platformHealthName has been synchronized!");
-                //       } else if (await Permission.activityRecognition
-                //           .request()
-                //           .isPermanentlyDenied) {
-                //         Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (context) => HealthAppInfo()),
-                //         );
-                //       }
-                //     }),
                 _settingsButton(
                     title: "Set Daily Goals",
                     onTap: () {

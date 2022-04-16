@@ -69,6 +69,18 @@ class FireStore {
         .collection(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
+  /// Deletes all user previously completed daily goals stored in Firestore.
+  static void deleteAllCompletedGoals() async {
+    final instance = FirebaseFirestore.instance;
+    final batch = instance.batch();
+    var collection = getGoalLogCollection(goalType: "daily");
+    var snapshots = await collection.get();
+    for (var doc in snapshots.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
+  }
+
   /// Creates stream that listens to the user's activity document in Firestore.
   static Stream<DocumentSnapshot<Map<String, dynamic>>>
       createUserActivityStream() {

@@ -1,5 +1,7 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
 
+import 'package:apfp/util/toasted/toasted.dart';
+
 import '/firebase/firestore.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -7,14 +9,13 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '../confimation_dialog/confirmation_dialog.dart';
 
 import 'package:flutter/material.dart';
-import 'package:focused_menu/modals.dart';
-import 'package:focused_menu/focused_menu.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CompletedGoalsWidget extends StatefulWidget {
-
-  CompletedGoalsWidget({Key? key,}) : super(key: key);
+  CompletedGoalsWidget({
+    Key? key,
+  }) : super(key: key);
 
   /// Takes user to Completed Goals screen.
   ///
@@ -41,7 +42,6 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
       FireStore.getGoalLogCollection(goalType: "daily")
           .orderBy("Date", descending: true)
           .snapshots();
-
 
   /// Dictates what type of completed goals are being displayed.
   String _mode = "Daily";
@@ -211,66 +211,38 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     }));
   }
 
-  /// Adds a focused menu to a [_goalCard].
-  ///
-  /// When a [_goalCard] is pressed, a user will have an option to delete the card.
-  FocusedMenuHolder focusedMenu(Widget goalCard) {
-    return FocusedMenuHolder(
-        menuWidth: MediaQuery.of(context).size.width * 0.50,
-        blurSize: 5.0,
-        menuItemExtent: 45,
-        menuBoxDecoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        duration: Duration(milliseconds: 100),
-        animateMenuItems: true,
-        blurBackgroundColor: Colors.black54,
-        bottomOffsetHeight: 100,
-        openWithTap: true,
-        menuItems: <FocusedMenuItem>[
-          FocusedMenuItem(
-              title: Text("Delete", style: TextStyle(color: Colors.redAccent)),
-              trailingIcon: Icon(Icons.delete, color: Colors.redAccent),
-              onPressed: () {
-                ConfirmationDialog.showConfirmationDialog(
-                    title: Text("Remove Goal?"),
-                    context: context,
-                    content: Text(
-                        "Do you want to remove your this goal from your log?" +
-                            "\n\nThis can't be undone.",
-                        style: TextStyle(fontSize: 20)),
-                    cancelText: 'Back',
-                    submitText: "Remove",
-                    onCancelTap: () {
-                      Navigator.pop(context);
-                    },
-                    onSubmitTap: () {
-                      // setState(() {
-                      //   _removeActivityFromCloud(e.key
-                      //       .toString()
-                      //       .substring(
-                      //           e.key
-                      //                   .toString()
-                      //                   .indexOf("'") +
-                      //               1,
-                      //           e.key
-                      //               .toString()
-                      //               .lastIndexOf("'")));
-                      //   goals.remove(e);
-                      // });
-                      Navigator.pop(context);
-                    });
-              })
-        ],
-        onPressed: () {},
-        child: goalCard);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.delete),
+            onPressed: () {
+              ConfirmationDialog.showConfirmationDialog(
+                  context: context,
+                  title: Text("Delete All Completed Goals"),
+                  content: Text(
+                      "This will reset your goal log. This can't be undone.",
+                      style: TextStyle(fontSize: 20)),
+                  onSubmitTap: () {
+                    if (_dailyGoals.isNotEmpty) {
+                      FireStore.deleteAllCompletedGoals();
+                      setState(() {
+                        _dailyGoals.clear();
+                      });
+                    } else {
+                      Toasted.showToast("No goals to delete.");
+                    }
+                    Navigator.pop(context);
+                  },
+                  onCancelTap: () {
+                    Navigator.pop(context);
+                  },
+                  cancelText: "Back",
+                  submitText: "Reset Log");
+            },
+            foregroundColor: Colors.white,
+            backgroundColor: FlutterFlowTheme.secondaryColor),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Column(mainAxisSize: MainAxisSize.max, children: [
@@ -291,7 +263,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: _dailyGoals.isEmpty
                     ? [_noGoalsCompletedText()]
-                    : _dailyGoals.map((e) => focusedMenu(e)).toList()),
+                    : _dailyGoals),
             SizedBox(height: 10)
           ]),
         )));
