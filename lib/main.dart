@@ -141,6 +141,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   void _initFirebaseMessaging() {
     messaging = FirebaseMessaging.instance;
     messaging.subscribeToTopic("alerts");
+    messaging.subscribeToTopic(
+        FirebaseAuth.instance.currentUser!.displayName!.replaceAll(" ", ""));
   }
 
   /// Listens for local notification clicks.

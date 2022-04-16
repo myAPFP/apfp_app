@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:apfp/util/health/healthUtil.dart';
 import 'package:intl/intl.dart';
 
 import '../health_app_info/health_app_info.dart';
@@ -12,6 +11,7 @@ import '/firebase/firestore.dart';
 import '/util/goals/goal.dart';
 import '/util/toasted/toasted.dart';
 import '/util/goals/other_goal.dart';
+import '/util/health/healthUtil.dart';
 import '/util/goals/exercise_time_goal.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -672,25 +672,57 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _recentAnnouncementsLabel(),
-            StreamBuilder(
-                stream: widget.announcementsStream,
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.hasData) {
-                    List<String> alertTexts =
-                        new List.filled(3, "No older announcements.");
-                    if (snapshot.data!.docs.length > 0) {
-                      alertTexts[0] = snapshot.data?.docs[0]['title'];
+    return WillPopScope(
+      onWillPop: () async {
+        ConfirmationDialog.showExitAppDialog(context);
+        return false;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              _recentAnnouncementsLabel(),
+              StreamBuilder(
+                  stream: widget.announcementsStream,
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.hasData) {
+                      var topics = [
+                        'Alerts',
+                        FirebaseAuth.instance.currentUser!.displayName!
+                            .replaceAll(" ", "")
+                      ];
+                      List<String> alertTexts = new List.empty(growable: true);
+                      if (snapshot.data!.docs.length > 0) {
+                        if (topics.contains(snapshot.data?.docs[0]['topic'])) {
+                          alertTexts.add(snapshot.data?.docs[0]['title']);
+                        }
+                      }
+                      if (snapshot.data!.docs.length > 1) {
+                        if (topics.contains(snapshot.data?.docs[1]['topic'])) {
+                          alertTexts.add(snapshot.data?.docs[1]['title']);
+                        }
+                      }
+                      if (snapshot.data!.docs.length > 2) {
+                        if (topics.contains(snapshot.data?.docs[2]['topic'])) {
+                          alertTexts.add(snapshot.data?.docs[2]['title']);
+                        }
+                      }
+                      if (alertTexts.length < 3) {
+                        for (int i = alertTexts.length - 1; i < 3; i++) {
+                          alertTexts.add("No announcement available.");
+                        }
+                      }
+                      return _announcements(
+                          alertTexts[0], alertTexts[1], alertTexts[2]);
+                    } else {
+                      return Text("No announcements available.");
+
                     }
                     if (snapshot.data!.docs.length > 1) {
                       alertTexts[1] = snapshot.data?.docs[1]['title'];

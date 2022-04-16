@@ -266,24 +266,24 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   ),
                 ),
                 SizedBox(height: 15),
-                _settingsButton(
-                    title: "Sync $_platformHealthName",
-                    onTap: () async {
-                      if (await Permission.activityRecognition
-                          .request()
-                          .isGranted) {
-                        Toasted.showToast(
-                            "$_platformHealthName has been synchronized!");
-                      } else if (await Permission.activityRecognition
-                          .request()
-                          .isPermanentlyDenied) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HealthAppInfo()),
-                        );
-                      }
-                    }),
+                // _settingsButton(
+                //     title: "Sync $_platformHealthName",
+                //     onTap: () async {
+                //       if (await Permission.activityRecognition
+                //           .request()
+                //           .isGranted) {
+                //         Toasted.showToast(
+                //             "$_platformHealthName has been synchronized!");
+                //       } else if (await Permission.activityRecognition
+                //           .request()
+                //           .isPermanentlyDenied) {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //               builder: (context) => HealthAppInfo()),
+                //         );
+                //       }
+                //     }),
                 _settingsButton(
                     title: "Set Daily Goals",
                     onTap: () {
