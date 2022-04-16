@@ -417,7 +417,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isExerciseTimeGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userExerciseTimeEndGoal.toStringAsFixed(2)}\nTotal Minutes",
+            "${Goal.isExerciseTimeGoalSet ? Goal.userProgressExerciseTime.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressExerciseTime.toStringAsFixed(2))}\n${Goal.userExerciseTimeEndGoal.toStringAsFixed(2)}",
         goalProgressInfo: Goal.isExerciseTimeGoalSet
             ? "Your goal is " +
                 "${((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressExerciseTime / Goal.userExerciseTimeEndGoal) * 100).toStringAsFixed(2)}" +
@@ -445,7 +445,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isCalGoalSet ? Goal.userProgressCalGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userCalEndGoal.toStringAsFixed(2)}\nCals Burned",
+            "${Goal.isCalGoalSet ? Goal.userProgressCalGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressCalGoal.toStringAsFixed(2))}\n${Goal.userCalEndGoal.toStringAsFixed(2)}",
         goalProgressInfo: Goal.isCalGoalSet
             ? "Your goal is " +
                 "${((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressCalGoal / Goal.userCalEndGoal) * 100).toStringAsFixed(2)}" +
@@ -472,7 +472,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isStepGoalSet ? Goal.userProgressStepGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userStepEndGoal.toStringAsFixed(2)}\nSteps Taken",
+            "${Goal.isStepGoalSet ? Goal.userProgressStepGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressStepGoal.toStringAsFixed(2))}\n${Goal.userStepEndGoal.toStringAsFixed(2)}",
         goalProgressInfo: Goal.isStepGoalSet
             ? "Your goal is " +
                 "${((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressStepGoal / Goal.userStepEndGoal) * 100).toStringAsFixed(2)}" +
@@ -499,7 +499,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
         context: context,
         goalProgress:
-            "${Goal.isMileGoalSet ? Goal.userProgressMileGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)} / ${Goal.userMileEndGoal.toStringAsFixed(2)}\nMi Traveled",
+            "${Goal.isMileGoalSet ? Goal.userProgressMileGoal.toStringAsFixed(2) : 0.toStringAsFixed(2)}\n${progressDelimiter(Goal.userProgressMileGoal.toStringAsFixed(2))}\n${Goal.userMileEndGoal.toStringAsFixed(2)}",
         goalProgressInfo: Goal.isMileGoalSet
             ? "Your goal is " +
                 "${((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100) > 100 ? 100 : ((Goal.userProgressMileGoal / Goal.userMileEndGoal) * 100).toStringAsFixed(2)}" +
@@ -568,6 +568,15 @@ class _HomeWidgetState extends State<HomeWidget> {
         isGoal3Set: Goal.isStepMillGoalSet,
         isGoal4Set: Goal.isEllipticalGoalSet,
         isGoal5Set: Goal.isResistanceStrengthGoalSet);
+  }
+
+  /// Adds a delimiter to separate a user's goal progress and their end goal.
+  static String progressDelimiter(String progressStr) {
+    String delimiter = "";
+    for (int i = 0; i < progressStr.length + 1; i++) {
+      delimiter += "-";
+    }
+    return delimiter;
   }
 
   /// The tabbed container used with the goals system.
@@ -672,52 +681,51 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _recentAnnouncementsLabel(),
-              StreamBuilder(
-                  stream: widget.announcementsStream,
-                  builder: (context,
-                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                          snapshot) {
-                    if (snapshot.hasData) {
-                      var topics = [
-                        'Alerts',
-                        FirebaseAuth.instance.currentUser!.displayName!
-                            .replaceAll(" ", "")
-                      ];
-                      List<String> alertTexts = new List.empty(growable: true);
-                      if (snapshot.data!.docs.length > 0) {
-                        if (topics.contains(snapshot.data?.docs[0]['topic'])) {
-                          alertTexts.add(snapshot.data?.docs[0]['title']);
-                        }
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _recentAnnouncementsLabel(),
+            StreamBuilder(
+                stream: widget.announcementsStream,
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.hasData) {
+                    var topics = [
+                      'Alerts',
+                      FirebaseAuth.instance.currentUser!.displayName!
+                          .replaceAll(" ", "")
+                    ];
+                    List<String> alertTexts = new List.empty(growable: true);
+                    if (snapshot.data!.docs.length > 0) {
+                      if (topics.contains(snapshot.data?.docs[0]['topic'])) {
+                        alertTexts.add(snapshot.data?.docs[0]['title']);
                       }
-                      if (snapshot.data!.docs.length > 1) {
-                        if (topics.contains(snapshot.data?.docs[1]['topic'])) {
-                          alertTexts.add(snapshot.data?.docs[1]['title']);
-                        }
-                      }
-                      if (snapshot.data!.docs.length > 2) {
-                        if (topics.contains(snapshot.data?.docs[2]['topic'])) {
-                          alertTexts.add(snapshot.data?.docs[2]['title']);
-                        }
-                      }
-                      if (alertTexts.length < 3) {
-                        for (int i = alertTexts.length - 1; i < 3; i++) {
-                          alertTexts.add("No announcement available.");
-                        }
-                      }
-                      return _announcements(
-                          alertTexts[0], alertTexts[1], alertTexts[2]);
-                    } else {
-                      return Text("No announcements available.");
-
                     }
+                    if (snapshot.data!.docs.length > 1) {
+                      if (topics.contains(snapshot.data?.docs[1]['topic'])) {
+                        alertTexts.add(snapshot.data?.docs[1]['title']);
+                      }
+                    }
+                    if (snapshot.data!.docs.length > 2) {
+                      if (topics.contains(snapshot.data?.docs[2]['topic'])) {
+                        alertTexts.add(snapshot.data?.docs[2]['title']);
+                      }
+                    }
+                    if (alertTexts.length < 3) {
+                      for (int i = alertTexts.length - 1; i < 3; i++) {
+                        alertTexts.add("No announcement available.");
+                      }
+                    }
+                    return _announcements(
+                        alertTexts[0], alertTexts[1], alertTexts[2]);
+                  } else {
+                    return Text("No announcements available.");
+                  }
                 }),
             _goalTypeLabel(),
             _goalsTabbedContainer(),
