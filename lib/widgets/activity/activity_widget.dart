@@ -247,8 +247,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   }
 
   /// Displays the '+ Image/Share' dialog.
-  void _showShareWithImageDialog(Padding paddedActivityCard) async {
-    final cardInfo = paddedActivityCard.key.toString().split(' ');
+  void _showShareWithImageDialog(ActivityCard activityCard) async {
+    final cardInfo = activityCard.toString().split(' ');
     ConfirmationDialog.showConfirmationDialog(
         context: context,
         title: Text('Share Activity?'),
@@ -326,8 +326,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                       if (image == null) {
                                         return;
                                       } else {
-                                        _showShareWithImageDialog(
-                                            e.paddedActivityCard(context));
+                                        _showShareWithImageDialog(e);
                                       }
                                     }),
                                 FocusedMenuItem(
