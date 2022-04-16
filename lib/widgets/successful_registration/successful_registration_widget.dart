@@ -59,9 +59,8 @@ class _SuccessfulRegistrationWidgetState
       options: FFButtonOptions(
         width: 250,
         height: 50,
-        color: Colors.white,
-        textStyle: TextStyle()
-            .copyWith(fontSize: 24, color: FlutterFlowTheme.primaryColor),
+        color: FlutterFlowTheme.secondaryColor,
+        textStyle: FlutterFlowTheme.title2,
         borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
           width: 3,
