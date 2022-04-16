@@ -6,9 +6,9 @@ import '/util/health/healthUtil.dart';
 
 import '/firebase/firestore.dart';
 
-import '../activity_card/activity_card.dart';
-
 import '/flutter_flow/flutter_flow_theme.dart';
+
+import '../activity_card/activity_card.dart';
 
 import '../add_activity/add_activity_widget.dart';
 

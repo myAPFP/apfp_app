@@ -2,8 +2,9 @@
 
 import 'dart:io';
 import '/main.dart';
-import 'package:flutter/material.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+
+import 'package:flutter/material.dart';
 
 class HealthAppInfo extends StatefulWidget {
   const HealthAppInfo({Key? key}) : super(key: key);

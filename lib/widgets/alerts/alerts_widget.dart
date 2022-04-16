@@ -1,12 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// Copyright 2022 The myAPFP Authors. All rights reserved.
 
 import '../alert/alert_widget.dart';
 import '/components/announcement_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AlertsWidget extends StatefulWidget {
   /// The annoucements collection stream.
