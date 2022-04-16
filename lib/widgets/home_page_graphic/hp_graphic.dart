@@ -53,6 +53,70 @@ class HPGraphic {
     );
   }
 
+  /// Creates a view to display a default goal.
+  /// 
+  /// [percent] must be between 0.0 and 1.0.
+  ///
+  /// If [isHealthAppSynced] is set to false, the goal within view
+  /// cannot be set until a user synchronizes a health app to myAPFP.
+  static InkWell createView(
+      {required Key key,
+      required BuildContext context,
+      required String goalProgress,
+      required String goalProgressInfo,
+      required double percent,
+      required Function onLongPress,
+      required ScrollController scrollController,
+      required bool isHealthAppSynced,
+      required bool isGoalSet}) {
+    if (!isHealthAppSynced) {
+      goalProgress = "$_platformHealthName\nNot Sync'd";
+      goalProgressInfo = Platform.isIOS
+          ? "Sync your myAPFP App with\na $_platformHealthName to set this goal."
+          : "Sync your myAPFP App with\n$_platformHealthName to set this goal.";
+      percent = 0;
+    } else if (!isGoalSet && isHealthAppSynced) {
+      goalProgress = "No\nActive\nGoal";
+      goalProgressInfo = "Long Press here to set & edit goals.";
+      percent = 0;
+    }
+    return InkWell(
+      key: key,
+      onLongPress: () => onLongPress(),
+      child: Container(
+          child: Scrollbar(
+        controller: scrollController,
+        isAlwaysShown: true,
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(height: 25),
+              CircularPercentIndicator(
+                radius: MediaQuery.of(context).size.width / 2.0,
+                animation: true,
+                animationDuration: 1200,
+                lineWidth: 15.0,
+                percent: percent,
+                center: new Text(
+                  goalProgress,
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20.0),
+                ),
+                circularStrokeCap: CircularStrokeCap.square,
+                backgroundColor: FlutterFlowTheme.secondaryColor,
+                progressColor: Colors.green,
+              ),
+              SizedBox(height: 25),
+              Text(goalProgressInfo, style: TextStyle(fontSize: 20))
+            ],
+          ),
+        ),
+      )),
+    );
+  }
+
   /// Creates a view to display 'other' goals.
   /// This view should be used with the 'other' tab.
   /// 
@@ -70,7 +134,6 @@ class HPGraphic {
     required double percent3,
     required double percent4,
     required double percent5,
-    required Function onDoubleTap,
     required Function onLongPress,
     required ScrollController scrollController,
     required bool isGoal1Set,
@@ -81,7 +144,6 @@ class HPGraphic {
   }) {
     return InkWell(
       key: key,
-      onDoubleTap: () => onDoubleTap(),
       onLongPress: () => onLongPress(),
       child: Container(
           child: Scrollbar(
@@ -188,72 +250,6 @@ class HPGraphic {
                 ),
                 SizedBox(height: 10)
               ]),
-        ),
-      )),
-    );
-  }
-
-  /// Creates a view to display a default goal.
-  /// 
-  /// [percent] must be between 0.0 and 1.0.
-  ///
-  /// If [isHealthAppSynced] is set to false, the goal within view
-  /// cannot be set until a user synchronizes a health app to myAPFP.
-  static InkWell createView(
-      {required Key key,
-      required BuildContext context,
-      required String goalProgress,
-      required String goalProgressInfo,
-      required double percent,
-      required Function onDoubleTap,
-      required Function onLongPress,
-      required ScrollController scrollController,
-      required bool isHealthAppSynced,
-      required bool isGoalSet}) {
-    if (!isHealthAppSynced) {
-      goalProgress = "$_platformHealthName\nNot Sync'd";
-      goalProgressInfo = Platform.isIOS
-          ? "Sync your myAPFP App with\na $_platformHealthName to set this goal."
-          : "Sync your myAPFP App with\n$_platformHealthName to set this goal.";
-      percent = 0;
-    } else if (!isGoalSet && isHealthAppSynced) {
-      goalProgress = "No\nActive\nGoal";
-      goalProgressInfo = "Long Press here to set & edit goals.";
-      percent = 0;
-    }
-    return InkWell(
-      key: key,
-      onDoubleTap: () => onDoubleTap(),
-      onLongPress: () => onLongPress(),
-      child: Container(
-          child: Scrollbar(
-        controller: scrollController,
-        isAlwaysShown: true,
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(height: 25),
-              CircularPercentIndicator(
-                radius: MediaQuery.of(context).size.width / 2.0,
-                animation: true,
-                animationDuration: 1200,
-                lineWidth: 15.0,
-                percent: percent,
-                center: new Text(
-                  goalProgress,
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 20.0),
-                ),
-                circularStrokeCap: CircularStrokeCap.square,
-                backgroundColor: FlutterFlowTheme.secondaryColor,
-                progressColor: Colors.green,
-              ),
-              SizedBox(height: 25),
-              Text(goalProgressInfo, style: TextStyle(fontSize: 20))
-            ],
-          ),
         ),
       )),
     );

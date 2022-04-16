@@ -25,13 +25,12 @@ class ActivityCard {
   /// Activity card.
   Card? _card;
 
-  ActivityCard({
-    String? duration,
-    String? type,
-    String? name,
-    IconData? icon,
-    String? timestamp
-  }) {
+  ActivityCard(
+      {String? duration,
+      String? type,
+      String? name,
+      IconData? icon,
+      String? timestamp}) {
     this.name = name;
     this.type = type;
     this.icon = icon;
@@ -126,7 +125,6 @@ class ActivityCard {
   /// Adds padding to an activity card.
   Padding paddedActivityCard(BuildContext context) {
     return Padding(
-      key: Key('$timestamp $name $type $duration'),
       padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
       child: Container(
         child: _card,
@@ -139,5 +137,10 @@ class ActivityCard {
         ),
       ),
     );
+  }
+
+  @override
+  String toString() {
+    return '$timestamp $name $type $duration';
   }
 }

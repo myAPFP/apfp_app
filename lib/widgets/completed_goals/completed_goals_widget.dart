@@ -13,10 +13,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CompletedGoalsWidget extends StatefulWidget {
-  /// Dictates what type of completed goals are being displayed, daily or weekly.
-  final String? mode;
 
-  CompletedGoalsWidget({Key? key, this.mode}) : super(key: key);
+  CompletedGoalsWidget({Key? key,}) : super(key: key);
 
   /// Takes user to Completed Goals screen.
   ///
@@ -25,7 +23,7 @@ class CompletedGoalsWidget extends StatefulWidget {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CompletedGoalsWidget(mode: mode),
+        builder: (context) => CompletedGoalsWidget(),
       ),
     );
   }
@@ -44,31 +42,17 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
           .orderBy("Date", descending: true)
           .snapshots();
 
-  /// The user's weekly goal-log collection stream.
-  Stream<QuerySnapshot> weeklyGoalsLogStream =
-      FireStore.getGoalLogCollection(goalType: "weekly")
-          .orderBy("Date", descending: true)
-          .snapshots();
 
-  /// Dictates what type of completed goals are being displayed, daily or weekly.
-  String _mode = "";
+  /// Dictates what type of completed goals are being displayed.
+  String _mode = "Daily";
 
   /// A list of daily [_goalCard] widgets.
   List<Widget> _dailyGoals = [];
 
-  /// A list of weekly [_goalCard] widgets.
-  List<Widget> _weeklyGoals = [];
-
   @override
   void initState() {
     super.initState();
-    if (widget.mode == "Daily" || widget.mode == null) {
-      _mode = "Daily";
-    } else {
-      _mode = "Weekly";
-    }
     _getPreviousDailyGoals();
-    _getPreviousWeeklyGoals();
   }
 
   @override
@@ -211,38 +195,13 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     });
   }
 
-  /// Adds a [_goalCard] to the [_weeklyGoals] list.
-  void _addWeeklyGoal(Padding goalCard) {
-    setState(() {
-      _weeklyGoals.add(goalCard);
-    });
-  }
-
   /// Pre-loads previously completed daily goals stored in Firestore.
   void _getPreviousDailyGoals() {
     dailyGoalsLogStream.forEach(((snapshot) {
       _dailyGoals.clear();
-      if (!mounted) {
-        snapshot.docs.forEach((document) {
-          var dayNum = document.get("Date").toString().split('/')[1];
-          _addDailyGoal(_goalCard(
-              color: FlutterFlowTheme.dayToColor(dayNum),
-              goalType: document.get("Type").toString(),
-              goalName: document.get("Completed Goal").toString(),
-              goalInfo: document.get("Info").toString(),
-              dateOfCompletion: document.get("Date").toString()));
-        });
-      }
-    }));
-  }
-
-  /// Pre-loads previously completed weekly goals stored in Firestore.
-  void _getPreviousWeeklyGoals() {
-    weeklyGoalsLogStream.forEach(((snapshot) {
-      _weeklyGoals.clear();
       snapshot.docs.forEach((document) {
         var dayNum = document.get("Date").toString().split('/')[1];
-        _addWeeklyGoal(_goalCard(
+        _addDailyGoal(_goalCard(
             color: FlutterFlowTheme.dayToColor(dayNum),
             goalType: document.get("Type").toString(),
             goalName: document.get("Completed Goal").toString(),
@@ -311,22 +270,6 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: FlutterFlowTheme.secondaryColor,
-          child: _mode == "Daily"
-              ? Text("W", style: TextStyle(fontSize: 25))
-              : Text("D", style: TextStyle(fontSize: 25)),
-          onPressed: () async {
-            switch (_mode) {
-              case "Daily":
-                setState(() => _mode = "Weekly");
-                break;
-              case "Weekly":
-                setState(() => _mode = "Daily");
-                break;
-            }
-          },
-        ),
         backgroundColor: Colors.white,
         body: SafeArea(
             child: SingleChildScrollView(
@@ -345,15 +288,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
             ),
             SizedBox(height: 15),
             Column(
-              mainAxisSize: MainAxisSize.max,
-              children: _mode == "Daily"
-                  ? _dailyGoals.isEmpty
-                      ? [_noGoalsCompletedText()]
-                      : _dailyGoals.map((e) => focusedMenu(e)).toList()
-                  : _weeklyGoals.isEmpty
-                      ? [_noGoalsCompletedText()]
-                      : _weeklyGoals.map((e) => focusedMenu(e)).toList(),
-            ),
+                mainAxisSize: MainAxisSize.max,
+                children: _dailyGoals.isEmpty
+                    ? [_noGoalsCompletedText()]
+                    : _dailyGoals.map((e) => focusedMenu(e)).toList()),
             SizedBox(height: 10)
           ]),
         )));

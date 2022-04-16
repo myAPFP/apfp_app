@@ -2,8 +2,6 @@
 
 import 'dart:io';
 
-import '/util/goals/exercise_time_goal.dart';
-import '/util/goals/goal.dart';
 import '/util/health/healthUtil.dart';
 
 import '/firebase/firestore.dart';
@@ -43,7 +41,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   XFile? image;
 
   /// A list of the user's activity cards.
-  List<Padding> cards = [];
+  List<ActivityCard> cards = [];
 
   /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -51,9 +49,9 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   /// Stores a user's activity document snapshots.
   late Map<String, dynamic> currentSnapshotBackup;
 
-  /// Special activity id reserved for an imported activity.
+  /// Special activity timestamp reserved for an imported activity.
   ///
-  /// Using this id ensures:
+  /// Using this timestamp ensures:
   /// - Only one imported activity card appears, and is updated as needed.
   /// - The imported activity card always appears at the top of the [cards]
   /// list.
@@ -100,6 +98,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
               .getHealthDataFromTypes(
                   midnight, now, [HealthDataType.MOVE_MINUTES]);
           var moveMinutes = HealthUtil.getHealthSums(healthData.toSet());
+          _removeActivityFromCloud(importedActivityID);
           _addImportedCard("${moveMinutes.round()} Minutes");
         } catch (error) {
           print("Activity data could not be retreived: $error ");
@@ -137,25 +136,34 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       sortedMap = Map.fromEntries(currentSnapshotBackup.entries.toList()
         ..sort((e1, e2) => e2.key.compareTo(e1.key)));
       sortedMap.forEach((key, value) => addCard(ActivityCard(
-            icon: Icons.emoji_events_rounded,
-            duration: value[2],
-            name: value[0],
-            type: value[1],
-            timestamp: key != null
-                ? DateTime.parse(key).toIso8601String()
-                : DateTime.now().toIso8601String()
-          ).paddedActivityCard(context)));
+          icon: Icons.emoji_events_rounded,
+          duration: value[2],
+          name: value[0],
+          type: value[1],
+          timestamp: key != null
+              ? DateTime.parse(key).toIso8601String()
+              : DateTime.now().toIso8601String())));
     });
   }
 
-  /// Adds [ActivityCard]'s info to the user's activity document in Firestore.
+  /// Adds [activityCard]'s info to the user's activity document in Firestore.
   void _addActivityToCloud(ActivityCard activityCard) {
     currentSnapshotBackup.putIfAbsent(activityCard.timestamp.toString(),
         () => [activityCard.name, activityCard.type, activityCard.duration]);
     FireStore.updateWorkoutData(currentSnapshotBackup);
   }
 
-  /// Adds an imported [ActivityCard]'s info to the user's activity document 
+  /// Removes an activity from Firestore.
+  ///
+  /// The [timestamp] represents the activity's timestamp, which is the timestamp in
+  /// which it was created.
+  void _removeActivityFromCloud(String timestamp) {
+    currentSnapshotBackup.removeWhere(
+        (key, durationInMinutes) => (key == timestamp.split(' ')[0]));
+    FireStore.updateWorkoutData(currentSnapshotBackup);
+  }
+
+  /// Adds an imported [ActivityCard]'s info to the user's activity document
   /// in Firestore.
   void _addImportedCard(String duration) {
     var activityCard = ActivityCard(
@@ -165,100 +173,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       type: "Exercise Minutes",
       timestamp: importedActivityID,
     );
-    _removeActivityFromCloud(importedActivityID);
     _addActivityToCloud(activityCard);
-    var activitySnapShot = {
-      DateTime.now().toIso8601String(): ["", "", duration]
-    };
-    Goal.userProgressExerciseTimeWeekly +=
-        ExerciseGoal.totalTimeInMinutes(activitySnapShot);
-  }
-
-  /// Removes an activity from Firestore.
-  ///
-  /// The [id] represents the activity's id, which is the timestamp in
-  /// which it was created.
-  void _removeActivityFromCloud(String id) {
-    if (currentSnapshotBackup.isNotEmpty) {
-      _updateCustomWeeklyGoalProgress();
-      currentSnapshotBackup
-          .removeWhere((key, durationInMinutes) => (key == id.split(' ')[0]));
-    }
-    if (id.split(' ')[0] == importedActivityID) {
-      currentSnapshotBackup
-          .removeWhere((key, durationInMinutes) => key == importedActivityID);
-    }
-    FireStore.updateWorkoutData(currentSnapshotBackup);
-  }
-
-  /// Updates a user's current weekly goal progess in Firestore.
-  void _updateCustomWeeklyGoalProgress() {
-    String exerciseType = currentSnapshotBackup.values.first[0];
-    double durationInMinutes = _getDurationInMinutes();
-    double exerciseTimeWeeklyProgress =
-        Goal.userProgressExerciseTimeWeekly - durationInMinutes;
-    FireStore.updateGoalData(
-        {"exerciseTimeGoalProgressWeekly": exerciseTimeWeeklyProgress});
-    switch (exerciseType) {
-      case "Cycling":
-        var cycling = Goal.userProgressCyclingGoalWeekly - durationInMinutes;
-        FireStore.updateGoalData({"cyclingGoalProgressWeekly": cycling});
-        break;
-      case "Rowing":
-        var rowing = Goal.userProgressRowingGoalWeekly - durationInMinutes;
-        FireStore.updateGoalData({"rowingGoalProgressWeekly": rowing});
-        break;
-      case "Step-Mill":
-        var stepMill = Goal.userProgressStepMillGoalWeekly - durationInMinutes;
-        FireStore.updateGoalData({"stepMillGoalProgressWeekly": stepMill});
-        break;
-      case "Elliptical":
-        var elliptical =
-            Goal.userProgressEllipticalGoalWeekly - durationInMinutes;
-        FireStore.updateGoalData({"ellipticalGoalProgressWeekly": elliptical});
-        break;
-      case "Resistance":
-        var resistanceStrength =
-            Goal.userProgressResistanceStrengthGoalWeekly - durationInMinutes;
-        FireStore.updateGoalData(
-            {"resistanceStrengthGoalProgressWeekly": resistanceStrength});
-        break;
-    }
-  }
-
-  /// Converts an activity duration string to a [double] representing
-  /// the duration in minutes.
-  ///
-  /// Example:
-  ///
-  /// ```dart
-  /// String activityDurationStr = "30 seconds";
-  ///
-  /// double d = _getDurationInMinutes();
-  ///
-  /// print(d); // 0.5
-  /// ```
-  double _getDurationInMinutes() {
-    List<String> duration =
-        currentSnapshotBackup.values.first[2].toString().split(" ");
-    double durationInMinutes = 0.0;
-    switch (duration[1].toUpperCase()) {
-      case "SECONDS":
-        durationInMinutes =
-            double.parse((double.parse(duration[0]) / 60).toStringAsFixed(2));
-        break;
-      case 'MINUTE':
-      case 'MINUTES':
-        durationInMinutes =
-            double.parse((double.parse(duration[0])).toStringAsFixed(2));
-        break;
-      case 'HOUR':
-      case 'HOURS':
-        durationInMinutes =
-            double.parse((double.parse(duration[0]) * 60).toStringAsFixed(2));
-        break;
-    }
-    return durationInMinutes;
   }
 
   /// Returns the header text which is displayed at the top of the
@@ -314,8 +229,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     );
   }
 
-  /// Adds [card] to the list of cards to be displayed.
-  void addCard(Padding card) {
+  void addCard(ActivityCard card) {
     setState(() => cards.add(card));
   }
 
@@ -412,7 +326,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                       if (image == null) {
                                         return;
                                       } else {
-                                        _showShareWithImageDialog(e);
+                                        _showShareWithImageDialog(
+                                            e.paddedActivityCard(context));
                                       }
                                     }),
                                 FocusedMenuItem(
@@ -420,7 +335,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     trailingIcon: Icon(Icons.share),
                                     onPressed: () {
                                       List<String> cardInfo =
-                                          e.key.toString().split(' ');
+                                          e.toString().split(' ');
                                       share(
                                           subject: "New Activity Completed!",
                                           body: 'I completed a new activity!\n\n' +
@@ -436,8 +351,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     trailingIcon: Icon(Icons.delete,
                                         color: Colors.redAccent),
                                     onPressed: () {
-                                      final cardInfo =
-                                          e.key.toString().split(' ');
+                                      final cardInfo = e.toString().split(' ');
                                       ConfirmationDialog.showConfirmationDialog(
                                           title: Text("Remove Activity?"),
                                           context: context,
@@ -452,16 +366,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                           },
                                           onSubmitTap: () {
                                             setState(() {
-                                              _removeActivityFromCloud(e.key
-                                                  .toString()
-                                                  .substring(
-                                                      e.key
-                                                              .toString()
-                                                              .indexOf("'") +
-                                                          1,
-                                                      e.key
-                                                          .toString()
-                                                          .lastIndexOf("'")));
+                                              _removeActivityFromCloud(
+                                                  e.timestamp.toString());
                                               cards.remove(e);
                                             });
                                             Navigator.pop(context);
@@ -469,7 +375,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     })
                               ],
                               onPressed: () {},
-                              child: e))
+                              child: e.paddedActivityCard(context)))
                           .toList())
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -8,7 +8,6 @@ import '../health_app_info/health_app_info.dart';
 
 import '../completed_goals/completed_goals_widget.dart';
 
-import '/util/goals/goal.dart';
 import '/util/toasted/toasted.dart';
 import '/util/validator/validator.dart';
 import '/util/internet_connection/internet.dart';
@@ -286,16 +285,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       }
                     }),
                 _settingsButton(
-                    title: "Set Activity Goals",
+                    title: "Set Daily Goals",
                     onTap: () {
                       SetGoalsWidget.launch(context);
                     }),
                 _settingsButton(
                     title: "View Completed Goals",
                     onTap: () {
-                      CompletedGoalsWidget.launch(context,
-                          mode:
-                              Goal.isDailyGoalsDisplayed ? "Daily" : "Weekly");
+                      CompletedGoalsWidget.launch(context, mode: "Daily");
                     }),
                 _settingsButton(
                     title: "Change Password",

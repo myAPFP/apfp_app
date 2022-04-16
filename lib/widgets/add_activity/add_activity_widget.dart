@@ -1,9 +1,6 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
 
-import '/util/goals/goal.dart';
-import '/util/goals/other_goal.dart';
 import '/util/validator/validator.dart';
-import '/util/goals/exercise_time_goal.dart';
 
 import '../activity_card/activity_card.dart';
 
@@ -130,30 +127,6 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     name: name,
                     type: _exerciseType,
                     timestamp: DateTime.now().toIso8601String()));
-
-            var activitySnapShot = {
-              DateTime.now().toIso8601String(): [name, _exerciseType, duration]
-            };
-
-            Goal.userProgressCyclingGoalWeekly +=
-                OtherGoal.calcGoalSums(activitySnapShot, goalType: "Cycling");
-
-            Goal.userProgressRowingGoalWeekly +=
-                OtherGoal.calcGoalSums(activitySnapShot, goalType: "Rowing");
-
-            Goal.userProgressStepMillGoalWeekly +=
-                OtherGoal.calcGoalSums(activitySnapShot, goalType: "Step-Mill");
-
-            Goal.userProgressEllipticalGoalWeekly += OtherGoal.calcGoalSums(
-                activitySnapShot,
-                goalType: "Elliptical");
-
-            Goal.userProgressResistanceStrengthGoalWeekly +=
-                OtherGoal.calcGoalSums(activitySnapShot,
-                    goalType: "Resistance");
-
-            Goal.userProgressExerciseTimeWeekly +=
-                ExerciseGoal.totalTimeInMinutes(activitySnapShot);
           }
         } finally {
           setState(() => _loadingButton = false);
