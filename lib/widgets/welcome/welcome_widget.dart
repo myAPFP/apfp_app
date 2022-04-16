@@ -317,8 +317,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
         width: MediaQuery.of(context).size.width * 0.7,
         height: 50,
         color: Colors.white,
-        textStyle: TextStyle()
-            .copyWith(fontSize: 24, color: FlutterFlowTheme.primaryColor),
+        textStyle: FlutterFlowTheme.title2,
         borderSide: BorderSide(
           color: FlutterFlowTheme.secondaryColor,
           width: 3,
