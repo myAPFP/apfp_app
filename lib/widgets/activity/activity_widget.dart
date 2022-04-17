@@ -62,6 +62,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       if (value) {
         DateTime now = DateTime.now();
         final midnight = DateTime(now.year, now.month, now.day);
+        _removeActivityFromCloud(ActivityCard.importedActivityID);
         await health.getHealthDataFromTypes(
             midnight, now, [HealthDataType.WORKOUT]).then((value) {
           for (HealthDataPoint dataPoint in value) {
