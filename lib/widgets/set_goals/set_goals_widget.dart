@@ -8,7 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 
 import '/firebase/firestore.dart';
 
-import '/widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/confirmation_dialog/confirmation_dialog.dart';
 
 import 'package:flutter/material.dart';
 
@@ -33,64 +33,64 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
   /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  /// Indicates if the 'other' goal textfields are shown.
+  /// Indicates if the 'other' goal textFields are shown.
   bool _isOtherGoalsDisplayed = false;
 
-  /// Used to validate the current input of the Exercise Time textfield.
+  /// Used to validate the current input of the Exercise Time textField.
   final _exerciseFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Cycling textfield.
+  /// Used to validate the current input of the Cycling textField.
   final _cyclingFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Rowing textfield.
+  /// Used to validate the current input of the Rowing textField.
   final _rowingFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Step Mill textfield.
+  /// Used to validate the current input of the Step Mill textField.
   final _stepMillFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Calories textfield.
+  /// Used to validate the current input of the Calories textField.
   final _caloriesFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Miles textfield.
+  /// Used to validate the current input of the Miles textField.
   final _milesFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Steps textfield.
+  /// Used to validate the current input of the Steps textField.
   final _stepFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Elliptical textfield.
+  /// Used to validate the current input of the Elliptical textField.
   final _ellipticalFormKey = GlobalKey<FormState>();
 
-  /// Used to validate the current input of the Resistance/Strength textfield.
+  /// Used to validate the current input of the Resistance/Strength textField.
   final _resistanceStrengthFormKey = GlobalKey<FormState>();
 
   /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  /// [TextEditingController] for the Exercise Time textfield.
+  /// [TextEditingController] for the Exercise Time textField.
   TextEditingController? _exerciseGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Cycling textfield.
+  /// [TextEditingController] for the Cycling textField.
   TextEditingController? _cyclingGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Rowing textfield.
+  /// [TextEditingController] for the Rowing textField.
   TextEditingController? _rowingGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Step Mill textfield.
+  /// [TextEditingController] for the Step Mill textField.
   TextEditingController? _stepMillGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Calories textfield.
+  /// [TextEditingController] for the Calories textField.
   TextEditingController? _caloriesGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Miles textfield.
+  /// [TextEditingController] for the Miles textField.
   TextEditingController? _milesGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Steps textfield.
+  /// [TextEditingController] for the Steps textField.
   TextEditingController? _stepGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Elliptcal textfield.
+  /// [TextEditingController] for the Elliptical textField.
   TextEditingController? _ellipticalGoalController = TextEditingController();
 
-  /// [TextEditingController] for the Resistance/Strength textfield.
+  /// [TextEditingController] for the Resistance/Strength textField.
   TextEditingController? _resistanceStrengthGoalController =
       TextEditingController();
 
@@ -114,7 +114,7 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
     _resistanceStrengthGoalController!.dispose();
   }
 
-  /// Set's [contr]'s text to an end goal vlaue in Firestore, based on
+  /// Set's [contr]'s text to an end goal value in Firestore, based on
   /// what's passed to [fieldName].
   void setText(MapEntry<String, dynamic> element, String fieldName,
       TextEditingController? contr) {
@@ -183,7 +183,7 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
 
   /// Creates a button that allows a user to set a goal.
   ///
-  /// [formKey] is used to validate the associated goal's textfield.
+  /// [formKey] is used to validate the associated goal's textField.
   ///
   /// [onTap] is executed when a user presses the button.
   FFButtonWidget _setGoalButton(GlobalKey<FormState> formKey, Function onTap,
@@ -246,7 +246,7 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
             )));
   }
 
-  /// Creates a textfield to be used to enter end goals.
+  /// Creates a textField to be used to enter end goals.
   Padding _goalTextField(
       {required Key key,
       required String hintText,

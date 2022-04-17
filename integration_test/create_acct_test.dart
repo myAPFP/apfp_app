@@ -9,7 +9,7 @@ void main() {
   group('Create Account Screen Integration Tests', () {
     testWidgets(
         'Tap on the Create Account button with no input,' +
-            'verify each textfield displays an warning',
+            'verify each textField displays an warning',
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -24,11 +24,11 @@ void main() {
       await tester.tap(createAcctButton);
       await tester.pumpAndSettle();
 
-      // Verify each textfield displays a no-input warning.
+      // Verify each textField displays a no-input warning.
       expect(find.text('Please provide a value'), findsNWidgets(5));
     });
 
-    testWidgets("Enter invalid First Name, receieve a warning.",
+    testWidgets("Enter invalid First Name, receive a warning.",
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -59,7 +59,7 @@ void main() {
       expect(find.text('Please provide a valid first name'), findsNWidgets(1));
     });
 
-    testWidgets("Enter invalid Last Name, receieve a warning.",
+    testWidgets("Enter invalid Last Name, receive a warning.",
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -89,7 +89,7 @@ void main() {
       expect(find.text('Please provide a valid last name'), findsNWidgets(1));
     });
 
-    testWidgets("Enter invalid Email, receieve a warning.",
+    testWidgets("Enter invalid Email, receive a warning.",
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -121,7 +121,7 @@ void main() {
           find.text('Please provide a valid email address'), findsNWidgets(1));
     });
 
-    testWidgets("Enter invalid password, receieve a warning.",
+    testWidgets("Enter invalid password, receive a warning.",
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -152,7 +152,7 @@ void main() {
       expect(find.text('Please provide a valid password'), findsNWidgets(1));
     });
 
-    testWidgets("Enter non-matching confirmed password, receieve a warning.",
+    testWidgets("Enter non-matching confirmed password, receive a warning.",
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
@@ -248,7 +248,7 @@ void main() {
           find.byKey(Key('Create.confirmPasswordTextField')), 'password12!');
       await tester.pumpAndSettle();
 
-      // Hides keybaord by tapping screen
+      // Hides keyboard by tapping screen
       await tester.tap(find.byKey(Key('Create.confirmPasswordLabel')));
       await tester.pumpAndSettle();
 
@@ -278,9 +278,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Toggles each password textFormField visibility
-      await tester.tap(find.byKey(Key("Create.pWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.pWVisibility")));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key("Create.confirmPWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.confirmPWVisibility")));
       await tester.pumpAndSettle();
 
       // Verify the entered password is shown
@@ -290,9 +290,9 @@ void main() {
       expect(find.byIcon(Icons.visibility_outlined), findsNWidgets(2));
 
       // Toggles each password textFormField visibility again
-      await tester.tap(find.byKey(Key("Create.pWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.pWVisibility")));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key("Create.confirmPWVisibilty")));
+      await tester.tap(find.byKey(Key("Create.confirmPWVisibility")));
       await tester.pumpAndSettle();
 
       // Verify the visibility icons changes after tap

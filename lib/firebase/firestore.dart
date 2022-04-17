@@ -60,27 +60,6 @@ class FireStore {
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
   }
 
-  /// Fetches the user's goal log collection in Firestore.
-  static CollectionReference<Map<String, dynamic>> getGoalLogCollection(
-      {required String goalType}) {
-    return FirebaseFirestore.instance
-        .collection('goal-logs')
-        .doc(goalType)
-        .collection(FirebaseAuth.instance.currentUser!.email.toString());
-  }
-
-  /// Deletes all user previously completed daily goals stored in Firestore.
-  static void deleteAllCompletedGoals() async {
-    final instance = FirebaseFirestore.instance;
-    final batch = instance.batch();
-    var collection = getGoalLogCollection(goalType: "daily");
-    var snapshots = await collection.get();
-    for (var doc in snapshots.docs) {
-      batch.delete(doc.reference);
-    }
-    await batch.commit();
-  }
-
   /// Creates stream that listens to the user's activity document in Firestore.
   static Stream<DocumentSnapshot<Map<String, dynamic>>>
       createUserActivityStream() {
@@ -113,6 +92,27 @@ class FireStore {
   /// Creates stream that listens to the user's goal document in Firestore.
   static Stream<DocumentSnapshot<Map<String, dynamic>>> createGoalDocStream() {
     return getGoalDocument().snapshots();
+  }
+
+  /// Fetches the user's goal log collection in Firestore.
+  static CollectionReference<Map<String, dynamic>> getGoalLogCollection(
+      {required String goalType}) {
+    return FirebaseFirestore.instance
+        .collection('goal-logs')
+        .doc(goalType)
+        .collection(FirebaseAuth.instance.currentUser!.email.toString());
+  }
+
+  /// Deletes all user previously completed daily goals stored in Firestore.
+  static void deleteAllCompletedGoals() async {
+    final instance = FirebaseFirestore.instance;
+    final batch = instance.batch();
+    var collection = getGoalLogCollection(goalType: "daily");
+    var snapshots = await collection.get();
+    for (var doc in snapshots.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
   }
 
   /// Updates a user's goal document.

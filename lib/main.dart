@@ -68,7 +68,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   /// The APFP YouTube playlist id collection stream.
   Stream<QuerySnapshot> ytPlaylistStream = FireStore.getYTPlaylistIDs();
 
-  /// The annoucements collection stream.
+  /// The announcements collection stream.
   Stream<QuerySnapshot<Map<String, dynamic>>> announcements =
       FireStore.getAnnouncements();
 

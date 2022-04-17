@@ -6,7 +6,7 @@ import '/firebase/firestore.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 
-import '../confimation_dialog/confirmation_dialog.dart';
+import '../confirmation_dialog/confirmation_dialog.dart';
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';

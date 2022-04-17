@@ -1,7 +1,7 @@
 import 'package:health/health.dart';
 
 class HealthUtil {
-  /// Calulates health data sums.
+  /// Calculates health data sums.
   ///
   /// On Android, a given [HealthDataType]'s returned data is divided
   /// into multiple entries.

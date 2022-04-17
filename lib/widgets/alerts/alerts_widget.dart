@@ -10,7 +10,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AlertsWidget extends StatefulWidget {
-  /// The annoucements collection stream.
+  /// The announcements collection stream.
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
 
   AlertsWidget({Key? key, required this.announcementsStream}) : super(key: key);
@@ -93,7 +93,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
     });
   }
 
-  /// Fetches previous annoucements from Firestore.
+  /// Fetches previous announcements from Firestore.
   void _collectPreviousAnnouncements() {
     widget.announcementsStream
         .forEach((QuerySnapshot<Map<String, dynamic>> snapshot) {

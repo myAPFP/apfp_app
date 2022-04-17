@@ -18,7 +18,7 @@ void main() {
       await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with valid info
+      // Populates each textFormField with valid info
       await tester.enterText(
           find.byKey(Key("Login.emailTextField")), 'example@email.com');
       await tester.pumpAndSettle();
@@ -46,7 +46,7 @@ void main() {
       await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with valid info
+      // Populates each textFormField with valid info
       await tester.enterText(
           find.byKey(Key("Login.emailTextField")), 'example@email.com');
       await tester.pumpAndSettle();
@@ -62,7 +62,7 @@ void main() {
       // Ensure button exists to resend email confirmation
       expect(find.text('Resend Email Verification'), findsOneWidget);
 
-      // Tap on button to ensure email confirmation resends
+      // Taps on button to ensure email confirmation is resent
       await tester.tap(find.text('Resend Email Verification'));
       tester.pumpAndSettle();
     });
@@ -77,7 +77,7 @@ void main() {
       await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with valid info
+      // Populates each textFormField with valid info
       await tester.enterText(
           find.byKey(Key("Login.emailTextField")), 'example@email.com');
       await tester.pumpAndSettle();

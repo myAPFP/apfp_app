@@ -18,13 +18,13 @@ void main() {
       await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with valid info
+      // Populates each textFormField with valid info
       await tester.enterText(find.byKey(Key("Login.emailTextField")), 'John');
       await tester.pumpAndSettle();
       await tester.enterText(find.byKey(Key("Login.passwordTextField")), 'Doe');
       await tester.pumpAndSettle();
 
-      // Verify each textfield holds user input
+      // Verify each textField holds user input
       expect(find.text('John'), findsNWidgets(1));
       expect(find.text('Doe'), findsNWidgets(1));
     });
@@ -39,20 +39,20 @@ void main() {
       await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates password textformfield with valid password
+      // Populates password textFormField with valid password
       await tester.enterText(
           find.byKey(Key("Login.passwordTextField")), 'password12!');
       await tester.pumpAndSettle();
 
-      // Toggles password textfieldform visibility
-      await tester.tap(find.byKey(Key("Login.passwordVisibiltyIcon")));
+      // Toggles password textFormField visibility
+      await tester.tap(find.byKey(Key("Login.passwordVisibilityIcon")));
       await tester.pumpAndSettle();
 
-      // Verify password textfield input is visible
+      // Verify password textField input is visible
       expect(find.text('password12!'), findsNWidgets(1));
 
-      // Toggles password textfieldform visibility again
-      await tester.tap(find.byKey(Key("Login.passwordVisibiltyIcon")));
+      // Toggles password textFormField visibility again
+      await tester.tap(find.byKey(Key("Login.passwordVisibilityIcon")));
       await tester.pumpAndSettle();
     });
 
@@ -67,7 +67,7 @@ void main() {
       await tester.tap(loginButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with valid info
+      // Populates each textFormField with valid info
       await tester.enterText(
           find.byKey(Key("Login.emailTextField")), 'example@email.com');
       await tester.pumpAndSettle();

@@ -11,7 +11,7 @@ import '/util/toasted/toasted.dart';
 import '/util/validator/validator.dart';
 import '/util/internet_connection/internet.dart';
 
-import '/widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/confirmation_dialog/confirmation_dialog.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';

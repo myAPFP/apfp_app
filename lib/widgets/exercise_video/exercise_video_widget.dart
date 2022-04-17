@@ -65,7 +65,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   }
 
   /// Locks the app in portrait mode.
-  void _lockPortait() {
+  void _lockPortrait() {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
@@ -76,7 +76,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   InkWell _goBackToAllVideos() {
     return InkWell(
         onTap: () async {
-          _lockPortait();
+          _lockPortrait();
           Navigator.pop(context);
         },
         child: Text('< Back to All Videos',
@@ -119,7 +119,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        _lockPortait();
+        _lockPortrait();
         Navigator.pop(context, true);
         return false;
       },

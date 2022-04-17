@@ -32,7 +32,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Navigates to new activity screen
-      await tester.tap(find.byKey(Key("Activity.addActivityButtton")));
+      await tester.tap(find.byKey(Key("Activity.addActivityButton")));
       await tester.pumpAndSettle();
 
       // Adds blank new activity to enable page scrolling

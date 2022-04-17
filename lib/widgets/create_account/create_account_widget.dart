@@ -11,7 +11,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 
-import '/widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/confirmation_dialog/confirmation_dialog.dart';
 
 import '../welcome/welcome_widget.dart';
 
@@ -47,10 +47,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  /// Controls visisbility of characters in [_passwordTextFormField].
+  /// Controls visibility of characters in [_passwordTextFormField].
   late bool _passwordVisibility;
 
-  /// Controls visisbility of characters in [_confirmPasswordTextFormField].
+  /// Controls visibility of characters in [_confirmPasswordTextFormField].
   late bool _confirmPasswordVisibility;
 
   /// Serves as key for the [Scaffold] found in [build].
@@ -91,7 +91,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     _confirmPasswordController!.dispose();
   }
 
-  /// Returns trimmed, lowercased text taken from [_emailController].
+  /// Returns trimmed, lowercase text taken from [_emailController].
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
@@ -547,7 +547,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           ),
                           SizedBox(width: 10),
                           InkWell(
-                            key: Key("Create.pWVisibilty"),
+                            key: Key("Create.pWVisibility"),
                             onTap: () => setState(() {
                               _passwordVisibility = !_passwordVisibility;
                             }),
@@ -654,7 +654,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         ),
                         SizedBox(width: 10),
                         InkWell(
-                          key: Key("Create.confirmPWVisibilty"),
+                          key: Key("Create.confirmPWVisibility"),
                           onTap: () => setState(() {
                             _confirmPasswordVisibility =
                                 !_confirmPasswordVisibility;
@@ -736,11 +736,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   void _verifyAPFPCredentials() async {
     if (await Internet.isConnected()) {
       if (_formKey.currentState!.validate()) {
-        Toasted.showToast("Verifiying Membership...");
+        Toasted.showToast("Verifying Membership...");
         FireStore.getRegisteredUser(_getEmail())
             .then((QuerySnapshot querySnapshot) {
           if (querySnapshot.size != 0) {
-            // Only works if there is unqiueness amongst
+            // Only works if there is uniqueness amongst
             // all email fields in 'registered users' firestore collection
             _docID = querySnapshot.docs.first.id;
             _createAccount();

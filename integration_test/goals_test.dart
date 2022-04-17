@@ -20,7 +20,7 @@ void main() {
       await tester.longPress(find.byKey(Key('Home.exerciseView')));
       await tester.pumpAndSettle();
 
-      // Enters '15' into daily exercise goal textfield
+      // Enters '15' into daily exercise goal textField
       await tester.enterText(
           find.byKey(Key("SetGoal.exerciseGoalTextField_daily")), '15');
       await tester.pumpAndSettle();
@@ -29,7 +29,7 @@ void main() {
       await tester.tap(find.byKey(Key("SetGoal.setExerciseGoalBTN_daily")));
       await tester.pumpAndSettle();
 
-      // Edits goal by entering '20' into daily exercise goal textfield
+      // Edits goal by entering '20' into daily exercise goal textField
       await tester.enterText(
           find.byKey(Key("SetGoal.exerciseGoalTextField_daily")), '20');
       await tester.pumpAndSettle();

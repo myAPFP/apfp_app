@@ -24,7 +24,7 @@ void main() {
       await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with valid info
+      // Populates each textFormField with valid info
       await tester.enterText(
           find.byKey(Key("Create.firstNameTextField")), 'John');
       await tester.pumpAndSettle();
@@ -41,7 +41,7 @@ void main() {
           find.byKey(Key('Create.confirmPasswordTextField')), passwordEx);
       await tester.pumpAndSettle();
 
-      // Hides keybaord by tapping screen
+      // Hides keyboard by tapping screen
       await tester.tap(find.byKey(Key('Create.confirmPasswordLabel')));
       await tester.pumpAndSettle();
     });
@@ -56,7 +56,7 @@ void main() {
       await tester.tap(createAcctButtonWel);
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with valid info
+      // Populates each textFormField with valid info
       await tester.enterText(
           find.byKey(Key("Create.firstNameTextField")), 'John');
       await tester.pumpAndSettle();
@@ -73,7 +73,7 @@ void main() {
           find.byKey(Key('Create.confirmPasswordTextField')), passwordEx);
       await tester.pumpAndSettle();
 
-      // Hides keybaord by tapping screen
+      // Hides keyboard by tapping screen
       await tester.tap(find.byKey(Key('Create.confirmPasswordLabel')));
       await tester.pumpAndSettle();
     });

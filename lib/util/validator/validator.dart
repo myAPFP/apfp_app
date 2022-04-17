@@ -13,7 +13,7 @@ class Validator {
   /// Matches positive integers >= 0
   static RegExp _integerRegex = new RegExp(r'^[1-9]\d*$');
 
-  /// Matches postive ints, doubles.
+  /// Matches positive integers, doubles.
   static RegExp _numRegex = new RegExp(
       r'^[+]?\d+([.]\d+)?$');
 
@@ -58,7 +58,7 @@ class Validator {
     return _validEmailRegex.hasMatch(email);
   }
 
-  /// Retuns true if [password] satisfies password requirements.
+  /// Returns true if [password] satisfies password requirements.
   static bool isValidPassword(String password) {
     return validPasswordRegex.hasMatch(password);
   }

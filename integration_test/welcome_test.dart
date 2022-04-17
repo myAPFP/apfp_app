@@ -24,7 +24,7 @@ void main() {
       // Trigger a frame.
       await tester.pumpAndSettle();
 
-      // Verify naviagtion to login route after button press.
+      // Verify navigation to login route after button press.
       expect(find.text('Forgot Your Password?'), findsOneWidget);
     });
 
@@ -44,7 +44,7 @@ void main() {
       // Trigger a frame.
       await tester.pumpAndSettle();
 
-      // Verify naviagtion to create account route after button press.
+      // Verify navigation to create account route after button press.
       expect(find.text('First Name'), findsOneWidget);
     });
   });

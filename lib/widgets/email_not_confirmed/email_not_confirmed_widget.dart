@@ -7,7 +7,7 @@ import '../welcome/welcome_widget.dart';
 import '/util/toasted/toasted.dart';
 import '/util/validator/validator.dart';
 
-import '/widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/confirmation_dialog/confirmation_dialog.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -30,7 +30,7 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
   /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  /// [TextEditingController] for the textfield within [_showEmailDialog].
+  /// [TextEditingController] for the textField within [_showEmailDialog].
   TextEditingController? _dialogEmailController;
 
   /// Serves as key for the [Scaffold] found in [build].
