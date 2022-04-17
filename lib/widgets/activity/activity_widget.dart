@@ -49,14 +49,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   /// Stores a user's activity document snapshots.
   late Map<String, dynamic> currentSnapshotBackup;
 
-  /// Special activity timestamp reserved for an imported activity.
-  ///
-  /// Using this timestamp ensures:
-  /// - Only one imported activity card appears, and is updated as needed.
-  /// - The imported activity card always appears at the top of the [cards]
-  /// list.
-  String importedActivityID = "3000-12-${DateTime.now().day}T00:00:00.000";
-
   @override
   void initState() {
     super.initState();
@@ -98,7 +90,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
               .getHealthDataFromTypes(
                   midnight, now, [HealthDataType.MOVE_MINUTES]);
           var moveMinutes = HealthUtil.getHealthSums(healthData.toSet());
-          _removeActivityFromCloud(importedActivityID);
+          _removeActivityFromCloud(ActivityCard.importedActivityID);
           _addImportedCard("${moveMinutes.round()} Minutes");
         } catch (error) {
           print("Activity data could not be retreived: $error ");
@@ -171,7 +163,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       duration: duration,
       name: "Imported-Workout",
       type: "Exercise-Minutes",
-      timestamp: importedActivityID,
+      timestamp: ActivityCard.importedActivityID,
     );
     _addActivityToCloud(activityCard);
   }

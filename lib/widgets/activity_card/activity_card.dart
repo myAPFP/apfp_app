@@ -25,6 +25,14 @@ class ActivityCard {
   /// Activity card.
   Card? _card;
 
+  /// Special activity timestamp reserved for an imported activity.
+  ///
+  /// Using this timestamp ensures:
+  /// - Only one imported activity card appears, and is updated as needed.
+  /// - The imported activity card always appears at the top of the [cards]
+  /// list.
+  static String importedActivityID = "3000-12-${DateTime.now().day}T00:00:00.000";
+
   ActivityCard(
       {String? duration,
       String? type,
@@ -52,7 +60,11 @@ class ActivityCard {
         mainAxisSize: MainAxisSize.max,
         children: [
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(icon, color: Color(0xFF54585A), size: 80),
+            Icon(icon,
+                color: timestamp == importedActivityID
+                    ? FlutterFlowTheme.secondaryColor
+                    : Color(0xFF54585A),
+                size: 80),
           ]),
           SizedBox(width: 15),
           Column(
@@ -102,7 +114,7 @@ class ActivityCard {
                 ],
               ),
               SizedBox(width: 5),
-              timestamp == "3000-12-${DateTime.now().day}T00:00:00.000"
+              timestamp == importedActivityID
                   ? AutoSizeText("Logged Today",
                       style: FlutterFlowTheme.bodyText1)
                   : AutoSizeText.rich(TextSpan(
