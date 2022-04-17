@@ -140,7 +140,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   /// Subscribes the user to necessary Firebase messaging topics.
   void _initFirebaseMessaging() {
     messaging = FirebaseMessaging.instance;
-    messaging.subscribeToTopic("alerts");
+    messaging.subscribeToTopic("Alerts");
     messaging.subscribeToTopic(
         FirebaseAuth.instance.currentUser!.displayName!.replaceAll(" ", ""));
   }
@@ -151,16 +151,16 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   }
 
   /// Launches the Completed Goals screen.
-  /// 
-  /// The [payload] is used to determine which completed goals are displayed: 
+  ///
+  /// The [payload] is used to determine which completed goals are displayed:
   /// daily or weekly.
   void _onClickNotification(String? payload) {
     CompletedGoalsWidget.launch(context, mode: payload!);
   }
 
   /// Returns the user's activity stream.
-  /// 
-  /// If there is no activity document present in Firestore, 
+  ///
+  /// If there is no activity document present in Firestore,
   /// a default one is created and its stream is returned.
   Stream<DocumentSnapshot<Map<String, dynamic>>> _activityStream() {
     Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
@@ -177,8 +177,8 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
   }
 
   /// Returns the user's goal stream.
-  /// 
-  /// If there is no goal document present in Firestore, 
+  ///
+  /// If there is no goal document present in Firestore,
   /// a default one is created and its stream is returned.
   Stream<DocumentSnapshot<Map<String, dynamic>>> _goalStream() {
     Future<DocumentSnapshot<Map<String, dynamic>>> userDocumentReference =
