@@ -92,7 +92,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   /// Holds a list of admin emails stored in FireStore.
   ///
   /// This list is used to populate the email recipient list
-  /// when a user requests to contact administartors.
+  /// when a user requests to contact administrators.
   List<String>? adminEmails = [];
 
   /// Serves as key for the [Scaffold] found in [build].
@@ -119,7 +119,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   /// their email has been verified.
   Future<FirebaseApp> _initFirebaseApp() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
-    if (await isUserEmailVerfified()) {
+    if (await isUserEmailVerified()) {
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -132,7 +132,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget>
   }
 
   /// Returns bool indicating email verification status.
-  Future<bool> isUserEmailVerfified() async {
+  Future<bool> isUserEmailVerified() async {
     User? user = FirebaseAuth.instance.currentUser;
     user!.reload().then((_) => user.getIdToken(true));
     return user.emailVerified;

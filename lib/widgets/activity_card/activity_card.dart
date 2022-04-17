@@ -29,7 +29,7 @@ class ActivityCard {
   ///
   /// Using this timestamp ensures:
   /// - Only one imported activity card appears, and is updated as needed.
-  /// - The imported activity card always appears at the top of the [cards]
+  /// - The imported activity card always appears at the top of the activity 
   /// list.
   static String importedActivityID = "3000-12-${DateTime.now().day}T00:00:00.000";
 

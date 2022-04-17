@@ -20,7 +20,7 @@ class Goal {
   /// Indicates if the user has synchronized a health app to myAPFP.
   static bool isHealthAppSynced = false;
 
-  /// Stores a user's current daily goal progess for exercise time.
+  /// Stores a user's current daily goal progress for exercise time.
   static double userProgressExerciseTime = 0;
 
 
@@ -34,7 +34,7 @@ class Goal {
   /// Indicates if the user has completed their daily exercise time goal.
   static bool isExerciseTimeGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for calories burned.
+  /// Stores a user's current daily goal progress for calories burned.
   static double userProgressCalGoal = 0;
 
   /// Stores a user's current daily end goal for calories burned.
@@ -46,7 +46,7 @@ class Goal {
   /// Indicates if the user has completed their daily calories goal.
   static bool isCalGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for steps taken.
+  /// Stores a user's current daily goal progress for steps taken.
   static double userProgressStepGoal = 0;
 
   /// Stores a user's current daily end goal for steps taken.
@@ -58,7 +58,7 @@ class Goal {
   /// Indicates if the user has completed their daily steps goal.
   static bool isStepGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for miles traveled.
+  /// Stores a user's current daily goal progress for miles traveled.
   static double userProgressMileGoal = 0;
 
   /// Stores a user's current daily end goal for miles traveled.
@@ -70,7 +70,7 @@ class Goal {
   /// Indicates if the user has completed their daily miles goal.
   static bool isMileGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for minutes spent cycling.
+  /// Stores a user's current daily goal progress for minutes spent cycling.
   static double userProgressCyclingGoal = 0;
 
   /// Stores a user's current daily end goal for minutes spent cycling.
@@ -82,7 +82,7 @@ class Goal {
   /// Indicates if the user has completed their daily cycling goal.
   static bool isCyclingGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for minutes spent rowing.
+  /// Stores a user's current daily goal progress for minutes spent rowing.
   static double userProgressRowingGoal = 0;
 
   /// Stores a user's current daily end goal for minutes spent rowing.
@@ -94,7 +94,7 @@ class Goal {
   /// Indicates if the user has completed their daily rowing goal.
   static bool isRowingGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for minutes spent using a step mill.
+  /// Stores a user's current daily goal progress for minutes spent using a step mill.
   static double userProgressStepMillGoal = 0;
 
   /// Stores a user's current daily end goal for minutes spent using a step mill.
@@ -106,7 +106,7 @@ class Goal {
   /// Indicates if the user has completed their daily step mill goal.
   static bool isStepMillGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for minutes spent using an elliptical.
+  /// Stores a user's current daily goal progress for minutes spent using an elliptical.
   static double userProgressEllipticalGoal = 0;
 
   /// Stores a user's current daily end goal for minutes spent using an elliptical.
@@ -118,7 +118,7 @@ class Goal {
   /// Indicates if the user has completed their daily elliptical goal.
   static bool isEllipticalGoalComplete = false;
 
-  /// Stores a user's current daily goal progess for minutes spent resistance/strength training.
+  /// Stores a user's current daily goal progress for minutes spent resistance/strength training.
   static double userProgressResistanceStrengthGoal = 0;
 
   /// Stores a user's current daily end goal for minutes spent resistance/strength training.

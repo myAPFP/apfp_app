@@ -20,10 +20,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Navigates to new activity screen
-      await tester.tap(find.byKey(Key("Activity.addActivityButtton")));
+      await tester.tap(find.byKey(Key("Activity.addActivityButton")));
       await tester.pumpAndSettle();
 
-      // Populates each textformfield with info
+      // Populates each textFormField with info
       await tester.enterText(
           find.byKey(Key("AddActivity.activityNameTextField")), 'Jogging');
       await tester.pumpAndSettle();

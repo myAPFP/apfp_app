@@ -12,7 +12,7 @@ import '../activity_card/activity_card.dart';
 
 import '../add_activity/add_activity_widget.dart';
 
-import '../confimation_dialog/confirmation_dialog.dart';
+import '../confirmation_dialog/confirmation_dialog.dart';
 
 import '/widgets/health_app_info/health_app_info.dart';
 
@@ -62,6 +62,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       if (value) {
         DateTime now = DateTime.now();
         final midnight = DateTime(now.year, now.month, now.day);
+        _removeActivityFromCloud(ActivityCard.importedActivityID);
         await health.getHealthDataFromTypes(
             midnight, now, [HealthDataType.WORKOUT]).then((value) {
           for (HealthDataPoint dataPoint in value) {
@@ -93,7 +94,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           _removeActivityFromCloud(ActivityCard.importedActivityID);
           _addImportedCard("${moveMinutes.round()} Minutes");
         } catch (error) {
-          print("Activity data could not be retreived: $error ");
+          print("Activity data could not be retrieved: $error ");
         }
       }
     }

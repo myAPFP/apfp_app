@@ -9,7 +9,7 @@ import '/util/toasted/toasted.dart';
 import '/util/validator/validator.dart';
 import '/util/internet_connection/internet.dart';
 
-import '/widgets/confimation_dialog/confirmation_dialog.dart';
+import '/widgets/confirmation_dialog/confirmation_dialog.dart';
 import '/widgets/email_not_confirmed/email_not_confirmed_widget.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -36,7 +36,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
   /// [TextEditingController] for the [_emailDialogTextField] within [_showEmailDialog].
   TextEditingController? _dialogEmailController;
 
-  /// Controls visisbility of characters in [_passwordTextFormField].
+  /// Controls visibility of characters in [_passwordTextFormField].
   late bool passwordVisibility;
 
   /// Controls the [CircularProgressIndicator] loading animation of a button.
@@ -67,12 +67,12 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
     _dialogEmailController!.dispose();
   }
 
-  /// Returns trimmed, lowercased text taken from [_emailController].
+  /// Returns trimmed, lowercase text taken from [_emailController].
   String _getEmail() {
     return _emailController!.text.trim().toLowerCase();
   }
 
-  /// Returns trimmed, lowercased text taken from [_dialogEmailController] within [_showEmailDialog].
+  /// Returns trimmed, lowercase text taken from [_dialogEmailController] within [_showEmailDialog].
   String _getDialogEmail() {
     return _dialogEmailController!.text.trim().toLowerCase();
   }
@@ -213,7 +213,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                   ),
                 ),
                 suffixIcon: InkWell(
-                  key: Key("Login.passwordVisibiltyIcon"),
+                  key: Key("Login.passwordVisibilityIcon"),
                   onTap: () => setState(
                     () => passwordVisibility = !passwordVisibility,
                   ),
@@ -386,7 +386,7 @@ class _LogInPageWidgetState extends State<LogInPageWidget> {
                 title: 'Forget Password',
                 contentText:
                     'Please enter the email associated with your account.' +
-                        '\n\nYou will recieve a link to reset your password.',
+                        '\n\nYou will receive a link to reset your password.',
                 onSubmitTap: () {
                   if (Validator.isValidEmail(_getDialogEmail())) {
                     if (!Validator.hasProfanity(_getDialogEmail())) {

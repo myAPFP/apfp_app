@@ -36,7 +36,7 @@ class HomeWidget extends StatefulWidget {
   /// The user's activity document stream.
   final Stream<DocumentSnapshot<Map<String, dynamic>>> activityStream;
 
-  /// The annoucements collection stream.
+  /// The announcements collection stream.
   late final Stream<QuerySnapshot<Map<String, dynamic>>> announcementsStream;
 
   HomeWidget(
