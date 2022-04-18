@@ -45,7 +45,7 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
                       ),
                     );
                   },
-                  child: Text('< Back to Settings',
+                  child: Text('< Back',
                       style: FlutterFlowTheme.subtitle2),
                 ),
               ),

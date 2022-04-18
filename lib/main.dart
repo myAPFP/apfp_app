@@ -124,7 +124,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     }
   }
 
-  /// Adds all Widgets to [pageList] to be displayed via the Nav bar.
+  /// Adds all Widgets to [pageList] to be displayed in the Nav bar.
   void _initPageList() {
     pageList.add(HomeWidget(
         announcementsStream: announcements,
@@ -150,10 +150,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
     NotificationService.onNotifications.stream.listen(_onClickNotification);
   }
 
-  /// Launches the Completed Goals screen.
-  ///
-  /// The [payload] is used to determine which completed goals are displayed:
-  /// daily or weekly.
+  /// Launches the Completed Goals screen upon notification click.
   void _onClickNotification(String? payload) {
     CompletedGoalsWidget.launch(context, mode: payload!);
   }
