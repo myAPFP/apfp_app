@@ -190,12 +190,11 @@ class Goal {
   /// The [id] specifies how a notification is shown when there is already one present.
   /// 
   /// - All completed daily goals have an id of 0. 
-  /// - All completed weekly goals have an id of 1. 
   /// 
   /// If a newer notification has the same id as an older one, the older one 
   /// disappears with the newer taking its place.
   /// 
-  /// As a result, only the newest completed daily and weekly goal will appear in 
+  /// As a result, only the newest completed daily will appear in 
   /// a user's notification shade.
   static void notify(String title, String body,
       {int id = 0, String type = "Daily"}) {

@@ -645,6 +645,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Displays the health data carousel.
   ///
   /// The user is shown:
+  /// - Activity Time
   /// - Calories Burned Today
   /// - Steps Taken Today
   /// - Miles Ran Today
