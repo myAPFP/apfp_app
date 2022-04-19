@@ -15,6 +15,7 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A5AC13BA03DB95C0B8868C55 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AFFEB6364C17111B8D551D /* Pods_Runner.framework */; };
 		E711C8C3280364DD0093651D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E711C8C2280364DD0093651D /* GoogleService-Info.plist */; };
+		E765E24D280F77AD00BFC988 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E765E24C280F77AD00BFC988 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +49,7 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E711C8C2280364DD0093651D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E765E24C280F77AD00BFC988 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E79CF630275B0749007D0173 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		EFEDF28B0C6810AE57EF154C /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +60,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5AC13BA03DB95C0B8868C55 /* Pods_Runner.framework in Frameworks */,
+				E765E24D280F77AD00BFC988 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +117,7 @@
 		B04C45194BD186473145C44B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E765E24C280F77AD00BFC988 /* HealthKit.framework */,
 				69AFFEB6364C17111B8D551D /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
