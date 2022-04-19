@@ -176,13 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.1"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   dbus:
     dependency: transitive
     description:
@@ -547,6 +540,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  modjs_video_player:
+    dependency: "direct main"
+    description:
+      name: modjs_video_player
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+fix"
   nm:
     dependency: transitive
     description:
@@ -768,7 +768,21 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.12"
+    version: "6.0.20"
+  url_launcher_android:
+    dependency: transitive
+    description:
+      name: url_launcher_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.15"
+  url_launcher_ios:
+    dependency: transitive
+    description:
+      name: url_launcher_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.15"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -860,13 +874,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.8"
-  youtube_plyr_iframe:
-    dependency: "direct main"
-    description:
-      name: youtube_plyr_iframe
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.7"
 sdks:
   dart: ">=2.15.0 <3.0.0"
-  flutter: ">=2.5.0"
+  flutter: ">=2.8.0"

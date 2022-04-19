@@ -31,7 +31,6 @@ dependencies:
   page_transition:
   timeago:
   url_launcher:
-  youtube_plyr_iframe: ^2.0.6
   youtube_explode_dart: ^1.10.8
   firebase_core: ^1.7.0
   cloud_firestore: ^3.1.6
@@ -40,7 +39,6 @@ dependencies:
   firebase_messaging: ^11.2.5
   firebase_analytics: ^9.0.5
   animated_text_kit: ^4.2.1
-  cupertino_icons: ^1.0.0
   focused_menu: ^1.0.5
   open_mail_app: ^0.4.1
   connectivity_plus: ^2.2.0
@@ -54,6 +52,7 @@ dependencies:
   health: ^3.4.3
   permission_handler: ^8.3.0
   carousel_slider: ^4.0.0
+  modjs_video_player: ^1.0.0+fix
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.1
