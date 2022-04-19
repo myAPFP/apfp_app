@@ -80,6 +80,19 @@ An additional folder regarding Firebase can be found in the `lib/util` directory
 ### Testing
 Implemented testing for the application thus far is included in the `test` and `integration_test` directories. At this point in time, there may be a specific configuration that must be reached in the application before some of the tests may succeed. Instructions are embedded in each of the files where additional configuration is required. 
 
+### Documentation
+Each class found within the `lib` folder is fully documented. Run `dart doc .` in the root of the project to generate HTML documentaton.
+By default, the documentation is generated to the doc/api directory as static HTML files. If you receive errors building docs, try running
+`flutter pub global activate dartdoc` and then `flutter pub global run dartdoc .`
+
+### Viewing documentation
+You can view the generated docs directly from the file system, but if you want to use the search function, you must load them with an HTTP server.
+An easy way to run an HTTP server locally is to use the dhttpd package. Example:
+- run `dart pub global activate dhttpd`
+- run `dhttpd --path doc/api`
+
+Lastly, navigate to `http://localhost:8080` in your browser; the search function should now work.
+
 ### iOS and Android Configuration Files
 The iOS and Android configuration files for this project are located in `ios` and `android` respectively. These directories contain mostly Flutter-generated code that allows the single codebase to be compiled on either the iOS or Android platforms. Some information in these files is specific to this project.
 
