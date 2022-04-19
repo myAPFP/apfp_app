@@ -81,7 +81,7 @@ An additional folder regarding Firebase can be found in the `lib/util` directory
 Implemented testing for the application thus far is included in the `test` and `integration_test` directories. At this point in time, there may be a specific configuration that must be reached in the application before some of the tests may succeed. Instructions are embedded in each of the files where additional configuration is required. 
 
 ### Documentation
-Each class found within the `lib` folder is fully documented. Run `dart doc .` in the root of the project to generate HTML documentaton.
+Each class found within the `lib` folder is fully documented. Run `dart doc .` in the root of the project to generate HTML documentation.
 By default, the documentation is generated to the doc/api directory as static HTML files. If you receive errors building docs, try running
 `flutter pub global activate dartdoc` and then `flutter pub global run dartdoc .`
 
