@@ -224,40 +224,9 @@ void main() {
       await tester.tap(find.byKey(Key("SetGoal.setResStrengthGoalBTN_daily")));
       await tester.pumpAndSettle();
 
-      // Goes back to Home
-      await tester.tap(find.byKey(Key("SetGoal.goBackBTN")));
-      await tester.pumpAndSettle();
-
-      // // Ensure cycling goal progress is displayed in Home
-      // expect(
-      //     find.text(
-      //         "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(0)} / ${Goal.userCyclingEndGoal.toStringAsFixed(0)} min"),
-      //     findsOneWidget);
-
-      //  // Ensure rowing goal progress is displayed in Home
-      // expect(
-      //     find.text(
-      //         "Rowing - ${Goal.userProgressRowingGoal.toStringAsFixed(0)} / ${Goal.userRowingEndGoal.toStringAsFixed(0)} min"),
-      //     findsOneWidget);
-
-      // // Ensure step mill goal progress is displayed in Home
-      // expect(
-      //     find.text(
-      //         "Step Mill - ${Goal.userProgressStepMillGoal.toStringAsFixed(0)} / ${Goal.userStepMillEndGoal.toStringAsFixed(0)} min"),
-      //     findsOneWidget);
-
-      // // Ensure elliptical goal progress is displayed in Home
-      // expect(
-      //     find.text(
-      //         "Elliptical - ${Goal.userProgressEllipticalGoal.toStringAsFixed(0)} / ${Goal.userEllipticalEndGoal.toStringAsFixed(0)} min"),
-      //     findsOneWidget);
-
-      // // Ensure resistance strength goal progress is displayed in Home
-      // expect(
-      //     find.text(
-      //         "Resistance - ${Goal.userProgressResistanceStrengthGoal.toStringAsFixed(0)} / ${Goal.userResistanceStrengthEndGoal.toStringAsFixed(0)} min"),
-      //     findsOneWidget);               
+      expect(find.text("15"), findsNWidgets(5));        
     });
+
     testWidgets(
         'US: When I complete a goal, the completed goals screen should be updated' +
             ' to reflect the newest addition.', (WidgetTester tester) async {
