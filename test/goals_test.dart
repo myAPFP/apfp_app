@@ -19,15 +19,15 @@ void main() {
   });
 
   group('Goal progress sum conversion tests', () {
-    test('Convert a goal progress (seconds) sum to minutes.', () {
+    test('Convert a Duration object (seconds) sum to minutes.', () {
       Duration d = Duration(seconds: 30);
       expect(Goal.toMinutes(d), 0.5);
     });
-    test('Convert a goal progress (minutes) sum to minutes.', () {
+    test('Convert a Duration object (minutes) sum to minutes.', () {
       Duration d = Duration(minutes: 10);
       expect(Goal.toMinutes(d), 10);
     });
-    test('Convert a goal progress (hours) sum to minutes.', () {
+    test('Convert a Duration object (hours) sum to minutes.', () {
       Duration d = Duration(hours: 3);
       expect(Goal.toMinutes(d), 180);
     });
