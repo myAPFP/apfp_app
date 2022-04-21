@@ -16,11 +16,11 @@ void main() {
       await tester.pumpAndSettle();
 
       // Reach My Activity Page to verify its existence
-      await tester.tap(find.byTooltip('My Activity'));
+      await tester.tap(find.byTooltip("Today's Activity"));
       await tester.pumpAndSettle();
 
       // Navigates to new activity screen
-      await tester.tap(find.byKey(Key("Activity.addActivityButton")));
+      await tester.tap(find.byKey(Key("Activity.FAB")));
       await tester.pumpAndSettle();
 
       // Populates each textFormField with info
@@ -28,10 +28,7 @@ void main() {
           find.byKey(Key("AddActivity.activityNameTextField")), 'Jogging');
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(Key("AddActivity.exerciseTextField")), 'Cardio');
-      await tester.pumpAndSettle();
-      await tester.enterText(
-          find.byKey(Key("AddActivity.durationTextField")), '10 min');
+          find.byKey(Key("AddActivity.durationTextField")), '10');
       await tester.pumpAndSettle();
 
       // Presses "Enter" - hides keyboard
