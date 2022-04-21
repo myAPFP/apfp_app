@@ -528,7 +528,7 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _stepMillGoalController!,
-                      key: Key("SetGoal.stepMillGoalTextField")),
+                      key: Key("SetGoal.stepMillGoalTextField_daily")),
                   _setGoalButton(_stepMillFormKey, () async {
                     await FireStore.updateGoalData({
                       "stepMillEndGoal": double.parse(
@@ -558,7 +558,7 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _ellipticalGoalController!,
-                      key: Key("SetGoal.ellipticalGoalTextField")),
+                      key: Key("SetGoal.ellipticalGoalTextField_daily")),
                   _setGoalButton(_ellipticalFormKey, () async {
                     await FireStore.updateGoalData({
                       "ellipticalEndGoal": double.parse(
@@ -590,7 +590,7 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
                   _goalTextField(
                       hintText: "Total Minutes",
                       contr: _resistanceStrengthGoalController!,
-                      key: Key("SetGoal.resStrengthGoalTextField")),
+                      key: Key("SetGoal.resStrengthGoalTextField_daily")),
                   _setGoalButton(_resistanceStrengthFormKey, () async {
                     await FireStore.updateGoalData({
                       "resistanceStrengthEndGoal": double.parse(
