@@ -130,36 +130,39 @@ class _HomeWidgetState extends State<HomeWidget> {
       if (element.data() != null) {
         _activitySnapshotBackup = element.data()!;
       }
-      setState(() {
-        Goal.userProgressExerciseTime =
-            ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
-        Goal.userProgressCyclingGoal = OtherGoal.calcGoalSums(
-            _activitySnapshotBackup,
-            goalType: "Cycling");
-        Goal.userProgressRowingGoal =
-            OtherGoal.calcGoalSums(_activitySnapshotBackup, goalType: "Rowing");
-        Goal.userProgressStepMillGoal = OtherGoal.calcGoalSums(
-            _activitySnapshotBackup,
-            goalType: "Step-Mill");
-        Goal.userProgressEllipticalGoal = OtherGoal.calcGoalSums(
-            _activitySnapshotBackup,
-            goalType: "Elliptical");
-        Goal.userProgressResistanceStrengthGoal = OtherGoal.calcGoalSums(
-            _activitySnapshotBackup,
-            goalType: "Resistance");
-        FireStore.updateGoalData({
-          "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
-          "calGoalProgress": Goal.userProgressCalGoal,
-          "stepGoalProgress": Goal.userProgressStepGoal,
-          "mileGoalProgress": Goal.userProgressMileGoal,
-          "cyclingGoalProgress": Goal.userProgressCyclingGoal,
-          "rowingGoalProgress": Goal.userProgressRowingGoal,
-          "stepMillGoalProgress": Goal.userProgressStepMillGoal,
-          "ellipticalGoalProgress": Goal.userProgressEllipticalGoal,
-          "resistanceStrengthGoalProgress":
-              Goal.userProgressResistanceStrengthGoal,
+      if (mounted) {
+        setState(() {
+          Goal.userProgressExerciseTime =
+              ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
+          Goal.userProgressCyclingGoal = OtherGoal.calcGoalSums(
+              _activitySnapshotBackup,
+              goalType: "Cycling");
+          Goal.userProgressRowingGoal = OtherGoal.calcGoalSums(
+              _activitySnapshotBackup,
+              goalType: "Rowing");
+          Goal.userProgressStepMillGoal = OtherGoal.calcGoalSums(
+              _activitySnapshotBackup,
+              goalType: "Step-Mill");
+          Goal.userProgressEllipticalGoal = OtherGoal.calcGoalSums(
+              _activitySnapshotBackup,
+              goalType: "Elliptical");
+          Goal.userProgressResistanceStrengthGoal = OtherGoal.calcGoalSums(
+              _activitySnapshotBackup,
+              goalType: "Resistance");
+          FireStore.updateGoalData({
+            "exerciseTimeGoalProgress": Goal.userProgressExerciseTime,
+            "calGoalProgress": Goal.userProgressCalGoal,
+            "stepGoalProgress": Goal.userProgressStepGoal,
+            "mileGoalProgress": Goal.userProgressMileGoal,
+            "cyclingGoalProgress": Goal.userProgressCyclingGoal,
+            "rowingGoalProgress": Goal.userProgressRowingGoal,
+            "stepMillGoalProgress": Goal.userProgressStepMillGoal,
+            "ellipticalGoalProgress": Goal.userProgressEllipticalGoal,
+            "resistanceStrengthGoalProgress":
+                Goal.userProgressResistanceStrengthGoal,
+          });
         });
-      });
+      }
     });
   }
 
@@ -172,38 +175,43 @@ class _HomeWidgetState extends State<HomeWidget> {
       _goalSnapshotBackup = new Map();
       if (element.data() != null) {
         _goalSnapshotBackup = element.data()!;
-        setState(() {
-          _goalType = "Daily";
-          Goal.dayOfMonth = _goalSnapshotBackup['dayOfMonth'];
-          Goal.isCalGoalSet = _goalSnapshotBackup['isCalGoalSet'];
-          Goal.isStepGoalSet = _goalSnapshotBackup['isStepGoalSet'];
-          Goal.isMileGoalSet = _goalSnapshotBackup['isMileGoalSet'];
-          Goal.isExerciseTimeGoalSet =
-              _goalSnapshotBackup['isExerciseTimeGoalSet'];
-          Goal.isCyclingGoalSet = _goalSnapshotBackup['isCyclingGoalSet'];
-          Goal.isRowingGoalSet = _goalSnapshotBackup['isRowingGoalSet'];
-          Goal.isStepMillGoalSet = _goalSnapshotBackup['isStepMillGoalSet'];
-          Goal.isEllipticalGoalSet = _goalSnapshotBackup['isEllipticalGoalSet'];
-          Goal.isResistanceStrengthGoalSet =
-              _goalSnapshotBackup['isResistanceStrengthGoalSet'];
-          Goal.isHealthAppSynced = _goalSnapshotBackup['isHealthAppSynced'];
-          Goal.userCalEndGoal = _goalSnapshotBackup['calEndGoal'].toDouble();
-          Goal.userStepEndGoal = _goalSnapshotBackup['stepEndGoal'].toDouble();
-          Goal.userMileEndGoal = _goalSnapshotBackup['mileEndGoal'].toDouble();
-          Goal.userExerciseTimeEndGoal =
-              _goalSnapshotBackup['exerciseTimeEndGoal'].toDouble();
-          Goal.userCyclingEndGoal =
-              _goalSnapshotBackup['cyclingEndGoal'].toDouble();
-          Goal.userRowingEndGoal =
-              _goalSnapshotBackup['rowingEndGoal'].toDouble();
-          Goal.userStepMillEndGoal =
-              _goalSnapshotBackup['stepMillEndGoal'].toDouble();
-          Goal.userEllipticalEndGoal =
-              _goalSnapshotBackup['ellipticalEndGoal'].toDouble();
-          Goal.userResistanceStrengthEndGoal =
-              _goalSnapshotBackup['resistanceStrengthEndGoal'].toDouble();
-        });
-        Goal.uploadCompletedGoals();
+        if (mounted) {
+          setState(() {
+            _goalType = "Daily";
+            Goal.dayOfMonth = _goalSnapshotBackup['dayOfMonth'];
+            Goal.isCalGoalSet = _goalSnapshotBackup['isCalGoalSet'];
+            Goal.isStepGoalSet = _goalSnapshotBackup['isStepGoalSet'];
+            Goal.isMileGoalSet = _goalSnapshotBackup['isMileGoalSet'];
+            Goal.isExerciseTimeGoalSet =
+                _goalSnapshotBackup['isExerciseTimeGoalSet'];
+            Goal.isCyclingGoalSet = _goalSnapshotBackup['isCyclingGoalSet'];
+            Goal.isRowingGoalSet = _goalSnapshotBackup['isRowingGoalSet'];
+            Goal.isStepMillGoalSet = _goalSnapshotBackup['isStepMillGoalSet'];
+            Goal.isEllipticalGoalSet =
+                _goalSnapshotBackup['isEllipticalGoalSet'];
+            Goal.isResistanceStrengthGoalSet =
+                _goalSnapshotBackup['isResistanceStrengthGoalSet'];
+            Goal.isHealthAppSynced = _goalSnapshotBackup['isHealthAppSynced'];
+            Goal.userCalEndGoal = _goalSnapshotBackup['calEndGoal'].toDouble();
+            Goal.userStepEndGoal =
+                _goalSnapshotBackup['stepEndGoal'].toDouble();
+            Goal.userMileEndGoal =
+                _goalSnapshotBackup['mileEndGoal'].toDouble();
+            Goal.userExerciseTimeEndGoal =
+                _goalSnapshotBackup['exerciseTimeEndGoal'].toDouble();
+            Goal.userCyclingEndGoal =
+                _goalSnapshotBackup['cyclingEndGoal'].toDouble();
+            Goal.userRowingEndGoal =
+                _goalSnapshotBackup['rowingEndGoal'].toDouble();
+            Goal.userStepMillEndGoal =
+                _goalSnapshotBackup['stepMillEndGoal'].toDouble();
+            Goal.userEllipticalEndGoal =
+                _goalSnapshotBackup['ellipticalEndGoal'].toDouble();
+            Goal.userResistanceStrengthEndGoal =
+                _goalSnapshotBackup['resistanceStrengthEndGoal'].toDouble();
+          });
+          Goal.uploadCompletedGoals();
+        }
       }
     });
   }
