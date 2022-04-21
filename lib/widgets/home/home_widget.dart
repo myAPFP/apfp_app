@@ -735,7 +735,8 @@ class _HomeWidgetState extends State<HomeWidget> {
             SizedBox(height: 5),
             Goal.isHealthAppSynced
                 ? _refreshHealthData()
-                : _syncHealthAppButton()
+                : _syncHealthAppButton(),
+            SizedBox(height: 10)
           ],
         ),
       )),
