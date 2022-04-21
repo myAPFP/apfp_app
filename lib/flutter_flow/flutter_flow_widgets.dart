@@ -22,13 +22,14 @@ class FFButtonOptions {
 
 class FFButtonWidget extends StatelessWidget {
   const FFButtonWidget({
-    Key? key,
+    required this.key,
     required this.text,
     required this.onPressed,
     required this.options,
     this.loading = false,
   }) : super(key: key);
 
+  final Key key;
   final String text;
   final VoidCallback onPressed;
   final FFButtonOptions options;

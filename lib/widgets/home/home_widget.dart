@@ -390,6 +390,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Refreshes health data shown in the health data carousel.
   FFButtonWidget _refreshHealthData() {
     return FFButtonWidget(
+      key: Key("Home.refreshHealthData"),
       onPressed: () => _fetchHealthData(),
       text: 'Refresh $_platformHealthName Data',
       options: FFButtonOptions(
@@ -513,7 +514,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// The view displayed in the 'Other' tab of the [_goalsTabbedContainer].
   InkWell _otherGoalsView() {
     return HPGraphic.createOtherView(
-        key: Key("Home.otherGoalsView"),
+        key: Key("Home.otherView"),
         context: context,
         goal1ProgressInfo: Goal.isCyclingGoalSet
             ? "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(0)} / ${Goal.userCyclingEndGoal.toStringAsFixed(0)} min"
@@ -596,11 +597,11 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
         ),
         child: HPGraphic.tabbedContainer(context: context, tabs: [
-          Text('Time'),
-          Text('Calories'),
-          Text('Steps'),
-          Text('Miles'),
-          Text('Other'),
+          InkWell(key: Key("Home.timeTab"), child: Text('Time')),
+          InkWell(key: Key("Home.calsTab"), child: Text('Calories')),
+          InkWell(key: Key("Home.stepsTab"), child: Text('Steps')),
+          InkWell(key: Key("Home.milesTab"), child: Text('Miles')),
+          InkWell(key: Key("Home.otherTab"), child: Text('Other')),
         ], views: [
           _exerciseTimeView(),
           _calsView(),
@@ -615,6 +616,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Creates button that allows user to sync a health app to myAPFP.
   FFButtonWidget _syncHealthAppButton() {
     return FFButtonWidget(
+      key: Key("Home.syncHealthAppButton"),
       onPressed: () async {
         if (await Permission.activityRecognition.request().isGranted) {
           FireStore.updateGoalData({"isHealthAppSynced": true});

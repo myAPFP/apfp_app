@@ -144,6 +144,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
+        key: Key("Settings.logOutButton"),
         onPressed: () => ConfirmationDialog.showConfirmationDialog(
             context: context,
             title: Text('Logout'),
@@ -179,7 +180,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   ///
   /// The [title] and [onTap] parameters cannot be null.
   Padding _settingsButton(
-      {required String title, required void Function() onTap}) {
+      {required String title, required void Function() onTap, required Key key}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
       child: Material(
@@ -189,6 +190,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           borderRadius: BorderRadius.circular(8),
         ),
         child: InkWell(
+          key: key,
           onTap: onTap,
           child: Container(
             width: MediaQuery.of(context).size.width * 0.95,
@@ -270,16 +272,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 ),
                 SizedBox(height: 15),
                 _settingsButton(
+                    key: Key("Settings.setDailyGoalsBTN"),
                     title: "Set Daily Goals",
                     onTap: () {
                       SetGoalsWidget.launch(context);
                     }),
                 _settingsButton(
+                  key: Key("Settings.viewCompletedGoalsBTN"),
                     title: "View Completed Goals",
                     onTap: () {
                       CompletedGoalsWidget.launch(context, mode: "Daily");
                     }),
                 _settingsButton(
+                  key: Key("Settings.changePasswordBTN"),
                     title: "Change Password",
                     onTap: () {
                       ConfirmationDialog.showConfirmationDialog(
@@ -296,6 +301,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           });
                     }),
                 _settingsButton(
+                  key: Key("Settings.deleteAccountBTN"),
                     title: "Delete Account",
                     onTap: () {
                       ConfirmationDialog.showConfirmationDialog(

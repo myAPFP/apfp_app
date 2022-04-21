@@ -163,6 +163,7 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
       child: FFButtonWidget(
+        key: Key("SetGoal.switchGoalViewBTN"),
         onPressed: () => setState(() {
           _isOtherGoalsDisplayed = !_isOtherGoalsDisplayed;
         }),

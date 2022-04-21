@@ -153,13 +153,13 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
   /// Returns the user to the Welcome screen.
   Padding _returnToWelcomeButton() {
     return Padding(
-      key: Key('Email.returnHomeButton'),
       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FFButtonWidget(
+            key: Key('Email.returnHomeButton'),
             onPressed: () async {
               setState(() => _loadingButton = true);
               try {

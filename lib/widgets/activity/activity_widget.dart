@@ -273,6 +273,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     return Scaffold(
       key: scaffoldKey,
       floatingActionButton: FloatingActionButton(
+        key: Key("Activity.FAB"),
         backgroundColor: FlutterFlowTheme.secondaryColor,
         child: Icon(Icons.add),
         onPressed: () async {
