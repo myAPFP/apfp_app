@@ -264,7 +264,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
               FontAwesomeIcons.dumbbell,
               size: 35,
             ),
-            label: 'Exercises',
+            label: 'At-Home Exercises',
             tooltip: 'Exercises',
           ),
           BottomNavigationBarItem(
@@ -273,7 +273,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
               size: 40,
             ),
             label: 'Activity',
-            tooltip: 'My Activity',
+            tooltip: "Today's Activity",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings, size: 40),
