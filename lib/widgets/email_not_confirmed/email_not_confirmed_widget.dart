@@ -51,7 +51,6 @@ class _EmailNotConfirmedWidgetState extends State<EmailNotConfirmedWidget> {
   @override
   void dispose() {
     super.dispose();
-    _dialogEmailController!.dispose();
   }
 
   /// Warning message shown to user.
