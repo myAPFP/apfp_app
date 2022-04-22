@@ -229,7 +229,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
     ];
     await HealthFactory.hasPermissions(dataTypes).then((value) async {
-      if (value != null && value) {
+      if (value == null || value) {
         setState(() {
           _isFetchingHealthData = true;
         });
@@ -619,7 +619,29 @@ class _HomeWidgetState extends State<HomeWidget> {
     return FFButtonWidget(
       key: Key("Home.syncHealthAppButton"),
       onPressed: () async {
-        if (await Permission.activityRecognition.isGranted) {
+        if (Platform.isAndroid &&
+            await Permission.activityRecognition.isGranted) {
+          FireStore.updateGoalData({"isHealthAppSynced": true});
+          _fetchHealthData();
+          Toasted.showToast("$_platformHealthName has been synchronized!");
+        } else if (Platform.isIOS &&
+            await HealthFactory().getHealthDataFromTypes(
+                DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day),
+                DateTime.now(),
+                [
+                  HealthDataType.WORKOUT,
+                  HealthDataType.STEPS,
+                  HealthDataType.DISTANCE_WALKING_RUNNING,
+                  HealthDataType.ACTIVE_ENERGY_BURNED
+                ]).then((value) {
+              if (value.isEmpty) {
+                Toasted.showToast("No relevant activity logged");
+                return false;
+              } else {
+                return true;
+              }
+            })) {
           FireStore.updateGoalData({"isHealthAppSynced": true});
           _fetchHealthData();
           Toasted.showToast("$_platformHealthName has been synchronized!");
