@@ -704,24 +704,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                           .replaceAll(" ", "")
                     ];
                     List<String> alertTexts = new List.empty(growable: true);
-                    if (snapshot.data!.docs.length > 0) {
-                      if (topics.contains(snapshot.data?.docs[0]['topic'])) {
-                        alertTexts.add(snapshot.data?.docs[0]['title']);
-                      }
-                    }
-                    if (snapshot.data!.docs.length > 1) {
-                      if (topics.contains(snapshot.data?.docs[1]['topic'])) {
-                        alertTexts.add(snapshot.data?.docs[1]['title']);
-                      }
-                    }
-                    if (snapshot.data!.docs.length > 2) {
-                      if (topics.contains(snapshot.data?.docs[2]['topic'])) {
-                        alertTexts.add(snapshot.data?.docs[2]['title']);
+                    for (QueryDocumentSnapshot document
+                        in snapshot.data!.docs) {
+                      if (topics.contains(document['topic'])) {
+                        alertTexts.add(document['title']);
                       }
                     }
                     if (alertTexts.length < 3) {
-                      for (int i = alertTexts.length - 1; i < 3; i++) {
-                        alertTexts.add("No announcement available.");
+                      for (int i = alertTexts.length; i < 4; i++) {
+                        alertTexts.add("No announcement available");
                       }
                     }
                     return _announcements(
@@ -744,7 +735,8 @@ class _HomeWidgetState extends State<HomeWidget> {
             SizedBox(height: 5),
             Goal.isHealthAppSynced
                 ? _refreshHealthData()
-                : _syncHealthAppButton()
+                : _syncHealthAppButton(),
+            SizedBox(height: 10)
           ],
         ),
       )),
