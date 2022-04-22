@@ -176,6 +176,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   Row _headerTextRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -190,34 +191,30 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 16, 30, 0),
-              child: InkWell(
-                onTap: _syncHealthAppData,
-                child: Icon(
-                  Icons.refresh,
-                  color: FlutterFlowTheme.secondaryColor,
-                ),
+            InkWell(
+              onTap: _syncHealthAppData,
+              child: Icon(
+                Icons.refresh,
+                color: FlutterFlowTheme.secondaryColor,
               ),
-            )
+            ),
           ],
         ),
         Column(
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 16, 20, 0),
-              child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HealthAppInfo()));
-                  },
-                  child: Icon(
-                    Icons.help,
-                    color: FlutterFlowTheme.secondaryColor,
-                  )),
-            )
+                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HealthAppInfo()));
+                    },
+                    child: Icon(
+                      Icons.help,
+                      color: FlutterFlowTheme.secondaryColor,
+                    ))),
           ],
         )
       ],
