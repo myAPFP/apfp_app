@@ -621,6 +621,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       onPressed: () async {
         if (await Permission.activityRecognition.isGranted) {
           FireStore.updateGoalData({"isHealthAppSynced": true});
+          _fetchHealthData();
           Toasted.showToast("$_platformHealthName has been synchronized!");
         } else {
           Toasted.showToast("Visit Activity tab to sync $_platformHealthName");
