@@ -21,7 +21,7 @@ void main() {
 
     testWidgets(
         "US: If I am ready to log another activity, I can press a"
-                "button to be taken to a screen to log a new activity" +
+                " button to be taken to a screen to log a new activity\n" +
             "US: The items are stored in a list so that if I've logged a lot of" +
             " activity, I can scroll through it.", (WidgetTester tester) async {
       app.main();
