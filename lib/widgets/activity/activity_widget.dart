@@ -57,8 +57,12 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   /// Synchronizes iOS Health App data with myAPFP.
   void _syncIOSHealthData(HealthFactory health) async {
-    await health
-        .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
+    await health.requestAuthorization([
+      HealthDataType.WORKOUT,
+      HealthDataType.STEPS,
+      HealthDataType.DISTANCE_WALKING_RUNNING,
+      HealthDataType.ACTIVE_ENERGY_BURNED
+    ]).then((value) async {
       if (value) {
         DateTime now = DateTime.now();
         final midnight = DateTime(now.year, now.month, now.day);
