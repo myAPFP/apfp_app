@@ -15,7 +15,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Reach My Activity Page to verify its existence
-      await tester.tap(find.byTooltip('My Activity'));
+      await tester.tap(find.byTooltip("Today's Activity"));
       await tester.pumpAndSettle();
     });
 
@@ -28,16 +28,31 @@ void main() {
       await tester.pumpAndSettle();
 
       // Reach My Activity Page to verify its existence
-      await tester.tap(find.byTooltip('My Activity'));
+      await tester.tap(find.byTooltip("Today's Activity"));
       await tester.pumpAndSettle();
 
-      // Navigates to new activity screen
-      await tester.tap(find.byKey(Key("Activity.addActivityButton")));
-      await tester.pumpAndSettle();
+      // Adds 5 activities
+      for (int i = 0; i < 5; i++) {
+        // Navigates to new activity screen
+        await tester.tap(find.byKey(Key("Activity.FAB")));
+        await tester.pumpAndSettle();
 
-      // Adds blank new activity to enable page scrolling
-      await tester.tap(find.byKey(Key("AddActivity.submitButton")));
-      await tester.pumpAndSettle();
+        // Populates each textFormField with info
+        await tester.enterText(
+            find.byKey(Key("AddActivity.activityNameTextField")), 'Jogging');
+        await tester.pumpAndSettle();
+        await tester.enterText(
+            find.byKey(Key("AddActivity.durationTextField")), '10');
+        await tester.pumpAndSettle();
+
+        // Presses "Enter" - hides keyboard
+        await tester.testTextInput.receiveAction(TextInputAction.done);
+        await tester.pumpAndSettle();
+
+        // Adds new activity
+        await tester.tap(find.byKey(Key("AddActivity.submitButton")));
+        await tester.pumpAndSettle();
+      }
 
       // Verifies page can scroll
       await tester.drag(find.byKey(Key("Activity.singleChildScrollView")),
