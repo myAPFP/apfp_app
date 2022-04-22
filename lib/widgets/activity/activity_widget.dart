@@ -80,7 +80,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   /// Synchronizes Android Health App data with myAPFP.
   void _syncAndroidHealthData(HealthFactory health) async {
     bool requested;
-    if (await Permission.activityRecognition.status.isGranted) {
+    if (await Permission.activityRecognition.request().isGranted) {
       requested =
           await health.requestAuthorization([HealthDataType.MOVE_MINUTES]);
       if (requested) {

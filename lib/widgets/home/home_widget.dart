@@ -211,10 +211,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Checks if a user has granted physical activity permissions to myAPFP and
   /// updates the Firestore database accordingly.
   void _checkIfHealthAppSynced() async {
-    FireStore.updateGoalData({
-      "isHealthAppSynced":
-          await Permission.activityRecognition.request().isGranted
-    });
+    FireStore.updateGoalData(
+        {"isHealthAppSynced": await Permission.activityRecognition.isGranted});
   }
 
   /// Fetches calories, steps, and miles from the user's health app.
@@ -224,48 +222,49 @@ class _HomeWidgetState extends State<HomeWidget> {
     double miles = 0;
     final now = DateTime.now();
     final midnight = DateTime(now.year, now.month, now.day);
-    bool requested = await health.requestAuthorization([
+    List<HealthDataType> dataTypes = [
       HealthDataType.STEPS,
       Platform.isAndroid
           ? HealthDataType.DISTANCE_DELTA // Android
           : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
-    ]);
-    setState(() {
-      _isFetchingHealthData = true;
-    });
-    if (requested) {
-      try {
-        var calData = await health.getHealthDataFromTypes(midnight, now, [
-          HealthDataType.ACTIVE_ENERGY_BURNED // Calories
-        ]);
-        var calSet = calData.toSet();
-        cals = HealthUtil.getHealthSums(calSet);
-        var mileData = await health.getHealthDataFromTypes(midnight, now, [
-          Platform.isAndroid
-              ? HealthDataType.DISTANCE_DELTA // Android
-              : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
-        ]);
-        var mileSet = mileData.toSet();
-        miles = double.parse(
-            (HealthUtil.getHealthSums(mileSet) / 1609.344).toStringAsFixed(0));
-        await health
-            .getTotalStepsInInterval(midnight, now)
-            .then((value) => {if (value != null) steps = value else steps = 0});
-      } catch (error) {
-        print("Home._fetchHealthData() error: $error");
+    ];
+    await HealthFactory.hasPermissions(dataTypes).then((value) async {
+      if (value != null && value) {
+        setState(() {
+          _isFetchingHealthData = true;
+        });
+        try {
+          var calData = await health.getHealthDataFromTypes(midnight, now, [
+            HealthDataType.ACTIVE_ENERGY_BURNED // Calories
+          ]);
+          var calSet = calData.toSet();
+          cals = HealthUtil.getHealthSums(calSet);
+          var mileData = await health.getHealthDataFromTypes(midnight, now, [
+            Platform.isAndroid
+                ? HealthDataType.DISTANCE_DELTA // Android
+                : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
+          ]);
+          var mileSet = mileData.toSet();
+          miles = double.parse((HealthUtil.getHealthSums(mileSet) / 1609.344)
+              .toStringAsFixed(0));
+          await health.getTotalStepsInInterval(midnight, now).then(
+              (value) => {if (value != null) steps = value else steps = 0});
+        } catch (error) {
+          print("Home._fetchHealthData() error: $error");
+        }
+        setState(() {
+          Goal.userProgressCalGoal = cals;
+          Goal.userProgressStepGoal = steps.toDouble();
+          Goal.userProgressMileGoal = miles;
+          _isFetchingHealthData = false;
+        });
+        FireStore.updateGoalData({
+          "calGoalProgress": Goal.userProgressCalGoal,
+          "stepGoalProgress": Goal.userProgressStepGoal,
+          "mileGoalProgress": Goal.userProgressMileGoal,
+        });
       }
-      setState(() {
-        Goal.userProgressCalGoal = cals;
-        Goal.userProgressStepGoal = steps.toDouble();
-        Goal.userProgressMileGoal = miles;
-        _isFetchingHealthData = false;
-      });
-      FireStore.updateGoalData({
-        "calGoalProgress": Goal.userProgressCalGoal,
-        "stepGoalProgress": Goal.userProgressStepGoal,
-        "mileGoalProgress": Goal.userProgressMileGoal,
-      });
-    }
+    });
   }
 
   /// Label used above the [_recentAnnouncementGrid].
@@ -620,16 +619,11 @@ class _HomeWidgetState extends State<HomeWidget> {
     return FFButtonWidget(
       key: Key("Home.syncHealthAppButton"),
       onPressed: () async {
-        if (await Permission.activityRecognition.request().isGranted) {
+        if (await Permission.activityRecognition.isGranted) {
           FireStore.updateGoalData({"isHealthAppSynced": true});
           Toasted.showToast("$_platformHealthName has been synchronized!");
-        } else if (await Permission.activityRecognition
-            .request()
-            .isPermanentlyDenied) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HealthAppInfo()),
-          );
+        } else {
+          Toasted.showToast("Visit Activity tab to sync $_platformHealthName");
         }
       },
       text: 'Sync $_platformHealthName',
