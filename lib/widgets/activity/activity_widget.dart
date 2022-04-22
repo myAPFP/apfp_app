@@ -91,8 +91,10 @@ class _ActivityWidgetState extends State<ActivityWidget> {
               .getHealthDataFromTypes(
                   midnight, now, [HealthDataType.MOVE_MINUTES]);
           var moveMinutes = HealthUtil.getHealthSums(healthData.toSet());
-          _removeActivityFromCloud(ActivityCard.importedActivityID);
-          _addImportedCard("${moveMinutes.round()} Minutes");
+          if (moveMinutes != 0.0) {
+            _removeActivityFromCloud(ActivityCard.importedActivityID);
+            _addImportedCard("${moveMinutes.round()} Minutes");
+          }
         } catch (error) {
           print("Activity data could not be retrieved: $error ");
         }
