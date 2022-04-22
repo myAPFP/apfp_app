@@ -265,7 +265,7 @@ class _NavBarPageState extends State<NavBarPage> with WidgetsBindingObserver {
               size: 35,
             ),
             label: 'Exercises',
-            tooltip: 'At-Home Exercises',
+            tooltip: 'Exercises',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(
