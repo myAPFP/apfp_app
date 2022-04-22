@@ -246,7 +246,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     final cardInfo = activityCard.toString().split(' ');
     ConfirmationDialog.showConfirmationDialog(
         context: context,
-        title: Text('Share Activity?'),
+        title: Text('Share Activity'),
         content: Text(
             'The image you just added will be included with your ${cardInfo[1]} activity.' +
                 '\n\nIf you chose no, the image will be deleted.',
@@ -313,19 +313,6 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                               openWithTap: true,
                               menuItems: <FocusedMenuItem>[
                                 FocusedMenuItem(
-                                    title: Text("+ Image/Share"),
-                                    trailingIcon: Icon(Icons.image),
-                                    onPressed: () async {
-                                      image = null;
-                                      image = await ImagePicker().pickImage(
-                                          source: ImageSource.camera);
-                                      if (image == null) {
-                                        return;
-                                      } else {
-                                        _showShareWithImageDialog(e);
-                                      }
-                                    }),
-                                FocusedMenuItem(
                                     title: Text("Share"),
                                     trailingIcon: Icon(Icons.share),
                                     onPressed: () {
@@ -341,6 +328,19 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                               '\nSent from the myAPFP App.');
                                     }),
                                 FocusedMenuItem(
+                                    title: Text("+ Image/Share"),
+                                    trailingIcon: Icon(Icons.image),
+                                    onPressed: () async {
+                                      image = null;
+                                      image = await ImagePicker().pickImage(
+                                          source: ImageSource.camera);
+                                      if (image == null) {
+                                        return;
+                                      } else {
+                                        _showShareWithImageDialog(e);
+                                      }
+                                    }),
+                                FocusedMenuItem(
                                     title: Text("Delete",
                                         style:
                                             TextStyle(color: Colors.redAccent)),
@@ -349,7 +349,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     onPressed: () {
                                       final cardInfo = e.toString().split(' ');
                                       ConfirmationDialog.showConfirmationDialog(
-                                          title: Text("Remove Activity?"),
+                                          title: Text("Remove Activity"),
                                           context: context,
                                           content: Text(
                                               "Do you want to remove your ${cardInfo[1]} activity?" +
@@ -365,6 +365,33 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                               _removeActivityFromCloud(
                                                   e.timestamp.toString());
                                               cards.remove(e);
+                                            });
+                                            Navigator.pop(context);
+                                          });
+                                    }),
+                                FocusedMenuItem(
+                                    title: Text("Delete All",
+                                        style:
+                                            TextStyle(color: Colors.redAccent)),
+                                    trailingIcon: Icon(Icons.delete,
+                                        color: Colors.redAccent),
+                                    onPressed: () {
+                                      ConfirmationDialog.showConfirmationDialog(
+                                          title: Text("Remove All Activities"),
+                                          context: context,
+                                          content: Text(
+                                              "This will reset your activity log. This can't be undone.",
+                                              style: TextStyle(fontSize: 20)),
+                                          cancelText: 'Back',
+                                          submitText: "Remove",
+                                          onCancelTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onSubmitTap: () {
+                                            FireStore.getUserActivityDocument()
+                                                .delete();
+                                            setState(() {
+                                              cards.clear();
                                             });
                                             Navigator.pop(context);
                                           });
