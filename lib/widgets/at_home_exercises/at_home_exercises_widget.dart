@@ -64,24 +64,24 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   List<Padding> _paddedHeaderText() {
     return [
       Padding(
-        key: Key('Exercises.header'),
         padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
         child: Row(mainAxisSize: MainAxisSize.max, children: [
           AutoSizeText(
             'At-Home Exercises',
+            key: Key('Exercises.header'),
             style: FlutterFlowTheme.title1,
             overflow: TextOverflow.fade,
           )
         ]),
       ),
       Padding(
-          key: Key('Exercises.description'),
           padding: EdgeInsetsDirectional.fromSTEB(16, 4, 24, 10),
           child: Row(mainAxisSize: MainAxisSize.max, children: [
             Expanded(
                 child: Text(
                     'The following videos are some exercises that can be done at home.' +
                         ' Please remember to be safe when exercising.',
+                    key: Key('Exercises.description'),
                     style: FlutterFlowTheme.bodyText1))
           ]))
     ];
@@ -160,6 +160,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
           child: AutoSizeText(
             title,
             maxLines: 1,
+            key: Key("Exercises.title"),
             style: FlutterFlowTheme.title3,
             overflow: TextOverflow.ellipsis,
             minFontSize: 18,
@@ -216,22 +217,24 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   /// Preloads all APFP YouTube videos if the user is connected to the internet.
-  /// 
+  ///
   /// If there is no internet connection, this method will be called recursively until
   /// one is established.
   void preloadAllVideos() async {
-    await (Internet.isConnected()).then((value) async => {
-          if (value)
-            {
-              setState(() {
-                _populateVideos();
-                _populatePlaylists();
-              })
-            }
-          else
-            {Timer(Duration(seconds: 1), preloadAllVideos)}
-        });
-    _isVideosLoaded = true;
+    if (mounted) {
+      await (Internet.isConnected()).then((value) async => {
+            if (value)
+              {
+                setState(() {
+                  _populateVideos();
+                  _populatePlaylists();
+                })
+              }
+            else
+              {Timer(Duration(seconds: 1), preloadAllVideos)}
+          });
+      _isVideosLoaded = true;
+    }
   }
 
   /// Adds each video url from the video stream to [videoList].
@@ -293,9 +296,11 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
 
   /// Adds a video card to [videoList].
   void _addVideoToList(Padding videoCard) {
-    setState(() {
-      videoList.add(videoCard);
-    });
+    if (mounted) {
+      setState(() {
+        videoList.add(videoCard);
+      });
+    }
   }
 
   @override
