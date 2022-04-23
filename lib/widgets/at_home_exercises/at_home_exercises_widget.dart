@@ -155,6 +155,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   Row _titleRow(String title) {
     return Row(children: [
       Container(
+          key: Key("ExerciseTitle"),
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.85),
           child: AutoSizeText(
@@ -171,6 +172,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   Row _sourceRow(String author) {
     return Row(children: [
       Container(
+        key: Key("ExerciseDescription"),
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.85),
         child: AutoSizeText.rich(
@@ -216,7 +218,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   }
 
   /// Preloads all APFP YouTube videos if the user is connected to the internet.
-  /// 
+  ///
   /// If there is no internet connection, this method will be called recursively until
   /// one is established.
   void preloadAllVideos() async {
