@@ -373,7 +373,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                                     title: Text("Delete All",
                                         style:
                                             TextStyle(color: Colors.redAccent)),
-                                    trailingIcon: Icon(Icons.delete,
+                                    trailingIcon: Icon(Icons.delete_sweep,
                                         color: Colors.redAccent),
                                     onPressed: () {
                                       ConfirmationDialog.showConfirmationDialog(
