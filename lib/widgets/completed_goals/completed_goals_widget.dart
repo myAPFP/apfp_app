@@ -47,15 +47,25 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   /// Dictates what type of completed goals are being displayed.
   String _mode = "Daily";
 
-  /// A list of daily [_goalCard] widgets.
-
+  /// A list of daily exercise time [_goalCard] widgets.
   List<Widget> _timeGoals = [];
+
+  /// A list of daily calories burned [_goalCard] widgets.
   List<Widget> _calGoals = [];
+
+  /// A list of daily steps [_goalCard] widgets.
   List<Widget> _stepGoals = [];
+
+  /// A list of daily miles [_goalCard] widgets.
   List<Widget> _mileGoals = [];
+
+  /// A list of daily 'other' [_goalCard] widgets.
   List<Widget> _otherGoals = [];
 
-  int groupValue = 1;
+  /// Index associated with the selected radio button within [_radioButtonsCard].
+  /// 
+  /// Default value is 1 which corresponds to the "Time" radio button.
+  int _groupValue = 1;
 
   @override
   void initState() {
@@ -205,6 +215,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     _otherGoals.clear();
   }
 
+  /// Returns true if the [_timeGoals], [_calGoals],
+  ///  [_stepGoals], [_mileGoals] & [_otherGoals] lists are empty.
   bool isAllGoalListsEmpty() {
     return _timeGoals.isEmpty &&
         _calGoals.isEmpty &&
@@ -258,8 +270,9 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     }
   }
 
+  /// Returns the associated [_goalCard] list based on [_groupValue].
   List<Widget> getGoalList() {
-    switch (groupValue) {
+    switch (_groupValue) {
       case 2:
         return _calGoals;
       case 3:
@@ -272,23 +285,121 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     return _timeGoals;
   }
 
+  /// A [GFCard] containing 'Time', 'Cals', 'Steps', 'Miles'
+  /// and 'Other' radio buttons.
+  /// 
+  /// Allows the user to chose which type of completed goals are displayed. 
+  GFCard _radioButtonsCard() {
+    return GFCard(
+        content: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          children: [
+            Text("Time"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 1,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: Colors.green,
+              radioColor: Colors.green,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Cals"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 2,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: Colors.green,
+              radioColor: Colors.green,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Steps"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 3,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: Colors.green,
+              radioColor: Colors.green,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Miles"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 4,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: Colors.green,
+              radioColor: Colors.green,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Other"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 5,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: Colors.green,
+              radioColor: Colors.green,
+            ),
+          ],
+        )
+      ],
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    String displayedGoalList = "Time";
-    switch (groupValue) {
-      case 2:
-        displayedGoalList = "Calories";
-        break;
-      case 3:
-        displayedGoalList = "Steps";
-        break;
-      case 4:
-        displayedGoalList = "Miles";
-        break;
-      case 5:
-        displayedGoalList = "Other";
-        break;
-    }
     return Scaffold(
         key: scaffoldKey,
         floatingActionButton: FloatingActionButton(
@@ -332,112 +443,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                   ],
                 ),
                 _paddedHeaderText(),
-                GFCard(
-                    content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      children: [
-                        Text("Time"),
-                        SizedBox(height: 5),
-                        GFRadio(
-                          type: GFRadioType.square,
-                          size: 20,
-                          value: 1,
-                          groupValue: groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = int.parse(value.toString());
-                            });
-                          },
-                          inactiveIcon: null,
-                          activeBorderColor: Colors.green,
-                          radioColor: Colors.green,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text("Cals"),
-                        SizedBox(height: 5),
-                        GFRadio(
-                          type: GFRadioType.square,
-                          size: 20,
-                          value: 2,
-                          groupValue: groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = int.parse(value.toString());
-                            });
-                          },
-                          inactiveIcon: null,
-                          activeBorderColor: Colors.green,
-                          radioColor: Colors.green,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text("Steps"),
-                        SizedBox(height: 5),
-                        GFRadio(
-                          type: GFRadioType.square,
-                          size: 20,
-                          value: 3,
-                          groupValue: groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = int.parse(value.toString());
-                            });
-                          },
-                          inactiveIcon: null,
-                          activeBorderColor: Colors.green,
-                          radioColor: Colors.green,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text("Miles"),
-                        SizedBox(height: 5),
-                        GFRadio(
-                          type: GFRadioType.square,
-                          size: 20,
-                          value: 4,
-                          groupValue: groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = int.parse(value.toString());
-                            });
-                          },
-                          inactiveIcon: null,
-                          activeBorderColor: Colors.green,
-                          radioColor: Colors.green,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text("Other"),
-                        SizedBox(height: 5),
-                        GFRadio(
-                          type: GFRadioType.square,
-                          size: 20,
-                          value: 5,
-                          groupValue: groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = int.parse(value.toString());
-                            });
-                          },
-                          inactiveIcon: null,
-                          activeBorderColor: Colors.green,
-                          radioColor: Colors.green,
-                        ),
-                      ],
-                    )
-                  ],
-                )),
+                _radioButtonsCard(),
               ],
             ),
             SizedBox(height: 15),
