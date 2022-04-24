@@ -86,7 +86,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
         children: [
           Row(mainAxisSize: MainAxisSize.max, children: [
             AutoSizeText(
-              'Completed $_mode Goals',
+              'Completed Goals',
               style: FlutterFlowTheme.title1,
               overflow: TextOverflow.fade,
             )
@@ -125,7 +125,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: Container(
-            height: mounted ? MediaQuery.of(context).size.height * 0.15 : 0,
+            height: mounted ? MediaQuery.of(context).size.height * 0.25 : 0,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
@@ -403,7 +403,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     return Scaffold(
         key: scaffoldKey,
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.delete),
+            child: Icon(Icons.delete_sweep),
             onPressed: () {
               ConfirmationDialog.showConfirmationDialog(
                   context: context,
