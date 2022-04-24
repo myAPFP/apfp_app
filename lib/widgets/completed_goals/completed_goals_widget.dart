@@ -309,8 +309,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                 });
               },
               inactiveIcon: null,
-              activeBorderColor: Colors.green,
-              radioColor: Colors.green,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
             ),
           ],
         ),
@@ -329,8 +329,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                 });
               },
               inactiveIcon: null,
-              activeBorderColor: Colors.green,
-              radioColor: Colors.green,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
             ),
           ],
         ),
@@ -349,8 +349,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                 });
               },
               inactiveIcon: null,
-              activeBorderColor: Colors.green,
-              radioColor: Colors.green,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
             ),
           ],
         ),
@@ -369,8 +369,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                 });
               },
               inactiveIcon: null,
-              activeBorderColor: Colors.green,
-              radioColor: Colors.green,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
             ),
           ],
         ),
@@ -389,8 +389,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                 });
               },
               inactiveIcon: null,
-              activeBorderColor: Colors.green,
-              radioColor: Colors.green,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
             ),
           ],
         )
