@@ -9,6 +9,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '../confirmation_dialog/confirmation_dialog.dart';
 
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -47,7 +48,14 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   String _mode = "Daily";
 
   /// A list of daily [_goalCard] widgets.
-  List<Widget> _dailyGoals = [];
+
+  List<Widget> _timeGoals = [];
+  List<Widget> _calGoals = [];
+  List<Widget> _stepGoals = [];
+  List<Widget> _mileGoals = [];
+  List<Widget> _otherGoals = [];
+
+  int groupValue = 1;
 
   @override
   void initState() {
@@ -107,7 +115,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: Container(
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: mounted ? MediaQuery.of(context).size.height * 0.15 : 0,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
@@ -188,31 +196,99 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     ]);
   }
 
-  /// Adds a [_goalCard] to the [_dailyGoals] list.
-  void _addDailyGoal(Padding goalCard) {
-    setState(() {
-      _dailyGoals.add(goalCard);
-    });
+  /// Clears each goals list.
+  void _clearGoalLists() {
+    _timeGoals.clear();
+    _calGoals.clear();
+    _stepGoals.clear();
+    _mileGoals.clear();
+    _otherGoals.clear();
+  }
+
+  bool isAllGoalListsEmpty() {
+    return _timeGoals.isEmpty &&
+        _calGoals.isEmpty &&
+        _stepGoals.isEmpty &&
+        _mileGoals.isEmpty &&
+        _otherGoals.isEmpty;
   }
 
   /// Pre-loads previously completed daily goals stored in Firestore.
   void _getPreviousDailyGoals() {
-    dailyGoalsLogStream.forEach(((snapshot) {
-      _dailyGoals.clear();
-      snapshot.docs.forEach((document) {
-        var dayNum = document.get("Date").toString().split('/')[1];
-        _addDailyGoal(_goalCard(
-            color: FlutterFlowTheme.dayToColor(dayNum),
-            goalType: document.get("Type").toString(),
-            goalName: document.get("Completed Goal").toString(),
-            goalInfo: document.get("Info").toString(),
-            dateOfCompletion: document.get("Date").toString()));
-      });
-    }));
+    if (mounted) {
+      dailyGoalsLogStream.forEach(((snapshot) {
+        _clearGoalLists();
+        snapshot.docs.forEach((document) {
+          var dayNum = document.get("Date").toString().split('/')[1];
+          var goalName = document.get("Completed Goal").toString();
+          var goalCard = _goalCard(
+              color: FlutterFlowTheme.dayToColor(dayNum),
+              goalType: document.get("Type").toString(),
+              goalName: goalName,
+              goalInfo: document.get("Info").toString(),
+              dateOfCompletion: document.get("Date").toString());
+          switch (goalName) {
+            case "Exercise Time":
+              setState(() {
+                _timeGoals.add(goalCard);
+              });
+              break;
+            case "Calories Burned":
+              setState(() {
+                _calGoals.add(goalCard);
+              });
+              break;
+            case "Steps":
+              setState(() {
+                _stepGoals.add(goalCard);
+              });
+              break;
+            case "Miles":
+              setState(() {
+                _mileGoals.add(goalCard);
+              });
+              break;
+            default:
+              setState(() {
+                _otherGoals.add(goalCard);
+              });
+          }
+        });
+      }));
+    }
+  }
+
+  List<Widget> getGoalList() {
+    switch (groupValue) {
+      case 2:
+        return _calGoals;
+      case 3:
+        return _stepGoals;
+      case 4:
+        return _mileGoals;
+      case 5:
+        return _otherGoals;
+    }
+    return _timeGoals;
   }
 
   @override
   Widget build(BuildContext context) {
+    String displayedGoalList = "Time";
+    switch (groupValue) {
+      case 2:
+        displayedGoalList = "Calories";
+        break;
+      case 3:
+        displayedGoalList = "Steps";
+        break;
+      case 4:
+        displayedGoalList = "Miles";
+        break;
+      case 5:
+        displayedGoalList = "Other";
+        break;
+    }
     return Scaffold(
         key: scaffoldKey,
         floatingActionButton: FloatingActionButton(
@@ -225,10 +301,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                       "This will reset your goal log. This can't be undone.",
                       style: TextStyle(fontSize: 20)),
                   onSubmitTap: () {
-                    if (_dailyGoals.isNotEmpty) {
+                    if (!isAllGoalListsEmpty()) {
                       FireStore.deleteAllCompletedGoals();
                       setState(() {
-                        _dailyGoals.clear();
+                        _clearGoalLists();
                       });
                     } else {
                       Toasted.showToast("No goals to delete.");
@@ -256,14 +332,120 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                   ],
                 ),
                 _paddedHeaderText(),
+                GFCard(
+                    content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        Text("Time"),
+                        SizedBox(height: 5),
+                        GFRadio(
+                          type: GFRadioType.square,
+                          size: 20,
+                          value: 1,
+                          groupValue: groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              groupValue = int.parse(value.toString());
+                            });
+                          },
+                          inactiveIcon: null,
+                          activeBorderColor: Colors.green,
+                          radioColor: Colors.green,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Cals"),
+                        SizedBox(height: 5),
+                        GFRadio(
+                          type: GFRadioType.square,
+                          size: 20,
+                          value: 2,
+                          groupValue: groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              groupValue = int.parse(value.toString());
+                            });
+                          },
+                          inactiveIcon: null,
+                          activeBorderColor: Colors.green,
+                          radioColor: Colors.green,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Steps"),
+                        SizedBox(height: 5),
+                        GFRadio(
+                          type: GFRadioType.square,
+                          size: 20,
+                          value: 3,
+                          groupValue: groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              groupValue = int.parse(value.toString());
+                            });
+                          },
+                          inactiveIcon: null,
+                          activeBorderColor: Colors.green,
+                          radioColor: Colors.green,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Miles"),
+                        SizedBox(height: 5),
+                        GFRadio(
+                          type: GFRadioType.square,
+                          size: 20,
+                          value: 4,
+                          groupValue: groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              groupValue = int.parse(value.toString());
+                            });
+                          },
+                          inactiveIcon: null,
+                          activeBorderColor: Colors.green,
+                          radioColor: Colors.green,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Other"),
+                        SizedBox(height: 5),
+                        GFRadio(
+                          type: GFRadioType.square,
+                          size: 20,
+                          value: 5,
+                          groupValue: groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              groupValue = int.parse(value.toString());
+                            });
+                          },
+                          inactiveIcon: null,
+                          activeBorderColor: Colors.green,
+                          radioColor: Colors.green,
+                        ),
+                      ],
+                    )
+                  ],
+                )),
               ],
             ),
             SizedBox(height: 15),
             Column(
                 mainAxisSize: MainAxisSize.max,
-                children: _dailyGoals.isEmpty
+                children: getGoalList().isEmpty
                     ? [_noGoalsCompletedText()]
-                    : _dailyGoals),
+                    : getGoalList()),
             SizedBox(height: 10)
           ]),
         )));

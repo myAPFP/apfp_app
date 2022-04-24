@@ -53,6 +53,7 @@ dependencies:
   permission_handler: ^8.3.0
   carousel_slider: ^4.0.0
   modjs_video_player: ^1.0.0+fix
+  getwidget: ^2.0.5
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.1
