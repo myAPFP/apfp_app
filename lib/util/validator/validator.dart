@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 
 class Validator {
-  /// A filter with the default list of profanity.
-  static final filter = ProfanityFilter();
+  /// A _filter with the default list of profanity.
+  static final _filter = ProfanityFilter();
 
   /// Matches any string containing only letters (lowercase & uppercase).
   static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
@@ -26,20 +26,16 @@ class Validator {
   ///    - One letter
   ///    - One number
   ///    - One special character
-  static RegExp validPasswordRegex = new RegExp(
+  static RegExp _validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
   /// Returns true if [numStr] is a positive integer greater than 1.
   static bool isPositiveInt(String numStr) {
-    bool isPositiveInt = false;
-    try {
-      var integer = int.parse(numStr);
-      if (integer < 0) {
-        return false;
-      }
-      isPositiveInt = true;
-    } catch (_) {}
-    return isPositiveInt;
+    int? integer = int.tryParse(numStr);
+    if (integer == null || integer < 0) {
+      return false;
+    }
+    return true;
   }
 
   /// Returns true if [numStr] is a number.
@@ -64,7 +60,7 @@ class Validator {
 
   /// Returns true if [password] satisfies password requirements.
   static bool isValidPassword(String password) {
-    return validPasswordRegex.hasMatch(password);
+    return _validPasswordRegex.hasMatch(password);
   }
 
   /// Returns true if the text field associated with the [controller]
@@ -75,6 +71,6 @@ class Validator {
 
   /// Returns true if [input] contains profanity.
   static bool hasProfanity(String input) {
-    return filter.hasProfanity(input);
+    return _filter.hasProfanity(input);
   }
 }
