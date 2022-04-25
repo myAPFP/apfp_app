@@ -323,6 +323,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     return Row(
       children: [
         Radio(
+          fillColor: MaterialStateProperty.all(FlutterFlowTheme.secondaryColor),
           toggleable: true,
           value: title,
           groupValue: _radioButtonValue,
