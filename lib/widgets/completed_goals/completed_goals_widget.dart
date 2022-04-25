@@ -44,9 +44,6 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
           .orderBy("Date", descending: true)
           .snapshots();
 
-  /// Dictates what type of completed goals are being displayed.
-  String _mode = "Daily";
-
   /// A list of daily exercise time [_goalCard] widgets.
   List<Widget> _timeGoals = [];
 
