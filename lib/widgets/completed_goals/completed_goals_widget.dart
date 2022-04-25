@@ -63,7 +63,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   List<Widget> _otherGoals = [];
 
   /// Index associated with the selected radio button within [_radioButtonsCard].
-  /// 
+  ///
   /// Default value is 1 which corresponds to the "Time" radio button.
   int _groupValue = 1;
 
@@ -125,7 +125,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: Container(
-            height: mounted ? MediaQuery.of(context).size.height * 0.25 : 0,
+            height: mounted ? MediaQuery.of(context).size.height * 0.20 : 0,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
@@ -148,7 +148,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.15),
+                      SizedBox(
+                          width: mounted
+                              ? MediaQuery.of(context).size.width * 0.15
+                              : 0),
                       Icon(Icons.emoji_events_rounded, color: color, size: 35)
                     ],
                   ),
@@ -158,9 +161,9 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _titleRow(goalName),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.005),
-                        _goalAttributeRow("Type: ", goalType),
+                        // SizedBox(
+                        //     height: MediaQuery.of(context).size.height * 0.005),
+                        // _goalAttributeRow("Type: ", goalType),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
                         _goalAttributeRow("Info: ", goalInfo),
@@ -287,8 +290,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
 
   /// A [GFCard] containing 'Time', 'Cals', 'Steps', 'Miles'
   /// and 'Other' radio buttons.
-  /// 
-  /// Allows the user to chose which type of completed goals are displayed. 
+  ///
+  /// Allows the user to chose which type of completed goals are displayed.
   GFCard _radioButtonsCard() {
     return GFCard(
         content: Row(
