@@ -18,7 +18,6 @@ class ExerciseVideoWidget extends StatefulWidget {
 }
 
 class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
-  
   /// Serves as key for the [Scaffold] found in [build].
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -41,7 +40,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
     _loadVideoData();
   }
 
-  /// Sets title, source (url), and description of the video being passed to 
+  /// Sets title, source (url), and description of the video being passed to
   /// this class.
   void _loadVideoData() {
     setState(() {
@@ -71,7 +70,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
   }
 
   /// Acts as a back button for this page.
-  /// 
+  ///
   /// Returns the user the available list of exercise videos when pressed.
   InkWell _goBackToAllVideos() {
     return InkWell(
@@ -151,7 +150,7 @@ class _ExerciseVideoWidgetState extends State<ExerciseVideoWidget> {
                     child: _videoSource,
                   ),
                   Padding(
-                    key: Key('Video.videoDescriptionHeader'),
+                    key: Key('Video.videoDescriptionTitle'),
                     padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
                     child: _descriptionLabel,
                   ),

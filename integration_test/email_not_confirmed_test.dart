@@ -64,13 +64,13 @@ void main() {
 
       // Taps on button to ensure email confirmation is resent
       await tester.tap(find.text('Resend Email Verification'));
-      tester.pumpAndSettle();
+      await tester.pumpAndSettle();
     });
 
     testWidgets("US: I can return to the welcome screen using a button",
         (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 2));
 
       // Launches Login Screen from Welcome
       var loginButtonWel = find.byKey(Key('Welcome.loginButton'));
@@ -88,7 +88,7 @@ void main() {
       // Taps Login button
       var loginButton = find.byKey(Key('LogIn.logInButton'));
       await tester.tap(loginButton);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 3));
 
       // Ensure back to home button exists
       expect(find.byKey(Key('Email.returnHomeButton')), findsOneWidget);
@@ -96,7 +96,7 @@ void main() {
       // Taps return home button to return to Welcome screen
       var returnHomeButton = find.byKey(Key('Email.returnHomeButton'));
       await tester.tap(returnHomeButton);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 2));
     });
   });
 }

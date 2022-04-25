@@ -57,8 +57,12 @@ class _ActivityWidgetState extends State<ActivityWidget> {
 
   /// Synchronizes iOS Health App data with myAPFP.
   void _syncIOSHealthData(HealthFactory health) async {
-    await health
-        .requestAuthorization([HealthDataType.WORKOUT]).then((value) async {
+    await health.requestAuthorization([
+      HealthDataType.WORKOUT,
+      HealthDataType.STEPS,
+      HealthDataType.DISTANCE_WALKING_RUNNING,
+      HealthDataType.ACTIVE_ENERGY_BURNED
+    ]).then((value) async {
       if (value) {
         DateTime now = DateTime.now();
         final midnight = DateTime(now.year, now.month, now.day);
@@ -80,7 +84,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   /// Synchronizes Android Health App data with myAPFP.
   void _syncAndroidHealthData(HealthFactory health) async {
     bool requested;
-    if (await Permission.activityRecognition.status.isGranted) {
+    if (await Permission.activityRecognition.request().isGranted) {
       requested =
           await health.requestAuthorization([HealthDataType.MOVE_MINUTES]);
       if (requested) {
@@ -91,8 +95,10 @@ class _ActivityWidgetState extends State<ActivityWidget> {
               .getHealthDataFromTypes(
                   midnight, now, [HealthDataType.MOVE_MINUTES]);
           var moveMinutes = HealthUtil.getHealthSums(healthData.toSet());
-          _removeActivityFromCloud(ActivityCard.importedActivityID);
-          _addImportedCard("${moveMinutes.round()} Minutes");
+          if (moveMinutes != 0.0) {
+            _removeActivityFromCloud(ActivityCard.importedActivityID);
+            _addImportedCard("${moveMinutes.round()} Minutes");
+          }
         } catch (error) {
           print("Activity data could not be retrieved: $error ");
         }
@@ -176,6 +182,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
   Row _headerTextRow(String text) {
     return Row(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -190,34 +197,30 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 16, 30, 0),
-              child: InkWell(
-                onTap: _syncHealthAppData,
-                child: Icon(
-                  Icons.refresh,
-                  color: FlutterFlowTheme.secondaryColor,
-                ),
+            InkWell(
+              onTap: _syncHealthAppData,
+              child: Icon(
+                Icons.refresh,
+                color: FlutterFlowTheme.secondaryColor,
               ),
-            )
+            ),
           ],
         ),
         Column(
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 16, 20, 0),
-              child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HealthAppInfo()));
-                  },
-                  child: Icon(
-                    Icons.help,
-                    color: FlutterFlowTheme.secondaryColor,
-                  )),
-            )
+                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HealthAppInfo()));
+                    },
+                    child: Icon(
+                      Icons.help,
+                      color: FlutterFlowTheme.secondaryColor,
+                    ))),
           ],
         )
       ],
