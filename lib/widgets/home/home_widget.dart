@@ -255,7 +255,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         ]);
         var mileSet = mileData.toSet();
         miles = double.parse(
-            (HealthUtil.getHealthSums(mileSet) / 1609.344).toStringAsFixed(0));
+            (HealthUtil.getHealthSums(mileSet) / 1609.344).toStringAsFixed(2));
         steps = (await health.getTotalStepsInInterval(midnight, now))!;
       } catch (error) {
         print("Home._fetchHealthData() error: $error");
