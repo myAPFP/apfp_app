@@ -120,12 +120,11 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
       {required Color color,
       required String goalName,
       required String goalInfo,
-      required String dateOfCompletion,
-      required String goalType}) {
+      required String dateOfCompletion}) {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: Container(
-            height: mounted ? MediaQuery.of(context).size.height * 0.20 : 0,
+            height: mounted ? MediaQuery.of(context).size.height * 0.185 : 0,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
@@ -161,9 +160,6 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _titleRow(goalName),
-                        // SizedBox(
-                        //     height: MediaQuery.of(context).size.height * 0.005),
-                        // _goalAttributeRow("Type: ", goalType),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
                         _goalAttributeRow("Info: ", goalInfo),
@@ -238,7 +234,6 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
           var goalName = document.get("Completed Goal").toString();
           var goalCard = _goalCard(
               color: FlutterFlowTheme.dayToColor(dayNum),
-              goalType: document.get("Type").toString(),
               goalName: goalName,
               goalInfo: document.get("Info").toString(),
               dateOfCompletion: document.get("Date").toString());
