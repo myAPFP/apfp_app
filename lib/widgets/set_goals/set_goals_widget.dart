@@ -121,6 +121,8 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
     if (element.key == fieldName) {
       if (element.value == 0.0) {
         contr!.text = '';
+      } else if (fieldName == "mileEndGoal") {
+        contr!.text = element.value.toStringAsFixed(1);
       } else {
         contr!.text = element.value.round().toString();
       }
@@ -248,12 +250,16 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
   }
 
   /// Creates a textField to be used to enter end goals.
+  ///
+  /// [allowDoubleAsInput] dictates whether or not a [_goalTextField] can
+  /// receive a [double] as input. Reserved for the miles [_goalTextField].
   Padding _goalTextField(
       {required Key key,
       required String hintText,
       required TextEditingController contr,
       String unitOfMeasure = "min",
-      String goalType = "Daily"}) {
+      String goalType = "Daily",
+      bool allowDoubleAsInput = false}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: Container(
@@ -264,8 +270,10 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isInt(value)) {
+            if (!allowDoubleAsInput && !Validator.isPositiveInt(value)) {
               return "Integers (1+) only";
+            } else if (allowDoubleAsInput && !Validator.isNumeric(value)) {
+              return "Numbers (1+) only";
             }
             int minimum;
             int maximum;
@@ -405,11 +413,13 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
                       contr: _milesGoalController!,
                       unitOfMeasure: "miles",
                       goalType: "Daily",
-                      key: Key("SetGoal.mileGoalTextField_daily")),
+                      key: Key("SetGoal.mileGoalTextField_daily"),
+                      allowDoubleAsInput: true),
                   _setGoalButton(_milesFormKey, () async {
                     await FireStore.updateGoalData({
-                      "mileEndGoal":
-                          double.parse(_milesGoalController!.text.toString()),
+                      "mileEndGoal": double.parse(
+                          double.parse(_milesGoalController!.text.toString())
+                              .toStringAsFixed(1)),
                       "isMileGoalSet": true
                     });
                   }, key: Key("SetGoal.setMileGoalBTN_daily")),
