@@ -39,7 +39,7 @@ class Validator {
   }
 
   /// Returns true if [numStr] is a number.
-  static bool isNumeric(String numStr) {
+  static bool isPositiveNumber(String numStr) {
     return _numRegex.hasMatch(numStr);
   }
 

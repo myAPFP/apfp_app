@@ -272,7 +272,8 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
             }
             if (!allowDoubleAsInput && !Validator.isPositiveInt(value)) {
               return "Integers (1+) only";
-            } else if (allowDoubleAsInput && !Validator.isNumeric(value)) {
+            } else if (allowDoubleAsInput &&
+                !Validator.isPositiveNumber(value)) {
               return "Numbers (1+) only";
             }
             int minimum = 0;
