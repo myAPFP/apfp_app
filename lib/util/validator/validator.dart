@@ -10,12 +10,8 @@ class Validator {
   /// Matches any string containing only letters (lowercase & uppercase).
   static RegExp _validActivityNameRegex = new RegExp(r'^[a-zA-Z\s]+$');
 
-  /// Matches positive integers >= 0
-  static RegExp _integerRegex = new RegExp(r'^[1-9]\d*$');
-
   /// Matches positive integers, doubles.
-  static RegExp _numRegex = new RegExp(
-      r'^[+]?\d+([.]\d+)?$');
+  static RegExp _numRegex = new RegExp(r'^[+]?\d+([.]\d+)?$');
 
   /// Matches most names, including those that contains spaces.
   static RegExp _validNameRegex =
@@ -33,14 +29,22 @@ class Validator {
   static RegExp validPasswordRegex = new RegExp(
       r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
-  /// Returns true if the String value [num] is an integer.
-  static bool isInt(String num) {
-    return _integerRegex.hasMatch(num);
+  /// Returns true if [numStr] is a positive integer greater than 1.
+  static bool isPositiveInt(String numStr) {
+    bool isPositiveInt = false;
+    try {
+      var integer = int.parse(numStr);
+      if (integer < 0) {
+        return false;
+      }
+      isPositiveInt = true;
+    } catch (_) {}
+    return isPositiveInt;
   }
 
-  /// Returns true if the String value [num] is a number.
-  static bool isNumeric(String num) {
-    return _numRegex.hasMatch(num);
+  /// Returns true if [numStr] is a number.
+  static bool isNumeric(String numStr) {
+    return _numRegex.hasMatch(numStr);
   }
 
   /// Returns true if the [activityName] contains only letters (lowercase & uppercase).
