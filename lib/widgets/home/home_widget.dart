@@ -235,46 +235,47 @@ class _HomeWidgetState extends State<HomeWidget> {
       Platform.isAndroid
           ? HealthDataType.DISTANCE_DELTA // Android
           : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
-
     ];
     await HealthFactory.hasPermissions(dataTypes).then((value) async {
       if (value == null || value) {
-        setState(() {
-          _isFetchingHealthData = true;
-        });
-        try {
-          List<HealthDataType> calorieTypes = List.empty(growable: true);
-          if (Platform.isIOS)
-            calorieTypes.add(HealthDataType.BASAL_ENERGY_BURNED);
-          calorieTypes.add(HealthDataType.ACTIVE_ENERGY_BURNED);
-          var calData =
-              await health.getHealthDataFromTypes(midnight, now, calorieTypes);
-          var calSet = calData.toSet();
-          cals = HealthUtil.getHealthSums(calSet);
-          var mileData = await health.getHealthDataFromTypes(midnight, now, [
-            Platform.isAndroid
-                ? HealthDataType.DISTANCE_DELTA // Android
-                : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
-          ]);
-          var mileSet = mileData.toSet();
-          miles = double.parse((HealthUtil.getHealthSums(mileSet) / 1609.344)
-              .toStringAsFixed(2));
-          await health.getTotalStepsInInterval(midnight, now).then(
-              (value) => {if (value != null) steps = value else steps = 0});
-        } catch (error) {
-          print("Home._fetchHealthData() error: $error");
+        if (mounted) {
+          setState(() {
+            _isFetchingHealthData = true;
+          });
+          try {
+            List<HealthDataType> calorieTypes = List.empty(growable: true);
+            if (Platform.isIOS)
+              calorieTypes.add(HealthDataType.BASAL_ENERGY_BURNED);
+            calorieTypes.add(HealthDataType.ACTIVE_ENERGY_BURNED);
+            var calData = await health.getHealthDataFromTypes(
+                midnight, now, calorieTypes);
+            var calSet = calData.toSet();
+            cals = HealthUtil.getHealthSums(calSet);
+            var mileData = await health.getHealthDataFromTypes(midnight, now, [
+              Platform.isAndroid
+                  ? HealthDataType.DISTANCE_DELTA // Android
+                  : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
+            ]);
+            var mileSet = mileData.toSet();
+            miles = double.parse((HealthUtil.getHealthSums(mileSet) / 1609.344)
+                .toStringAsFixed(2));
+            await health.getTotalStepsInInterval(midnight, now).then(
+                (value) => {if (value != null) steps = value else steps = 0});
+          } catch (error) {
+            print("Home._fetchHealthData() error: $error");
+          }
+          setState(() {
+            Goal.userProgressCalGoal = cals;
+            Goal.userProgressStepGoal = steps.toDouble();
+            Goal.userProgressMileGoal = miles;
+            _isFetchingHealthData = false;
+          });
+          FireStore.updateGoalData({
+            "calGoalProgress": Goal.userProgressCalGoal,
+            "stepGoalProgress": Goal.userProgressStepGoal,
+            "mileGoalProgress": Goal.userProgressMileGoal,
+          });
         }
-        setState(() {
-          Goal.userProgressCalGoal = cals;
-          Goal.userProgressStepGoal = steps.toDouble();
-          Goal.userProgressMileGoal = miles;
-          _isFetchingHealthData = false;
-        });
-        FireStore.updateGoalData({
-          "calGoalProgress": Goal.userProgressCalGoal,
-          "stepGoalProgress": Goal.userProgressStepGoal,
-          "mileGoalProgress": Goal.userProgressMileGoal,
-        });
       }
     });
   }
