@@ -243,9 +243,12 @@ class _HomeWidgetState extends State<HomeWidget> {
           _isFetchingHealthData = true;
         });
         try {
-          var calData = await health.getHealthDataFromTypes(midnight, now, [
-            HealthDataType.ACTIVE_ENERGY_BURNED // Calories
-          ]);
+          List<HealthDataType> calorieTypes = List.empty(growable: true);
+          if (Platform.isIOS)
+            calorieTypes.add(HealthDataType.BASAL_ENERGY_BURNED);
+          calorieTypes.add(HealthDataType.ACTIVE_ENERGY_BURNED);
+          var calData =
+              await health.getHealthDataFromTypes(midnight, now, calorieTypes);
           var calSet = calData.toSet();
           cals = HealthUtil.getHealthSums(calSet);
           var mileData = await health.getHealthDataFromTypes(midnight, now, [
