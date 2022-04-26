@@ -15,7 +15,7 @@ void main() {
 
       // Reach Exercises Page
       await tester.tap(find.byTooltip('Exercises'));
-      await tester.pumpAndSettle(Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
       // Ensure header and description of this page are present
       expect(find.byKey(Key('Exercises.header')), findsOneWidget);
@@ -32,7 +32,7 @@ void main() {
 
       // Reach Exercises Page
       await tester.tap(find.byTooltip('Exercises'));
-      await tester.pumpAndSettle(Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
       // Ensure multiple exercise titles and descriptions exist on the page
       expect(find.byKey(Key('ExerciseTitle')), findsWidgets);
@@ -47,7 +47,7 @@ void main() {
 
       // Reach Exercises Page
       await tester.tap(find.byTooltip('Exercises'));
-      await tester.pumpAndSettle(Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
       // Tap on the first exercise InkWell on the page
       await tester.tap(find.byType(InkWell).first);

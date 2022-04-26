@@ -219,10 +219,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Checks if a user has granted physical activity permissions to myAPFP and
   /// updates the Firestore database accordingly.
   void _checkIfHealthAppSynced() async {
-    FireStore.updateGoalData({
-      "isHealthAppSynced":
-          await Permission.activityRecognition.request().isGranted
-    });
+    FireStore.updateGoalData(
+        {"isHealthAppSynced": await Permission.activityRecognition.isGranted});
   }
 
   /// Fetches calories, steps, and miles from the user's health app.
@@ -232,46 +230,50 @@ class _HomeWidgetState extends State<HomeWidget> {
     double miles = 0;
     final now = DateTime.now();
     final midnight = DateTime(now.year, now.month, now.day);
-    bool requested = await health.requestAuthorization([
+    List<HealthDataType> dataTypes = [
       HealthDataType.STEPS,
       Platform.isAndroid
           ? HealthDataType.DISTANCE_DELTA // Android
           : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
-    ]);
-    setState(() {
-      _isFetchingHealthData = true;
-    });
-    if (requested) {
-      try {
-        var calData = await health.getHealthDataFromTypes(midnight, now, [
-          HealthDataType.ACTIVE_ENERGY_BURNED // Calories
-        ]);
-        var calSet = calData.toSet();
-        cals = HealthUtil.getHealthSums(calSet);
-        var mileData = await health.getHealthDataFromTypes(midnight, now, [
-          Platform.isAndroid
-              ? HealthDataType.DISTANCE_DELTA // Android
-              : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
-        ]);
-        var mileSet = mileData.toSet();
-        miles = double.parse(
-            (HealthUtil.getHealthSums(mileSet) / 1609.344).toStringAsFixed(2));
-        steps = (await health.getTotalStepsInInterval(midnight, now))!;
-      } catch (error) {
-        print("Home._fetchHealthData() error: $error");
+
+    ];
+    await HealthFactory.hasPermissions(dataTypes).then((value) async {
+      if (value == null || value) {
+        setState(() {
+          _isFetchingHealthData = true;
+        });
+        try {
+          var calData = await health.getHealthDataFromTypes(midnight, now, [
+            HealthDataType.ACTIVE_ENERGY_BURNED // Calories
+          ]);
+          var calSet = calData.toSet();
+          cals = HealthUtil.getHealthSums(calSet);
+          var mileData = await health.getHealthDataFromTypes(midnight, now, [
+            Platform.isAndroid
+                ? HealthDataType.DISTANCE_DELTA // Android
+                : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
+          ]);
+          var mileSet = mileData.toSet();
+          miles = double.parse((HealthUtil.getHealthSums(mileSet) / 1609.344)
+              .toStringAsFixed(2));
+          await health.getTotalStepsInInterval(midnight, now).then(
+              (value) => {if (value != null) steps = value else steps = 0});
+        } catch (error) {
+          print("Home._fetchHealthData() error: $error");
+        }
+        setState(() {
+          Goal.userProgressCalGoal = cals;
+          Goal.userProgressStepGoal = steps.toDouble();
+          Goal.userProgressMileGoal = miles;
+          _isFetchingHealthData = false;
+        });
+        FireStore.updateGoalData({
+          "calGoalProgress": Goal.userProgressCalGoal,
+          "stepGoalProgress": Goal.userProgressStepGoal,
+          "mileGoalProgress": Goal.userProgressMileGoal,
+        });
       }
-      setState(() {
-        Goal.userProgressCalGoal = cals;
-        Goal.userProgressStepGoal = steps.toDouble();
-        Goal.userProgressMileGoal = miles;
-        _isFetchingHealthData = false;
-      });
-      FireStore.updateGoalData({
-        "calGoalProgress": Goal.userProgressCalGoal,
-        "stepGoalProgress": Goal.userProgressStepGoal,
-        "mileGoalProgress": Goal.userProgressMileGoal,
-      });
-    }
+    });
   }
 
   /// Label used above the [_recentAnnouncementGrid].
@@ -626,16 +628,34 @@ class _HomeWidgetState extends State<HomeWidget> {
     return FFButtonWidget(
       key: Key("Home.syncHealthAppButton"),
       onPressed: () async {
-        if (await Permission.activityRecognition.request().isGranted) {
+        if (Platform.isAndroid &&
+            await Permission.activityRecognition.isGranted) {
           FireStore.updateGoalData({"isHealthAppSynced": true});
+          _fetchHealthData();
           Toasted.showToast("$_platformHealthName has been synchronized!");
-        } else if (await Permission.activityRecognition
-            .request()
-            .isPermanentlyDenied) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HealthAppInfo()),
-          );
+        } else if (Platform.isIOS &&
+            await HealthFactory().getHealthDataFromTypes(
+                DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day),
+                DateTime.now(),
+                [
+                  HealthDataType.WORKOUT,
+                  HealthDataType.STEPS,
+                  HealthDataType.DISTANCE_WALKING_RUNNING,
+                  HealthDataType.ACTIVE_ENERGY_BURNED
+                ]).then((value) {
+              if (value.isEmpty) {
+                Toasted.showToast("No relevant activity logged");
+                return false;
+              } else {
+                return true;
+              }
+            })) {
+          FireStore.updateGoalData({"isHealthAppSynced": true});
+          _fetchHealthData();
+          Toasted.showToast("$_platformHealthName has been synchronized!");
+        } else {
+          Toasted.showToast("Visit Activity tab to sync $_platformHealthName");
         }
       },
       text: 'Sync $_platformHealthName',
@@ -712,24 +732,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                           .replaceAll(" ", "")
                     ];
                     List<String> alertTexts = new List.empty(growable: true);
-                    if (snapshot.data!.docs.length > 0) {
-                      if (topics.contains(snapshot.data?.docs[0]['topic'])) {
-                        alertTexts.add(snapshot.data?.docs[0]['title']);
-                      }
-                    }
-                    if (snapshot.data!.docs.length > 1) {
-                      if (topics.contains(snapshot.data?.docs[1]['topic'])) {
-                        alertTexts.add(snapshot.data?.docs[1]['title']);
-                      }
-                    }
-                    if (snapshot.data!.docs.length > 2) {
-                      if (topics.contains(snapshot.data?.docs[2]['topic'])) {
-                        alertTexts.add(snapshot.data?.docs[2]['title']);
+                    for (QueryDocumentSnapshot document
+                        in snapshot.data!.docs) {
+                      if (topics.contains(document['topic'])) {
+                        alertTexts.add(document['title']);
                       }
                     }
                     if (alertTexts.length < 3) {
-                      for (int i = alertTexts.length - 1; i < 3; i++) {
-                        alertTexts.add("No announcement available.");
+                      for (int i = alertTexts.length; i < 4; i++) {
+                        alertTexts.add("No announcement available");
                       }
                     }
                     return _announcements(
@@ -752,7 +763,8 @@ class _HomeWidgetState extends State<HomeWidget> {
             SizedBox(height: 5),
             Goal.isHealthAppSynced
                 ? _refreshHealthData()
-                : _syncHealthAppButton()
+                : _syncHealthAppButton(),
+            SizedBox(height: 10)
           ],
         ),
       )),

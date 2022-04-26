@@ -19,8 +19,13 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
 
   /// If the app is being ran on Android, this is set to 'Google Fit'.
   /// Otherwise, this is set to 'Google Fit and Apple Health'.
-  final _healthAppName =
-      Platform.isAndroid ? "Google Fit" : "Google Fit and Apple Health";
+  final _healthAppName = Platform.isAndroid ? "Google Fit" : "Apple Health";
+  final _settingsPath = Platform.isAndroid
+      ? 'To allow or remove access, go to:\n\nSettings -> Privacy -> Permission manager -> Physical activity -> myAPFP\n'
+      : 'To allow or remove access, go to: \n\nSettings -> Privacy -> Health -> myAPFP\n';
+  final _imagePath = Platform.isAndroid
+      ? 'assets/images/sync_health_app.png'
+      : 'assets/images/iosHealthPermissions.png';
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +50,7 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
                       ),
                     );
                   },
-                  child: Text('< Back',
-                      style: FlutterFlowTheme.subtitle2),
+                  child: Text('< Back', style: FlutterFlowTheme.subtitle2),
                 ),
               ),
               Padding(
@@ -57,15 +61,15 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
                 child: Text(
-                    '$_healthAppName can be synchronized to the app using your system settings.\n\n' +
-                        'This will allow you to connect an activity tracker, such as Fitbit, to the myAPFP app.\n\n' +
-                        'To allow or remove access, go to:\n\nSettings ->  Privacy ->  Permission manager -> Physical activity ->  myAPFP\n',
+                    'Activity information from fitness trackers can be imported to myAPFP via the Refresh icon on the Activity page. If permissions are initially denied, $_healthAppName can be synchronized to the app using your system settings.\n\n' +
+                        'This will allow you to connect a linked activity tracker, such as Fitbit, to the myAPFP app.\n\n' +
+                        _settingsPath,
                     style: FlutterFlowTheme.bodyText1),
               ),
               Align(
                 alignment: AlignmentDirectional(0.05, 0),
                 child: Image.asset(
-                  'assets/images/sync_health_app.png',
+                  _imagePath,
                   width: MediaQuery.of(context).size.width * 0.6,
                   fit: BoxFit.contain,
                 ),

@@ -155,6 +155,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   Row _titleRow(String title) {
     return Row(children: [
       Container(
+          key: Key("ExerciseTitle"),
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.85),
           child: AutoSizeText(
@@ -172,6 +173,7 @@ class _AtHomeExercisesWidgetState extends State<AtHomeExercisesWidget> {
   Row _sourceRow(String author) {
     return Row(children: [
       Container(
+        key: Key("ExerciseDescription"),
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.85),
         child: AutoSizeText.rich(
