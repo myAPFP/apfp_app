@@ -218,7 +218,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isInt(value)) {
+            if (!Validator.isPositiveInt(value)) {
               return 'Whole numbers (1+) only';
             }
             int minLimit = 0;
@@ -323,6 +323,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     return Row(
       children: [
         Radio(
+          fillColor: MaterialStateProperty.all(FlutterFlowTheme.secondaryColor),
           toggleable: true,
           value: title,
           groupValue: _radioButtonValue,

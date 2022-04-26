@@ -9,6 +9,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '../confirmation_dialog/confirmation_dialog.dart';
 
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -43,11 +44,25 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
           .orderBy("Date", descending: true)
           .snapshots();
 
-  /// Dictates what type of completed goals are being displayed.
-  String _mode = "Daily";
+  /// A list of daily exercise time [_goalCard] widgets.
+  List<Widget> _timeGoals = [];
 
-  /// A list of daily [_goalCard] widgets.
-  List<Widget> _dailyGoals = [];
+  /// A list of daily calories burned [_goalCard] widgets.
+  List<Widget> _calGoals = [];
+
+  /// A list of daily steps [_goalCard] widgets.
+  List<Widget> _stepGoals = [];
+
+  /// A list of daily miles [_goalCard] widgets.
+  List<Widget> _mileGoals = [];
+
+  /// A list of daily 'other' [_goalCard] widgets.
+  List<Widget> _otherGoals = [];
+
+  /// Index associated with the selected radio button within [_radioButtonsCard].
+  ///
+  /// Default value is 1 which corresponds to the "Time" radio button.
+  int _groupValue = 1;
 
   @override
   void initState() {
@@ -68,7 +83,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
         children: [
           Row(mainAxisSize: MainAxisSize.max, children: [
             AutoSizeText(
-              'Completed $_mode Goals',
+              'Completed Goals',
               style: FlutterFlowTheme.title1,
               overflow: TextOverflow.fade,
             )
@@ -102,12 +117,11 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
       {required Color color,
       required String goalName,
       required String goalInfo,
-      required String dateOfCompletion,
-      required String goalType}) {
+      required String dateOfCompletion}) {
     return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
         child: Container(
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: mounted ? MediaQuery.of(context).size.height * 0.185 : 0,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
@@ -130,7 +144,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.15),
+                      SizedBox(
+                          width: mounted
+                              ? MediaQuery.of(context).size.width * 0.15
+                              : 0),
                       Icon(Icons.emoji_events_rounded, color: color, size: 35)
                     ],
                   ),
@@ -140,9 +157,6 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _titleRow(goalName),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.005),
-                        _goalAttributeRow("Type: ", goalType),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
                         _goalAttributeRow("Info: ", goalInfo),
@@ -188,27 +202,195 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     ]);
   }
 
-  /// Adds a [_goalCard] to the [_dailyGoals] list.
-  void _addDailyGoal(Padding goalCard) {
-    setState(() {
-      _dailyGoals.add(goalCard);
-    });
+  /// Clears each goals list.
+  void _clearGoalLists() {
+    _timeGoals.clear();
+    _calGoals.clear();
+    _stepGoals.clear();
+    _mileGoals.clear();
+    _otherGoals.clear();
+  }
+
+  /// Returns true if the [_timeGoals], [_calGoals],
+  ///  [_stepGoals], [_mileGoals] & [_otherGoals] lists are empty.
+  bool isAllGoalListsEmpty() {
+    return _timeGoals.isEmpty &&
+        _calGoals.isEmpty &&
+        _stepGoals.isEmpty &&
+        _mileGoals.isEmpty &&
+        _otherGoals.isEmpty;
   }
 
   /// Pre-loads previously completed daily goals stored in Firestore.
   void _getPreviousDailyGoals() {
-    dailyGoalsLogStream.forEach(((snapshot) {
-      _dailyGoals.clear();
-      snapshot.docs.forEach((document) {
-        var dayNum = document.get("Date").toString().split('/')[1];
-        _addDailyGoal(_goalCard(
-            color: FlutterFlowTheme.dayToColor(dayNum),
-            goalType: document.get("Type").toString(),
-            goalName: document.get("Completed Goal").toString(),
-            goalInfo: document.get("Info").toString(),
-            dateOfCompletion: document.get("Date").toString()));
-      });
-    }));
+    if (mounted) {
+      dailyGoalsLogStream.forEach(((snapshot) {
+        _clearGoalLists();
+        snapshot.docs.forEach((document) {
+          var dayNum = document.get("Date").toString().split('/')[1];
+          var goalName = document.get("Completed Goal").toString();
+          var goalCard = _goalCard(
+              color: FlutterFlowTheme.dayToColor(dayNum),
+              goalName: goalName,
+              goalInfo: document.get("Info").toString(),
+              dateOfCompletion: document.get("Date").toString());
+          switch (goalName) {
+            case "Exercise Time":
+              setState(() {
+                _timeGoals.add(goalCard);
+              });
+              break;
+            case "Calories Burned":
+              setState(() {
+                _calGoals.add(goalCard);
+              });
+              break;
+            case "Steps":
+              setState(() {
+                _stepGoals.add(goalCard);
+              });
+              break;
+            case "Miles":
+              setState(() {
+                _mileGoals.add(goalCard);
+              });
+              break;
+            default:
+              setState(() {
+                _otherGoals.add(goalCard);
+              });
+          }
+        });
+      }));
+    }
+  }
+
+  /// Returns the associated [_goalCard] list based on [_groupValue].
+  List<Widget> getGoalList() {
+    switch (_groupValue) {
+      case 2:
+        return _calGoals;
+      case 3:
+        return _stepGoals;
+      case 4:
+        return _mileGoals;
+      case 5:
+        return _otherGoals;
+    }
+    return _timeGoals;
+  }
+
+  /// A [GFCard] containing 'Time', 'Cals', 'Steps', 'Miles'
+  /// and 'Other' radio buttons.
+  ///
+  /// Allows the user to chose which type of completed goals are displayed.
+  GFCard _radioButtonsCard() {
+    return GFCard(
+        content: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          children: [
+            Text("Time"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 1,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Cals"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 2,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Steps"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 3,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Miles"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 4,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("Other"),
+            SizedBox(height: 5),
+            GFRadio(
+              type: GFRadioType.square,
+              size: 20,
+              value: 5,
+              groupValue: _groupValue,
+              onChanged: (value) {
+                setState(() {
+                  _groupValue = int.parse(value.toString());
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: FlutterFlowTheme.secondaryColor,
+              radioColor: FlutterFlowTheme.secondaryColor,
+            ),
+          ],
+        )
+      ],
+    ));
   }
 
   @override
@@ -216,7 +398,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     return Scaffold(
         key: scaffoldKey,
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.delete),
+            child: Icon(Icons.delete_sweep),
             onPressed: () {
               ConfirmationDialog.showConfirmationDialog(
                   context: context,
@@ -225,10 +407,10 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                       "This will reset your goal log. This can't be undone.",
                       style: TextStyle(fontSize: 20)),
                   onSubmitTap: () {
-                    if (_dailyGoals.isNotEmpty) {
+                    if (!isAllGoalListsEmpty()) {
                       FireStore.deleteAllCompletedGoals();
                       setState(() {
-                        _dailyGoals.clear();
+                        _clearGoalLists();
                       });
                     } else {
                       Toasted.showToast("No goals to delete.");
@@ -256,14 +438,15 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
                   ],
                 ),
                 _paddedHeaderText(),
+                _radioButtonsCard(),
               ],
             ),
             SizedBox(height: 15),
             Column(
                 mainAxisSize: MainAxisSize.max,
-                children: _dailyGoals.isEmpty
+                children: getGoalList().isEmpty
                     ? [_noGoalsCompletedText()]
-                    : _dailyGoals),
+                    : getGoalList()),
             SizedBox(height: 10)
           ]),
         )));

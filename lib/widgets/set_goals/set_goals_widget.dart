@@ -121,6 +121,8 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
     if (element.key == fieldName) {
       if (element.value == 0.0) {
         contr!.text = '';
+      } else if (fieldName == "mileEndGoal") {
+        contr!.text = element.value.toStringAsFixed(1);
       } else {
         contr!.text = element.value.round().toString();
       }
@@ -248,12 +250,16 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
   }
 
   /// Creates a textField to be used to enter end goals.
+  ///
+  /// [allowDoubleAsInput] dictates whether or not a [_goalTextField] can
+  /// receive a [double] as input. Reserved for the miles [_goalTextField].
   Padding _goalTextField(
       {required Key key,
       required String hintText,
       required TextEditingController contr,
       String unitOfMeasure = "min",
-      String goalType = "Daily"}) {
+      String goalType = "Daily",
+      bool allowDoubleAsInput = false}) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
       child: Container(
@@ -264,11 +270,14 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
             if (value == null || value.isEmpty) {
               return "Please provide a value";
             }
-            if (!Validator.isInt(value)) {
+            if (!allowDoubleAsInput && !Validator.isPositiveInt(value)) {
               return "Integers (1+) only";
+            } else if (allowDoubleAsInput &&
+                !Validator.isPositiveNumber(value)) {
+              return "Numbers (1+) only";
             }
-            int minimum;
-            int maximum;
+            int minimum = 0;
+            int maximum = 0;
             switch ("$goalType $unitOfMeasure") {
               case "Daily calories":
                 minimum = 1800;
@@ -276,19 +285,16 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
                 break;
               case "Daily steps":
                 minimum = 100;
-                maximum = 10000;
+                maximum = 15000;
                 break;
-              case "Daily miles":
+              case "Daily mile(s)":
                 minimum = 1;
                 maximum = 30;
                 break;
               case "Daily min":
                 minimum = 10;
-                maximum = 180;
+                maximum = 240;
                 break;
-              default:
-                minimum = 1;
-                maximum = 100000;
             }
             if (double.parse(value) < minimum) {
               return "$minimum $unitOfMeasure is minimum";
@@ -403,13 +409,15 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
                   _goalTextField(
                       hintText: "Miles",
                       contr: _milesGoalController!,
-                      unitOfMeasure: "miles",
+                      unitOfMeasure: "mile(s)",
                       goalType: "Daily",
-                      key: Key("SetGoal.mileGoalTextField_daily")),
+                      key: Key("SetGoal.mileGoalTextField_daily"),
+                      allowDoubleAsInput: true),
                   _setGoalButton(_milesFormKey, () async {
                     await FireStore.updateGoalData({
-                      "mileEndGoal":
-                          double.parse(_milesGoalController!.text.toString()),
+                      "mileEndGoal": double.parse(
+                          double.parse(_milesGoalController!.text.toString())
+                              .toStringAsFixed(1)),
                       "isMileGoalSet": true
                     });
                   }, key: Key("SetGoal.setMileGoalBTN_daily")),

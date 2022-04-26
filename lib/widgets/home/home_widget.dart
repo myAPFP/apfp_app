@@ -235,6 +235,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       Platform.isAndroid
           ? HealthDataType.DISTANCE_DELTA // Android
           : HealthDataType.DISTANCE_WALKING_RUNNING, // iOS
+
     ];
     await HealthFactory.hasPermissions(dataTypes).then((value) async {
       if (value == null || value) {
@@ -254,7 +255,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           ]);
           var mileSet = mileData.toSet();
           miles = double.parse((HealthUtil.getHealthSums(mileSet) / 1609.344)
-              .toStringAsFixed(0));
+              .toStringAsFixed(2));
           await health.getTotalStepsInInterval(midnight, now).then(
               (value) => {if (value != null) steps = value else steps = 0});
         } catch (error) {
