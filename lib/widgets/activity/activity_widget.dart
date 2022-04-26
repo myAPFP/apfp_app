@@ -61,7 +61,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
       HealthDataType.WORKOUT,
       HealthDataType.STEPS,
       HealthDataType.DISTANCE_WALKING_RUNNING,
-      HealthDataType.ACTIVE_ENERGY_BURNED
+      HealthDataType.ACTIVE_ENERGY_BURNED,
+      HealthDataType.BASAL_ENERGY_BURNED
     ]).then((value) async {
       if (value) {
         DateTime now = DateTime.now();
