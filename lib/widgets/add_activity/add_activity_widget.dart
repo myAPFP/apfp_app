@@ -144,7 +144,7 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
         child: Text('< Go Back', style: FlutterFlowTheme.subtitle2));
   }
 
-  /// Returns true if there are no 'Other Activities' radio buttons selected.
+  /// Returns true if there are no 'APFP Activities' radio buttons selected.
   bool _noRadioButtonSelected() {
     return (_radioButtonValue != "Cycling" &&
         _radioButtonValue != "Rowing" &&
@@ -341,8 +341,8 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
     );
   }
 
-  /// Returns a column of 'Other Activities' radio buttons.
-  Column _otherActivityRadioButtons() {
+  /// Returns a column of 'APFP Activities' radio buttons.
+  Column _apfpActivityRadioButtons() {
     return Column(
       children: [
         Row(
@@ -429,10 +429,10 @@ class _AddActivityWidgetState extends State<AddActivityWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 5),
                       child: _label(
-                          text: 'Other Activities',
+                          text: 'APFP Activities',
                           style: FlutterFlowTheme.title3),
                     ),
-                    _otherActivityRadioButtons(),
+                    _apfpActivityRadioButtons(),
                     Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(

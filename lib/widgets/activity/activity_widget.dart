@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import '/util/toasted/toasted.dart';
 import '/util/health/healthUtil.dart';
 
 import '/firebase/firestore.dart';
@@ -99,6 +100,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
           if (moveMinutes != 0.0) {
             _removeActivityFromCloud(ActivityCard.importedActivityID);
             _addImportedCard("${moveMinutes.round()} Minutes");
+          } else {
+            Toasted.showToast("No logged activity to import");
           }
         } catch (error) {
           print("Activity data could not be retrieved: $error ");

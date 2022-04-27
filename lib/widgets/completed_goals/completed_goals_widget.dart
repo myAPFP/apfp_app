@@ -56,8 +56,8 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
   /// A list of daily miles [_goalCard] widgets.
   List<Widget> _mileGoals = [];
 
-  /// A list of daily 'other' [_goalCard] widgets.
-  List<Widget> _otherGoals = [];
+  /// A list of daily 'APFP' [_goalCard] widgets.
+  List<Widget> _apfpGoals = [];
 
   /// Index associated with the selected radio button within [_radioButtonsCard].
   ///
@@ -208,17 +208,17 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
     _calGoals.clear();
     _stepGoals.clear();
     _mileGoals.clear();
-    _otherGoals.clear();
+    _apfpGoals.clear();
   }
 
   /// Returns true if the [_timeGoals], [_calGoals],
-  ///  [_stepGoals], [_mileGoals] & [_otherGoals] lists are empty.
+  ///  [_stepGoals], [_mileGoals] & [_apfpGoals] lists are empty.
   bool isAllGoalListsEmpty() {
     return _timeGoals.isEmpty &&
         _calGoals.isEmpty &&
         _stepGoals.isEmpty &&
         _mileGoals.isEmpty &&
-        _otherGoals.isEmpty;
+        _apfpGoals.isEmpty;
   }
 
   /// Pre-loads previously completed daily goals stored in Firestore.
@@ -257,7 +257,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
               break;
             default:
               setState(() {
-                _otherGoals.add(goalCard);
+                _apfpGoals.add(goalCard);
               });
           }
         });
@@ -275,13 +275,13 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
       case 4:
         return _mileGoals;
       case 5:
-        return _otherGoals;
+        return _apfpGoals;
     }
     return _timeGoals;
   }
 
   /// A [GFCard] containing 'Time', 'Cals', 'Steps', 'Miles'
-  /// and 'Other' radio buttons.
+  /// and 'APFP' radio buttons.
   ///
   /// Allows the user to chose which type of completed goals are displayed.
   GFCard _radioButtonsCard() {
@@ -371,7 +371,7 @@ class _CompletedGoalsWidgetState extends State<CompletedGoalsWidget> {
         ),
         Column(
           children: [
-            Text("Other"),
+            Text("APFP"),
             SizedBox(height: 5),
             GFRadio(
               type: GFRadioType.square,

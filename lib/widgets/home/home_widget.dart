@@ -7,7 +7,7 @@ import '/firebase/firestore.dart';
 
 import '/util/goals/goal.dart';
 import '/util/toasted/toasted.dart';
-import '/util/goals/other_goal.dart';
+import '../../util/goals/apfp_goal.dart';
 import '/util/health/healthUtil.dart';
 import '/util/goals/exercise_time_goal.dart';
 
@@ -55,8 +55,8 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Stores a user's goal document snapshots.
   late Map<String, dynamic> _goalSnapshotBackup;
 
-  /// [ScrollController] for [_otherGoalsView].
-  final _otherSC = ScrollController();
+  /// [ScrollController] for [_apfpGoalsView].
+  final _apfpSC = ScrollController();
 
   /// [ScrollController] for [_calsView].
   final _calViewSC = ScrollController();
@@ -111,7 +111,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   void dispose() {
     super.dispose();
     _disposed = true;
-    _otherSC.dispose();
+    _apfpSC.dispose();
     _calViewSC.dispose();
     _stepsViewSC.dispose();
     _milesViewSC.dispose();
@@ -132,19 +132,19 @@ class _HomeWidgetState extends State<HomeWidget> {
         setState(() {
           Goal.userProgressExerciseTime =
               ExerciseGoal.totalTimeInMinutes(_activitySnapshotBackup);
-          Goal.userProgressCyclingGoal = OtherGoal.calcGoalSums(
+          Goal.userProgressCyclingGoal = APFPGoal.calcGoalSums(
               _activitySnapshotBackup,
               goalType: "Cycling");
-          Goal.userProgressRowingGoal = OtherGoal.calcGoalSums(
+          Goal.userProgressRowingGoal = APFPGoal.calcGoalSums(
               _activitySnapshotBackup,
               goalType: "Rowing");
-          Goal.userProgressStepMillGoal = OtherGoal.calcGoalSums(
+          Goal.userProgressStepMillGoal = APFPGoal.calcGoalSums(
               _activitySnapshotBackup,
               goalType: "Step-Mill");
-          Goal.userProgressEllipticalGoal = OtherGoal.calcGoalSums(
+          Goal.userProgressEllipticalGoal = APFPGoal.calcGoalSums(
               _activitySnapshotBackup,
               goalType: "Elliptical");
-          Goal.userProgressResistanceStrengthGoal = OtherGoal.calcGoalSums(
+          Goal.userProgressResistanceStrengthGoal = APFPGoal.calcGoalSums(
               _activitySnapshotBackup,
               goalType: "Resistance");
           FireStore.updateGoalData({
@@ -523,10 +523,10 @@ class _HomeWidgetState extends State<HomeWidget> {
             : Goal.userProgressMileGoal / Goal.userMileEndGoal);
   }
 
-  /// The view displayed in the 'Other' tab of the [_goalsTabbedContainer].
-  InkWell _otherGoalsView() {
-    return HPGraphic.createOtherView(
-        key: Key("Home.otherView"),
+  /// The view displayed in the 'APFP' tab of the [_goalsTabbedContainer].
+  InkWell _apfpGoalsView() {
+    return HPGraphic.createAPFPView(
+        key: Key("Home.apfpView"),
         context: context,
         goal1ProgressInfo: Goal.isCyclingGoalSet
             ? "Cycling - ${Goal.userProgressCyclingGoal.toStringAsFixed(0)} / ${Goal.userCyclingEndGoal.toStringAsFixed(0)} min"
@@ -575,7 +575,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         onLongPress: () {
           SetGoalsWidget.launch(context);
         },
-        scrollController: _otherSC,
+        scrollController: _apfpSC,
         isGoal1Set: Goal.isCyclingGoalSet,
         isGoal2Set: Goal.isRowingGoalSet,
         isGoal3Set: Goal.isStepMillGoalSet,
@@ -613,13 +613,13 @@ class _HomeWidgetState extends State<HomeWidget> {
           InkWell(key: Key("Home.calsTab"), child: Text('Calories')),
           InkWell(key: Key("Home.stepsTab"), child: Text('Steps')),
           InkWell(key: Key("Home.milesTab"), child: Text('Miles')),
-          InkWell(key: Key("Home.otherTab"), child: Text('Other')),
+          InkWell(key: Key("Home.apfpTab"), child: Text('APFP')),
         ], views: [
           _exerciseTimeView(),
           _calsView(),
           _stepsView(),
           _milesView(),
-          _otherGoalsView()
+          _apfpGoalsView()
         ]),
       ),
     );

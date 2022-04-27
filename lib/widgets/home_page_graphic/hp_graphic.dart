@@ -117,11 +117,11 @@ class HPGraphic {
     );
   }
 
-  /// Creates a view to display 'other' goals.
-  /// This view should be used with the 'other' tab.
+  /// Creates a view to display 'APFP' goals.
+  /// This view should be used with the 'APFP' tab.
   /// 
   /// Any value passed as a percent must be between 0.0 and 1.0.
-  static InkWell createOtherView({
+  static InkWell createAPFPView({
     required Key key,
     required BuildContext context,
     required String goal1ProgressInfo,

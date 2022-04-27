@@ -160,22 +160,22 @@ void main() {
     });
 
       testWidgets(
-        'US: I can set an "other" goal and I am reminded of that goal on the Homepage.' +
-            'US: I am able to monitor the progress of my active "other" goals.' +
+        'US: I can set an "APFP" goal and I am reminded of that goal on the Homepage.' +
+            'US: I am able to monitor the progress of my active "APFP" goals.' +
             'US: I am able to change my goal at any time.',
         (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 
-      // Taps "Other" tab
-      await tester.tap(find.byKey(Key("Home.otherTab")));
+      // Taps "APFP" tab
+      await tester.tap(find.byKey(Key("Home.apfpTab")));
       await tester.pumpAndSettle();
 
       // Reach Set Goal Page
-      await tester.longPress(find.byKey(Key('Home.otherView')));
+      await tester.longPress(find.byKey(Key('Home.apfpView')));
       await tester.pumpAndSettle();
 
-      // Displays "other" goals
+      // Displays "APFP" goals
       await tester.tap(find.byKey(Key("SetGoal.switchGoalViewBTN")));
       await tester.pumpAndSettle();
 

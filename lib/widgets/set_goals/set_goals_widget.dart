@@ -33,8 +33,8 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
   /// Controls the [CircularProgressIndicator] loading animation of a button.
   bool _loadingButton = false;
 
-  /// Indicates if the 'other' goal textFields are shown.
-  bool _isOtherGoalsDisplayed = false;
+  /// Indicates if the 'APFP' goal textFields are shown.
+  bool _isAPFPGoalsDisplayed = false;
 
   /// Used to validate the current input of the Exercise Time textField.
   final _exerciseFormKey = GlobalKey<FormState>();
@@ -167,9 +167,9 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
       child: FFButtonWidget(
         key: Key("SetGoal.switchGoalViewBTN"),
         onPressed: () => setState(() {
-          _isOtherGoalsDisplayed = !_isOtherGoalsDisplayed;
+          _isAPFPGoalsDisplayed = !_isAPFPGoalsDisplayed;
         }),
-        text: _isOtherGoalsDisplayed ? 'Set Regular Goals' : 'Set Other Goals',
+        text: _isAPFPGoalsDisplayed ? 'Set Regular Goals' : 'Set APFP Goals',
         options: FFButtonOptions(
           width: MediaQuery.of(context).size.width * 0.5,
           height: 50,
@@ -330,10 +330,10 @@ class _SetGoalsWidgetState extends State<SetGoalsWidget> {
     );
   }
 
-  /// Based on [_isOtherGoalsDisplayed], this will return a list of widgets
-  /// associated with daily regular goals or 'other' goals.
+  /// Based on [_isAPFPGoalsDisplayed], this will return a list of widgets
+  /// associated with daily regular goals or 'APFP' goals.
   List<Widget> _dailyGoalsUI() {
-    return !_isOtherGoalsDisplayed
+    return !_isAPFPGoalsDisplayed
         ? [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 30, 0, 5),
