@@ -84,6 +84,7 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
                     'From here, choose whether you allow or  don\'t allow myAPFP to access your physical activity data.',
                     style: FlutterFlowTheme.bodyText1),
               ),
+              SizedBox(height: 5)
             ],
           ),
         ),
