@@ -20,9 +20,13 @@ class _HealthAppInfoState extends State<HealthAppInfo> {
   /// If the app is being ran on Android, this is set to 'Google Fit'.
   /// Otherwise, this is set to 'Google Fit and Apple Health'.
   final _healthAppName = Platform.isAndroid ? "Google Fit" : "Apple Health";
+
+  /// The user is shown this set of instructions based on their platform.
   final _settingsPath = Platform.isAndroid
       ? 'To allow or remove access, go to:\n\nSettings -> Privacy -> Permission manager -> Physical activity -> myAPFP\n'
       : 'To allow or remove access, go to: \n\nSettings -> Privacy -> Health -> myAPFP\n';
+
+  /// The user is shown this image based on their platform .   
   final _imagePath = Platform.isAndroid
       ? 'assets/images/sync_health_app.png'
       : 'assets/images/iosHealthPermissions.png';

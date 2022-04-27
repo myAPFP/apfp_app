@@ -228,6 +228,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
     );
   }
 
+  /// Adds an [ActivityCard] to [cards].
   void addCard(ActivityCard card) {
     setState(() => cards.add(card));
   }

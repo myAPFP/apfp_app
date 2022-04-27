@@ -18,8 +18,6 @@ import '../set_goals/set_goals_widget.dart';
 
 import '../home_page_graphic/hp_graphic.dart';
 
-import '../health_app_info/health_app_info.dart';
-
 import 'package:intl/intl.dart';
 import 'package:health/health.dart';
 import 'package:flutter/material.dart';
