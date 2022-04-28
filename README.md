@@ -89,7 +89,7 @@ By default, the documentation is generated to the doc/api directory as static HT
 You can view the generated docs directly from the file system, but if you want to use the search function, you must load them with an HTTP server.
 An easy way to run an HTTP server locally is to use the dhttpd package. Example:
 - run `dart pub global activate dhttpd`
-- run `dhttpd --path doc/api`
+- run `$ dart pub global run dhttpd --path doc/api`
 
 Lastly, navigate to `http://localhost:8080` in your browser; the search function should now work.
 
