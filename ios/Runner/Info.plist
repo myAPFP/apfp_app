@@ -36,8 +36,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Used to import exercise activity to be shared with APFP administrators</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
@@ -45,6 +43,12 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Used to attach photos to your workouts</string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>Used to import exercise activity to be shared with APFP administrators</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Used to import exercise activity to be shared with APFP administrators</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Used to import exercise activity to be shared with APFP administrators</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Used to record audio that can be attached to your workouts</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -71,8 +75,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
-	<string>Used to import exercise activity to be shared with APFP administrators</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
