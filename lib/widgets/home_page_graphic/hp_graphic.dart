@@ -2,6 +2,8 @@
 
 import 'dart:io';
 
+import 'package:apfp/util/platform/device_platform.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 
 import 'package:flutter/material.dart';
@@ -9,11 +11,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 
 class HPGraphic {
-  /// If the app is being ran on Android, this is set to 'Google Fit'.
-  /// Otherwise, this is set to 'Health App'.
-  static String _platformHealthName =
-      Platform.isAndroid ? 'Google Fit' : 'Health App';
-
   /// Creates a container which holds different tabs & views.
   ///
   /// [tabs] are typically a list of two or more widgets which are used as tab buttons.
@@ -54,7 +51,7 @@ class HPGraphic {
   }
 
   /// Creates a view to display a default goal.
-  /// 
+  ///
   /// [percent] must be between 0.0 and 1.0.
   ///
   /// If [isHealthAppSynced] is set to false, the goal within view
@@ -69,11 +66,12 @@ class HPGraphic {
       required ScrollController scrollController,
       required bool isHealthAppSynced,
       required bool isGoalSet}) {
+    var platformHealthName = DevicePlatform.platformHealthName;
     if (!isHealthAppSynced) {
-      goalProgress = "$_platformHealthName\nNot Sync'd";
+      goalProgress = "$platformHealthName\nNot Sync'd";
       goalProgressInfo = Platform.isIOS
-          ? "Sync your myAPFP App with\na $_platformHealthName to set this goal."
-          : "Sync your myAPFP App with\n$_platformHealthName to set this goal.";
+          ? "Sync your myAPFP App with\na $platformHealthName to set this goal."
+          : "Sync your myAPFP App with\n$platformHealthName to set this goal.";
       percent = 0;
     } else if (!isGoalSet && isHealthAppSynced) {
       goalProgress = "No\nActive\nGoal";
@@ -119,7 +117,7 @@ class HPGraphic {
 
   /// Creates a view to display 'APFP' goals.
   /// This view should be used with the 'APFP' tab.
-  /// 
+  ///
   /// Any value passed as a percent must be between 0.0 and 1.0.
   static InkWell createAPFPView({
     required Key key,

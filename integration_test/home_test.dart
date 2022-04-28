@@ -1,7 +1,7 @@
+import 'package:apfp/main.dart' as app;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:apfp/main.dart' as app;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -14,15 +14,13 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure announcements panel exists
-      expect(find.text('Recent\nAnnouncements'), findsOneWidget);
+      expect(find.text('Recent Announcements'), findsOneWidget);
       expect(find.byKey(Key('Home.announcements')), findsOneWidget);
 
-      // Ensure three announcement titles are shown
-      expect(find.textContaining('Alert '), findsNWidgets(3));
+      // Ensure three announcements are shown
+      expect(find.byKey(Key('Home.infoIcon')), findsNWidgets(3));
+      expect(find.byKey(Key('Home.announcementText')), findsNWidgets(3));
     });
-
-// The following test is quite rudimentary; ensures existence of the Today's Activity panel.
-// This feature has yet to be implemented.
 
     testWidgets(
         'US: My activity that has been logged for the day is shown in a graphical representation. ' +
@@ -33,7 +31,10 @@ void main() {
 
       // Ensure Today's Activity header and activity GUI (placeholder) exist
       expect(find.text("Today's Activity"), findsOneWidget);
-      expect(find.byKey(Key('Home.activityGUI')), findsOneWidget);
+      expect(find.byKey(Key('Home.goalsTabbedContainer')), findsOneWidget);
+
+      // Note: tests regarding the Goals graphic in Home is 
+      // in the goals_and_hpGraphic_test file.
     });
   });
 }

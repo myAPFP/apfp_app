@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import '../../util/platform/device_platform.dart';
 import '/firebase/firestore.dart';
 
 import '/util/goals/goal.dart';
@@ -84,9 +85,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Set to true when health data is being fetched.
   bool _isFetchingHealthData = false;
 
-  /// If the app is being ran on Android, this is set to 'Google Fit'.
-  /// Otherwise, this is set to 'Health App'.
-  String _platformHealthName = Platform.isAndroid ? 'Google Fit' : 'Health App';
+ 
 
   /// Indicates if this screen has been disposed of.
   bool _disposed = false;
@@ -311,6 +310,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 maxWidth: MediaQuery.of(context).size.width * 0.75),
             child: AutoSizeText(
               text,
+              key: Key("Home.announcementText"),
               overflow: TextOverflow.ellipsis,
               style: FlutterFlowTheme.bodyText1,
             )),
@@ -329,6 +329,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               padding: EdgeInsetsDirectional.all(3),
               child: Icon(
                 Icons.error_outline,
+                key: Key("Home.infoIcon"),
                 color: FlutterFlowTheme.secondaryColor,
                 size: 22,
               ))
@@ -404,7 +405,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return FFButtonWidget(
       key: Key("Home.refreshHealthData"),
       onPressed: () => _fetchHealthData(),
-      text: 'Refresh $_platformHealthName Data',
+      text: 'Refresh ${DevicePlatform.platformHealthName} Data',
       options: FFButtonOptions(
         width: MediaQuery.of(context).size.height * 0.4,
         height: 45,
@@ -454,7 +455,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             SetGoalsWidget.launch(context);
           } else
             Toasted.showToast(
-                "Please sync your $_platformHealthName to continue.");
+                "Please sync your ${DevicePlatform.platformHealthName} to continue.");
         },
         context: context,
         goalProgress:
@@ -481,7 +482,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             SetGoalsWidget.launch(context);
           } else
             Toasted.showToast(
-                "Please sync your $_platformHealthName to continue.");
+              "Please sync your ${DevicePlatform.platformHealthName} to continue.");
         },
         context: context,
         goalProgress:
@@ -508,7 +509,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             SetGoalsWidget.launch(context);
           } else
             Toasted.showToast(
-                "Please sync your $_platformHealthName to continue.");
+                "Please sync your ${DevicePlatform.platformHealthName} to continue.");
         },
         context: context,
         goalProgress:
@@ -634,7 +635,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             await Permission.activityRecognition.isGranted) {
           FireStore.updateGoalData({"isHealthAppSynced": true});
           _fetchHealthData();
-          Toasted.showToast("$_platformHealthName has been synchronized!");
+          Toasted.showToast("${DevicePlatform.platformHealthName} has been synchronized!");
         } else if (Platform.isIOS &&
             await HealthFactory().getHealthDataFromTypes(
                 DateTime(DateTime.now().year, DateTime.now().month,
@@ -655,12 +656,12 @@ class _HomeWidgetState extends State<HomeWidget> {
             })) {
           FireStore.updateGoalData({"isHealthAppSynced": true});
           _fetchHealthData();
-          Toasted.showToast("$_platformHealthName has been synchronized!");
+          Toasted.showToast("${DevicePlatform.platformHealthName} has been synchronized!");
         } else {
-          Toasted.showToast("Visit Activity tab to sync $_platformHealthName");
+          Toasted.showToast("Visit Activity tab to sync ${DevicePlatform.platformHealthName}");
         }
       },
-      text: 'Sync $_platformHealthName',
+      text: 'Sync ${DevicePlatform.platformHealthName}',
       options: FFButtonOptions(
         width: MediaQuery.of(context).size.height * 0.4,
         height: 45,

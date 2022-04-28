@@ -1,9 +1,8 @@
 // Copyright 2022 The myAPFP Authors. All rights reserved.
 
-import '/flutter_flow/flutter_flow_theme.dart';
-
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class ActivityCard {

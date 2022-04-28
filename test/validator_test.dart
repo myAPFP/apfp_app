@@ -172,6 +172,7 @@ void main() {
     test('4. Should return true if the textField has a value.', () {
       tc.clear();
       expect(Validator.textFieldHasValue(tc), false);
+      tc.dispose();
     });
   });
 }
