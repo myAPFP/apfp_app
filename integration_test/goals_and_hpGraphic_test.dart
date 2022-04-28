@@ -4,15 +4,16 @@ import 'package:apfp/util/goals/goal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
+
+// You must be logged into the app before running these tests.
+// These tests ensure the goals system and the associated tabbed container
+// in Home are functional.
+
+// It is best if these tests are ran when there are no goals currently set and
+// no activities are logged. This is to prevent any goal completions.
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-  // You must be logged into the app before running these tests.
-  // These tests ensure the goals system and the associated tabbed container
-  // in Home are functional.
-
-  // It is best if these tests are ran when there are no goals currently set and
-  // no activities are logged. This is to prevent any goal completions.
 
   group('Goal Tests', () {
     testWidgets(

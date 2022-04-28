@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
+// You must be logged into the app before running these tests.
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
